@@ -1,5 +1,6 @@
 import { LayeredSectionTitle } from '../components/layered-section-title';
 import { Reveal } from '../components/reveal';
+import { SainniScreenshotFlow } from '../components/sainni-screenshot-flow';
 import { projects, projectsSection } from '../data/portfolio';
 
 export const Projects = () => {
@@ -26,12 +27,16 @@ export const Projects = () => {
 							className={`project-card glass-card ${project.featured ? 'project-card-featured' : ''}`}
 						>
 							<div className='project-image-wrap'>
-								<img
-									src={project.image}
-									alt={project.title}
-									className='project-image'
-									loading='lazy'
-								/>
+								{project.featured ? (
+									<SainniScreenshotFlow />
+								) : (
+									<img
+										src={project.image}
+										alt={project.title}
+										className='project-image'
+										loading='lazy'
+									/>
+								)}
 								<div className='project-image-overlay' />
 								<div className='project-screen-name'>
 									<span className='project-index'>

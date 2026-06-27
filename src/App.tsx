@@ -23,6 +23,7 @@ import './styles/layered-title.css';
 import './styles/mouse-trail.css';
 import './styles/navbar.css';
 import './styles/projects.css';
+import './styles/sainni-screenshot-flow.css';
 import './styles/reveal.css';
 import './styles/starfield-bg.css';
 import './styles/tech-stack.css';

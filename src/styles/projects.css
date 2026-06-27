@@ -91,6 +91,10 @@
 	transform: scale(1.04);
 }
 
+.project-card:hover .sainni-screenshot-flow {
+	filter: brightness(1.03);
+}
+
 .project-card-body {
 	display: flex;
 	flex-direction: column;
