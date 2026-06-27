@@ -1,0 +1,60 @@
+.tech-stack {
+	min-height: 100vh;
+	padding: 5rem 4rem;
+}
+
+.tech-stack-inner {
+	display: flex;
+	gap: 3.5rem;
+	align-items: flex-start;
+}
+
+.tech-grid {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	padding: 1rem 0;
+}
+
+.tech-group {
+	padding: 1.35rem 1.5rem;
+}
+
+.tech-group-heading {
+	font-family: 'Fugaz One', sans-serif;
+	font-size: 1.05rem;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	margin-bottom: 1rem;
+	color: rgb(31, 195, 255);
+	text-align: center;
+}
+
+.tech-row {
+	display: flex;
+	gap: 0.85rem;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.tech-stack-note {
+	display: none;
+}
+
+@media screen and (max-width: 900px) {
+	.tech-stack {
+		padding: 4rem 1.5rem;
+	}
+
+	.tech-stack-inner {
+		flex-direction: column-reverse;
+		gap: 1.5rem;
+	}
+
+	.tech-grid {
+		width: 100%;
+		padding: 0;
+	}
+}

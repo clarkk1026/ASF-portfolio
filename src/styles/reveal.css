@@ -1,0 +1,40 @@
+.reveal {
+	opacity: 0;
+	transition:
+		opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+		transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+	transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal-up {
+	transform: translateY(48px);
+}
+
+.reveal-down {
+	transform: translateY(-48px);
+}
+
+.reveal-left {
+	transform: translateX(-48px);
+}
+
+.reveal-right {
+	transform: translateX(48px);
+}
+
+.reveal-none {
+	transform: none;
+}
+
+.reveal-visible {
+	opacity: 1;
+	transform: translate(0, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.reveal {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+}

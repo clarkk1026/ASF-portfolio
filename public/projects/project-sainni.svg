@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none">
+  <rect width="800" height="500" fill="#050508"/>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="800" y2="500" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0a1628"/>
+      <stop offset="0.5" stop-color="#102040"/>
+      <stop offset="1" stop-color="#081018"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="translate(520 180) rotate(90) scale(220)">
+      <stop stop-color="#1fc3ff" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#1fc3ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#glow)"/>
+  <circle cx="620" cy="140" r="90" stroke="#1fc3ff" stroke-width="1.5" stroke-opacity="0.35"/>
+  <circle cx="620" cy="140" r="55" stroke="#1fc3ff" stroke-width="1" stroke-opacity="0.55"/>
+  <path d="M120 340 L280 220 L440 300 L620 180" stroke="#1fc3ff" stroke-width="2" stroke-opacity="0.5"/>
+  <text x="48" y="420" fill="#ffffff" font-family="Arial,sans-serif" font-size="42" font-weight="700" letter-spacing="4">SAiNNI</text>
+  <text x="48" y="458" fill="#1fc3ff" font-family="Arial,sans-serif" font-size="18" letter-spacing="6">AI FULL-STACK</text>
+</svg>

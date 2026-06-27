@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="Ben Clark">
+  <defs>
+    <linearGradient id="bc-grad" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1fc3ff"/>
+      <stop offset="1" stop-color="#7c5cff"/>
+    </linearGradient>
+    <linearGradient id="bc-shine" x1="20" y1="12" x2="44" y2="52" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="bc-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="16" fill="#050810"/>
+  <rect x="4" y="4" width="56" height="56" rx="16" fill="url(#bc-shine)"/>
+  <rect x="4.5" y="4.5" width="55" height="55" rx="15.5" stroke="url(#bc-grad)" stroke-width="1.5"/>
+  <path d="M14 20 L14 14 L22 14" stroke="#1fc3ff" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+  <path d="M50 44 L50 50 L42 50" stroke="#1fc3ff" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+  <circle cx="32" cy="32" r="18" stroke="url(#bc-grad)" stroke-width="1.25" stroke-opacity="0.35"/>
+  <g filter="url(#bc-glow)">
+    <text
+      x="32"
+      y="38"
+      text-anchor="middle"
+      font-family="Arial Black, Arial, sans-serif"
+      font-size="19"
+      font-weight="900"
+      font-style="italic"
+      fill="url(#bc-grad)"
+      letter-spacing="-1"
+    >BC</text>
+  </g>
+  <circle cx="46" cy="18" r="2.5" fill="#1fc3ff"/>
+</svg>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none">
+  <rect width="800" height="500" fill="#050508"/>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="500" x2="800" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0d1a12"/>
+      <stop offset="0.55" stop-color="#142818"/>
+      <stop offset="1" stop-color="#081018"/>
+    </linearGradient>
+  </defs>
+  <rect x="180" y="110" width="440" height="280" rx="16" stroke="#96bf48" stroke-width="2" stroke-opacity="0.45"/>
+  <rect x="220" y="155" width="160" height="120" rx="8" fill="#96bf48" fill-opacity="0.12" stroke="#96bf48" stroke-width="1.5" stroke-opacity="0.35"/>
+  <rect x="420" y="155" width="160" height="50" rx="6" fill="#ffffff" fill-opacity="0.06"/>
+  <rect x="420" y="225" width="120" height="50" rx="6" fill="#96bf48" fill-opacity="0.25"/>
+  <circle cx="400" cy="380" r="28" fill="#96bf48" fill-opacity="0.2" stroke="#96bf48" stroke-width="1.5"/>
+  <text x="48" y="420" fill="#ffffff" font-family="Arial,sans-serif" font-size="38" font-weight="700" letter-spacing="3">E-COMMERCE</text>
+  <text x="48" y="458" fill="#96bf48" font-family="Arial,sans-serif" font-size="18" letter-spacing="5">SHOPIFY STOREFRONT</text>
+</svg>
