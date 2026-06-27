@@ -1,21 +1,23 @@
 import { BrandLogo } from './brand-logo';
-import { useState, type MouseEvent } from 'react';
+import { useEffect, useState } from 'react';
 import { navLinks, personal } from '../data/portfolio';
-import { useGlobe } from '../lib/globe-context';
 
 export const Navbar = () => {
-	const { activeIndex, rotateToHash, rotateToIndex, introComplete } = useGlobe();
+	const [scrolled, setScrolled] = useState(false);
 	const [menuOpen, setMenuOpen] = useState(false);
-	const scrolled = introComplete && activeIndex > 0;
 
-	const handleNavClick = (
-		event: MouseEvent<HTMLAnchorElement>,
-		href: string,
-	) => {
-		event.preventDefault();
-		setMenuOpen(false);
-		rotateToHash(href);
-	};
+	useEffect(() => {
+		const onScroll = () => setScrolled(window.scrollY > 48);
+		window.addEventListener('scroll', onScroll, { passive: true });
+		return () => window.removeEventListener('scroll', onScroll);
+	}, []);
+
+	useEffect(() => {
+		document.body.style.overflow = menuOpen ? 'hidden' : '';
+		return () => {
+			document.body.style.overflow = '';
+		};
+	}, [menuOpen]);
 
 	return (
 		<header className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`}>
@@ -23,11 +25,7 @@ export const Navbar = () => {
 				<a
 					href='#home'
 					className='navbar-logo'
-					onClick={(event) => {
-						event.preventDefault();
-						setMenuOpen(false);
-						rotateToIndex(0);
-					}}
+					onClick={() => setMenuOpen(false)}
 				>
 					<BrandLogo
 						size={38}
@@ -41,7 +39,7 @@ export const Navbar = () => {
 						<li key={link.href}>
 							<a
 								href={link.href}
-								onClick={(event) => handleNavClick(event, link.href)}
+								onClick={() => setMenuOpen(false)}
 							>
 								{link.label}
 							</a>
@@ -52,7 +50,7 @@ export const Navbar = () => {
 				<a
 					href='#contact'
 					className='navbar-cta'
-					onClick={(event) => handleNavClick(event, '#contact')}
+					onClick={() => setMenuOpen(false)}
 				>
 					Let&apos;s Talk
 				</a>
