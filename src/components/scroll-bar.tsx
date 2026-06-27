@@ -1,27 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useGlobe, globeSectionCount } from '../lib/globe-context';
 
 export const ScrollBar = () => {
-	const [divHeight, setDivHeight] = useState<number>(0);
+	const { activeIndex } = useGlobe();
+	const progress =
+		globeSectionCount > 1
+			? (activeIndex / (globeSectionCount - 1)) * 100
+			: 0;
 
-	useEffect(() => {
-		const handleScroll = () => {
-			const scrollTop = window.scrollY;
-			const docHeight =
-				document.documentElement.scrollHeight - window.innerHeight;
-			const scrollPercent = (scrollTop / docHeight) * 100;
-			setDivHeight(Math.min(scrollPercent, 98));
-		};
-
-		window.addEventListener('scroll', handleScroll);
-
-		return () => {
-			window.removeEventListener('scroll', handleScroll);
-		}; // Cleanup on unmount
-	}, []);
 	return (
 		<div
 			className='scroll-bar'
-			style={{ top: `${divHeight}%`, '--p': `${divHeight * 100}%` }}
-		></div>
+			style={{ top: `${Math.min(progress, 98)}%`, '--p': `${progress * 100}%` }}
+		/>
 	);
 };

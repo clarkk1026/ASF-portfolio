@@ -1,4 +1,5 @@
 import { GlowLink } from '../components/glow-box-link';
+import { GlobeLink } from '../components/globe-link';
 import { Reveal } from '../components/reveal';
 import { RoleRotator } from '../components/role-rotator';
 import { TextHover } from '../components/text-hover.component';
@@ -49,18 +50,18 @@ export const InfoSection = () => {
 
 				<Reveal delay={560}>
 					<div className='hero-actions'>
-						<a
+						<GlobeLink
 							href='#projects'
 							className='hero-btn hero-btn-primary'
 						>
 							View My Work
-						</a>
-						<a
+						</GlobeLink>
+						<GlobeLink
 							href='#contact'
 							className='hero-btn hero-btn-secondary'
 						>
 							Contact Me
-						</a>
+						</GlobeLink>
 					</div>
 				</Reveal>
 
@@ -93,14 +94,14 @@ export const InfoSection = () => {
 				))}
 			</div>
 
-			<a
+			<GlobeLink
 				href='#about-me'
 				className='hero-scroll'
 				aria-label='Scroll to about section'
 			>
 				<span className='hero-scroll-line' />
-				<span>Scroll</span>
-			</a>
+				<span>Explore</span>
+			</GlobeLink>
 		</section>
 	);
 };

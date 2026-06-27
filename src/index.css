@@ -23,7 +23,12 @@
 
 html {
 	scrollbar-width: none;
-	scroll-behavior: smooth !important;
+}
+
+html,
+body {
+	overflow: hidden;
+	height: 100%;
 }
 
 * {
