@@ -1,0 +1,445 @@
+.cosmic-clock {
+	--clock-cyan: rgb(31, 195, 255);
+	--clock-ice: rgb(160, 220, 255);
+	--clock-violet: rgb(147, 51, 234);
+
+	position: fixed;
+	bottom: 1.5rem;
+	left: 1.5rem;
+	z-index: 99999990;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.62rem;
+	width: 7.85rem;
+	padding: 0.9rem 0.75rem 0.78rem;
+	border-radius: 22px;
+	border: 1px solid rgba(31, 195, 255, 0.12);
+	background:
+		radial-gradient(
+			circle at 50% 0%,
+			rgba(31, 195, 255, 0.07),
+			transparent 52%
+		),
+		radial-gradient(
+			circle at 82% 88%,
+			rgba(147, 51, 234, 0.08),
+			transparent 48%
+		),
+		rgba(0, 0, 0, 0.58);
+	backdrop-filter: blur(22px) saturate(120%);
+	-webkit-backdrop-filter: blur(22px) saturate(120%);
+	box-shadow:
+		0 22px 56px rgba(0, 0, 0, 0.55),
+		0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+		0 1px 0 rgba(255, 255, 255, 0.05) inset;
+	overflow: hidden;
+	isolation: isolate;
+	animation:
+		cosmic-clock-enter 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both,
+		cosmic-clock-float 9s ease-in-out 1.2s infinite;
+}
+
+.cosmic-clock::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	padding: 1px;
+	background: linear-gradient(
+		155deg,
+		rgba(31, 195, 255, 0.22) 0%,
+		rgba(255, 255, 255, 0.04) 32%,
+		rgba(147, 51, 234, 0.14) 68%,
+		rgba(31, 195, 255, 0.08) 100%
+	);
+	-webkit-mask:
+		linear-gradient(#000 0 0) content-box,
+		linear-gradient(#000 0 0);
+	-webkit-mask-composite: xor;
+	mask:
+		linear-gradient(#000 0 0) content-box,
+		linear-gradient(#000 0 0);
+	mask-composite: exclude;
+	pointer-events: none;
+}
+
+.cosmic-clock-sky {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	overflow: hidden;
+	border-radius: inherit;
+}
+
+.cosmic-clock-star {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: var(--star-size, 1.5px);
+	height: var(--star-size, 1.5px);
+	margin: calc(var(--star-size, 1.5px) / -2);
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.85);
+	box-shadow: 0 0 6px rgba(160, 220, 255, 0.55);
+	transform: rotate(var(--star-angle)) translateY(-3.35rem);
+	animation: cosmic-clock-twinkle 3.6s ease-in-out var(--star-delay) infinite;
+}
+
+.cosmic-clock-nebula {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	overflow: hidden;
+	border-radius: inherit;
+}
+
+.cosmic-clock-nebula-orb {
+	position: absolute;
+	border-radius: 50%;
+	filter: blur(28px);
+	opacity: 0.55;
+	animation: cosmic-clock-nebula-drift 14s ease-in-out infinite;
+}
+
+.cosmic-clock-nebula-cyan {
+	width: 4.5rem;
+	height: 4.5rem;
+	top: -18%;
+	left: -8%;
+	background: rgba(31, 195, 255, 0.2);
+}
+
+.cosmic-clock-nebula-violet {
+	width: 3.8rem;
+	height: 3.8rem;
+	right: -12%;
+	bottom: -10%;
+	background: rgba(147, 51, 234, 0.18);
+	animation-delay: -6s;
+}
+
+.cosmic-clock-rim {
+	position: absolute;
+	top: 0.72rem;
+	left: 50%;
+	width: 6.15rem;
+	height: 6.15rem;
+	transform: translateX(-50%);
+	border-radius: 50%;
+	border: 1px solid rgba(31, 195, 255, 0.08);
+	box-shadow:
+		0 0 24px rgba(31, 195, 255, 0.06),
+		inset 0 0 18px rgba(0, 0, 0, 0.45);
+	pointer-events: none;
+}
+
+.cosmic-clock-orbit {
+	position: absolute;
+	top: 0.72rem;
+	left: 50%;
+	width: 6.15rem;
+	height: 6.15rem;
+	transform: translateX(-50%);
+	pointer-events: none;
+}
+
+.cosmic-clock-orbit-ring {
+	position: absolute;
+	inset: 0;
+	border-radius: 50%;
+}
+
+.cosmic-clock-orbit-ring-outer {
+	border: 1px dashed rgba(31, 195, 255, 0.14);
+	animation: cosmic-clock-orbit-spin 56s linear infinite;
+}
+
+.cosmic-clock-orbit-ring-inner {
+	inset: 0.42rem;
+	border: 1px solid rgba(120, 160, 255, 0.08);
+	animation: cosmic-clock-orbit-spin-reverse 36s linear infinite;
+}
+
+.cosmic-clock-orbit-comet {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 0.38rem;
+	height: 0.38rem;
+	margin: -0.19rem;
+	border-radius: 50%;
+	background: var(--clock-cyan);
+	box-shadow:
+		0 0 8px rgba(31, 195, 255, 0.95),
+		0 0 16px rgba(31, 195, 255, 0.45),
+		-8px 0 12px rgba(31, 195, 255, 0.2);
+	animation: cosmic-clock-orbit-comet 14s linear infinite;
+}
+
+.cosmic-clock-face {
+	position: relative;
+	z-index: 1;
+	width: 5.55rem;
+	height: 5.55rem;
+	overflow: visible;
+}
+
+.cosmic-clock-face-bg {
+	fill: rgba(0, 0, 0, 0.92);
+}
+
+.cosmic-clock-face-star {
+	fill: rgba(255, 255, 255, 0.75);
+}
+
+.cosmic-clock-face-ring {
+	fill: none;
+	stroke: rgba(31, 195, 255, 0.28);
+	stroke-width: 1.1;
+}
+
+.cosmic-clock-face-ring-inner {
+	fill: none;
+	stroke: rgba(255, 255, 255, 0.04);
+	stroke-width: 0.8;
+}
+
+.cosmic-clock-tick {
+	stroke: rgba(160, 220, 255, 0.22);
+	stroke-width: 1.1;
+	stroke-linecap: round;
+}
+
+.cosmic-clock-tick-major {
+	stroke: rgba(31, 195, 255, 0.78);
+	stroke-width: 1.7;
+	filter: drop-shadow(0 0 5px rgba(31, 195, 255, 0.5));
+}
+
+.cosmic-clock-hand {
+	stroke-linecap: round;
+}
+
+.cosmic-clock-hand-hour {
+	stroke: rgba(255, 255, 255, 0.9);
+	stroke-width: 3;
+	filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.2));
+}
+
+.cosmic-clock-hand-minute {
+	stroke: var(--clock-ice);
+	stroke-width: 2;
+	filter: drop-shadow(0 0 6px rgba(31, 195, 255, 0.4));
+}
+
+.cosmic-clock-hand-second-trail {
+	stroke-width: 4.2;
+	opacity: 0.75;
+}
+
+.cosmic-clock-hand-second {
+	stroke: var(--clock-cyan);
+	stroke-width: 1.3;
+}
+
+.cosmic-clock-hand-cap {
+	fill: rgba(0, 0, 0, 0.9);
+	stroke: var(--clock-cyan);
+	stroke-width: 1.2;
+	filter: drop-shadow(0 0 6px rgba(31, 195, 255, 0.75));
+}
+
+.cosmic-clock-center {
+	fill: #ffffff;
+	filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+}
+
+.cosmic-clock-readout {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.14rem;
+	width: 100%;
+	padding-top: 0.08rem;
+}
+
+.cosmic-clock-digital {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0;
+	font-family: 'Fugaz One', sans-serif;
+	font-size: 0.94rem;
+	letter-spacing: 0.1em;
+	color: rgba(255, 255, 255, 0.95);
+	text-shadow:
+		0 0 12px rgba(31, 195, 255, 0.28),
+		0 0 24px rgba(31, 195, 255, 0.12);
+}
+
+.cosmic-clock-colon {
+	margin: 0 0.08rem;
+	color: var(--clock-cyan);
+	animation: cosmic-clock-colon 1s step-end infinite;
+}
+
+.cosmic-clock-meta {
+	margin: 0;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.58rem;
+	font-weight: 600;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: rgba(160, 220, 255, 0.5);
+}
+
+@keyframes cosmic-clock-enter {
+	from {
+		opacity: 0;
+		transform: translateY(16px) scale(0.93);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@keyframes cosmic-clock-float {
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+
+	50% {
+		transform: translateY(-5px);
+	}
+}
+
+@keyframes cosmic-clock-twinkle {
+	0%,
+	100% {
+		opacity: 0.25;
+		transform: rotate(var(--star-angle)) translateY(-3.35rem) scale(0.8);
+	}
+
+	50% {
+		opacity: 1;
+		transform: rotate(var(--star-angle)) translateY(-3.35rem) scale(1.15);
+	}
+}
+
+@keyframes cosmic-clock-nebula-drift {
+	0%,
+	100% {
+		transform: translate(0, 0) scale(1);
+		opacity: 0.45;
+	}
+
+	50% {
+		transform: translate(6px, -4px) scale(1.08);
+		opacity: 0.7;
+	}
+}
+
+@keyframes cosmic-clock-orbit-spin {
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes cosmic-clock-orbit-spin-reverse {
+	from {
+		transform: rotate(360deg);
+	}
+
+	to {
+		transform: rotate(0deg);
+	}
+}
+
+@keyframes cosmic-clock-orbit-comet {
+	from {
+		transform: rotate(0deg) translateX(3.05rem);
+	}
+
+	to {
+		transform: rotate(360deg) translateX(3.05rem);
+	}
+}
+
+@keyframes cosmic-clock-colon {
+	0%,
+	45% {
+		opacity: 1;
+	}
+
+	50%,
+	100% {
+		opacity: 0.22;
+	}
+}
+
+@media screen and (max-width: 720px) {
+	.cosmic-clock {
+		bottom: 1rem;
+		left: 1rem;
+		width: 6.7rem;
+		padding: 0.75rem 0.62rem 0.68rem;
+	}
+
+	.cosmic-clock-rim,
+	.cosmic-clock-orbit {
+		width: 5.35rem;
+		height: 5.35rem;
+	}
+
+	.cosmic-clock-face {
+		width: 4.85rem;
+		height: 4.85rem;
+	}
+
+	.cosmic-clock-star {
+		transform: rotate(var(--star-angle)) translateY(-2.85rem);
+	}
+
+	.cosmic-clock-orbit-comet {
+		animation-name: cosmic-clock-orbit-comet-mobile;
+	}
+
+	.cosmic-clock-digital {
+		font-size: 0.84rem;
+	}
+
+	.cosmic-clock-meta {
+		font-size: 0.52rem;
+	}
+}
+
+@keyframes cosmic-clock-orbit-comet-mobile {
+	from {
+		transform: rotate(0deg) translateX(2.65rem);
+	}
+
+	to {
+		transform: rotate(360deg) translateX(2.65rem);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cosmic-clock,
+	.cosmic-clock-star,
+	.cosmic-clock-nebula-orb,
+	.cosmic-clock-orbit-ring,
+	.cosmic-clock-orbit-comet,
+	.cosmic-clock-colon {
+		animation: none;
+	}
+}

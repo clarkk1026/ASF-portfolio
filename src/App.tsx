@@ -1,4 +1,5 @@
 import { AiBot } from './components/ai-bot';
+import { CosmicClock } from './components/cosmic-clock';
 import { ToastProvider } from './components/toast-provider';
 import { HexBg } from './components/hex-bg';
 import { MouseTrail } from './components/mouse-trail';
@@ -52,6 +53,7 @@ function App() {
 			<VisitorNote />
 			<Contact />
 			<FallingStarsLayer />
+			<CosmicClock />
 			<AiBot />
 		</ToastProvider>
 	);

@@ -1,10 +1,23 @@
+import type { MouseEvent } from 'react';
 import { GlowLink } from '../components/glow-box-link';
 import { LayeredSectionTitle } from '../components/layered-section-title';
 import { Reveal } from '../components/reveal';
+import { useToast } from '../components/toast-provider';
 import { contact, gmailComposeUrl, personal, socialLinks } from '../data/portfolio';
+import { preventLockedGithubContact } from '../lib/contact-lock';
 import { discordContactHref, openDiscordContact } from '../lib/discord-contact';
 
-const socialLinkProps = (link: (typeof socialLinks)[number]) => {
+const socialLinkProps = (
+	link: (typeof socialLinks)[number],
+	onGithubLockedClick?: (event: MouseEvent<HTMLAnchorElement>) => void,
+) => {
+	if (link.label === 'GitHub' && onGithubLockedClick) {
+		return {
+			href: link.href,
+			onClick: onGithubLockedClick,
+		};
+	}
+
 	if (link.action === 'discord') {
 		return {
 			href: discordContactHref,
@@ -16,6 +29,12 @@ const socialLinkProps = (link: (typeof socialLinks)[number]) => {
 };
 
 export const Contact = () => {
+	const { pushToast } = useToast();
+
+	const onGithubLockedClick = (event: MouseEvent<HTMLAnchorElement>) => {
+		preventLockedGithubContact(event, (message) => pushToast(message, 'info'));
+	};
+
 	return (
 		<section
 			className='contact'
@@ -57,7 +76,12 @@ export const Contact = () => {
 											color={link.glowColor}
 											icon={<link.icon color={link.iconColor} />}
 											aria-label={link.label.toLowerCase()}
-											{...socialLinkProps(link)}
+											{...socialLinkProps(
+												link,
+												link.label === 'GitHub'
+													? onGithubLockedClick
+													: undefined,
+											)}
 										/>
 									))}
 								</div>
