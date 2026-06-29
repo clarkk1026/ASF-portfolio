@@ -33,7 +33,7 @@ export type BotReply = {
 
 export const botQuickPrompts = [
 	'What are your skills?',
-	'Tell me about your experience',
+	'Tell me about your Shopify work',
 	"Tell me Ben's story",
 	'How can I contact you?',
 ] as const;
@@ -172,7 +172,8 @@ const BEN_RELATED_TERMS = [
 	'github',
 	'livestorm',
 	'nearform',
-	'sainni',
+	'happy',
+	'hydro',
 	'shopify',
 	'commerce',
 	'ecommerce',
@@ -318,8 +319,8 @@ const humanExperience = () =>
 
 const humanProjects = () =>
 	prefix([
-		`Ben's main projects:\n\n• **SAiNNI** — AI and full-stack platform (TypeScript, React, Node)\n• **Lumen Interiors** — Shopify storefront for premium furniture\n• **Driftstay** — rental bookings with Next.js and Stripe\n\nSee **Selected Work** on this page for previews.\n\n[[mood:excited]]`,
-		`Ben's portfolio highlights a few builds that show his range:\n\n**SAiNNI** is the star — an AI-powered app with React and Node. Then there's commerce work on **Shopify**, and production-grade **Next.js** apps with proper infra behind them.\n\nThey're all on this site under Projects. Anything specific you want to know about?`,
+		`Ben has shipped **live Shopify storefronts** for real brands — not mockups. Selected work on this site includes:\n\n• **Happy Hydro** — US indoor gardening retailer\n• **Labyrinth Style** — luxury resort wear\n• **Remedior Skincare** — DTC skincare\n• **La Boutique de Xéa** — French boutique\n• **Crown & Caliber** — luxury lifestyle commerce\n\nScroll to **Selected Work** or ask about a specific store.\n\n[[mood:excited]]`,
+		`His portfolio highlights **production Shopify builds** — fashion, beauty, lifestyle, and retail across multiple markets. Each card links to the live site. Want details on one of them?`,
 	]);
 
 const humanSkills = () =>
@@ -462,7 +463,7 @@ const handlers: IntentHandler[] = [
 			return pick([
 				name
 					? `Hi ${name} — I'm **Bon** (AI BEN). I know Ben's work, but I'm also happy to just talk like a person. What's on your mind?\n\n[[mood:happy]]`
-					: `Hi — I'm **Bon** (AI BEN). Ben is an **AI Engineer**, **Shopify Developer**, and **Full-Stack Developer** in ${personal.location}. We can talk shop or just chat. What would you like?\n\n[[mood:happy]]`,
+					: `Hi — I'm **Bon** (AI BEN). Ben is an **AI Developer** and **Full Stack Engineer** in ${personal.location}. We can talk shop or just chat. What would you like?\n\n[[mood:happy]]`,
 				`Hello! I'm here for Ben's portfolio **and** normal conversation — skills, story, music, life stuff, whatever.`,
 				`Hey — nice of you to stop by. I'm Bon. Ask me anything about Ben, or just say what's up.`,
 			]);
@@ -519,7 +520,7 @@ const handlers: IntentHandler[] = [
 			}
 			return pick([
 				`I'm **Bon** (AI BEN), Ben's portfolio assistant. ${personal.fullName} is a ${personal.title} in ${personal.location}. ${personal.tagline}\n\n[[mood:calm]]`,
-				`I'm **Bon**. I help visitors learn about Ben's work in **AI**, **Shopify**, and **full-stack** development.\n\n[[mood:warm]]`,
+				`I'm **Bon**. I help visitors learn about Ben's work in **AI** and **full-stack** development.\n\n[[mood:warm]]`,
 			]);
 		},
 	},
@@ -659,7 +660,7 @@ const handlers: IntentHandler[] = [
 			let s = 0;
 			if (matches(q, [/show (me )?(your |his |ben'?s? )?(projects|work|portfolio|stuff)/, /what (have|has) (he|ben|you) built/, /selected work/]))
 				s += 11;
-			if (hasWord(tokens, ['sainni', 'repo'])) s += 8;
+			if (hasWord(tokens, ['happy', 'hydro', 'labyrinth', 'remedior', 'crown'])) s += 8;
 			if (hasWord(tokens, ['project', 'projects', 'portfolio', 'built', 'builds', 'app', 'apps']))
 				s += 5;
 			return s;
@@ -837,10 +838,14 @@ const handlers: IntentHandler[] = [
 			`**NearForm** in Dublin — that's where Ben started out (2020–2021) as a **Junior Developer**. Responsive UIs, backend integrations, turning designs into accessible apps, solid Git habits. Everyone's gotta start somewhere, and that was a strong place to learn.`,
 	},
 	{
-		id: 'sainni',
-		score: (q) => (/sainni/.test(q) ? 12 : 0),
-		reply: () =>
-			`**SAiNNI** is his featured project — AI meets full-stack with TypeScript, React, and Node. I can tell you more about **Lumen Interiors** or **Driftstay** if you like.\n\n[[mood:excited]]`,
+		id: 'shopify_stores',
+		score: (q) =>
+			/happy hydro|labyrinth style|remedior|crown and caliber|laboutiquedexea|shopify store/.test(
+				q,
+			)
+				? 12
+				: 0,
+		reply: () => humanProjects(),
 	},
 	{
 		id: 'site',
@@ -881,7 +886,7 @@ const handlers: IntentHandler[] = [
 		reply: (_q, _t, ctx) => {
 			const followups: Record<string, string> = {
 				experience: `Want me to zoom in on a specific role — **Livestorm**, **NearForm**, or his **Senior/Lead** years? Or his **education** at Trinity?`,
-				projects: `I can dive deeper into **SAiNNI**, the **e-commerce** work, or his **Next.js** apps. Which sounds interesting?`,
+				projects: `I can dive deeper into **Happy Hydro**, **Labyrinth Style**, **Remedior Skincare**, or any store in Selected Work. Which one interests you?`,
 				skills: `Happy to go deeper on **AI**, **Shopify**, or **full-stack** — or name a tech like React or Node and I'll tell you how he uses it.`,
 				contact: `Email **${personal.email}** or reach out on Telegram. I can suggest what to write in a first message if you want.\n\n[[mood:warm]]`,
 				tech: `Name any tool or language — React, Docker, Postgres, whatever — and I'll tell you how it fits Ben's work.`,

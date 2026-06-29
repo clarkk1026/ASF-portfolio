@@ -18,9 +18,6 @@ export const snapshotFromData = (
 	replyIds: data.replies.map((reply) => reply.id),
 });
 
-export const totalVoters = (snapshot: VisitorNotesSnapshot) =>
-	snapshot.supportCount + snapshot.disagreeCount + snapshot.notCareCount;
-
 const sentimentLabel = (sentiment: VisitorNoteSentiment) => {
 	if (sentiment === 'support') return visitorNote.supportLabel;
 	if (sentiment === 'disagree') return visitorNote.disagreeLabel;

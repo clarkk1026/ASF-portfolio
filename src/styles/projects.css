@@ -24,6 +24,12 @@
 	overflow: hidden;
 }
 
+.project-card-link {
+	display: block;
+	color: inherit;
+	text-decoration: none;
+}
+
 .project-card-featured {
 	border-color: rgba(31, 195, 255, 0.28);
 }
@@ -34,13 +40,6 @@
 	aspect-ratio: 16 / 10;
 	overflow: hidden;
 	background: #0a0f18;
-}
-
-.project-image-wrap .sainni-screenshot-flow,
-.project-image-wrap .sainni-flow-slide,
-.project-image-wrap .sainni-flow-image {
-	width: 100%;
-	height: 100%;
 }
 
 .project-image {
@@ -99,10 +98,6 @@
 	transform: scale(1.04);
 }
 
-.project-card:hover .sainni-screenshot-flow {
-	filter: brightness(1.03);
-}
-
 .project-card-body {
 	display: flex;
 	flex-direction: column;
@@ -147,6 +142,37 @@
 	color: #041018;
 	background: linear-gradient(135deg, rgb(31, 195, 255), rgb(120, 180, 255));
 	z-index: 3;
+}
+
+.project-live-badge {
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.68rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	padding: 0.3rem 0.55rem;
+	border-radius: 999px;
+	color: #ffffff;
+	background: rgba(0, 0, 0, 0.55);
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	z-index: 3;
+}
+
+.project-visit-link {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.82rem;
+	font-weight: 700;
+	color: rgb(31, 195, 255);
+	text-decoration: none;
+	width: fit-content;
+	transition: color 0.2s ease;
+}
+
+.project-visit-link:hover {
+	color: rgb(160, 220, 255);
 }
 
 @media screen and (max-width: 900px) {

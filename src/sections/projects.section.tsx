@@ -1,6 +1,6 @@
 import { LayeredSectionTitle } from '../components/layered-section-title';
+import { ProjectCardImage } from '../components/project-card-image';
 import { Reveal } from '../components/reveal';
-import { SainniScreenshotFlow } from '../components/sainni-screenshot-flow';
 import { projects, projectsSection } from '../data/portfolio';
 
 export const Projects = () => {
@@ -26,28 +26,31 @@ export const Projects = () => {
 						<article
 							className={`project-card glass-card ${project.featured ? 'project-card-featured' : ''}`}
 						>
-							<div className='project-image-wrap'>
-								{project.featured ? (
-									<SainniScreenshotFlow />
-								) : (
-									<img
+							<a
+								className='project-card-link'
+								href={project.url}
+								target='_blank'
+								rel='noopener noreferrer'
+								aria-label={`Visit ${project.title} live site`}
+							>
+								<div className='project-image-wrap'>
+									<ProjectCardImage
 										src={project.image}
-										alt={project.title}
-										className='project-image'
-										loading='lazy'
+										alt={`${project.title} storefront preview`}
 									/>
-								)}
-								<div className='project-image-overlay' />
-								<div className='project-screen-name'>
-									<span className='project-index'>
-										{String(idx + 1).padStart(2, '0')}
-									</span>
-									<h3>{project.title}</h3>
+									<div className='project-image-overlay' />
+									<div className='project-screen-name'>
+										<span className='project-index'>
+											{String(idx + 1).padStart(2, '0')}
+										</span>
+										<h3>{project.title}</h3>
+									</div>
+									{project.featured && (
+										<span className='project-badge'>Featured</span>
+									)}
+									<span className='project-live-badge'>Live site</span>
 								</div>
-								{project.featured && (
-									<span className='project-badge'>Featured</span>
-								)}
-							</div>
+							</a>
 
 							<div className='project-card-body'>
 								<p>{project.description}</p>
@@ -56,6 +59,14 @@ export const Projects = () => {
 										<span key={tech}>{tech}</span>
 									))}
 								</div>
+								<a
+									className='project-visit-link'
+									href={project.url}
+									target='_blank'
+									rel='noopener noreferrer'
+								>
+									Visit {project.title}
+								</a>
 							</div>
 						</article>
 					</Reveal>

@@ -1,6 +1,5 @@
 :root {
 	--brand-letter-a: #a78bfa;
-	--brand-letter-s: #96bf47;
 	--brand-letter-f: #f97316;
 }
 
@@ -16,14 +15,6 @@
 	font-style: italic;
 	font-weight: 700;
 	letter-spacing: 0.06em;
-}
-
-/* Shopify: brand green, clean upright commerce style */
-.brand-letter-s {
-	color: var(--brand-letter-s);
-	font-style: normal;
-	font-weight: 700;
-	letter-spacing: 0.03em;
 }
 
 /* Full Stack: warm orange, bold upright engineering style */

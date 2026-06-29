@@ -25,8 +25,8 @@ export const Navbar = () => {
 				<a
 					href='#'
 					className='navbar-logo'
-					aria-label='ASF. AI, Shopify, and Full Stack.'
-					title='AI, Shopify, and Full Stack'
+					aria-label='AF. AI and Full Stack.'
+					title='AI and Full Stack'
 					onClick={() => setMenuOpen(false)}
 				>
 					<BrandLogo />

@@ -9,7 +9,6 @@ import {
     FaNodeJs,
     FaPython,
     FaReact,
-    FaShopify,
     FaTelegramPlane,
 } from 'react-icons/fa';
 import { IoMailOutline } from 'react-icons/io5';
@@ -63,13 +62,8 @@ export type ProjectItem = {
 	description: string;
 	stack: string[];
 	image: string;
+	url: string;
 	featured?: boolean;
-};
-
-export type NavButton = {
-	label: string;
-	href: string;
-	className: string;
 };
 
 export type TimelineItem = {
@@ -99,8 +93,8 @@ export type TechGroup = {
 export const personal = {
 	name: 'BEN CLARK',
 	fullName: 'Ben Clark',
-	title: 'AI Engineer | Shopify Developer | Full-Stack Developer',
-	roles: ['AI Engineer', 'Shopify Developer', 'Full-Stack Developer'],
+	title: 'AI Developer | Full Stack Engineer',
+	roles: ['AI Developer', 'Full Stack Engineer'],
 	tagline: 'Building products that solve real business problems.',
 	location: 'Dublin, Ireland',
 	email: 'benclarkk1026@gmail.com',
@@ -128,7 +122,7 @@ export const navLinks: NavLink[] = [
 
 export const highlights: Highlight[] = [
 	{ value: '5+', label: 'Years Building' },
-	{ value: '3', label: 'Core Domains' },
+	{ value: '2', label: 'Core Domains' },
 	{ value: 'AI', label: 'Workflows Integrated' },
 	{ value: '100%', label: 'Product Mindset' },
 	{ value: '10+', label: 'Projects Delivered' },
@@ -136,7 +130,7 @@ export const highlights: Highlight[] = [
 
 export const traits: string[] = [
 	'AI Integration',
-	'Shopify & E-Commerce',
+	'Full-Stack Systems',
 	'Scalable Architecture',
 	'Performance First',
 	'Agile Delivery',
@@ -145,7 +139,7 @@ export const traits: string[] = [
 
 export const expertise: ExpertiseItem[] = [
 	{
-		title: 'AI Engineering',
+		title: 'AI Development',
 		description:
 			'Design intelligent workflows with LLM APIs, Python pipelines, and practical AI features that ship to production, not just demos.',
 		icon: FaBrain,
@@ -154,16 +148,7 @@ export const expertise: ExpertiseItem[] = [
 		tags: ['LLM APIs', 'Python', 'TensorFlow', 'PyTorch'],
 	},
 	{
-		title: 'Shopify Development',
-		description:
-			'Build high-converting storefronts, custom themes, and e-commerce systems with a founder mindset honed from running my own clothing brand.',
-		icon: FaShopify,
-		iconColor: 'rgb(150, 191, 72)',
-		glowColor: 'rgba(150, 191, 72, 0.55)',
-		tags: ['Storefronts', 'E-Commerce', 'Custom Apps', 'Conversion'],
-	},
-	{
-		title: 'Full-Stack Engineering',
+		title: 'Full Stack Engineering',
 		description:
 			'Architect end-to-end products with React, Next.js, Node.js, and cloud-native infrastructure, from database to deployment.',
 		icon: FaLayerGroup,
@@ -175,26 +160,50 @@ export const expertise: ExpertiseItem[] = [
 
 export const projects: ProjectItem[] = [
 	{
-		title: 'SAiNNI Project',
+		title: 'Happy Hydro',
 		description:
-			'AI developer platform with landing, chat, analytics, and pricing. Ship AI features with TypeScript, React, and practical ML integration.',
-		stack: ['TypeScript', 'React', 'AI', 'Node.js'],
-		image: '/projects/project-sainni.svg',
+			'Shopify storefront for a leading US indoor gardening retailer — large catalog navigation, brand collections, product detail pages, and checkout flows built for repeat customers and high order volume.',
+		stack: ['Shopify', 'Liquid', 'Theme Dev', 'E-commerce UX'],
+		image:
+			'https://image.thum.io/get/width/1200/crop/675/noanimate/https://happyhydro.com',
+		url: 'https://happyhydro.com/',
 		featured: true,
 	},
 	{
-		title: 'Lumen Interiors',
+		title: 'Labyrinth Style',
 		description:
-			'Shopify storefront for a premium home furniture brand: curated collections, rich product pages, variant pickers, and checkout tuned for high-ticket orders.',
-		stack: ['Shopify', 'Liquid', 'React', 'Tailwind'],
-		image: '/projects/project-ecommerce.svg',
+			'Luxury resort-wear Shopify store for a Cape Town brand — sale collections, product grids, and brand storytelling for kimonos, kaftans, and dresses across seasonal drops.',
+		stack: ['Shopify', 'Liquid', 'Fashion Retail', 'Mobile UX'],
+		image:
+			'https://image.thum.io/get/width/1200/crop/675/noanimate/https://labyrinthstyle.com',
+		url: 'https://labyrinthstyle.com/',
 	},
 	{
-		title: 'Driftstay',
+		title: 'Remedior Skincare',
 		description:
-			'Booking platform for short-term rentals with map search, listing pages, live availability, Stripe payments, and host dashboards for property management.',
-		stack: ['Next.js', 'PostgreSQL', 'Stripe', 'Mapbox'],
-		image: '/projects/project-webapps.svg',
+			'Direct-to-consumer skincare storefront with product-led pages, trust-focused layout, and a smooth mobile checkout path for daily skincare routines.',
+		stack: ['Shopify', 'Liquid', 'DTC', 'Conversion'],
+		image:
+			'https://image.thum.io/get/width/1200/crop/675/noanimate/https://remediorskincare.com',
+		url: 'https://remediorskincare.com/',
+	},
+	{
+		title: 'La Boutique de Xéa',
+		description:
+			'French boutique e-commerce build — curated collections, localized merchandising, and a polished brand experience for everyday luxury shopping.',
+		stack: ['Shopify', 'Liquid', 'International', 'Brand UX'],
+		image:
+			'https://image.thum.io/get/width/1200/crop/675/noanimate/https://laboutiquedexea.com',
+		url: 'https://laboutiquedexea.com/',
+	},
+	{
+		title: 'Crown & Caliber',
+		description:
+			'Premium lifestyle and watches commerce experience — editorial sections, rich content layouts, subscription flows, and a luxury browsing journey across categories.',
+		stack: ['Shopify', 'Content Commerce', 'Luxury Retail', 'UX'],
+		image:
+			'https://image.thum.io/get/width/1200/crop/675/noanimate/https://www.crownandcaliber.com',
+		url: 'https://www.crownandcaliber.com/',
 	},
 ];
 
@@ -203,7 +212,7 @@ export const expertiseSection = {
 		title: 'Core',
 		subtitle: 'Skills',
 		summary:
-			'Three domains I combine to ship intelligent commercial and technically solid products',
+			'Two domains I combine to ship intelligent, technically solid products end to end',
 	},
 };
 
@@ -212,7 +221,7 @@ export const projectsSection = {
 		title: 'Selected',
 		subtitle: 'Work',
 		summary:
-			'Products and experiments where AI commerce and engineering come together',
+			'Live Shopify storefronts shipped for fashion, beauty, lifestyle, and retail brands across the US, Europe, and beyond',
 	},
 };
 
@@ -300,20 +309,15 @@ export const socialLinks: SocialLink[] = [
 	},
 ];
 
-export const navButtons: NavButton[] = [
-	{ label: 'About Me', href: '/#about-me', className: 'first' },
-	{ label: 'Tech', href: '/#tech-stack', className: 'sec' },
-];
-
 export const about = {
 	section: {
 		title: 'About',
 		subtitle: 'ME',
 		summary:
-			'Building products with AI Shopify and full stack tech shaped by real world experience and entrepreneurship',
+			'Building products with AI and full stack tech shaped by real world experience and entrepreneurship',
 	},
 	intro: [
-		'I enjoy building products that solve real business problems, combining AI, Shopify, and modern full-stack technologies. My journey has been shaped by overcoming personal challenges from an early age, adapting to new environments, and learning through real-world experience.',
+		'I enjoy building products that solve real business problems, combining AI and modern full-stack technologies. My journey has been shaped by overcoming personal challenges from an early age, adapting to new environments, and learning through real-world experience.',
 		'Alongside software engineering, I built and operated a small clothing business, which taught me the importance of execution, customer focus, and consistency. Today I focus on creating scalable applications, integrating AI into practical workflows, and turning ideas into reliable products that people actually use.',
 	],
 };

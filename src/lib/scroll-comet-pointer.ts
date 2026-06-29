@@ -20,8 +20,6 @@ export const updateScrollCometPointer = (next: ScrollCometPointer) => {
 	pointer = next;
 };
 
-export const readScrollCometPointer = () => pointer;
-
 export const isNearScrollCometPointer = (x: number, y: number) => {
 	if (!pointer.visible) return false;
 
