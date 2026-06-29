@@ -103,7 +103,7 @@ export const AiBot = () => {
 				onClick={() => setOpen((v) => !v)}
 				aria-label={open ? 'Close AI chat' : 'Open AI chat'}
 			>
-				{open ? <FaXmark /> : <BrandLogo size={48} className='ai-bot-fab-logo' />}
+				{open ? <FaXmark /> : <BrandLogo size={58} className='ai-bot-fab-logo' />}
 				{!open && <span className='ai-bot-fab-ring' />}
 			</button>
 
@@ -111,7 +111,7 @@ export const AiBot = () => {
 				<div className='ai-bot ai-bot-floating ai-bot-interactive'>
 					<div className='ai-bot-header'>
 						<div className='ai-bot-avatar ai-bot-icon-animated'>
-							<BrandLogo size={46} className='ai-bot-header-logo' />
+							<BrandLogo size={56} className='ai-bot-header-logo' />
 							<span className='ai-bot-pulse' />
 						</div>
 						<div>

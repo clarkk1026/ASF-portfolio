@@ -26,7 +26,8 @@
 		"lint:ci": "eslint . --report-unused-disable-directives && prettier --check . && pnpm spellcheck",
 		"preview": "vite preview",
 		"spellcheck": "cspell . --quiet",
-		"format": "prettier --write --log-level silent ."
+		"format": "prettier --write --log-level silent .",
+		"generate:brand": "node scripts/generate-brand-assets.mjs"
 	},
 	"dependencies": {
 		"react": "^19.2.5",

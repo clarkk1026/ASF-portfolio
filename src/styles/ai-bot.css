@@ -22,8 +22,8 @@
 	position: fixed;
 	bottom: 1.5rem;
 	right: 1.5rem;
-	width: 4.25rem;
-	height: 4.25rem;
+	width: 4.85rem;
+	height: 4.85rem;
 	border-radius: 50%;
 	border: 1px solid rgba(31, 195, 255, 0.35);
 	background: linear-gradient(135deg, rgb(31, 195, 255), rgb(80, 140, 255));
@@ -43,8 +43,8 @@
 	transform-origin: center center;
 }
 
-.ai-bot-fab-logo.brand-logo-block,
-.ai-bot-header-logo.brand-logo-block {
+.ai-bot-fab-logo.brand-logo,
+.ai-bot-header-logo.brand-logo {
 	animation: none;
 	transform-origin: center center;
 }
@@ -52,7 +52,6 @@
 .ai-bot-fab-logo,
 .ai-bot-header-logo {
 	display: block;
-	border-radius: 8px;
 }
 
 .ai-bot-fab-open .ai-bot-fab-logo {

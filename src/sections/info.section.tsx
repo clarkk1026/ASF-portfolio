@@ -1,7 +1,7 @@
 import { GlowLink } from '../components/glow-box-link';
+import { HeroName3D } from '../components/hero-name-3d';
 import { Reveal } from '../components/reveal';
 import { RoleRotator } from '../components/role-rotator';
-import { TextHover } from '../components/text-hover.component';
 import { highlights, personal, socialLinks } from '../data/portfolio';
 
 export const InfoSection = () => {
@@ -30,10 +30,7 @@ export const InfoSection = () => {
 
 				<Reveal delay={200}>
 					<div className='hero-title'>
-						<TextHover
-							text={personal.name}
-							className='hero-name'
-						/>
+						<HeroName3D text={personal.name} />
 					</div>
 				</Reveal>
 

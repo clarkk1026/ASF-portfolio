@@ -6,7 +6,7 @@
 	flex-direction: column;
 	position: relative;
 	padding: 7rem 1.5rem 5rem;
-	overflow: hidden;
+	overflow: visible;
 }
 
 .hero-orbs {
@@ -98,29 +98,7 @@
 	position: relative;
 	margin-bottom: 0.35rem;
 	padding-right: 0.2em;
-}
-
-.hero-section .hero-name {
-	font-size: clamp(3.8rem, 12vw, 7.5rem);
-	text-align: center;
-	letter-spacing: 0.12rem;
-	text-transform: uppercase;
-	font-family: 'Fugaz One', sans-serif;
-	font-weight: 400;
-	-webkit-text-fill-color: transparent;
-	-webkit-text-stroke-width: 3px;
-	-webkit-text-stroke-color: hsl(196, 100%, 56%);
-	filter: drop-shadow(0 0 28px rgba(31, 195, 255, 0.35));
-}
-
-.hero-section .hero-name span,
-.hero-section .hero-name span::after {
-	-webkit-text-fill-color: transparent;
-	-webkit-text-stroke-width: 3px;
-	-webkit-text-stroke-color: hsl(196, 100%, 56%);
-	background: none;
-	-webkit-background-clip: unset;
-	background-clip: unset;
+	overflow: visible;
 }
 
 .hero-subtitle {
@@ -353,7 +331,7 @@
 }
 
 @media screen and (max-width: 300px) {
-	.hero-section .hero-name {
-		font-size: 3rem;
+	.hero-title {
+		padding-right: 0.1em;
 	}
 }

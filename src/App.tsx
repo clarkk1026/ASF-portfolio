@@ -19,6 +19,7 @@ import './styles/experience.css';
 import './styles/expertise.css';
 import './styles/glow-box.css';
 import './styles/hex-bg.css';
+import './styles/hero-name-3d.css';
 import './styles/info-section.css';
 import './styles/layered-title.css';
 import './styles/mouse-trail.css';

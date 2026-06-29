@@ -29,7 +29,7 @@ export const Navbar = () => {
 					onClick={() => setMenuOpen(false)}
 				>
 					<BrandLogo
-						size={72}
+						size={108}
 						className='navbar-logo-img'
 					/>
 				</a>
