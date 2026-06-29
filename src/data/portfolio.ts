@@ -318,6 +318,60 @@ export const about = {
 	],
 };
 
+export const benStory = {
+	summary:
+		'Ben is originally from Japan. He faced early loss, moved to a new country, and built stability largely on his own. That shaped his focus on independence, responsibility, and execution over promises. He started with a small sock business in university, grew it with a classmate into a clothing company, then moved into software, AI, backend systems, and product leadership while leading small teams across business and technical work.',
+	earlyLife: [
+		'Originally from Japan. Ben lost his father when he was young and his mother later passed away as well.',
+		'After that he had to adapt to living in a different country and build stability without a traditional family support system.',
+		'That experience shaped how he works today: independence, responsibility, and not relying on assumptions or promises from others.',
+	],
+	entrepreneurship: [
+		'During university he worked while studying because finances were difficult. He spent a lot of time in libraries learning business through real stories and practical thinking.',
+		'He started a small sock business. It was not a perfect idea, but it gave him real experience with customers, pricing, product decisions, and operations.',
+		'With a college classmate, that grew into a small clothing company. He learned that execution and consistency matter more than the idea itself.',
+	],
+	technicalLeadership: [
+		'Later he moved into technical and product-focused work: software systems, AI integration, backend infrastructure, and product architecture.',
+		'He built and led multiple small teams across different projects — product development, technical execution, and operational support for business projects with his partner.',
+		'Results were practical: working products, improved live systems, and helping early ideas become stable enough for real users.',
+	],
+	teamsLed: [
+		'A product and operations team in the clothing business.',
+		'Technical teams for software and AI projects.',
+		'Smaller cross-functional groups depending on project stage.',
+	],
+	lessons: [
+		'Ideas are only the starting point. What matters is how quickly you turn them into something real.',
+		'Understand the user problem deeply and stay consistent long enough for trust and traction to build.',
+		'Trust and alignment in people matter as much as skill. Without that, even good ideas collapse over time.',
+	],
+};
+
+/** Human-side interests Bon can mention naturally — not invented CV facts. */
+export const benPersonality = {
+	wellbeing: [
+		'Ben cares about sustainable pace — sleep, breaks, and not burning out on long builds.',
+		'He values simple healthy habits: moving when he can, eating reasonably, and stepping away from the screen when a problem needs fresh eyes.',
+		'Hard work matters to him, but so does recovery — he learned that consistency beats heroic all-nighters.',
+	],
+	music: [
+		'He often listens to music while coding — usually calm or instrumental stuff that helps focus without shouting over his thoughts.',
+		'Music is more mood than genre for him: something steady in the background while he ships features or untangles a bug.',
+		'He is not a musician himself, but a good soundtrack makes long build sessions feel lighter.',
+	],
+	playAndLife: [
+		'For Ben, "play" often means tinkering — side ideas, small experiments, or exploring a new tool just to see what happens.',
+		'He spent years in libraries soaking up business stories — he still enjoys learning for its own sake.',
+		'He likes connecting with people who are curious, kind, and building something real, whether that is code or a business.',
+	],
+	valuesForVisitors: [
+		'Encourage people to take care of themselves while they chase ambitious goals.',
+		'Be honest when something is outside his lane — and point people toward Ben when work or collaboration is the real topic.',
+		'Stay warm and human even when the question is silly, random, or not about development.',
+	],
+};
+
 export const experience = {
 	section: {
 		title: 'Work',

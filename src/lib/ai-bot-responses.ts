@@ -1,15 +1,22 @@
 import {
-	about,
+	benPersonality,
+	benStory,
 	contact,
 	highlights,
 	personal,
 	traits,
 } from '../data/portfolio';
+import { botGreeting, type BotMood } from './ai-bot-brand';
+import {
+	getGithubLockedBotReply,
+	isGithubQuestion,
+} from './ai-bot-github-guard';
 
 export type BotMessage = {
 	id: string;
 	role: 'bot' | 'user';
 	text: string;
+	mood?: BotMood;
 };
 
 export type BotContext = {
@@ -27,11 +34,11 @@ export type BotReply = {
 export const botQuickPrompts = [
 	'What are your skills?',
 	'Tell me about your experience',
-	'Show me your projects',
+	"Tell me Ben's story",
 	'How can I contact you?',
 ] as const;
 
-export const botGreeting = `Hey there! 👋 I'm **BC AI** — think of me as Ben's voice on this site. Ask me anything you're curious about: his work, skills, projects, story, or how to reach him. I don't bite.`;
+export { botGreeting };
 
 const pick = <T,>(items: T[]): T =>
 	items[Math.floor(Math.random() * items.length)];
@@ -102,22 +109,21 @@ const expandColloquial = (input: string): string => {
 
 const impoliteReply = (ctx: BotContext): BotReply => ({
 	text: pick([
-		`I'm only here to talk about **Ben Clark** and his professional work — politely. Let's keep things respectful. Ask about his skills, experience, or projects instead.`,
-		`I can't help with that. I only answer questions related to **Ben** — his development career, skills, and portfolio. Please keep it professional.`,
-		`That isn't something I'll respond to. I'm Ben's portfolio assistant — happy to discuss his work, but I won't engage with rude or unrelated messages.`,
+		`Hey — I'm still here, but let's keep it respectful. I'm happy to talk about Ben, or just have a normal friendly chat if you're in the mood for that.\n\n[[mood:calm]]`,
+		`Ouch — that one's a bit sharp. No worries, we can reset. Ask me about Ben's work, or tell me what's actually on your mind.\n\n[[mood:thoughtful]]`,
+		`I'd rather not go there. I'm Bon — I can help with Ben's portfolio, or chat like a decent human if you want to try again.\n\n[[mood:sorry]]`,
 	]),
 	intent: 'impolite',
 	userName: ctx.userName,
 });
 
-const offTopicReply = (ctx: BotContext): BotReply => ({
+const blockedTopicReply = (ctx: BotContext): BotReply => ({
 	text: pick([
-		`I only answer questions **related to Ben** — his development work, skills, projects, experience, and how to contact him. That topic isn't connected to him, so I'm not the right assistant for it.`,
-		`That's outside my scope. I'm here specifically for **Ben Clark's portfolio** — think careers, tech, Shopify, AI, and his projects. Try something like "What are Ben's skills?"`,
-		`Not related to Ben, so I can't help with that one. Ask me about his **experience**, **tech stack**, **projects**, or **contact info** — that's what I'm built for.`,
-		`I'm Ben's portfolio bot, not a general assistant. If it's not about **his work or background**, I have to pass. What would you like to know about Ben?`,
+		`That's not really something I can help with — especially homework or exam answers. I'm better at Ben's work, or a friendly chat about life stuff. What would you like instead?\n\n[[mood:shy]]`,
+		`I'll pass on that one — politics debates and gambling tips aren't my lane. Happy to talk about Ben, wellbeing, music, or how to reach him though.\n\n[[mood:calm]]`,
+		`I can't do that for you, but I'm not trying to be cold about it. Ask me about Ben's skills, story, or something lighter — I'm genuinely glad to chat.\n\n[[mood:warm]]`,
 	]),
-	intent: 'off_topic',
+	intent: 'blocked_topic',
 	userName: ctx.userName,
 });
 
@@ -126,18 +132,24 @@ const IMPOLITE_PATTERNS = [
 	/\b(f+u+c+k+\s*ben|ben\s*sucks|ben\s*is\s*(trash|garbage|useless|stupid|bad))\b/,
 ];
 
-const OFF_TOPIC_PATTERNS = [
-	/\b(weather|forecast|temperature)\b/,
-	/\b(recipe|cook|pizza|food|restaurant)\b/,
-	/\b(football|soccer|basketball|nba|nfl|world\s*cup|match\s*score)\b/,
-	/\b(president|election|politics|war|news\s*today)\b/,
-	/\b(movie|film|song|music|album|celebrity|actor|actress|tiktok\s*trend)\b/,
-	/\b(girlfriend|boyfriend|dating|love\s*life|marry\s*me)\b/,
-	/\b(bitcoin|crypto|stock\s*price|lottery|gambling)\b/,
-	/\b(homework|math\s*problem|solve\s*for\s*x|essay\s*about)\b/,
-	/\b(capital\s*of|who\s*invented|when\s*was.*born(?!.*ben))\b/,
-	/\b(tell\s*me\s*a\s*joke|make\s*me\s*laugh|play\s*a\s*game)\b/,
+/** Only hard-block topics Bon should never help with — not casual life chat. */
+const BLOCKED_TOPIC_PATTERNS = [
+	/\b(president|election|politics|who should i vote|political party)\b/,
+	/\b(bitcoin|crypto|stock\s*price|lottery|gambling|bet\s*on)\b/,
+	/\b(homework|math\s*problem|solve\s*for\s*x|essay\s*about|write\s*my\s*essay|do\s*my\s*assignment)\b/,
 ];
+
+const isBlockedTopic = (q: string) =>
+	BLOCKED_TOPIC_PATTERNS.some((p) => p.test(q));
+
+const isGibberish = (q: string, tokens: string[]) => {
+	if (tokens.length === 0) return false;
+	if (tokens.length === 1 && tokens[0].length >= 8 && !/[aeiou]/i.test(tokens[0]))
+		return true;
+	if (/^(asdf|qwerty|zxcv|lol{3,}|haha{3,}|test{2,}|blah+)/i.test(q)) return true;
+	if (tokens.length <= 3 && /^[a-z]{1,2}$/.test(tokens.join(''))) return true;
+	return false;
+};
 
 const BEN_RELATED_TERMS = [
 	'ben',
@@ -195,6 +207,14 @@ const BEN_RELATED_TERMS = [
 	'clothing',
 	'business',
 	'entrepreneur',
+	'japan',
+	'japanese',
+	'sock',
+	'university',
+	'childhood',
+	'leader',
+	'leadership',
+	'team',
 	'who are you',
 	'what are you',
 	'your name',
@@ -208,12 +228,22 @@ const BEN_RELATED_TERMS = [
 	'more',
 	'yes',
 	'yeah',
+	'music',
+	'song',
+	'health',
+	'tired',
+	'sleep',
+	'stress',
+	'feel',
+	'feeling',
+	'joke',
+	'game',
+	'bored',
+	'happy',
+	'sad',
 ];
 
 const isImpolite = (q: string) => IMPOLITE_PATTERNS.some((p) => p.test(q));
-
-const isClearlyOffTopic = (q: string, tokens: string[]) =>
-	OFF_TOPIC_PATTERNS.some((p) => p.test(q)) && scoreBenRelevance(q, tokens) === 0;
 
 const scoreBenRelevance = (q: string, tokens: string[]) => {
 	let score = 0;
@@ -288,7 +318,7 @@ const humanExperience = () =>
 
 const humanProjects = () =>
 	prefix([
-		`Some stuff he's proud of:\n\n• **SAiNNI** - AI-meets-full-stack (TypeScript, React, Node), the featured one\n• **Lumen Interiors** - Shopify storefront for a premium furniture brand\n• **Driftstay** - short-term rental bookings with Next.js and Stripe\n\nScroll to **Selected Work** on this page. There are previews. Want the GitHub? I can point you there too.`,
+		`Ben's main projects:\n\n• **SAiNNI** — AI and full-stack platform (TypeScript, React, Node)\n• **Lumen Interiors** — Shopify storefront for premium furniture\n• **Driftstay** — rental bookings with Next.js and Stripe\n\nSee **Selected Work** on this page for previews.\n\n[[mood:excited]]`,
 		`Ben's portfolio highlights a few builds that show his range:\n\n**SAiNNI** is the star — an AI-powered app with React and Node. Then there's commerce work on **Shopify**, and production-grade **Next.js** apps with proper infra behind them.\n\nThey're all on this site under Projects. Anything specific you want to know about?`,
 	]);
 
@@ -312,25 +342,44 @@ const humanTech = (mentioned?: string) => {
 
 const humanContact = () =>
 	prefix([
-		`Easiest way to reach him:\n\n📧 **${personal.email}**\n💬 **Telegram:** [web.telegram.org/a/](https://web.telegram.org/a/)\n🐙 **GitHub:** [github.com/buildflux26](https://github.com/buildflux26)\n\n${contact.subtext} — seriously, he usually gets back within a day.`,
-		`Want to talk to Ben directly? Shoot him an email at **${personal.email}** or ping him on Telegram. GitHub's [buildflux26](https://github.com/buildflux26) if you want to see code first.\n\nHe's open to freelance, collabs, and full-time stuff.`,
+		`Best ways to reach Ben:\n\n📧 **${personal.email}**\n💬 **Telegram:** [web.telegram.org/a/](https://web.telegram.org/a/)\n\n${contact.subtext}\n\n[[mood:warm]]`,
+		`Email Ben at **${personal.email}** or message him on Telegram. He is open to freelance, collaboration, and full-time roles.\n\n[[mood:calm]]`,
 	]);
 
 const humanAbout = () =>
 	prefix([
-		`${about.intro[0]}\n\nWhat I think makes him different: he's not just a dev who codes — he **built and ran a clothing business**, so he actually understands customers, shipping, and making things people use.\n\n${about.intro[1]}`,
-		`Ben's story is pretty grounded. ${about.intro[0]}\n\nThese days he's all about scalable apps, practical AI, and products that solve real problems — not vanity projects.`,
+		`Ben is originally from **Japan**. He faced early loss, adapted to a new country, and built stability largely on his own — which shaped his focus on **independence**, **responsibility**, and **execution**.\n\nIn university he started a **sock business** that grew into a **clothing company** with a classmate. Later he moved into **software**, **AI**, and **product leadership**, leading small teams across business and technical work.\n\n${benStory.lessons[0]}\n\n[[mood:thoughtful]]`,
+		`${benStory.summary}\n\nToday he combines that entrepreneurial background with **AI**, **Shopify**, and **full-stack** engineering.\n\n[[mood:warm]]`,
 	]);
+
+const humanStory = () =>
+	prefix([
+		`Here is the honest version of Ben's path:\n\n**Early life:** ${benStory.earlyLife.join(' ')}\n\n**Entrepreneurship:** ${benStory.entrepreneurship.join(' ')}\n\n**Technical work:** ${benStory.technicalLeadership.join(' ')}\n\n**Teams led:**\n${benStory.teamsLed.map((line) => `• ${line}`).join('\n')}\n\n**What he learned:** ${benStory.lessons.join(' ')}\n\n[[mood:thoughtful]]`,
+		`${benStory.summary}\n\nIf you want, I can go deeper on his **clothing business**, **team leadership**, or **move into tech**.\n\n[[mood:calm]]`,
+	]);
+
+const humanCasualChat = (input: string, ctx: BotContext): BotReply => {
+	const nameBit = ctx.userName ? `, ${ctx.userName}` : '';
+	const trimmed = input.trim();
+
+	return {
+		text: pick([
+			`Fair question${nameBit}. I'm mostly here for Ben's portfolio, but I don't mind a human chat. Tell me more — or ask about his **skills**, **story**, or **contact** whenever you want.\n\n[[mood:warm]]`,
+			`Ha — okay${nameBit}, I'm listening. I'm Bon, Ben's site voice. We can talk about life stuff or dive into his work — your call.\n\n[[mood:happy]]`,
+			`Not everything has to be about code${nameBit}. I'm happy to chat. If Ben's background is what you came for, I know that side really well too.\n\n[[mood:calm]]`,
+			`Got you${nameBit} — "${trimmed}" is a mood. I'm here for it. Want something about Ben, or just keeping it casual?\n\n[[mood:thoughtful]]`,
+		]),
+		intent: 'casual',
+		userName: ctx.userName,
+	};
+};
 
 const humanFallback = (input: string, tokens: string[], ctx: BotContext) => {
 	const nameBit = ctx.userName ? `, ${ctx.userName}` : '';
 	const q = normalize(input);
 
 	if (tokens.length <= 2 && !isQuestion(q)) {
-		return {
-			text: `Hmm${nameBit}, I'm reading "${input.trim()}" — could you say a bit more about Ben? Like "Tell me about his React experience" or "Is he open to freelance?"`,
-			intent: 'clarify',
-		};
+		return humanCasualChat(input, ctx);
 	}
 
 	if (hasWord(tokens, ['react', 'next', 'node', 'shopify', 'python', 'ai'])) {
@@ -347,7 +396,7 @@ const humanFallback = (input: string, tokens: string[], ctx: BotContext) => {
 
 	if (hasWord(tokens, ['good', 'great', 'best', 'awesome', 'cool', 'nice'])) {
 		return {
-			text: `Ha, I'll take that as a compliment${nameBit}! 😄 Anything else about Ben — his work, skills, or how to hire him?`,
+			text: `Ha, I'll take that as a compliment${nameBit}! Anything else on your mind — Ben's work, or just life stuff?\n\n[[mood:happy]]`,
 			intent: 'positive',
 		};
 	}
@@ -359,10 +408,7 @@ const humanFallback = (input: string, tokens: string[], ctx: BotContext) => {
 		};
 	}
 
-	return {
-		text: `Hmm${nameBit}, I'm not fully sure what you mean — but it seems Ben-related. Try asking about his **experience**, **skills**, **projects**, or **contact info**.`,
-		intent: 'clarify',
-	};
+	return humanCasualChat(input, ctx);
 };
 
 type IntentHandler = {
@@ -415,10 +461,10 @@ const handlers: IntentHandler[] = [
 			const name = ctx.userName;
 			return pick([
 				name
-					? `Hey ${name}! Good to meet you. I'm BC AI — basically Ben's stand-in while you browse his portfolio. What would you like to know about him?`
-					: `Hey! 👋 I'm BC AI. Ben's an **AI Engineer**, **Shopify Developer**, and **Full-Stack Developer** based in ${personal.location}. What's on your mind?`,
-				`Hello! I'm here to talk about **${personal.fullName}** — his work, skills, projects, all of it. Fire away with any question.`,
-				`Hi there! Nice of you to stop by. Ask me anything about Ben — I know his background pretty well at this point.`,
+					? `Hi ${name} — I'm **Bon** (AI BEN). I know Ben's work, but I'm also happy to just talk like a person. What's on your mind?\n\n[[mood:happy]]`
+					: `Hi — I'm **Bon** (AI BEN). Ben is an **AI Engineer**, **Shopify Developer**, and **Full-Stack Developer** in ${personal.location}. We can talk shop or just chat. What would you like?\n\n[[mood:happy]]`,
+				`Hello! I'm here for Ben's portfolio **and** normal conversation — skills, story, music, life stuff, whatever.`,
+				`Hey — nice of you to stop by. I'm Bon. Ask me anything about Ben, or just say what's up.`,
 			]);
 		},
 	},
@@ -453,7 +499,7 @@ const handlers: IntentHandler[] = [
 			return s;
 		},
 		reply: () =>
-			`I'm basically your guide to everything Ben. Ask naturally — like you're texting a friend who knows him well.\n\nExamples:\n• "What's his experience like?"\n• "Does he know Shopify?"\n• "Can I hire him for freelance?"\n• "Tell me about SAiNNI"\n\nNo need to be formal. I'll figure out what you mean.`,
+			`I'm **Bon** — think of me as someone who knows Ben well and actually likes talking to people.\n\nYou can ask about:\n• His **experience**, **skills**, and **projects**\n• His **personal story** (Japan, entrepreneurship, leadership)\n• **Health & balance**, **music**, or random life chat\n• How to **contact** him\n\nNo need to be formal. I'll meet you where you are.`,
 	},
 	{
 		id: 'identity',
@@ -472,10 +518,109 @@ const handlers: IntentHandler[] = [
 				return humanAbout();
 			}
 			return pick([
-				`I'm **BC AI** — Ben's portfolio assistant. Think of me as the friendly version of his CV. ${personal.fullName} is a ${personal.title} in ${personal.location}. ${personal.tagline}`,
-				`Name's BC AI. I'm not Ben himself, but I know his story inside out. Ben builds products across **AI**, **Shopify**, and **full-stack** — based in ${personal.location}.`,
+				`I'm **Bon** (AI BEN), Ben's portfolio assistant. ${personal.fullName} is a ${personal.title} in ${personal.location}. ${personal.tagline}\n\n[[mood:calm]]`,
+				`I'm **Bon**. I help visitors learn about Ben's work in **AI**, **Shopify**, and **full-stack** development.\n\n[[mood:warm]]`,
 			]);
 		},
+	},
+	{
+		id: 'mood_check',
+		score: (q, tokens) => {
+			if (matches(q, [/how are you|how r you|how you doing|hows it going|you ok|are you ok/]))
+				return 12;
+			if (hasWord(tokens, ['how']) && hasWord(tokens, ['you']) && tokens.length <= 5)
+				return 8;
+			return 0;
+		},
+		reply: (_q, _t, ctx) =>
+			pick([
+				`I'm doing alright${ctx.userName ? `, ${ctx.userName}` : ''} — thanks for asking. Kind of enjoying being the voice on Ben's site today. How are **you** doing?\n\n[[mood:happy]]`,
+				`Pretty good! A little shy sometimes when I don't know someone yet, but I'm warm once we get talking. What's on your mind?\n\n[[mood:shy]]`,
+				`Honestly? Calm and curious. I like when visitors actually say hi like humans. How's your day going?\n\n[[mood:calm]]`,
+			]),
+	},
+	{
+		id: 'feelings',
+		score: (q, tokens) => {
+			let s = 0;
+			if (
+				matches(q, [
+					/i\s*(?:am|m)\s+(sad|lonely|stressed|anxious|tired|exhausted|down|depressed|overwhelmed)/,
+				])
+			)
+				s += 12;
+			if (matches(q, [/feeling (sad|bad|down|lonely|stressed|anxious|tired)/])) s += 10;
+			if (hasWord(tokens, ['sad', 'lonely', 'anxious', 'stressed', 'overwhelmed', 'depressed']))
+				s += 6;
+			return s;
+		},
+		reply: (_q, _t, ctx) =>
+			pick([
+				`Hey${ctx.userName ? ` ${ctx.userName}` : ''} — I'm sorry you're carrying that. I'm just Bon on a portfolio site, not a therapist, but I do care. Take a breath if you can, drink some water, step away from the screen for a minute. If you want a real human, Ben's at **${personal.email}**. I'm here too if you want to talk about lighter stuff or his work.\n\n[[mood:sorry]]`,
+				`That sounds heavy. Please be gentle with yourself today — rest counts as productive sometimes. I'm happy to listen or distract you with something about Ben's projects if that helps.\n\n[[mood:thoughtful]]`,
+			]),
+	},
+	{
+		id: 'wellness',
+		score: (q, tokens) => {
+			let s = 0;
+			if (matches(q, [/health|wellness|wellbeing|well-being|sleep|exercise|workout|burnout|burn out/]))
+				s += 10;
+			if (hasWord(tokens, ['healthy', 'health', 'sleep', 'tired', 'rest', 'burnout'])) s += 6;
+			return s;
+		},
+		reply: () =>
+			pick([
+				`${benPersonality.wellbeing[0]} ${benPersonality.wellbeing[2]}\n\nIf you're grinding on something big — code, school, life — breaks are not quitting. They're how you last.\n\n[[mood:warm]]`,
+				`Ben's big on sustainable pace. ${benPersonality.wellbeing[1]} What about you — are you taking care of yourself while you're building whatever you're building?\n\n[[mood:thoughtful]]`,
+			]),
+	},
+	{
+		id: 'music',
+		score: (q, tokens) => {
+			let s = 0;
+			if (matches(q, [/music|song|album|playlist|spotify|listen to/])) s += 11;
+			if (hasWord(tokens, ['music', 'song', 'album', 'playlist', 'spotify'])) s += 7;
+			return s;
+		},
+		reply: (_q, _t, ctx) =>
+			pick([
+				`${benPersonality.music[0]} ${benPersonality.music[1]}\n\nWhat do **you** listen to${ctx.userName ? `, ${ctx.userName}` : ''}? I'm always curious.\n\n[[mood:happy]]`,
+				`Music's a big part of long build sessions for Ben. ${benPersonality.music[2]} Got a favorite track lately?\n\n[[mood:calm]]`,
+			]),
+	},
+	{
+		id: 'play',
+		score: (q, tokens) => {
+			let s = 0;
+			if (matches(q, [/play a game|wanna play|lets play|bored|nothing to do/])) s += 10;
+			if (hasWord(tokens, ['bored', 'game', 'play']) && tokens.length <= 6) s += 6;
+			return s;
+		},
+		reply: () =>
+			pick([
+				`I'm not great at actual games in a chat box — but ${benPersonality.playAndLife[0].toLowerCase()}\n\nWant to hear about something Ben built for fun, or should we just riff?\n\n[[mood:happy]]`,
+				`Boredom happens. Ben usually channels it into tinkering — ${benPersonality.playAndLife[1].toLowerCase()}\n\nTell me what you're into and we'll find a thread.\n\n[[mood:thoughtful]]`,
+			]),
+	},
+	{
+		id: 'joke',
+		score: (q) =>
+			matches(q, [/tell me a joke|make me laugh|say something funny|cheer me up/]) ? 11 : 0,
+		reply: () =>
+			pick([
+				`Why do programmers prefer dark mode? Because light attracts bugs.\n\n...I'll see myself out. Want a real conversation about Ben or about your day?\n\n[[mood:happy]]`,
+				`A user asked Bon for the meaning of life. Bon said: "Have you tried turning it off and on again?"\n\nOkay, dad joke deployed. What else you got?\n\n[[mood:excited]]`,
+			]),
+	},
+	{
+		id: 'nonsense',
+		score: (q, tokens) => (isGibberish(q, tokens) ? 11 : 0),
+		reply: (_q, _t, ctx) =>
+			pick([
+				`Haha okay${ctx.userName ? ` ${ctx.userName}` : ''} — I felt that energy. Random keyboard smash or are we testing if I'm alive? I'm alive. What's up?\n\n[[mood:happy]]`,
+				`That was beautifully nonsense. I respect it. Want to talk about Ben, music, health habits, or keep being weird?\n\n[[mood:excited]]`,
+			]),
 	},
 	{
 		id: 'experience',
@@ -514,7 +659,7 @@ const handlers: IntentHandler[] = [
 			let s = 0;
 			if (matches(q, [/show (me )?(your |his |ben'?s? )?(projects|work|portfolio|stuff)/, /what (have|has) (he|ben|you) built/, /selected work/]))
 				s += 11;
-			if (hasWord(tokens, ['sainni', 'github', 'buildflux26', 'repo'])) s += 8;
+			if (hasWord(tokens, ['sainni', 'repo'])) s += 8;
 			if (hasWord(tokens, ['project', 'projects', 'portfolio', 'built', 'builds', 'app', 'apps']))
 				s += 5;
 			return s;
@@ -577,6 +722,42 @@ const handlers: IntentHandler[] = [
 				`AI isn't a buzzword for Ben — he actually ships it. LLM APIs, Python, TensorFlow, PyTorch, intelligent features in real products.\n\nHe uses tools like Copilot and ChatGPT daily, but the goal is always **practical workflows** that save time and improve quality.`,
 				`Ben's big on **practical AI**. Not demos for LinkedIn — actual features in production. Think LLM integrations, Python pipelines, and ML where it genuinely helps the product.`,
 			]),
+	},
+	{
+		id: 'story',
+		score: (q, tokens) => {
+			let s = 0;
+			if (
+				matches(q, [
+					/personal (story|background|life|journey)/,
+					/early life/,
+					/grow up/,
+					/childhood/,
+					/from japan/,
+					/why (is he|does he)/,
+				])
+			) {
+				s += 11;
+			}
+			if (
+				hasWord(tokens, [
+					'japan',
+					'japanese',
+					'mother',
+					'father',
+					'family',
+					'sock',
+					'classmate',
+					'partner',
+					'lesson',
+					'teams',
+				])
+			) {
+				s += 6;
+			}
+			return s;
+		},
+		reply: () => humanStory(),
 	},
 	{
 		id: 'about',
@@ -659,7 +840,7 @@ const handlers: IntentHandler[] = [
 		id: 'sainni',
 		score: (q) => (/sainni/.test(q) ? 12 : 0),
 		reply: () =>
-			`**SAiNNI** is probably his most interesting build — AI meets full-stack with TypeScript, React, and Node. It's the **featured project** on this site. Code lives here: [github.com/buildflux26/SAiNNI-Project](https://github.com/buildflux26/SAiNNI-Project). Want me to tell you more about his other projects?`,
+			`**SAiNNI** is his featured project — AI meets full-stack with TypeScript, React, and Node. I can tell you more about **Lumen Interiors** or **Driftstay** if you like.\n\n[[mood:excited]]`,
 	},
 	{
 		id: 'site',
@@ -702,9 +883,9 @@ const handlers: IntentHandler[] = [
 				experience: `Want me to zoom in on a specific role — **Livestorm**, **NearForm**, or his **Senior/Lead** years? Or his **education** at Trinity?`,
 				projects: `I can dive deeper into **SAiNNI**, the **e-commerce** work, or his **Next.js** apps. Which sounds interesting?`,
 				skills: `Happy to go deeper on **AI**, **Shopify**, or **full-stack** — or name a tech like React or Node and I'll tell you how he uses it.`,
-				contact: `Just to recap — email **${personal.email}**, Telegram, or GitHub. Want a suggestion on what to write in a first message?`,
+				contact: `Email **${personal.email}** or reach out on Telegram. I can suggest what to write in a first message if you want.\n\n[[mood:warm]]`,
 				tech: `Name any tool or language — React, Docker, Postgres, whatever — and I'll tell you how it fits Ben's work.`,
-				about: `There's also his **career timeline**, **projects**, or **what he's open to** work-wise. Where should we go next?`,
+				about: `I can also share more about his **personal journey**, **projects**, or **how to contact him**. What would you like next?\n\n[[mood:warm]]`,
 			};
 			return (
 				followups[ctx.lastIntent ?? ''] ??
@@ -729,7 +910,7 @@ export const getBotResponse = (
 
 	if (!q) {
 		return {
-			text: `Go ahead — ask me anything about Ben. Skills, jobs, projects, whatever you're curious about.`,
+			text: `Hey — I'm Bon. Ask about Ben's work, his story, music, wellbeing, or whatever's on your mind.`,
 			intent: 'empty',
 			userName: ctx.userName,
 		};
@@ -739,8 +920,27 @@ export const getBotResponse = (
 		return impoliteReply(ctx);
 	}
 
-	if (isClearlyOffTopic(q, tokens)) {
-		return offTopicReply(ctx);
+	if (isGithubQuestion(expanded) || isGithubQuestion(q)) {
+		return {
+			text: getGithubLockedBotReply(),
+			intent: 'github_locked',
+			userName: ctx.userName,
+		};
+	}
+
+	if (isBlockedTopic(q)) {
+		return blockedTopicReply(ctx);
+	}
+
+	if (isGibberish(q, tokens)) {
+		return {
+			text: pick([
+				`Haha okay — I felt that energy. Random keyboard smash or are we testing if I'm alive? I'm alive. What's up?\n\n[[mood:happy]]`,
+				`Beautifully nonsense. I respect it. Want Ben's story, music chat, or more chaos?\n\n[[mood:excited]]`,
+			]),
+			intent: 'nonsense',
+			userName: ctx.userName,
+		};
 	}
 
 	let best: IntentHandler | null = null;
@@ -762,7 +962,7 @@ export const getBotResponse = (
 		};
 	}
 
-	// Soft keyword rescue — only Ben-related topics
+	// Ben-related keyword rescue
 	if (scoreBenRelevance(q, tokens) > 0) {
 		if (matches(q, [/contact|email|telegram|hire/])) {
 			return { text: humanContact(), intent: 'contact', userName: ctx.userName };
@@ -770,7 +970,7 @@ export const getBotResponse = (
 		if (matches(q, [/experience|livestorm|nearform|career|resume/])) {
 			return { text: humanExperience(), intent: 'experience', userName: ctx.userName };
 		}
-		if (matches(q, [/project|github|portfolio|built/])) {
+		if (matches(q, [/project|portfolio|built/])) {
 			return { text: humanProjects(), intent: 'projects', userName: ctx.userName };
 		}
 		if (matches(q, [/skill|expertise|stack/])) {
@@ -781,11 +981,18 @@ export const getBotResponse = (
 		return { ...fallback, userName: ctx.userName };
 	}
 
-	return offTopicReply(ctx);
+	return humanCasualChat(expanded, ctx);
 };
 
-export const simulateTypingDelay = (text: string) => {
-	const base = 450 + text.length * 14;
-	const jitter = Math.random() * 280;
-	return Math.min(2200, Math.max(600, base + jitter));
+export const simulateTypingDelay = (
+	text: string,
+	source: 'groq' | 'local' = 'local',
+) => {
+	if (source === 'groq') {
+		const base = 100 + text.length * 1.5;
+		return Math.min(280, Math.max(120, base));
+	}
+
+	const base = 160 + text.length * 3;
+	return Math.min(420, Math.max(180, base));
 };

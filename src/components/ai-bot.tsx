@@ -1,15 +1,28 @@
-import { type FormEvent, useEffect, useRef, useState } from 'react';
+import { type FormEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { FaComments, FaPaperPlane, FaXmark } from 'react-icons/fa6';
+import { fetchBotReply } from '../lib/ai-bot-api';
 import {
+	BOT_MOOD_COLOR,
+	BOT_MOOD_LABEL,
+	BOT_NAME,
+	BOT_SUBTITLE,
 	botGreeting,
-	botQuickPrompts,
+	parseBotMood,
+	type BotMood,
+} from '../lib/ai-bot-brand';
+import {
 	getBotResponse,
+	botQuickPrompts,
 	simulateTypingDelay,
 	type BotContext,
 	type BotMessage,
 } from '../lib/ai-bot-responses';
+import { githubLockedMessage } from '../lib/contact-lock';
+import { useToast } from './toast-provider';
 
 const createId = () => crypto.randomUUID();
+
+const greetingParsed = parseBotMood(botGreeting);
 
 const renderText = (text: string) => {
 	const parts = text.split(/(\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g);
@@ -39,18 +52,45 @@ const renderText = (text: string) => {
 	});
 };
 
+const BotMoodTag = ({ mood }: { mood: BotMood }) => (
+	<span
+		className='ai-bot-mood-tag'
+		style={{ ['--mood-color' as string]: BOT_MOOD_COLOR[mood] }}
+	>
+		<span
+			className='ai-bot-mood-dot'
+			aria-hidden='true'
+		/>
+		{BOT_MOOD_LABEL[mood]}
+	</span>
+);
+
 export const AiBot = () => {
+	const { pushToast } = useToast();
 	const [open, setOpen] = useState(false);
 	const [input, setInput] = useState('');
 	const [typing, setTyping] = useState(false);
 	const [messages, setMessages] = useState<BotMessage[]>([
-		{ id: createId(), role: 'bot', text: botGreeting },
+		{
+			id: createId(),
+			role: 'bot',
+			text: greetingParsed.text,
+			mood: greetingParsed.mood,
+		},
 	]);
 	const [botContext, setBotContext] = useState<BotContext>({
 		lastIntent: null,
 		turn: 0,
 	});
 	const bodyRef = useRef<HTMLDivElement>(null);
+
+	const activeMood = useMemo(() => {
+		for (let index = messages.length - 1; index >= 0; index -= 1) {
+			const message = messages[index];
+			if (message.role === 'bot' && message.mood) return message.mood;
+		}
+		return greetingParsed.mood;
+	}, [messages]);
 
 	const scrollToBottom = () => {
 		const el = bodyRef.current;
@@ -61,29 +101,60 @@ export const AiBot = () => {
 		scrollToBottom();
 	}, [messages, typing]);
 
-	const sendMessage = (text: string) => {
+	const sendMessage = async (text: string) => {
 		const trimmed = text.trim();
 		if (!trimmed || typing) return;
 
 		setInput('');
-		setMessages((prev) => [
-			...prev,
+		const nextMessages: BotMessage[] = [
+			...messages,
 			{ id: createId(), role: 'user', text: trimmed },
-		]);
+		];
+		setMessages(nextMessages);
 		setTyping(true);
 
-		const { text: reply, intent, userName } = getBotResponse(trimmed, botContext);
-		const delay = simulateTypingDelay(reply);
+		let replyText = '';
+		let intent = 'fallback';
+		let userName = botContext.userName;
+		let mood: BotMood = 'calm';
+		let showGithubAlert = false;
+		let replySource: 'groq' | 'local' = 'local';
+
+		try {
+			const reply = await fetchBotReply(trimmed, nextMessages, botContext);
+			replySource = reply.source;
+			const parsed = reply.mood
+				? { text: reply.text, mood: reply.mood }
+				: parseBotMood(reply.text);
+			replyText = parsed.text;
+			mood = parsed.mood;
+			intent = reply.intent;
+			showGithubAlert = Boolean(reply.showGithubAlert);
+		} catch {
+			const fallback = getBotResponse(trimmed, botContext);
+			const parsed = parseBotMood(fallback.text);
+			replyText = parsed.text;
+			mood = parsed.mood;
+			intent = fallback.intent;
+			userName = fallback.userName ?? userName;
+			showGithubAlert = intent === 'github_locked';
+		}
+
+		if (showGithubAlert) {
+			pushToast(githubLockedMessage, 'info');
+		}
+
+		const delay = simulateTypingDelay(replyText, replySource);
 
 		window.setTimeout(() => {
 			setMessages((prev) => [
 				...prev,
-				{ id: createId(), role: 'bot', text: reply },
+				{ id: createId(), role: 'bot', text: replyText, mood },
 			]);
 			setBotContext((prev) => ({
 				lastIntent: intent,
 				turn: prev.turn + 1,
-				userName: userName ?? prev.userName,
+				userName,
 			}));
 			setTyping(false);
 		}, delay);
@@ -96,27 +167,54 @@ export const AiBot = () => {
 
 	return (
 		<>
-			<button
-				type='button'
-				className={`ai-bot-fab ai-bot-interactive ${open ? 'ai-bot-fab-open' : ''}`}
-				onClick={() => setOpen((v) => !v)}
-				aria-label={open ? 'Close AI chat' : 'Open AI chat'}
-			>
-				{open ? <FaXmark /> : <FaComments className='ai-bot-fab-icon' />}
-				{!open && <span className='ai-bot-fab-ring' />}
-			</button>
+			{!open ? (
+				<button
+					type='button'
+					className='comet-btn comet-btn-talk ai-bot-fab ai-bot-interactive'
+					onClick={() => setOpen(true)}
+					aria-label='Open Bon chat'
+					aria-expanded={false}
+				>
+					<FaComments className='ai-bot-fab-icon' />
+				</button>
+			) : null}
 
 			{open && (
 				<div className='ai-bot ai-bot-floating ai-bot-interactive'>
 					<div className='ai-bot-header'>
-						<div className='ai-bot-avatar ai-bot-icon-animated'>
+						<div
+							className={`ai-bot-avatar ai-bot-icon-animated ai-bot-avatar-mood-${activeMood}`}
+						>
 							<FaComments className='ai-bot-header-icon' />
-							<span className='ai-bot-pulse' />
 						</div>
-						<div>
-							<h3>BC AI Chat</h3>
-							<p>Ben&apos;s portfolio assistant</p>
+
+						<div className='ai-bot-header-copy'>
+							<h3>{BOT_NAME}</h3>
+							<p>{BOT_SUBTITLE}</p>
+							<span
+								className={`ai-bot-status ${typing ? 'ai-bot-status-typing' : ''}`}
+								role='status'
+								aria-live='polite'
+							>
+								<span
+									className='ai-bot-status-dot'
+									aria-hidden='true'
+								/>
+								{typing ? 'Typing…' : 'Online'}
+								{!typing ? (
+									<>
+										<span
+											className='ai-bot-status-sep'
+											aria-hidden='true'
+										>
+											·
+										</span>
+										<BotMoodTag mood={activeMood} />
+									</>
+								) : null}
+							</span>
 						</div>
+
 						<button
 							type='button'
 							className='ai-bot-close'
@@ -137,14 +235,26 @@ export const AiBot = () => {
 								className={`ai-bot-msg ai-bot-msg-${msg.role}`}
 							>
 								{msg.role === 'bot' && (
-									<span className='ai-bot-msg-label'>BC AI</span>
+									<span className='ai-bot-msg-label'>
+										<span>{BOT_NAME}</span>
+										{msg.mood ? <BotMoodTag mood={msg.mood} /> : null}
+									</span>
 								)}
 								<div className='ai-bot-bubble'>{renderText(msg.text)}</div>
 							</div>
 						))}
 						{typing && (
 							<div className='ai-bot-msg ai-bot-msg-bot'>
-								<span className='ai-bot-msg-label'>BC AI</span>
+								<span className='ai-bot-msg-label'>
+									<span>{BOT_NAME}</span>
+									<span className='ai-bot-mood-tag ai-bot-mood-tag-typing'>
+										<span
+											className='ai-bot-mood-dot'
+											aria-hidden='true'
+										/>
+										Typing
+									</span>
+								</span>
 								<div className='ai-bot-bubble ai-bot-typing'>
 									<span />
 									<span />
@@ -175,7 +285,7 @@ export const AiBot = () => {
 							type='text'
 							value={input}
 							onChange={(e) => setInput(e.target.value)}
-							placeholder='Ask me anything…'
+							placeholder='Ask Bon anything…'
 							disabled={typing}
 						/>
 						<button

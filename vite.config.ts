@@ -2,8 +2,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
+import {
+	handleChatRequest,
+	type ChatRequestBody,
+} from './src/lib/ai-bot-chat-handler';
 import {
 	decrementVote,
 	emptyStore,
@@ -169,10 +173,62 @@ const visitorNotesDevApi = () => ({
 	},
 });
 
-export default defineConfig({
-	plugins: [react(), visitorNotesDevApi()],
-	server: {
-		host: true,
-		open: true,
+const chatDevApi = (groqApiKey?: string) => ({
+	name: 'chat-dev-api',
+	configureServer(server: import('vite').ViteDevServer) {
+		server.middlewares.use('/api/chat', async (req, res) => {
+			res.setHeader('Access-Control-Allow-Origin', '*');
+			res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+			res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+			if (req.method === 'OPTIONS') {
+				res.statusCode = 204;
+				res.end();
+				return;
+			}
+
+			if (req.method !== 'POST') {
+				res.statusCode = 405;
+				res.setHeader('Content-Type', 'application/json');
+				res.end(JSON.stringify({ error: 'Method not allowed' }));
+				return;
+			}
+
+			try {
+				const body = (await readBody(req)) as ChatRequestBody | null;
+				if (!body?.message || typeof body.message !== 'string') {
+					res.statusCode = 400;
+					res.setHeader('Content-Type', 'application/json');
+					res.end(JSON.stringify({ error: 'Invalid payload' }));
+					return;
+				}
+
+				const reply = await handleChatRequest(
+					body,
+					groqApiKey,
+					req.socket.remoteAddress ?? 'local',
+				);
+
+				res.statusCode = 200;
+				res.setHeader('Content-Type', 'application/json');
+				res.end(JSON.stringify(reply));
+			} catch {
+				res.statusCode = 500;
+				res.setHeader('Content-Type', 'application/json');
+				res.end(JSON.stringify({ error: 'Chat unavailable' }));
+			}
+		});
 	},
+});
+
+export default defineConfig(({ mode }) => {
+	const env = loadEnv(mode, process.cwd(), '');
+
+	return {
+		plugins: [react(), visitorNotesDevApi(), chatDevApi(env.GROQ_API_KEY)],
+		server: {
+			host: true,
+			open: true,
+		},
+	};
 });
