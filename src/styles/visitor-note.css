@@ -1,0 +1,426 @@
+.visitor-note {
+	padding: 5rem 4rem;
+	display: flex;
+	gap: 3.5rem;
+	align-items: flex-start;
+}
+
+.visitor-note-content {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem;
+}
+
+.visitor-note-stats {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 1rem;
+}
+
+.visitor-note-stat {
+	padding: 1.35rem 1.25rem;
+	text-align: center;
+}
+
+.visitor-note-stat-value {
+	display: block;
+	font-family: 'Fugaz One', sans-serif;
+	font-size: clamp(2rem, 5vw, 2.75rem);
+	font-style: italic;
+	line-height: 1;
+	margin-bottom: 0.45rem;
+}
+
+.visitor-note-stat-support .visitor-note-stat-value {
+	color: rgb(31, 195, 255);
+	text-shadow: 0 0 24px rgba(31, 195, 255, 0.35);
+}
+
+.visitor-note-stat-disagree .visitor-note-stat-value {
+	color: rgb(255, 120, 110);
+	text-shadow: 0 0 24px rgba(255, 95, 87, 0.28);
+}
+
+.visitor-note-stat-notcare .visitor-note-stat-value {
+	color: rgba(190, 198, 220, 0.95);
+	text-shadow: 0 0 24px rgba(150, 160, 200, 0.22);
+}
+
+.visitor-note-stat-label {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.78rem;
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, 0.58);
+}
+
+.visitor-note-vote-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.75rem 1rem;
+}
+
+.visitor-note-vote-done {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.82rem;
+	color: rgba(160, 220, 255, 0.85);
+	margin: 0;
+}
+
+.visitor-note-cancel-vote {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	padding: 0.45rem 0.85rem;
+	border-radius: 999px;
+	border: 1px solid rgba(255, 255, 255, 0.16);
+	background: transparent;
+	color: rgba(255, 255, 255, 0.62);
+	transition:
+		border-color 0.25s ease,
+		color 0.25s ease,
+		background 0.25s ease;
+}
+
+.visitor-note-cancel-vote:hover:not(:disabled) {
+	border-color: rgba(255, 130, 120, 0.45);
+	color: rgb(255, 160, 150);
+	background: rgba(255, 95, 87, 0.08);
+}
+
+.visitor-note-cancel-vote:disabled {
+	opacity: 0.45;
+	cursor: not-allowed !important;
+}
+
+.visitor-note-replies {
+	padding: 1.75rem 1.5rem;
+}
+
+.visitor-note-replies-header {
+	margin-bottom: 1.25rem;
+}
+
+.visitor-note-replies-header h3 {
+	font-family: 'Fugaz One', sans-serif;
+	font-size: 1.25rem;
+	font-style: italic;
+	letter-spacing: 0.04em;
+	margin-bottom: 0.35rem;
+}
+
+.visitor-note-replies-header p {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.88rem;
+	line-height: 1.55;
+	color: rgba(255, 255, 255, 0.55);
+}
+
+.visitor-note-replies-empty {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.92rem;
+	color: rgba(255, 255, 255, 0.48);
+	padding: 1rem 0;
+}
+
+.visitor-note-reply-list {
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 0.85rem;
+	max-height: 28rem;
+	overflow-y: auto;
+	padding-right: 0.25rem;
+}
+
+.visitor-note-reply {
+	padding: 1rem 1.05rem;
+	border-radius: 14px;
+	background: rgba(0, 0, 0, 0.24);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.visitor-note-reply-support {
+	border-color: rgba(31, 195, 255, 0.16);
+}
+
+.visitor-note-reply-disagree {
+	border-color: rgba(255, 95, 87, 0.16);
+}
+
+.visitor-note-reply-not-care {
+	border-color: rgba(160, 170, 200, 0.18);
+}
+
+.visitor-note-reply-meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.5rem 0.75rem;
+	margin-bottom: 0.55rem;
+}
+
+.visitor-note-reply-badge {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.65rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	padding: 0.28rem 0.55rem;
+	border-radius: 999px;
+}
+
+.visitor-note-reply-badge-support {
+	color: #041018;
+	background: rgba(31, 195, 255, 0.92);
+}
+
+.visitor-note-reply-badge-disagree {
+	color: #fff8f6;
+	background: rgba(255, 95, 87, 0.88);
+}
+
+.visitor-note-reply-badge-not-care {
+	color: #0e1018;
+	background: rgba(190, 198, 220, 0.92);
+}
+
+.visitor-note-reply-name {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.82rem;
+	font-weight: 700;
+	color: rgba(255, 255, 255, 0.88);
+}
+
+.visitor-note-reply-date {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.72rem;
+	color: rgba(255, 255, 255, 0.42);
+	margin-left: auto;
+}
+
+.visitor-note-reply-message {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.92rem;
+	line-height: 1.65;
+	color: rgba(255, 255, 255, 0.76);
+	white-space: pre-wrap;
+}
+
+.visitor-note-card {
+	padding: 2.5rem 2.25rem;
+}
+
+.visitor-note-card h2 {
+	font-family: 'Fugaz One', sans-serif;
+	font-size: clamp(1.5rem, 3vw, 2rem);
+	font-style: italic;
+	letter-spacing: 0.04em;
+	margin-bottom: 0.75rem;
+}
+
+.visitor-note-card > p {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.95rem;
+	line-height: 1.7;
+	color: rgba(255, 255, 255, 0.72);
+	margin-bottom: 1.75rem;
+	max-width: 52ch;
+}
+
+.visitor-note-form {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.visitor-note-sentiment {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.65rem;
+}
+
+.visitor-note-choice {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.78rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	padding: 0.65rem 1.1rem;
+	border-radius: 999px;
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	background: rgba(0, 0, 0, 0.28);
+	color: rgba(255, 255, 255, 0.72);
+	transition:
+		background 0.25s ease,
+		border-color 0.25s ease,
+		color 0.25s ease,
+		box-shadow 0.25s ease,
+		transform 0.25s ease;
+}
+
+.visitor-note-choice:hover:not(:disabled) {
+	transform: translateY(-1px);
+	border-color: rgba(31, 195, 255, 0.35);
+	color: #ffffff;
+}
+
+.visitor-note-choice:disabled {
+	opacity: 0.45;
+	cursor: not-allowed !important;
+}
+
+.visitor-note-choice-active.visitor-note-choice-support {
+	color: #041018;
+	background: linear-gradient(
+		115deg,
+		rgb(31, 195, 255) 0%,
+		rgb(120, 180, 255) 100%
+	);
+	border-color: rgba(255, 255, 255, 0.35);
+	box-shadow: 0 8px 24px rgba(31, 195, 255, 0.28);
+}
+
+.visitor-note-choice-active.visitor-note-choice-disagree {
+	color: #fff8f6;
+	background: linear-gradient(
+		115deg,
+		rgb(255, 95, 87) 0%,
+		rgb(200, 80, 120) 100%
+	);
+	border-color: rgba(255, 255, 255, 0.22);
+	box-shadow: 0 8px 24px rgba(255, 95, 87, 0.22);
+}
+
+.visitor-note-choice-active.visitor-note-choice-notcare {
+	color: #0e1018;
+	background: linear-gradient(
+		115deg,
+		rgb(190, 198, 220) 0%,
+		rgb(140, 150, 180) 100%
+	);
+	border-color: rgba(255, 255, 255, 0.28);
+	box-shadow: 0 8px 24px rgba(150, 160, 200, 0.2);
+}
+
+.visitor-note-field input,
+.visitor-note-field textarea {
+	width: 100%;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.95rem;
+	line-height: 1.6;
+	color: #ffffff;
+	background: rgba(0, 0, 0, 0.32);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 14px;
+	padding: 0.85rem 1rem;
+	transition:
+		border-color 0.25s ease,
+		box-shadow 0.25s ease;
+	resize: vertical;
+}
+
+.visitor-note-field input::placeholder,
+.visitor-note-field textarea::placeholder {
+	color: rgba(255, 255, 255, 0.38);
+}
+
+.visitor-note-field input:focus,
+.visitor-note-field textarea:focus {
+	outline: none;
+	border-color: rgba(31, 195, 255, 0.45);
+	box-shadow: 0 0 0 3px rgba(31, 195, 255, 0.12);
+}
+
+.visitor-note-error {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.85rem;
+	color: rgb(255, 130, 120);
+}
+
+.visitor-note-submit {
+	align-self: flex-start;
+}
+
+.visitor-note-submit:disabled {
+	opacity: 0.45;
+	cursor: not-allowed !important;
+	filter: none;
+	transform: none;
+}
+
+.visitor-note-submit:disabled:hover {
+	transform: none;
+	box-shadow: none;
+}
+
+.visitor-note-privacy {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.78rem;
+	line-height: 1.5;
+	color: rgba(255, 255, 255, 0.42);
+	margin-top: 0.25rem;
+}
+
+.visitor-note-thanks {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.95rem;
+	font-weight: 600;
+	line-height: 1.5;
+	color: rgba(160, 220, 255, 0.92);
+	padding: 1rem 1.25rem;
+	text-align: center;
+	border-color: rgba(31, 195, 255, 0.22);
+}
+
+.visitor-note-interactive,
+.visitor-note-interactive * {
+	cursor: default !important;
+}
+
+.visitor-note-interactive button,
+.visitor-note-interactive .comet-btn,
+.visitor-note-interactive .visitor-note-cancel-vote {
+	cursor: pointer !important;
+}
+
+.visitor-note-interactive input,
+.visitor-note-interactive textarea,
+.visitor-note-interactive input:focus,
+.visitor-note-interactive textarea:focus {
+	cursor: text !important;
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+@media screen and (max-width: 900px) {
+	.visitor-note {
+		padding: 4rem 1.5rem;
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+
+	.visitor-note-stats {
+		grid-template-columns: 1fr;
+	}
+
+	.visitor-note-card {
+		padding: 2rem 1.25rem;
+	}
+}

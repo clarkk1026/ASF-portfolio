@@ -288,7 +288,7 @@ const humanExperience = () =>
 
 const humanProjects = () =>
 	prefix([
-		`Some stuff he's proud of:\n\n• **SAiNNI** — AI-meets-full-stack (TypeScript, React, Node) — the featured one\n• **Shopify furniture store** — custom storefront for home goods\n• **Vacation rental platform** — Airbnb-style bookings with Next.js and Stripe\n\nScroll to **Selected Work** on this page — there are previews. Want the GitHub? I can point you there too.`,
+		`Some stuff he's proud of:\n\n• **SAiNNI** - AI-meets-full-stack (TypeScript, React, Node), the featured one\n• **Lumen Interiors** - Shopify storefront for a premium furniture brand\n• **Driftstay** - short-term rental bookings with Next.js and Stripe\n\nScroll to **Selected Work** on this page. There are previews. Want the GitHub? I can point you there too.`,
 		`Ben's portfolio highlights a few builds that show his range:\n\n**SAiNNI** is the star — an AI-powered app with React and Node. Then there's commerce work on **Shopify**, and production-grade **Next.js** apps with proper infra behind them.\n\nThey're all on this site under Projects. Anything specific you want to know about?`,
 	]);
 

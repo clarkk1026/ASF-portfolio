@@ -22,6 +22,6 @@
   <circle cx="280" cy="300" r="6" fill="#1fc3ff" fill-opacity="0.6"/>
   <circle cx="420" cy="330" r="6" fill="#1fc3ff" fill-opacity="0.6"/>
   <circle cx="560" cy="290" r="6" fill="#1fc3ff" fill-opacity="0.6"/>
-  <text x="48" y="420" fill="#ffffff" font-family="Arial,sans-serif" font-size="34" font-weight="700" letter-spacing="2">VACATION RENTALS</text>
+  <text x="48" y="420" fill="#ffffff" font-family="Arial,sans-serif" font-size="34" font-weight="700" letter-spacing="2">DRIFTSTAY</text>
   <text x="48" y="458" fill="#1fc3ff" font-family="Arial,sans-serif" font-size="18" letter-spacing="5">BOOKING PLATFORM</text>
 </svg>

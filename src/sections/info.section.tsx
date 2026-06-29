@@ -17,33 +17,26 @@ export const InfoSection = () => {
 
 			<div className='hero-content'>
 				<Reveal delay={0}>
-					<p className='hero-eyebrow'>
-						<span className='hero-status-dot' />
-						Available for new opportunities in {personal.location}
-					</p>
-				</Reveal>
-
-				<Reveal delay={100}>
 					<p className='hero-greeting'>{personal.greeting}</p>
 				</Reveal>
 
-				<Reveal delay={200}>
+				<Reveal delay={100}>
 					<div className='hero-title'>
 						<HeroName3D text={personal.name} />
 					</div>
 				</Reveal>
 
-				<Reveal delay={320}>
+				<Reveal delay={220}>
 					<p className='hero-subtitle'>
 						<RoleRotator roles={personal.roles} />
 					</p>
 				</Reveal>
 
-				<Reveal delay={440}>
+				<Reveal delay={340}>
 					<p className='hero-tagline'>{personal.tagline}</p>
 				</Reveal>
 
-				<Reveal delay={560}>
+				<Reveal delay={460}>
 					<div className='hero-actions'>
 						<a
 							href='#projects'
@@ -60,7 +53,7 @@ export const InfoSection = () => {
 					</div>
 				</Reveal>
 
-				<Reveal delay={680}>
+				<Reveal delay={580}>
 					<div className='hero-stats'>
 						{highlights.map((item) => (
 							<div
@@ -76,15 +69,6 @@ export const InfoSection = () => {
 			</div>
 
 			<div className='blur' />
-
-			<a
-				href='#about-me'
-				className='hero-scroll'
-				aria-label='Scroll to about section'
-			>
-				<span className='hero-scroll-line' />
-				<span>Scroll</span>
-			</a>
 		</section>
 	);
 };

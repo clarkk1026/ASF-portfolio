@@ -122,6 +122,7 @@ export const navLinks: NavLink[] = [
 	{ label: 'Experience', href: '#experience' },
 	{ label: 'Projects', href: '#projects' },
 	{ label: 'Tech', href: '#tech-stack' },
+	{ label: 'Voices', href: '#visitor-voices' },
 	{ label: 'Contact', href: '#contact' },
 ];
 
@@ -182,16 +183,16 @@ export const projects: ProjectItem[] = [
 		featured: true,
 	},
 	{
-		title: 'Shopify Store (Furniture Store)',
+		title: 'Lumen Interiors',
 		description:
-			'Custom Shopify furniture storefront with curated collections, detailed product pages, variant pickers, and a streamlined checkout built for high-ticket home goods.',
+			'Shopify storefront for a premium home furniture brand: curated collections, rich product pages, variant pickers, and checkout tuned for high-ticket orders.',
 		stack: ['Shopify', 'Liquid', 'React', 'Tailwind'],
 		image: '/projects/project-ecommerce.svg',
 	},
 	{
-		title: 'Vacation Rental Platform',
+		title: 'Driftstay',
 		description:
-			'Airbnb-style booking web app with map search, listing pages, date availability, secure payments, and host dashboards for managing properties.',
+			'Booking platform for short-term rentals with map search, listing pages, live availability, Stripe payments, and host dashboards for property management.',
 		stack: ['Next.js', 'PostgreSQL', 'Stripe', 'Mapbox'],
 		image: '/projects/project-webapps.svg',
 	},
@@ -225,6 +226,37 @@ export const contact = {
 	headline: "Let's build something remarkable.",
 	subtext:
 		'Open to collaborations, freelance projects, and full-time opportunities. Reach out and I typically respond within 24 hours.',
+};
+
+export type VisitorNoteSentiment = 'support' | 'disagree' | 'not-care';
+
+export const visitorNote = {
+	section: {
+		title: 'Visitor',
+		subtitle: 'Voices',
+		summary:
+			'Live support and disagree counts plus every note left on this page',
+	},
+	headline: 'Share your take with Ben.',
+	subtext:
+		'Tap agree, disagree, or don\'t care to vote. You can change or cancel your vote before posting a note.',
+	supportLabel: 'Agree',
+	disagreeLabel: 'Disagree',
+	notCareLabel: "Don't care",
+	supportStatLabel: 'Agree',
+	disagreeStatLabel: 'Disagree',
+	notCareStatLabel: "Don't care",
+	cancelVoteLabel: 'Cancel vote',
+	namePlaceholder: 'Your name (optional)',
+	messagePlaceholder: 'Your note for Ben...',
+	submitLabel: 'Post note',
+	submittingLabel: 'Posting...',
+	formNote: 'One note per visitor. Counts and replies are public on this page.',
+	thanksMessage: 'Thanks — your note is in the list below.',
+	repliesTitle: 'Reply list',
+	repliesSummary: 'What visitors have shared, visible to everyone on this page.',
+	loadingReplies: 'Loading replies...',
+	emptyReplies: 'No replies yet. Be the first to share your take.',
 };
 
 export const socialLinks: SocialLink[] = [

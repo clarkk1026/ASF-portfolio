@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { isNearScrollCometPointer } from '../lib/scroll-comet-pointer';
 
 type TrailPoint = { x: number; y: number };
 
@@ -141,13 +142,19 @@ export const MouseTrail = () => {
 			ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 		};
 
-		const handleMouseMove = (e: MouseEvent) => {
+		const syncPointer = (e: MouseEvent | PointerEvent) => {
 			active = true;
+			const target = e.target as Element | null;
 			overAiBot = Boolean(
-				(e.target as Element | null)?.closest('.ai-bot-interactive'),
+				target?.closest('.ai-bot-interactive') ||
+					target?.closest('.visitor-note-interactive'),
 			);
 			targetX = e.clientX;
 			targetY = e.clientY;
+		};
+
+		const handleMouseMove = (e: MouseEvent) => {
+			syncPointer(e);
 		};
 
 		const handleMouseLeave = () => {
@@ -161,7 +168,12 @@ export const MouseTrail = () => {
 		const render = () => {
 			ctx.clearRect(0, 0, width, height);
 
-			if (active && !overAiBot) {
+			const hideTrail =
+				overAiBot ||
+				document.body.classList.contains('scroll-comet-dragging') ||
+				isNearScrollCometPointer(targetX, targetY);
+
+			if (active && !hideTrail) {
 				trail[0].x = targetX;
 				trail[0].y = targetY;
 
@@ -181,6 +193,7 @@ export const MouseTrail = () => {
 		resize();
 		window.addEventListener('resize', resize);
 		document.addEventListener('mousemove', handleMouseMove, { passive: true });
+		document.addEventListener('pointerdown', syncPointer, { passive: true });
 		document.addEventListener('mouseleave', handleMouseLeave);
 		document.addEventListener('mouseenter', handleMouseEnter);
 		rafId = requestAnimationFrame(render);
@@ -189,6 +202,7 @@ export const MouseTrail = () => {
 			cancelAnimationFrame(rafId);
 			window.removeEventListener('resize', resize);
 			document.removeEventListener('mousemove', handleMouseMove);
+			document.removeEventListener('pointerdown', syncPointer);
 			document.removeEventListener('mouseleave', handleMouseLeave);
 			document.removeEventListener('mouseenter', handleMouseEnter);
 		};

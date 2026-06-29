@@ -10,6 +10,7 @@ import { WorkExperience } from './sections/experience.section';
 import { Expertise } from './sections/expertise.section';
 import { InfoSection } from './sections/info.section';
 import { Projects } from './sections/projects.section';
+import { VisitorNote } from './sections/visitor-note.section';
 import { TechStack } from './sections/tech-stack.section';
 import './styles/about-me.css';
 import './styles/ai-bot.css';
@@ -31,6 +32,7 @@ import './styles/sainni-screenshot-flow.css';
 import './styles/scroll-bar.css';
 import './styles/starfield-bg.css';
 import './styles/tech-stack.css';
+import './styles/visitor-note.css';
 import './styles/text-hover.css';
 import './styles/title.css';
 
@@ -48,6 +50,7 @@ function App() {
 			<WorkExperience />
 			<Projects />
 			<TechStack />
+			<VisitorNote />
 			<Contact />
 			<FallingStarsLayer />
 			<AiBot />

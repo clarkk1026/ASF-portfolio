@@ -42,27 +42,12 @@ export const Contact = () => {
 								<div className='contact-actions'>
 									<a
 										href={gmailComposeUrl}
-										className='comet-btn comet-btn-email comet-btn-lg'
+										className='comet-btn comet-btn-discord comet-btn-lg'
 										target='_blank'
 										rel='noopener noreferrer'
 									>
 										Send Email
 									</a>
-									<a
-										href={discordContactHref}
-										className='comet-btn comet-btn-discord comet-btn-lg'
-										target='_blank'
-										rel='noopener noreferrer'
-										onClick={openDiscordContact}
-									>
-										Add on Discord
-									</a>
-								</div>
-								<div className='contact-handles'>
-									<p className='contact-handle'>{personal.email}</p>
-									<p className='contact-handle'>
-										@{personal.discordUsername}
-									</p>
 								</div>
 
 								<div className='contact-links'>

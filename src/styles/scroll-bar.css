@@ -3,15 +3,21 @@
 	top: 0;
 	right: 0;
 	left: auto;
-	width: 56px;
+	width: 64px;
 	height: 100vh;
-	pointer-events: none;
-	z-index: 100000001;
+	pointer-events: auto;
+	touch-action: none;
+	cursor: none !important;
+	z-index: 100000050;
+}
+
+body.scroll-comet-dragging {
+	cursor: none !important;
 }
 
 @media screen and (max-width: 700px) {
 	.scroll-comet-canvas {
-		width: 44px;
+		width: 48px;
 		opacity: 0.9;
 	}
 }
