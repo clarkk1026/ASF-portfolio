@@ -27,7 +27,7 @@
 		"preview": "vite preview",
 		"spellcheck": "cspell . --quiet",
 		"format": "prettier --write --log-level silent .",
-		"generate:brand": "node scripts/generate-brand-assets.mjs"
+		"generate:favicons": "node scripts/generate-favicons.mjs"
 	},
 	"dependencies": {
 		"@vercel/kv": "^3.0.0",
@@ -43,9 +43,7 @@
 		"@vitejs/plugin-react": "^4.7.0",
 		"cspell": "^8.19.4",
 		"eslint": "^9.39.4",
-		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-import": "^2.32.0",
-		"eslint-plugin-prettier": "^5.5.5",
 		"eslint-plugin-react": "^7.37.5",
 		"eslint-plugin-react-hooks": "^5.2.0",
 		"eslint-plugin-react-refresh": "^0.4.26",

@@ -34,8 +34,6 @@ import './styles/scroll-bar.css';
 import './styles/starfield-bg.css';
 import './styles/tech-stack.css';
 import './styles/visitor-note.css';
-import './styles/text-hover.css';
-import './styles/title.css';
 
 function App() {
 	return (
