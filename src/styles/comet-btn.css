@@ -147,6 +147,31 @@
 		inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
+.comet-btn-discord {
+	color: #ffffff;
+	font-size: 0.82rem;
+	padding: 0.8rem 1.6rem;
+	background: linear-gradient(
+		115deg,
+		rgb(114, 137, 218) 0%,
+		rgb(88, 101, 242) 50%,
+		rgb(71, 82, 196) 100%
+	);
+	border-color: rgba(255, 255, 255, 0.28);
+	box-shadow:
+		0 0 0 1px rgba(88, 101, 242, 0.25),
+		0 8px 28px rgba(88, 101, 242, 0.32),
+		inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.comet-btn-discord:hover {
+	filter: brightness(1.06);
+	box-shadow:
+		0 0 0 1px rgba(88, 101, 242, 0.45),
+		0 12px 36px rgba(88, 101, 242, 0.42),
+		inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
 .comet-btn-lg {
 	font-size: 0.88rem;
 	padding: 0.85rem 1.65rem;

@@ -205,22 +205,9 @@
 	animation: hero-glow 8s ease-in-out infinite;
 }
 
-.bottom-bar {
-	border-radius: 13px;
-	color: var(--primaryFg);
-	font-size: 1rem;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	position: absolute;
-	bottom: 24px;
-	gap: 10px;
-	z-index: 3;
-}
-
 .hero-scroll {
 	position: absolute;
-	bottom: 5.5rem;
+	bottom: 2.5rem;
 	left: 50%;
 	transform: translateX(-50%);
 	display: flex;
@@ -328,12 +315,6 @@
 @media screen and (max-width: 700px) {
 	.hero-scroll {
 		display: none;
-	}
-
-	.bottom-bar {
-		position: relative;
-		margin-top: 2rem;
-		bottom: auto;
 	}
 }
 

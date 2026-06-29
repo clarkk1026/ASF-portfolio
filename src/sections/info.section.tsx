@@ -1,8 +1,7 @@
-import { GlowLink } from '../components/glow-box-link';
 import { HeroName3D } from '../components/hero-name-3d';
 import { Reveal } from '../components/reveal';
 import { RoleRotator } from '../components/role-rotator';
-import { highlights, personal, socialLinks } from '../data/portfolio';
+import { highlights, personal } from '../data/portfolio';
 
 export const InfoSection = () => {
 	return (
@@ -77,18 +76,6 @@ export const InfoSection = () => {
 			</div>
 
 			<div className='blur' />
-
-			<div className='bottom-bar'>
-				{socialLinks.map((link) => (
-					<GlowLink
-						key={link.label}
-						href={link.href}
-						color={link.glowColor}
-						icon={<link.icon color={link.iconColor} />}
-						aria-label={link.label.toLowerCase()}
-					/>
-				))}
-			</div>
 
 			<a
 				href='#about-me'

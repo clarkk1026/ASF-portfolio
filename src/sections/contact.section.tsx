@@ -2,6 +2,18 @@ import { GlowLink } from '../components/glow-box-link';
 import { LayeredSectionTitle } from '../components/layered-section-title';
 import { Reveal } from '../components/reveal';
 import { contact, gmailComposeUrl, personal, socialLinks } from '../data/portfolio';
+import { discordContactHref, openDiscordContact } from '../lib/discord-contact';
+
+const socialLinkProps = (link: (typeof socialLinks)[number]) => {
+	if (link.action === 'discord') {
+		return {
+			href: discordContactHref,
+			onClick: openDiscordContact,
+		};
+	}
+
+	return { href: link.href };
+};
 
 export const Contact = () => {
 	return (
@@ -27,24 +39,40 @@ export const Contact = () => {
 								<h2>{contact.headline}</h2>
 								<p>{contact.subtext}</p>
 
-								<a
-									href={gmailComposeUrl}
-									className='comet-btn comet-btn-email comet-btn-lg'
-									target='_blank'
-									rel='noopener noreferrer'
-								>
-									Send Email
-								</a>
-								<p className='contact-email-address'>{personal.email}</p>
+								<div className='contact-actions'>
+									<a
+										href={gmailComposeUrl}
+										className='comet-btn comet-btn-email comet-btn-lg'
+										target='_blank'
+										rel='noopener noreferrer'
+									>
+										Send Email
+									</a>
+									<a
+										href={discordContactHref}
+										className='comet-btn comet-btn-discord comet-btn-lg'
+										target='_blank'
+										rel='noopener noreferrer'
+										onClick={openDiscordContact}
+									>
+										Add on Discord
+									</a>
+								</div>
+								<div className='contact-handles'>
+									<p className='contact-handle'>{personal.email}</p>
+									<p className='contact-handle'>
+										@{personal.discordUsername}
+									</p>
+								</div>
 
 								<div className='contact-links'>
 									{socialLinks.map((link) => (
 										<GlowLink
 											key={link.label}
-											href={link.href}
 											color={link.glowColor}
 											icon={<link.icon color={link.iconColor} />}
 											aria-label={link.label.toLowerCase()}
+											{...socialLinkProps(link)}
 										/>
 									))}
 								</div>

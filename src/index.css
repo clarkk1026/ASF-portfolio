@@ -85,46 +85,17 @@ hr:before {
 }
 
 /*
-	* ScrollBar Styling
+	* Native scrollbar hidden — page progress shown by scroll comet canvas
 */
 
 ::-webkit-scrollbar {
 	display: none;
 }
 
-.scroll-bar {
-	--p: 0%;
-	position: fixed;
-	width: 7px;
-	height: 7px;
-	right: 0;
-	top: 0;
-	background: rgb(var(--scroll-bar));
-	border-radius: 50%;
-}
-
-/*  TODO Remove before class if scroll tail is not needed */
-.scroll-bar::before {
-	content: '';
-	position: absolute;
-	bottom: 50%;
-	left: 50%;
-	transform: translate(-50%, 0%);
-	width: 7px;
-	height: var(--p);
-	background: linear-gradient(0deg, rgb(var(--scroll-bar)), transparent);
-}
-
 .heading {
 	color: hsl(196, 100%, 56%);
 	text-decoration: underline;
 	margin-bottom: 0.9rem;
-}
-
-@media screen and (max-width: 700px) {
-	.scroll-bar {
-		display: none;
-	}
 }
 
 @media screen and (max-width: 450px) {

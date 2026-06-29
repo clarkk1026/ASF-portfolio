@@ -14,6 +14,7 @@ import {
 } from 'react-icons/fa';
 import { IoMailOutline } from 'react-icons/io5';
 import {
+    SiDiscord,
     SiDocker,
     SiExpress,
     SiFirebase,
@@ -35,6 +36,7 @@ export type SocialLink = {
 	icon: IconType;
 	iconColor: string;
 	glowColor: string;
+	action?: 'discord';
 };
 
 export type NavLink = {
@@ -102,6 +104,8 @@ export const personal = {
 	tagline: 'Building products that solve real business problems.',
 	location: 'Dublin, Ireland',
 	email: 'benclarkk1026@gmail.com',
+	discordUsername: 'benclark10261',
+	discordUserId: '',
 	greeting: 'Hi, I am',
 	repoUrl: 'https://github.com/buildflux26',
 	repoStarLabel: '⭐ Star this repo',
@@ -237,6 +241,14 @@ export const socialLinks: SocialLink[] = [
 		icon: FaTelegramPlane,
 		iconColor: 'rgb(0, 160, 220)',
 		glowColor: 'rgba(0, 160, 220, 0.6)',
+	},
+	{
+		label: 'Discord',
+		href: 'https://discord.com/channels/@me',
+		icon: SiDiscord,
+		iconColor: 'rgb(88, 101, 242)',
+		glowColor: 'rgba(88, 101, 242, 0.65)',
+		action: 'discord',
 	},
 	{
 		label: 'Email',
