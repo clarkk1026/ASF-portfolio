@@ -15,7 +15,7 @@
 
 .visitor-note-stats {
 	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
+	grid-template-columns: repeat(4, minmax(0, 1fr));
 	gap: 1rem;
 }
 
@@ -36,6 +36,11 @@
 .visitor-note-stat-support .visitor-note-stat-value {
 	color: rgb(31, 195, 255);
 	text-shadow: 0 0 24px rgba(31, 195, 255, 0.35);
+}
+
+.visitor-note-stat-total .visitor-note-stat-value {
+	color: rgb(168, 130, 255);
+	text-shadow: 0 0 24px rgba(168, 130, 255, 0.32);
 }
 
 .visitor-note-stat-disagree .visitor-note-stat-value {
@@ -126,7 +131,8 @@
 	font-family: 'Open Sans', sans-serif;
 	font-size: 0.92rem;
 	color: rgba(255, 255, 255, 0.48);
-	padding: 1rem 0;
+	margin: 0;
+	padding: 0;
 }
 
 .visitor-note-reply-list {
@@ -417,7 +423,7 @@
 	}
 
 	.visitor-note-stats {
-		grid-template-columns: 1fr;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 
 	.visitor-note-card {

@@ -1,4 +1,5 @@
 import { AiBot } from './components/ai-bot';
+import { ToastProvider } from './components/toast-provider';
 import { HexBg } from './components/hex-bg';
 import { MouseTrail } from './components/mouse-trail';
 import { Navbar } from './components/navbar';
@@ -38,7 +39,7 @@ import './styles/title.css';
 
 function App() {
 	return (
-		<>
+		<ToastProvider>
 			<StarfieldBg />
 			<HexBg />
 			<ScrollBar />
@@ -54,7 +55,7 @@ function App() {
 			<Contact />
 			<FallingStarsLayer />
 			<AiBot />
-		</>
+		</ToastProvider>
 	);
 }
 
