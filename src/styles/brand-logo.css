@@ -1,80 +1,63 @@
-.brand-logo {
+:root {
+	--brand-letter-a: #a78bfa;
+	--brand-letter-s: #96bf47;
+	--brand-letter-f: #f97316;
+}
+
+.brand-letter {
 	display: inline-block;
+	font-family: 'Open Sans', sans-serif;
+	text-transform: uppercase;
+}
+
+/* AI: violet, light italic for intelligence / neural tech */
+.brand-letter-a {
+	color: var(--brand-letter-a);
+	font-style: italic;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+}
+
+/* Shopify: brand green, clean upright commerce style */
+.brand-letter-s {
+	color: var(--brand-letter-s);
+	font-style: normal;
+	font-weight: 700;
+	letter-spacing: 0.03em;
+}
+
+/* Full Stack: warm orange, bold upright engineering style */
+.brand-letter-f {
+	color: var(--brand-letter-f);
+	font-style: normal;
+	font-weight: 800;
+	letter-spacing: 0.01em;
+}
+
+.brand-logo {
+	display: inline-flex;
 	flex-shrink: 0;
-	width: var(--logo-size, 56px);
-	perspective: 900px;
+	align-items: baseline;
+	gap: 0.12rem;
+	font-size: 1.35rem;
+	line-height: 1;
 }
 
-.brand-logo-scene {
-	display: block;
-	width: 100%;
-	transform-style: preserve-3d;
+.brand-logo .brand-letter {
+	font-size: 1em;
 }
 
-.brand-logo-image {
-	display: block;
-	width: 100%;
-	height: auto;
-	transform-style: preserve-3d;
-	mix-blend-mode: lighten;
-	animation: brand-logo-letter-3d 14s ease-in-out infinite;
-	filter:
-		drop-shadow(1px 2px 0 rgba(31, 195, 255, 0.35))
-		drop-shadow(2px 4px 0 rgba(80, 140, 255, 0.22))
-		drop-shadow(3px 6px 0 rgba(120, 80, 255, 0.14))
-		drop-shadow(0 0 18px rgba(31, 195, 255, 0.45))
-		drop-shadow(0 0 36px rgba(120, 160, 255, 0.2));
-	transition:
-		filter 0.35s ease,
-		transform 0.35s ease;
+.navbar-logo .brand-logo {
+	font-size: 1.42rem;
 }
 
-@keyframes brand-logo-letter-3d {
-	0%,
-	100% {
-		transform: rotateX(10deg) rotateY(-14deg) translateZ(0);
-	}
-	25% {
-		transform: rotateX(6deg) rotateY(10deg) translateZ(6px);
-	}
-	50% {
-		transform: rotateX(-8deg) rotateY(16deg) translateZ(10px);
-	}
-	75% {
-		transform: rotateX(4deg) rotateY(-8deg) translateZ(4px);
-	}
-}
-
-.navbar-logo-img.brand-logo {
-	width: 108px;
-}
-
-.navbar-scrolled .navbar-logo-img.brand-logo {
-	width: 96px;
-	transition: width 0.35s ease;
-}
-
-.navbar-logo:hover .brand-logo-image {
-	animation-duration: 10s;
-	filter:
-		drop-shadow(1px 2px 0 rgba(31, 195, 255, 0.45))
-		drop-shadow(2px 4px 0 rgba(80, 140, 255, 0.3))
-		drop-shadow(3px 6px 0 rgba(120, 80, 255, 0.2))
-		drop-shadow(0 0 24px rgba(31, 195, 255, 0.55))
-		drop-shadow(0 0 48px rgba(120, 160, 255, 0.28));
-}
-
-.ai-bot-fab-logo.brand-logo {
-	width: 58px;
-}
-
+.ai-bot-fab-logo.brand-logo,
 .ai-bot-header-logo.brand-logo {
-	width: 56px;
+	font-size: 0.78rem;
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.brand-logo-image {
-		animation: none;
-		transform: rotateX(8deg) rotateY(-10deg);
+@media screen and (max-width: 900px) {
+	.navbar-logo .brand-logo {
+		font-size: 1.28rem;
 	}
 }

@@ -1,8 +1,15 @@
 import { useEffect, useState } from 'react';
+import { brandLetterClass, type BrandLetter } from '../data/brand-letters';
 
 type RoleRotatorProps = {
 	roles: string[];
 	intervalMs?: number;
+};
+
+const roleLeadLetter = (role: string): BrandLetter | null => {
+	const letter = role.trim()[0]?.toUpperCase();
+	if (letter === 'A' || letter === 'S' || letter === 'F') return letter;
+	return null;
 };
 
 export const RoleRotator = ({ roles, intervalMs = 2800 }: RoleRotatorProps) => {
@@ -23,9 +30,22 @@ export const RoleRotator = ({ roles, intervalMs = 2800 }: RoleRotatorProps) => {
 		return () => window.clearInterval(timer);
 	}, [roles.length, intervalMs]);
 
+	const role = roles[index] ?? '';
+	const leadLetter = roleLeadLetter(role);
+	const rest = leadLetter ? role.slice(1) : role;
+
 	return (
 		<span className={`role-rotator ${visible ? 'role-rotator-visible' : ''}`}>
-			{roles[index]}
+			{leadLetter ? (
+				<>
+					<span className={`role-rotator-letter ${brandLetterClass(leadLetter)}`}>
+						{leadLetter}
+					</span>
+					<span className='role-rotator-rest'>{rest}</span>
+				</>
+			) : (
+				role
+			)}
 		</span>
 	);
 };

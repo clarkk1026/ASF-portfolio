@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { BrandLogo } from './brand-logo';
 import { navLinks } from '../data/portfolio';
 
 export const Navbar = () => {
@@ -21,6 +22,16 @@ export const Navbar = () => {
 	return (
 		<header className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`}>
 			<nav className='navbar-inner container'>
+				<a
+					href='#'
+					className='navbar-logo'
+					aria-label='ASF. AI, Shopify, and Full Stack.'
+					title='AI, Shopify, and Full Stack'
+					onClick={() => setMenuOpen(false)}
+				>
+					<BrandLogo />
+				</a>
+
 				<ul className={`navbar-links ${menuOpen ? 'navbar-links-open' : ''}`}>
 					{navLinks.map((link) => (
 						<li key={link.href}>

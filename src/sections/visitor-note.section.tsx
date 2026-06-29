@@ -287,33 +287,33 @@ export const VisitorNote = () => {
 			<div className='visitor-note-content'>
 				<Reveal delay={80}>
 					<div className='visitor-note-stats'>
-						<div className='visitor-note-stat visitor-note-stat-total glass-card'>
+						<div className='visitor-note-stat visitor-note-stat-total'>
 							<span className='visitor-note-stat-value'>
-								{loading ? '—' : totalVisitorCount}
+								{loading ? '0' : totalVisitorCount}
 							</span>
 							<span className='visitor-note-stat-label'>
 								{visitorNote.totalVisitorsStatLabel}
 							</span>
 						</div>
-						<div className='visitor-note-stat visitor-note-stat-support glass-card'>
+						<div className='visitor-note-stat visitor-note-stat-support'>
 							<span className='visitor-note-stat-value'>
-								{loading ? '—' : supportCount}
+								{loading ? '0' : supportCount}
 							</span>
 							<span className='visitor-note-stat-label'>
 								{visitorNote.supportStatLabel}
 							</span>
 						</div>
-						<div className='visitor-note-stat visitor-note-stat-disagree glass-card'>
+						<div className='visitor-note-stat visitor-note-stat-disagree'>
 							<span className='visitor-note-stat-value'>
-								{loading ? '—' : disagreeCount}
+								{loading ? '0' : disagreeCount}
 							</span>
 							<span className='visitor-note-stat-label'>
 								{visitorNote.disagreeStatLabel}
 							</span>
 						</div>
-						<div className='visitor-note-stat visitor-note-stat-notcare glass-card'>
+						<div className='visitor-note-stat visitor-note-stat-notcare'>
 							<span className='visitor-note-stat-value'>
-								{loading ? '—' : notCareCount}
+								{loading ? '0' : notCareCount}
 							</span>
 							<span className='visitor-note-stat-label'>
 								{visitorNote.notCareStatLabel}
