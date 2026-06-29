@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 type TrailPoint = { x: number; y: number };
 
-const TRAIL_LENGTH = 16;
+const TRAIL_LENGTH = 20;
 
 const drawStar = (
 	ctx: CanvasRenderingContext2D,
@@ -60,21 +60,22 @@ const drawCometTail = (ctx: CanvasRenderingContext2D, points: TrailPoint[]) => {
 
 	const head = points[0];
 	const tail = points[points.length - 1];
-
-	const outerGrad = ctx.createLinearGradient(tail.x, tail.y, head.x, head.y);
-	outerGrad.addColorStop(0, 'rgba(20, 80, 200, 0)');
-	outerGrad.addColorStop(0.4, 'rgba(31, 120, 220, 0.2)');
-	outerGrad.addColorStop(0.75, 'rgba(31, 195, 255, 0.5)');
-	outerGrad.addColorStop(1, 'rgba(220, 245, 255, 0.88)');
+	const segments = points.length - 1;
 
 	ctx.save();
 	ctx.lineCap = 'round';
-	ctx.lineJoin = 'round';
 	ctx.globalCompositeOperation = 'lighter';
 
-	ctx.strokeStyle = outerGrad;
-	ctx.lineWidth = 5;
-	ctx.globalAlpha = 0.65;
+	// Soft outer wake
+	const wakeGrad = ctx.createLinearGradient(tail.x, tail.y, head.x, head.y);
+	wakeGrad.addColorStop(0, 'rgba(20, 70, 160, 0)');
+	wakeGrad.addColorStop(0.5, 'rgba(31, 120, 220, 0.12)');
+	wakeGrad.addColorStop(0.85, 'rgba(31, 195, 255, 0.28)');
+	wakeGrad.addColorStop(1, 'rgba(200, 235, 255, 0.4)');
+
+	ctx.strokeStyle = wakeGrad;
+	ctx.lineWidth = 6;
+	ctx.globalAlpha = 0.55;
 	ctx.beginPath();
 	ctx.moveTo(tail.x, tail.y);
 	for (let i = points.length - 1; i >= 0; i--) {
@@ -82,14 +83,25 @@ const drawCometTail = (ctx: CanvasRenderingContext2D, points: TrailPoint[]) => {
 	}
 	ctx.stroke();
 
-	ctx.strokeStyle = 'rgba(240, 250, 255, 0.85)';
-	for (let i = points.length - 2; i >= 0; i--) {
-		const t = 1 - i / (points.length - 1);
-		ctx.lineWidth = 0.5 + t * 2;
-		ctx.globalAlpha = 0.2 + t * 0.7;
+	// Tapered core segments with exponential fade toward tail
+	for (let i = 0; i < segments; i++) {
+		const t0 = i / segments;
+		const t1 = (i + 1) / segments;
+		const fade0 = Math.pow(t0, 2.6);
+		const fade1 = Math.pow(t1, 2.6);
+		const p0 = points[points.length - 1 - i];
+		const p1 = points[points.length - 2 - i];
+
+		const segGrad = ctx.createLinearGradient(p0.x, p0.y, p1.x, p1.y);
+		segGrad.addColorStop(0, `rgba(120, 190, 255, ${fade0 * 0.45})`);
+		segGrad.addColorStop(1, `rgba(220, 245, 255, ${fade1 * 0.75})`);
+
+		ctx.strokeStyle = segGrad;
+		ctx.lineWidth = 0.4 + fade1 * 2.2;
+		ctx.globalAlpha = 0.85;
 		ctx.beginPath();
-		ctx.moveTo(points[i + 1].x, points[i + 1].y);
-		ctx.lineTo(points[i].x, points[i].y);
+		ctx.moveTo(p0.x, p0.y);
+		ctx.lineTo(p1.x, p1.y);
 		ctx.stroke();
 	}
 

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { drawMeteor, spawnMeteor, type Meteor } from '../lib/meteor-fx';
 
 type Star = {
 	x: number;
@@ -7,95 +8,38 @@ type Star = {
 	baseOpacity: number;
 	twinkleSpeed: number;
 	twinkleOffset: number;
+	depth: number;
+	warmth: number;
 };
 
-type Meteor = {
-	x: number;
-	y: number;
-	vx: number;
-	vy: number;
-	length: number;
-	width: number;
-};
-
-const STAR_COUNT = 180;
-const MAX_METEORS = 8;
-const SKY_TOP = '#030508';
-const SKY_MID = '#010102';
+const STAR_COUNT = 220;
+const MAX_METEORS = 6;
+const SKY_TOP = '#04060c';
+const SKY_MID = '#020308';
 const SKY_BOTTOM = '#000000';
 
 const random = (min: number, max: number) => min + Math.random() * (max - min);
 
 const createStars = (width: number, height: number): Star[] =>
-	Array.from({ length: STAR_COUNT }, () => ({
-		x: Math.random() * width,
-		y: Math.random() * height,
-		size: random(0.5, 2.2),
-		baseOpacity: random(0.4, 1),
-		twinkleSpeed: random(0.4, 1.4),
-		twinkleOffset: random(0, Math.PI * 2),
-	}));
+	Array.from({ length: STAR_COUNT }, () => {
+		const depth = random(0.35, 1);
+		return {
+			x: Math.random() * width,
+			y: Math.random() * height,
+			size: random(0.35, 1.8) * depth + random(0, 0.4),
+			baseOpacity: random(0.35, 0.95) * (0.5 + depth * 0.5),
+			twinkleSpeed: random(0.3, 1.2) * depth,
+			twinkleOffset: random(0, Math.PI * 2),
+			depth,
+			warmth: random(0, 1),
+		};
+	});
 
-const spawnMeteor = (width: number, height: number): Meteor => {
-	const speed = random(7.5, 13.5);
-	const angle = Math.PI / 4 + random(-0.08, 0.08);
-
-	return {
-		x: random(width * 0.05, width * 0.95),
-		y: random(-140, height * 0.3),
-		vx: Math.cos(angle) * speed,
-		vy: Math.sin(angle) * speed,
-		length: random(180, 320),
-		width: random(1.8, 2.8),
-	};
-};
-
-const drawMeteor = (ctx: CanvasRenderingContext2D, meteor: Meteor) => {
-	const speed = Math.hypot(meteor.vx, meteor.vy) || 1;
-	const dirX = meteor.vx / speed;
-	const dirY = meteor.vy / speed;
-	const tailX = meteor.x - dirX * meteor.length;
-	const tailY = meteor.y - dirY * meteor.length;
-
-	const streak = ctx.createLinearGradient(tailX, tailY, meteor.x, meteor.y);
-	streak.addColorStop(0, 'rgba(125, 211, 252, 0)');
-	streak.addColorStop(0.2, 'rgba(125, 211, 252, 0.08)');
-	streak.addColorStop(0.45, 'rgba(125, 211, 252, 0.35)');
-	streak.addColorStop(0.72, 'rgba(220, 245, 255, 0.88)');
-	streak.addColorStop(1, 'rgba(255, 255, 255, 1)');
-
-	ctx.save();
-	ctx.lineCap = 'round';
-
-	ctx.strokeStyle = 'rgba(125, 211, 252, 0.18)';
-	ctx.lineWidth = meteor.width + 4;
-	ctx.shadowColor = 'rgba(125, 211, 252, 0.55)';
-	ctx.shadowBlur = 18;
-	ctx.beginPath();
-	ctx.moveTo(tailX, tailY);
-	ctx.lineTo(meteor.x, meteor.y);
-	ctx.stroke();
-
-	ctx.shadowBlur = 10;
-	ctx.strokeStyle = streak;
-	ctx.lineWidth = meteor.width;
-	ctx.beginPath();
-	ctx.moveTo(tailX, tailY);
-	ctx.lineTo(meteor.x, meteor.y);
-	ctx.stroke();
-
-	ctx.shadowBlur = 16;
-	ctx.fillStyle = '#ffffff';
-	ctx.beginPath();
-	ctx.arc(meteor.x, meteor.y, 2.8, 0, Math.PI * 2);
-	ctx.fill();
-
-	ctx.fillStyle = 'rgba(180, 230, 255, 0.55)';
-	ctx.beginPath();
-	ctx.arc(meteor.x, meteor.y, 5.5, 0, Math.PI * 2);
-	ctx.fill();
-
-	ctx.restore();
+const starColor = (warmth: number, alpha: number) => {
+	const r = Math.round(235 + warmth * 20);
+	const g = Math.round(242 + warmth * 8);
+	const b = 255;
+	return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
 
 export const FallingStarsLayer = () => {
@@ -114,7 +58,7 @@ export const FallingStarsLayer = () => {
 		let meteorAnimId = 0;
 		let lastSpawn = 0;
 		let lastFrame = 0;
-		let nextSpawnIn = random(1200, 2400);
+		let nextSpawnIn = random(1400, 2800);
 
 		const resize = () => {
 			width = window.innerWidth;
@@ -126,7 +70,7 @@ export const FallingStarsLayer = () => {
 			meteorCanvas.style.width = `${width}px`;
 			meteorCanvas.style.height = `${height}px`;
 			meteorCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-			meteors = Array.from({ length: 2 }, () => spawnMeteor(width, height));
+			meteors = [spawnMeteor(width, height)];
 			lastSpawn = performance.now();
 			lastFrame = lastSpawn;
 		};
@@ -138,7 +82,7 @@ export const FallingStarsLayer = () => {
 			if (timestamp - lastSpawn > nextSpawnIn && meteors.length < MAX_METEORS) {
 				meteors.push(spawnMeteor(width, height));
 				lastSpawn = timestamp;
-				nextSpawnIn = random(1100, 2200);
+				nextSpawnIn = random(1300, 2600);
 			}
 
 			meteorCtx.clearRect(0, 0, width, height);
@@ -209,44 +153,93 @@ export const StarfieldBg = () => {
 		const drawSky = () => {
 			const grad = skyCtx.createLinearGradient(0, 0, 0, height);
 			grad.addColorStop(0, SKY_TOP);
-			grad.addColorStop(0.45, SKY_MID);
+			grad.addColorStop(0.42, SKY_MID);
 			grad.addColorStop(1, SKY_BOTTOM);
 			skyCtx.fillStyle = grad;
 			skyCtx.fillRect(0, 0, width, height);
 
-			const nebula = skyCtx.createRadialGradient(
-				width * 0.72,
-				height * 0.12,
+			const nebulaA = skyCtx.createRadialGradient(
+				width * 0.18,
+				height * 0.08,
 				0,
-				width * 0.72,
-				height * 0.12,
-				width * 0.45,
+				width * 0.18,
+				height * 0.08,
+				width * 0.38,
 			);
-			nebula.addColorStop(0, 'rgba(20, 60, 120, 0.035)');
-			nebula.addColorStop(0.5, 'rgba(50, 40, 100, 0.02)');
-			nebula.addColorStop(1, 'transparent');
-			skyCtx.fillStyle = nebula;
+			nebulaA.addColorStop(0, 'rgba(25, 70, 130, 0.045)');
+			nebulaA.addColorStop(0.55, 'rgba(40, 50, 110, 0.025)');
+			nebulaA.addColorStop(1, 'transparent');
+
+			const nebulaB = skyCtx.createRadialGradient(
+				width * 0.78,
+				height * 0.15,
+				0,
+				width * 0.78,
+				height * 0.15,
+				width * 0.42,
+			);
+			nebulaB.addColorStop(0, 'rgba(60, 40, 110, 0.035)');
+			nebulaB.addColorStop(0.5, 'rgba(30, 80, 140, 0.02)');
+			nebulaB.addColorStop(1, 'transparent');
+
+			skyCtx.fillStyle = nebulaA;
+			skyCtx.fillRect(0, 0, width, height);
+			skyCtx.fillStyle = nebulaB;
 			skyCtx.fillRect(0, 0, width, height);
 		};
 
+		const drawStarPoint = (star: Star, alpha: number) => {
+			skyCtx.beginPath();
+			skyCtx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+			skyCtx.fillStyle = starColor(star.warmth, alpha);
+			skyCtx.fill();
+		};
+
+		const drawStarGlow = (star: Star, alpha: number) => {
+			if (star.size < 0.85 || alpha < 0.3) return;
+
+			const glow = skyCtx.createRadialGradient(
+				star.x,
+				star.y,
+				0,
+				star.x,
+				star.y,
+				star.size * 3.2,
+			);
+			glow.addColorStop(0, starColor(star.warmth, alpha * 0.35));
+			glow.addColorStop(0.45, `rgba(100, 170, 255, ${alpha * 0.12})`);
+			glow.addColorStop(1, 'rgba(31, 120, 220, 0)');
+
+			skyCtx.fillStyle = glow;
+			skyCtx.beginPath();
+			skyCtx.arc(star.x, star.y, star.size * 3.2, 0, Math.PI * 2);
+			skyCtx.fill();
+		};
+
 		const drawStaticStars = (t: number) => {
-			for (const star of stars) {
+			const sorted = [...stars].sort((a, b) => a.depth - b.depth);
+
+			for (const star of sorted) {
 				const twinkle =
-					0.65 +
-					0.35 *
-						Math.sin(t * star.twinkleSpeed * 0.001 + star.twinkleOffset);
+					0.58 +
+					0.42 * Math.sin(t * star.twinkleSpeed * 0.001 + star.twinkleOffset);
 				const alpha = Math.min(star.baseOpacity * twinkle, 1);
 
-				skyCtx.beginPath();
-				skyCtx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-				skyCtx.fillStyle = `rgba(245, 250, 255, ${alpha})`;
-				skyCtx.fill();
+				drawStarGlow(star, alpha);
+				drawStarPoint(star, alpha);
 
-				if (star.size > 0.9 && alpha > 0.35) {
+				if (star.size > 1.25 && alpha > 0.55) {
+					skyCtx.save();
+					skyCtx.strokeStyle = `rgba(200, 230, 255, ${alpha * 0.22})`;
+					skyCtx.lineWidth = 0.5;
+					const spike = star.size * 2.8;
 					skyCtx.beginPath();
-					skyCtx.arc(star.x, star.y, star.size * 2.4, 0, Math.PI * 2);
-					skyCtx.fillStyle = `rgba(160, 210, 255, ${alpha * 0.2})`;
-					skyCtx.fill();
+					skyCtx.moveTo(star.x - spike, star.y);
+					skyCtx.lineTo(star.x + spike, star.y);
+					skyCtx.moveTo(star.x, star.y - spike);
+					skyCtx.lineTo(star.x, star.y + spike);
+					skyCtx.stroke();
+					skyCtx.restore();
 				}
 			}
 		};
