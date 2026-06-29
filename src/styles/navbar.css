@@ -60,11 +60,6 @@
 	padding-inline: 2rem;
 }
 
-.navbar-logo {
-	flex-shrink: 0;
-	margin-right: 0.25rem;
-}
-
 .navbar-links {
 	display: flex;
 	align-items: center;

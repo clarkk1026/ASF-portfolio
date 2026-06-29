@@ -1,54 +1,30 @@
 :root {
-	--brand-letter-a: #a78bfa;
-	--brand-letter-f: #f97316;
+	--brand-letter-a: #c4b5fd;
+	--brand-letter-f: #fb923c;
 }
 
 .brand-letter {
 	display: inline-block;
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'Fugaz One', 'Open Sans', sans-serif;
 	text-transform: uppercase;
+	letter-spacing: 0.02em;
 }
 
-/* AI: violet, light italic for intelligence / neural tech */
 .brand-letter-a {
 	color: var(--brand-letter-a);
 	font-style: italic;
-	font-weight: 700;
-	letter-spacing: 0.06em;
+	font-weight: 400;
+	transform: skewX(-6deg);
+	text-shadow:
+		0 0 14px rgba(167, 139, 250, 0.75),
+		0 0 28px rgba(167, 139, 250, 0.35);
 }
 
-/* Full Stack: warm orange, bold upright engineering style */
 .brand-letter-f {
 	color: var(--brand-letter-f);
 	font-style: normal;
-	font-weight: 800;
-	letter-spacing: 0.01em;
-}
-
-.brand-logo {
-	display: inline-flex;
-	flex-shrink: 0;
-	align-items: baseline;
-	gap: 0.12rem;
-	font-size: 1.35rem;
-	line-height: 1;
-}
-
-.brand-logo .brand-letter {
-	font-size: 1em;
-}
-
-.navbar-logo .brand-logo {
-	font-size: 1.42rem;
-}
-
-.ai-bot-fab-logo.brand-logo,
-.ai-bot-header-logo.brand-logo {
-	font-size: 0.78rem;
-}
-
-@media screen and (max-width: 900px) {
-	.navbar-logo .brand-logo {
-		font-size: 1.28rem;
-	}
+	font-weight: 400;
+	text-shadow:
+		0 0 14px rgba(251, 146, 60, 0.8),
+		0 0 28px rgba(249, 115, 22, 0.35);
 }

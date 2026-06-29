@@ -16,7 +16,5 @@ const brandLetterColors = {
 
 export type BrandLetter = keyof typeof brandLetterColors;
 
-export const brandLogoLetters: BrandLetter[] = ['A', 'F'];
-
 export const brandLetterClass = (letter: BrandLetter) =>
 	`brand-letter brand-letter-${letter.toLowerCase()}`;
