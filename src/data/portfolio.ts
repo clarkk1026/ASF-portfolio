@@ -2,30 +2,30 @@ import type { IconType } from 'react-icons';
 import { BiLogoTypescript } from 'react-icons/bi';
 import { DiMongodb } from 'react-icons/di';
 import {
-	FaAws,
-	FaBrain,
-	FaGithub,
-	FaLayerGroup,
-	FaNodeJs,
-	FaPython,
-	FaReact,
-	FaShopify,
-	FaTelegramPlane,
+    FaAws,
+    FaBrain,
+    FaGithub,
+    FaLayerGroup,
+    FaNodeJs,
+    FaPython,
+    FaReact,
+    FaShopify,
+    FaTelegramPlane,
 } from 'react-icons/fa';
 import { IoMailOutline } from 'react-icons/io5';
 import {
-	SiDocker,
-	SiExpress,
-	SiFirebase,
-	SiMysql,
-	SiNestjs,
-	SiPostgresql,
-	SiPrisma,
-	SiPytorch,
-	SiRedis,
-	SiTailwindcss,
-	SiTensorflow,
-	SiVercel,
+    SiDocker,
+    SiExpress,
+    SiFirebase,
+    SiMysql,
+    SiNestjs,
+    SiPostgresql,
+    SiPrisma,
+    SiPytorch,
+    SiRedis,
+    SiTailwindcss,
+    SiTensorflow,
+    SiVercel,
 } from 'react-icons/si';
 import { TbBrandNextjs } from 'react-icons/tb';
 

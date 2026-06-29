@@ -22,8 +22,8 @@
 	position: fixed;
 	bottom: 1.5rem;
 	right: 1.5rem;
-	width: 3.5rem;
-	height: 3.5rem;
+	width: 4.25rem;
+	height: 4.25rem;
 	border-radius: 50%;
 	border: 1px solid rgba(31, 195, 255, 0.35);
 	background: linear-gradient(135deg, rgb(31, 195, 255), rgb(80, 140, 255));
@@ -38,10 +38,14 @@
 		box-shadow 0.25s ease;
 }
 
-.ai-bot-robot-icon,
-.ai-bot-fab-logo,
-.ai-bot-header-logo {
+.ai-bot-robot-icon {
 	animation: bot-icon-float 2.8s ease-in-out infinite;
+	transform-origin: center center;
+}
+
+.ai-bot-fab-logo.brand-logo-block,
+.ai-bot-header-logo.brand-logo-block {
+	animation: none;
 	transform-origin: center center;
 }
 
