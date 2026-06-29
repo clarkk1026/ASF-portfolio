@@ -108,6 +108,10 @@ export const personal = {
 	showRepoStar: false,
 };
 
+export const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
+	personal.email,
+)}&su=${encodeURIComponent('Portfolio inquiry')}`;
+
 export const navLinks: NavLink[] = [
 	{ label: 'About', href: '#about-me' },
 	{ label: 'Expertise', href: '#expertise' },
@@ -167,23 +171,23 @@ export const projects: ProjectItem[] = [
 	{
 		title: 'SAiNNI Project',
 		description:
-			'An AI-powered full-stack application exploring intelligent product experiences with TypeScript, modern React patterns, and practical ML integration.',
+			'AI developer platform — landing, chat, analytics, and pricing. Ship AI features with TypeScript, React, and practical ML integration.',
 		stack: ['TypeScript', 'React', 'AI', 'Node.js'],
 		image: '/projects/project-sainni.svg',
 		featured: true,
 	},
 	{
-		title: 'E-Commerce Platform',
+		title: 'Shopify Store (Furniture Store)',
 		description:
-			'End-to-end Shopify and custom storefront solutions focused on performance, conversion, and seamless customer journeys.',
-		stack: ['Shopify', 'React', 'Tailwind', 'APIs'],
+			'Custom Shopify furniture storefront — curated collections, detailed product pages, variant pickers, and a streamlined checkout built for high-ticket home goods.',
+		stack: ['Shopify', 'Liquid', 'React', 'Tailwind'],
 		image: '/projects/project-ecommerce.svg',
 	},
 	{
-		title: 'Scalable Web Apps',
+		title: 'Vacation Rental Platform',
 		description:
-			'Production-grade full-stack applications with optimized APIs, real-time features, and cloud deployment on AWS and Vercel.',
-		stack: ['Next.js', 'PostgreSQL', 'Redis', 'Docker'],
+			'Airbnb-style booking web app — map search, listing pages, date availability, secure payments, and host dashboards for managing properties.',
+		stack: ['Next.js', 'PostgreSQL', 'Stripe', 'Mapbox'],
 		image: '/projects/project-webapps.svg',
 	},
 ];
@@ -235,7 +239,7 @@ export const socialLinks: SocialLink[] = [
 	},
 	{
 		label: 'Email',
-		href: 'mailto:benclarkk1026@gmail.com',
+		href: gmailComposeUrl,
 		icon: IoMailOutline,
 		iconColor: 'rgb(18, 122, 209)',
 		glowColor: 'rgba(18, 122, 209, 0.7)',

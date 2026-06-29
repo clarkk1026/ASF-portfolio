@@ -1,0 +1,33 @@
+.brand-logo {
+	display: block;
+	flex-shrink: 0;
+	object-fit: contain;
+	background: transparent;
+}
+
+.navbar-logo-img.brand-logo {
+	height: auto;
+	max-height: 52px;
+	width: auto;
+	filter: drop-shadow(0 0 10px rgba(31, 195, 255, 0.35));
+	transition:
+		transform 0.25s ease,
+		filter 0.25s ease;
+}
+
+.navbar-logo:hover .navbar-logo-img.brand-logo {
+	transform: scale(1.05);
+	filter: drop-shadow(0 0 16px rgba(31, 195, 255, 0.55));
+}
+
+.ai-bot-fab-logo.brand-logo,
+.ai-bot-header-logo.brand-logo {
+	border-radius: 8px;
+	filter: drop-shadow(0 2px 8px rgba(31, 195, 255, 0.35));
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.navbar-logo-img.brand-logo {
+		transition: none;
+	}
+}

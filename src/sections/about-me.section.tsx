@@ -27,10 +27,7 @@ export const AboutMe = () => {
 								<span className='about-story-dot' />
 								My Story
 							</div>
-							<span className='about-story-index'>01</span>
 						</header>
-
-						<div className='about-story-divider' />
 
 						<div className='about-story-body'>
 							<p>

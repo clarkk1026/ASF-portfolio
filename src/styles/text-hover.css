@@ -4,6 +4,11 @@
 	overflow: hidden;
 }
 
+.hero-section .hero-name.hover-text span:last-child {
+	padding-right: 0.14em;
+	margin-right: 0.04em;
+}
+
 .hover-text span {
 	display: inline-block;
 	transition: transform 0.2s;

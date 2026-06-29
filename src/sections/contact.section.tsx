@@ -1,7 +1,7 @@
 import { GlowLink } from '../components/glow-box-link';
 import { LayeredSectionTitle } from '../components/layered-section-title';
 import { Reveal } from '../components/reveal';
-import { contact, personal, socialLinks } from '../data/portfolio';
+import { contact, gmailComposeUrl, personal, socialLinks } from '../data/portfolio';
 
 export const Contact = () => {
 	return (
@@ -28,8 +28,10 @@ export const Contact = () => {
 								<p>{contact.subtext}</p>
 
 								<a
-									href={`mailto:${personal.email}`}
+									href={gmailComposeUrl}
 									className='contact-email'
+									target='_blank'
+									rel='noopener noreferrer'
 								>
 									{personal.email}
 								</a>

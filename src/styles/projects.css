@@ -33,6 +33,14 @@
 	width: 100%;
 	aspect-ratio: 16 / 10;
 	overflow: hidden;
+	background: #0a0f18;
+}
+
+.project-image-wrap .sainni-screenshot-flow,
+.project-image-wrap .sainni-flow-slide,
+.project-image-wrap .sainni-flow-image {
+	width: 100%;
+	height: 100%;
 }
 
 .project-image {

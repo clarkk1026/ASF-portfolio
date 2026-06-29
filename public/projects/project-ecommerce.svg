@@ -3,16 +3,20 @@
   <rect width="800" height="500" fill="url(#bg)"/>
   <defs>
     <linearGradient id="bg" x1="0" y1="500" x2="800" y2="0" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#0d1a12"/>
-      <stop offset="0.55" stop-color="#142818"/>
+      <stop stop-color="#1a1410"/>
+      <stop offset="0.55" stop-color="#241a14"/>
       <stop offset="1" stop-color="#081018"/>
     </linearGradient>
   </defs>
-  <rect x="180" y="110" width="440" height="280" rx="16" stroke="#96bf48" stroke-width="2" stroke-opacity="0.45"/>
-  <rect x="220" y="155" width="160" height="120" rx="8" fill="#96bf48" fill-opacity="0.12" stroke="#96bf48" stroke-width="1.5" stroke-opacity="0.35"/>
-  <rect x="420" y="155" width="160" height="50" rx="6" fill="#ffffff" fill-opacity="0.06"/>
-  <rect x="420" y="225" width="120" height="50" rx="6" fill="#96bf48" fill-opacity="0.25"/>
-  <circle cx="400" cy="380" r="28" fill="#96bf48" fill-opacity="0.2" stroke="#96bf48" stroke-width="1.5"/>
-  <text x="48" y="420" fill="#ffffff" font-family="Arial,sans-serif" font-size="38" font-weight="700" letter-spacing="3">E-COMMERCE</text>
+  <rect x="160" y="100" width="480" height="300" rx="16" stroke="#96bf48" stroke-width="2" stroke-opacity="0.45"/>
+  <rect x="200" y="140" width="200" height="150" rx="10" fill="#c4a882" fill-opacity="0.18" stroke="#c4a882" stroke-width="1.5" stroke-opacity="0.4"/>
+  <rect x="220" y="175" width="70" height="40" rx="4" fill="#8b6914" fill-opacity="0.35"/>
+  <rect x="300" y="190" width="80" height="55" rx="6" fill="#6b4423" fill-opacity="0.4"/>
+  <rect x="430" y="140" width="180" height="36" rx="6" fill="#ffffff" fill-opacity="0.07"/>
+  <rect x="430" y="190" width="140" height="14" rx="4" fill="#ffffff" fill-opacity="0.06"/>
+  <rect x="430" y="214" width="100" height="14" rx="4" fill="#ffffff" fill-opacity="0.05"/>
+  <rect x="430" y="250" width="110" height="40" rx="8" fill="#96bf48" fill-opacity="0.28"/>
+  <circle cx="400" cy="385" r="28" fill="#96bf48" fill-opacity="0.2" stroke="#96bf48" stroke-width="1.5"/>
+  <text x="48" y="420" fill="#ffffff" font-family="Arial,sans-serif" font-size="34" font-weight="700" letter-spacing="2">FURNITURE STORE</text>
   <text x="48" y="458" fill="#96bf48" font-family="Arial,sans-serif" font-size="18" letter-spacing="5">SHOPIFY STOREFRONT</text>
 </svg>

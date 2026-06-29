@@ -37,14 +37,6 @@
 
 .navbar-logo-img {
 	flex-shrink: 0;
-	border-radius: 10px;
-	box-shadow: 0 0 20px rgba(31, 195, 255, 0.2);
-	transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.navbar-logo:hover .navbar-logo-img {
-	transform: scale(1.05) rotate(-3deg);
-	box-shadow: 0 0 28px rgba(31, 195, 255, 0.35);
 }
 
 .navbar-logo-mark {

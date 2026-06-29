@@ -1,39 +1,26 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="Ben Clark">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 64" fill="none" role="img" aria-label="Ben Clark">
   <defs>
-    <linearGradient id="bc-grad" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+    <linearGradient id="tail-outer" x1="8" y1="52" x2="56" y2="28" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1a4fd4" stop-opacity="0"/>
+      <stop offset="35%" stop-color="#1fc3ff" stop-opacity="0.35"/>
+      <stop offset="72%" stop-color="#7dd3fc" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="tail-core" x1="10" y1="50" x2="54" y2="30" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0"/>
+      <stop offset="45%" stop-color="#38bdf8" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="1"/>
+    </linearGradient>
+    <linearGradient id="head" x1="44" y1="14" x2="68" y2="50" gradientUnits="userSpaceOnUse">
       <stop stop-color="#1fc3ff"/>
-      <stop offset="1" stop-color="#7c5cff"/>
+      <stop offset="1" stop-color="#2563eb"/>
     </linearGradient>
-    <linearGradient id="bc-shine" x1="20" y1="12" x2="44" y2="52" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#ffffff" stop-opacity="0.35"/>
-      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
-    </linearGradient>
-    <filter id="bc-glow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="2" result="blur"/>
-      <feMerge>
-        <feMergeNode in="blur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
   </defs>
-  <rect x="4" y="4" width="56" height="56" rx="16" fill="#050810"/>
-  <rect x="4" y="4" width="56" height="56" rx="16" fill="url(#bc-shine)"/>
-  <rect x="4.5" y="4.5" width="55" height="55" rx="15.5" stroke="url(#bc-grad)" stroke-width="1.5"/>
-  <path d="M14 20 L14 14 L22 14" stroke="#1fc3ff" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
-  <path d="M50 44 L50 50 L42 50" stroke="#1fc3ff" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
-  <circle cx="32" cy="32" r="18" stroke="url(#bc-grad)" stroke-width="1.25" stroke-opacity="0.35"/>
-  <g filter="url(#bc-glow)">
-    <text
-      x="32"
-      y="38"
-      text-anchor="middle"
-      font-family="Arial Black, Arial, sans-serif"
-      font-size="19"
-      font-weight="900"
-      font-style="italic"
-      fill="url(#bc-grad)"
-      letter-spacing="-1"
-    >BC</text>
-  </g>
-  <circle cx="46" cy="18" r="2.5" fill="#1fc3ff"/>
+  <path d="M 56 33 C 38 35, 22 42, 10 50" stroke="url(#tail-outer)" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <path d="M 56 33 C 40 34, 26 40, 14 47" stroke="url(#tail-core)" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+  <circle cx="58" cy="31" r="17" fill="#050810"/>
+  <circle cx="58" cy="31" r="16" stroke="url(#head)" stroke-width="1.4" fill="rgba(5,10,18,0.92)"/>
+  <text x="58" y="37" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="17" font-weight="900" font-style="italic" fill="url(#head)" letter-spacing="-0.5">BC</text>
+  <path d="M 68 14 L 69.2 17 L 72.5 17.2 L 70 19.2 L 70.8 22.5 L 68 20.8 L 65.2 22.5 L 66 19.2 L 63.5 17.2 L 66.8 17 Z" fill="#ffffff"/>
+  <circle cx="58" cy="31" r="4" fill="#ffffff" fill-opacity="0.9"/>
 </svg>

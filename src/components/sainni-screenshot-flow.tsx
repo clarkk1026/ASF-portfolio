@@ -1,39 +1,34 @@
 import { useEffect, useState } from 'react';
-
+import { SainniBrandLogo } from './sainni-brand-logo';
 const SLIDES = [
 	{
 		id: 'landing',
-		label: 'Landing',
 		src: '/projects/sainni/landing.png',
-		alt: 'SAINNI landing page — Build with SAINNI',
+		alt: 'SAINNI — Ship AI features faster',
+	},
+	{
+		id: 'chat-ai',
+		src: '/projects/sainni/chat-ai.png',
+		alt: 'SAINNI AI chat — Python CSV assistant',
 	},
 	{
 		id: 'chat',
-		label: 'Chat',
 		src: '/projects/sainni/chat.png',
-		alt: 'SAINNI AI chat — refactor auth middleware',
+		alt: 'SAINNI chat — refactor auth middleware',
 	},
 	{
 		id: 'analytics',
-		label: 'Analytics',
 		src: '/projects/sainni/analytics.png',
 		alt: 'SAINNI analytics dashboard',
 	},
 	{
-		id: 'mobile-chat',
-		label: 'Mobile chat',
-		src: '/projects/sainni/mobile-chat.png',
-		alt: 'SAINNI mobile chat — Postgres RLS',
-	},
-	{
-		id: 'settings',
-		label: 'Settings',
-		src: '/projects/sainni/settings.png',
-		alt: 'SAINNI mobile settings',
+		id: 'pricing',
+		src: '/projects/sainni/pricing.png',
+		alt: 'SAINNI pricing page',
 	},
 ] as const;
 
-const INTERVAL_MS = 4500;
+const INTERVAL_MS = 5000;
 
 export const SainniScreenshotFlow = () => {
 	const [active, setActive] = useState(0);
@@ -45,11 +40,24 @@ export const SainniScreenshotFlow = () => {
 		return () => window.clearInterval(timer);
 	}, []);
 
+	useEffect(() => {
+		for (const slide of SLIDES) {
+			const img = new Image();
+			img.src = slide.src;
+		}
+	}, []);
+
 	return (
 		<div
 			className='sainni-screenshot-flow'
 			aria-label='SAINNI product screenshots'
 		>
+			<div
+				className='sainni-brand-overlay'
+				aria-hidden
+			>
+				<SainniBrandLogo className='sainni-brand-logo' />
+			</div>
 			{SLIDES.map((slide, index) => (
 				<div
 					key={slide.id}
@@ -60,26 +68,13 @@ export const SainniScreenshotFlow = () => {
 						src={slide.src}
 						alt={slide.alt}
 						className='sainni-flow-image'
-						loading={index === 0 ? 'eager' : 'lazy'}
-						decoding='async'
+						loading={index <= 1 ? 'eager' : 'lazy'}
+						decoding='sync'
+						fetchPriority={index === 0 ? 'high' : 'auto'}
 						draggable={false}
 					/>
 				</div>
 			))}
-
-			<div
-				className='sainni-flow-dots'
-				aria-hidden='true'
-			>
-				{SLIDES.map((slide, index) => (
-					<span
-						key={slide.id}
-						className={index === active ? 'is-active' : ''}
-					/>
-				))}
-			</div>
-
-			<span className='sainni-flow-caption'>{SLIDES[active].label}</span>
 		</div>
 	);
 };

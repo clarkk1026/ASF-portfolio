@@ -28,7 +28,7 @@ export const Navbar = () => {
 					onClick={() => setMenuOpen(false)}
 				>
 					<BrandLogo
-						size={38}
+						size={46}
 						className='navbar-logo-img'
 					/>
 					<span className='navbar-logo-text'>{personal.fullName}</span>

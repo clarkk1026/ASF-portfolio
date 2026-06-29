@@ -9,14 +9,18 @@ type PropsType = {
 	HTMLAnchorElement
 >;
 export const GlowLink = ({ color, icon, href, ...props }: PropsType) => {
+	const isExternal = href.startsWith('http');
+
 	return (
 		<a
-			target='_blank'
 			href={href}
 			className='glow-box glow-link'
 			style={{
 				'--clr': color,
 			}}
+			{...(isExternal
+				? { target: '_blank', rel: 'noopener noreferrer' }
+				: {})}
 			{...props}
 		>
 			{icon}
