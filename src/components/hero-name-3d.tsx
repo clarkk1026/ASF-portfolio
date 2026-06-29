@@ -1,10 +1,14 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
 	drawFireParticle,
+	drawGlowPulse,
 	drawLightningBolt,
 	spawnFireParticle,
-	spawnLightningBolt,
+	spawnGlowPulse,
+	spawnNaturalBolt,
 	type FireParticle,
+	type GlowPulse,
+	type LetterRect,
 	type LightningBolt,
 } from '../lib/hero-name-fx';
 
@@ -13,47 +17,71 @@ type HeroName3DProps = {
 	className?: string;
 };
 
-type LetterRect = {
-	left: number;
-	top: number;
+type EmitZone = {
+	x: number;
+	y: number;
 	width: number;
-	height: number;
 };
+
+const MAX_PARTICLES = 18;
 
 export const HeroName3D = ({ text, className = '' }: HeroName3DProps) => {
 	const displayText = text.replace(/\s/g, '').toUpperCase();
 	const containerRef = useRef<HTMLDivElement>(null);
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const letterRefs = useRef<(HTMLSpanElement | null)[]>([]);
-	const hoveredRef = useRef<number | null>(null);
+	const emitZoneRef = useRef<EmitZone | null>(null);
 	const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-	useEffect(() => {
-		hoveredRef.current = hoveredIndex;
-	}, [hoveredIndex]);
+	const handleLetterEnter = (index: number) => {
+		setHoveredIndex(index);
+		const letter = letterRefs.current[index];
+		const canvas = canvasRef.current;
+		if (!letter || !canvas) return;
+
+		const letterRect = letter.getBoundingClientRect();
+		const canvasRect = canvas.getBoundingClientRect();
+		emitZoneRef.current = {
+			x: letterRect.left - canvasRect.left + letterRect.width * 0.5,
+			y: letterRect.top - canvasRect.top + letterRect.height * 0.75,
+			width: letterRect.width,
+		};
+	};
+
+	const handleLetterLeave = () => {
+		setHoveredIndex(null);
+		emitZoneRef.current = null;
+	};
 
 	useEffect(() => {
 		const container = containerRef.current;
 		const canvas = canvasRef.current;
 		if (!container || !canvas) return undefined;
 
-		const ctx = canvas.getContext('2d');
+		const ctx = canvas.getContext('2d', { alpha: true });
 		if (!ctx) return undefined;
+
+		const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
 
 		let frameId = 0;
 		let running = true;
+		let visible = true;
 		let bolts: LightningBolt[] = [];
+		let pulses: GlowPulse[] = [];
 		let particles: FireParticle[] = [];
-		let spawnTimer = 0;
-		let fireTimer = 0;
-		const dpr = Math.min(window.devicePixelRatio || 1, 2);
+		let lastFrame = performance.now();
+		let fireCooldown = 0;
+		let boltCooldown = 6;
+		let letterCache: LetterRect[] = [];
+		let letterCacheTimer = 0;
 
 		const resize = () => {
 			const rect = container.getBoundingClientRect();
 			const width = Math.max(1, Math.ceil(rect.width));
 			const height = Math.max(1, Math.ceil(rect.height));
-			canvas.width = width * dpr;
-			canvas.height = height * dpr;
+			canvas.width = Math.floor(width * dpr);
+			canvas.height = Math.floor(height * dpr);
 			canvas.style.width = `${width}px`;
 			canvas.style.height = `${height}px`;
 			ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -65,90 +93,116 @@ export const HeroName3D = ({ text, className = '' }: HeroName3DProps) => {
 				.map((el) => {
 					const letterRect = el.getBoundingClientRect();
 					const canvasRect = canvas.getBoundingClientRect();
+					const left = letterRect.left - canvasRect.left;
+					const top = letterRect.top - canvasRect.top;
 					return {
-						left: letterRect.left - canvasRect.left,
-						top: letterRect.top - canvasRect.top,
+						left,
+						top,
 						width: letterRect.width,
 						height: letterRect.height,
+						centerX: left + letterRect.width * 0.5,
+						centerY: top + letterRect.height * 0.5,
 					};
 				});
 
-		const tick = () => {
+		const tick = (now: number) => {
 			if (!running) return;
 
+			if (!visible || reducedMotion) {
+				lastFrame = now;
+				frameId = window.requestAnimationFrame(tick);
+				return;
+			}
+
+			const dt = Math.min((now - lastFrame) / 16.67, 2);
+			lastFrame = now;
 			const width = canvas.width / dpr;
 			const height = canvas.height / dpr;
 
-			spawnTimer -= 1;
-			if (spawnTimer <= 0) {
-				const count = Math.random() > 0.55 ? 2 : 1;
-				for (let i = 0; i < count; i += 1) {
-					bolts.push(spawnLightningBolt(width, height));
-				}
-				spawnTimer = 10 + Math.floor(Math.random() * 18);
+			letterCacheTimer -= dt;
+			if (letterCacheTimer <= 0) {
+				letterCache = getLetterRects();
+				letterCacheTimer = 24;
+			}
+
+			boltCooldown -= dt;
+			if (boltCooldown <= 0 && bolts.length < 3) {
+				const bolt = spawnNaturalBolt(width, height, letterCache);
+				bolts.push(bolt);
+				const tip = bolt.segments[0][bolt.segments[0].length - 1];
+				pulses.push(spawnGlowPulse(tip.x, tip.y));
+				boltCooldown = 10 + Math.random() * 14;
 			}
 
 			bolts = bolts
 				.map((bolt) => ({
 					...bolt,
-					life: bolt.life - 1,
-					branch: bolt.branch
-						? { ...bolt.branch, life: bolt.branch.life - 1 }
-						: undefined,
+					life: bolt.life - dt,
+					flash: bolt.flash + dt * 0.08,
 				}))
 				.filter((bolt) => bolt.life > 0);
 
-			fireTimer -= 1;
-			if (hoveredRef.current !== null && fireTimer <= 0) {
-				const rects = getLetterRects();
-				const rect = rects[hoveredRef.current];
-				if (rect) {
-					const emitX = rect.left + rect.width * 0.5;
-					const emitY = rect.top + rect.height * 0.72;
-					const burst = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-						? 2
-						: 6;
-					for (let i = 0; i < burst; i += 1) {
-						particles.push(spawnFireParticle(emitX, emitY, rect.width));
-					}
+			pulses = pulses
+				.map((pulse) => ({ ...pulse, life: pulse.life - dt }))
+				.filter((pulse) => pulse.life > 0);
+
+			fireCooldown -= dt;
+			const emit = emitZoneRef.current;
+			if (emit && fireCooldown <= 0 && particles.length < MAX_PARTICLES) {
+				for (let i = 0; i < 2; i += 1) {
+					particles.push(spawnFireParticle(emit.x, emit.y, emit.width));
 				}
-				fireTimer = 2;
+				fireCooldown = 3;
 			}
 
 			particles = particles
 				.map((particle) => ({
 					...particle,
-					x: particle.x + particle.vx,
-					y: particle.y + particle.vy,
-					vx: particle.vx * 0.98,
-					vy: particle.vy - 0.06,
-					life: particle.life - 1,
-					size: particle.size * 0.985,
+					x: particle.x + particle.vx * dt,
+					y: particle.y + particle.vy * dt,
+					vx: particle.vx * 0.99,
+					vy: particle.vy - 0.02 * dt,
+					life: particle.life - dt,
+					size: particle.size * (1 - 0.002 * dt),
 				}))
-				.filter((particle) => particle.life > 0);
+				.filter((particle) => particle.life > 0)
+				.slice(-MAX_PARTICLES);
 
 			ctx.clearRect(0, 0, width, height);
 
-			for (const bolt of bolts) {
-				drawLightningBolt(ctx, bolt);
-			}
-
-			for (const particle of particles) {
-				drawFireParticle(ctx, particle);
-			}
+			for (const pulse of pulses) drawGlowPulse(ctx, pulse);
+			for (const bolt of bolts) drawLightningBolt(ctx, bolt);
+			for (const particle of particles) drawFireParticle(ctx, particle);
 
 			frameId = window.requestAnimationFrame(tick);
 		};
 
 		resize();
-		const observer = new ResizeObserver(resize);
-		observer.observe(container);
+
+		const resizeObserver = new ResizeObserver(resize);
+		resizeObserver.observe(container);
+
+		const visibilityObserver = new IntersectionObserver(
+			([entry]) => {
+				visible = entry?.isIntersecting ?? true;
+			},
+			{ threshold: 0.1 },
+		);
+		visibilityObserver.observe(container);
+
+		const onVisibilityChange = () => {
+			visible = document.visibilityState === 'visible';
+		};
+		document.addEventListener('visibilitychange', onVisibilityChange);
+
 		frameId = window.requestAnimationFrame(tick);
 
 		return () => {
 			running = false;
 			window.cancelAnimationFrame(frameId);
-			observer.disconnect();
+			resizeObserver.disconnect();
+			visibilityObserver.disconnect();
+			document.removeEventListener('visibilitychange', onVisibilityChange);
 		};
 	}, []);
 
@@ -165,24 +219,11 @@ export const HeroName3D = ({ text, className = '' }: HeroName3DProps) => {
 						ref={(el) => {
 							letterRefs.current[index] = el;
 						}}
-						className={`hero-letter-block${hoveredIndex === index ? ' is-hovered' : ''}`}
-						style={{ '--i': index } as CSSProperties}
-						onMouseEnter={() => setHoveredIndex(index)}
-						onMouseLeave={() => setHoveredIndex(null)}
+						className={`hero-letter${hoveredIndex === index ? ' is-hovered' : ''}`}
+						onMouseEnter={() => handleLetterEnter(index)}
+						onMouseLeave={handleLetterLeave}
 					>
-						<span
-							className='hero-letter-depth'
-							aria-hidden='true'
-						>
-							{char}
-						</span>
-						<span className='hero-letter-face'>{char}</span>
-						<span
-							className='hero-letter-glow'
-							aria-hidden='true'
-						>
-							{char}
-						</span>
+						{char}
 					</span>
 				))}
 			</div>

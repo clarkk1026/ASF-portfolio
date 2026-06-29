@@ -29,12 +29,13 @@ export const Contact = () => {
 
 								<a
 									href={gmailComposeUrl}
-									className='contact-email'
+									className='comet-btn comet-btn-email comet-btn-lg'
 									target='_blank'
 									rel='noopener noreferrer'
 								>
-									{personal.email}
+									Send Email
 								</a>
+								<p className='contact-email-address'>{personal.email}</p>
 
 								<div className='contact-links'>
 									{socialLinks.map((link) => (

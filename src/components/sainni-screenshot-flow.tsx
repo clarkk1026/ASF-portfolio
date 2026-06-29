@@ -4,17 +4,17 @@ const SLIDES = [
 	{
 		id: 'landing',
 		src: '/projects/sainni/landing.png',
-		alt: 'SAINNI — Ship AI features faster',
+		alt: 'SAINNI landing page, ship AI features faster',
 	},
 	{
 		id: 'chat-ai',
 		src: '/projects/sainni/chat-ai.png',
-		alt: 'SAINNI AI chat — Python CSV assistant',
+		alt: 'SAINNI AI chat with Python CSV assistant',
 	},
 	{
 		id: 'chat',
 		src: '/projects/sainni/chat.png',
-		alt: 'SAINNI chat — refactor auth middleware',
+		alt: 'SAINNI chat refactor auth middleware',
 	},
 	{
 		id: 'analytics',

@@ -43,23 +43,13 @@
 	transform-origin: center center;
 }
 
-.ai-bot-fab-logo.brand-logo,
-.ai-bot-header-logo.brand-logo {
-	animation: none;
-	transform-origin: center center;
-}
-
-.ai-bot-fab-logo,
-.ai-bot-header-logo {
-	display: block;
-}
-
-.ai-bot-fab-open .ai-bot-fab-logo {
-	animation: none;
-}
-
-.ai-bot-fab .ai-bot-fab-logo {
+.ai-bot-fab-icon {
+	font-size: 1.65rem;
 	filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+}
+
+.ai-bot-header-icon {
+	font-size: 1.35rem;
 }
 
 .ai-bot-fab:hover {
@@ -125,8 +115,8 @@
 	padding: 0;
 }
 
-.ai-bot-icon-animated .ai-bot-header-logo {
-	border-radius: 8px;
+.ai-bot-icon-animated .ai-bot-header-icon {
+	display: block;
 }
 
 .ai-bot-pulse {
@@ -455,8 +445,8 @@
 	.ai-bot-fab-ring,
 	.ai-bot-msg,
 	.ai-bot-robot-icon,
-	.ai-bot-fab-logo,
-	.ai-bot-header-logo {
+	.ai-bot-fab-icon,
+	.ai-bot-header-icon {
 		animation: none;
 	}
 }

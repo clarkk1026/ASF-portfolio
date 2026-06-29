@@ -1,0 +1,153 @@
+.comet-btn {
+	position: relative;
+	overflow: hidden;
+	isolation: isolate;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.4rem;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.78rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	text-decoration: none;
+	border-radius: 999px;
+	border: 1px solid transparent;
+	cursor: pointer;
+	padding: 0.7rem 1.35rem;
+	transition:
+		transform 0.25s ease,
+		box-shadow 0.25s ease,
+		filter 0.25s ease,
+		background 0.25s ease,
+		border-color 0.25s ease;
+}
+
+.comet-btn::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+		105deg,
+		transparent 30%,
+		rgba(255, 255, 255, 0.4) 50%,
+		transparent 70%
+	);
+	transform: translateX(-120%);
+	transition: transform 0.55s ease;
+	pointer-events: none;
+}
+
+.comet-btn:hover {
+	transform: translateY(-2px);
+}
+
+.comet-btn:hover::before {
+	transform: translateX(120%);
+}
+
+/* Let's Talk — primary outreach */
+.comet-btn-talk {
+	color: #020a12;
+	background: linear-gradient(
+		115deg,
+		rgb(31, 195, 255) 0%,
+		rgb(160, 220, 255) 48%,
+		rgb(120, 160, 255) 100%
+	);
+	border-color: rgba(255, 255, 255, 0.35);
+	box-shadow:
+		0 0 0 1px rgba(31, 195, 255, 0.25),
+		0 8px 28px rgba(31, 195, 255, 0.32),
+		inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.comet-btn-talk:hover {
+	filter: brightness(1.06);
+	box-shadow:
+		0 0 0 1px rgba(31, 195, 255, 0.45),
+		0 12px 36px rgba(31, 195, 255, 0.45),
+		inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+/* View work — portfolio / explore */
+.comet-btn-work {
+	color: #e8f4fc;
+	background: linear-gradient(
+		135deg,
+		rgba(20, 50, 90, 0.9) 0%,
+		rgba(12, 32, 58, 0.95) 100%
+	);
+	border-color: rgba(31, 195, 255, 0.45);
+	box-shadow:
+		0 0 0 1px rgba(31, 195, 255, 0.15),
+		0 8px 24px rgba(0, 0, 0, 0.35),
+		inset 0 1px 0 rgba(31, 195, 255, 0.2);
+	padding: 0.75rem 1.4rem;
+}
+
+.comet-btn-work:hover {
+	filter: brightness(1.08);
+	border-color: rgba(31, 195, 255, 0.65);
+	box-shadow:
+		0 0 0 1px rgba(31, 195, 255, 0.3),
+		0 12px 32px rgba(31, 195, 255, 0.2),
+		inset 0 1px 0 rgba(31, 195, 255, 0.28);
+}
+
+/* Contact — message / connect */
+.comet-btn-contact {
+	color: #f0e8ff;
+	background: linear-gradient(
+		135deg,
+		rgba(50, 30, 90, 0.75) 0%,
+		rgba(28, 18, 52, 0.9) 100%
+	);
+	border-color: rgba(147, 120, 255, 0.4);
+	box-shadow:
+		0 0 0 1px rgba(147, 120, 255, 0.12),
+		0 8px 24px rgba(0, 0, 0, 0.35),
+		inset 0 1px 0 rgba(200, 180, 255, 0.18);
+	padding: 0.75rem 1.4rem;
+}
+
+.comet-btn-contact:hover {
+	filter: brightness(1.08);
+	border-color: rgba(160, 140, 255, 0.55);
+	box-shadow:
+		0 0 0 1px rgba(147, 120, 255, 0.28),
+		0 12px 32px rgba(120, 80, 200, 0.22),
+		inset 0 1px 0 rgba(200, 180, 255, 0.25);
+}
+
+/* Email — send mail */
+.comet-btn-email {
+	color: #041018;
+	font-size: 0.82rem;
+	padding: 0.8rem 1.6rem;
+	background: linear-gradient(
+		115deg,
+		rgb(100, 200, 255) 0%,
+		rgb(31, 195, 255) 50%,
+		rgb(80, 160, 255) 100%
+	);
+	border-color: rgba(255, 255, 255, 0.3);
+	box-shadow:
+		0 0 0 1px rgba(31, 195, 255, 0.2),
+		0 8px 28px rgba(31, 195, 255, 0.28),
+		inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.comet-btn-email:hover {
+	filter: brightness(1.05);
+	box-shadow:
+		0 0 0 1px rgba(31, 195, 255, 0.4),
+		0 12px 36px rgba(31, 195, 255, 0.38),
+		inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.comet-btn-lg {
+	font-size: 0.88rem;
+	padding: 0.85rem 1.65rem;
+}

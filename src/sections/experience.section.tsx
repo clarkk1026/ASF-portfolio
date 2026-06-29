@@ -33,7 +33,7 @@ export const WorkExperience = () => {
 										<div className='timeline-meta'>
 											<p className='designation'>{role}</p>
 											<p className='place'>
-												{org} · {period}
+												{org}, {period}
 											</p>
 										</div>
 										{bullets.length > 0 && (

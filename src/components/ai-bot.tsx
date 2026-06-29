@@ -1,6 +1,5 @@
 import { type FormEvent, useEffect, useRef, useState } from 'react';
-import { FaPaperPlane, FaXmark } from 'react-icons/fa6';
-import { BrandLogo } from './brand-logo';
+import { FaComments, FaPaperPlane, FaXmark } from 'react-icons/fa6';
 import {
 	botGreeting,
 	botQuickPrompts,
@@ -103,7 +102,7 @@ export const AiBot = () => {
 				onClick={() => setOpen((v) => !v)}
 				aria-label={open ? 'Close AI chat' : 'Open AI chat'}
 			>
-				{open ? <FaXmark /> : <BrandLogo size={58} className='ai-bot-fab-logo' />}
+				{open ? <FaXmark /> : <FaComments className='ai-bot-fab-icon' />}
 				{!open && <span className='ai-bot-fab-ring' />}
 			</button>
 
@@ -111,7 +110,7 @@ export const AiBot = () => {
 				<div className='ai-bot ai-bot-floating ai-bot-interactive'>
 					<div className='ai-bot-header'>
 						<div className='ai-bot-avatar ai-bot-icon-animated'>
-							<BrandLogo size={56} className='ai-bot-header-logo' />
+							<FaComments className='ai-bot-header-icon' />
 							<span className='ai-bot-pulse' />
 						</div>
 						<div>

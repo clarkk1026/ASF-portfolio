@@ -14,6 +14,7 @@ import { TechStack } from './sections/tech-stack.section';
 import './styles/about-me.css';
 import './styles/ai-bot.css';
 import './styles/brand-logo.css';
+import './styles/comet-btn.css';
 import './styles/contact.css';
 import './styles/experience.css';
 import './styles/expertise.css';

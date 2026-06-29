@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { navLinks } from '../data/portfolio';
-import { BrandLogo } from './brand-logo';
 
 export const Navbar = () => {
 	const [scrolled, setScrolled] = useState(false);
@@ -22,18 +21,6 @@ export const Navbar = () => {
 	return (
 		<header className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`}>
 			<nav className='navbar-inner container'>
-				<a
-					href='#home'
-					className='navbar-logo'
-					aria-label='Ben Clark home'
-					onClick={() => setMenuOpen(false)}
-				>
-					<BrandLogo
-						size={108}
-						className='navbar-logo-img'
-					/>
-				</a>
-
 				<ul className={`navbar-links ${menuOpen ? 'navbar-links-open' : ''}`}>
 					{navLinks.map((link) => (
 						<li key={link.href}>
@@ -49,7 +36,7 @@ export const Navbar = () => {
 
 				<a
 					href='#contact'
-					className='navbar-cta'
+					className='comet-btn comet-btn-talk navbar-cta'
 					onClick={() => setMenuOpen(false)}
 				>
 					Let&apos;s Talk

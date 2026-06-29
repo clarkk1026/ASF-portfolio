@@ -97,7 +97,7 @@ export type TechGroup = {
 export const personal = {
 	name: 'BEN CLARK',
 	fullName: 'Ben Clark',
-	title: 'AI Engineer • Shopify Developer • Full-Stack Developer',
+	title: 'AI Engineer | Shopify Developer | Full-Stack Developer',
 	roles: ['AI Engineer', 'Shopify Developer', 'Full-Stack Developer'],
 	tagline: 'Building products that solve real business problems.',
 	location: 'Dublin, Ireland',
@@ -126,6 +126,7 @@ export const highlights: Highlight[] = [
 	{ value: '3', label: 'Core Domains' },
 	{ value: 'AI', label: 'Workflows Integrated' },
 	{ value: '100%', label: 'Product Mindset' },
+	{ value: '10+', label: 'Projects Delivered' },
 ];
 
 export const traits: string[] = [
@@ -141,7 +142,7 @@ export const expertise: ExpertiseItem[] = [
 	{
 		title: 'AI Engineering',
 		description:
-			'Design intelligent workflows with LLM APIs, Python pipelines, and practical AI features that ship to production — not just demos.',
+			'Design intelligent workflows with LLM APIs, Python pipelines, and practical AI features that ship to production, not just demos.',
 		icon: FaBrain,
 		iconColor: 'rgb(168, 130, 255)',
 		glowColor: 'rgba(168, 130, 255, 0.55)',
@@ -159,7 +160,7 @@ export const expertise: ExpertiseItem[] = [
 	{
 		title: 'Full-Stack Engineering',
 		description:
-			'Architect end-to-end products with React, Next.js, Node.js, and cloud-native infrastructure — from database to deployment.',
+			'Architect end-to-end products with React, Next.js, Node.js, and cloud-native infrastructure, from database to deployment.',
 		icon: FaLayerGroup,
 		iconColor: 'rgb(31, 195, 255)',
 		glowColor: 'rgba(31, 195, 255, 0.55)',
@@ -171,7 +172,7 @@ export const projects: ProjectItem[] = [
 	{
 		title: 'SAiNNI Project',
 		description:
-			'AI developer platform — landing, chat, analytics, and pricing. Ship AI features with TypeScript, React, and practical ML integration.',
+			'AI developer platform with landing, chat, analytics, and pricing. Ship AI features with TypeScript, React, and practical ML integration.',
 		stack: ['TypeScript', 'React', 'AI', 'Node.js'],
 		image: '/projects/project-sainni.svg',
 		featured: true,
@@ -179,14 +180,14 @@ export const projects: ProjectItem[] = [
 	{
 		title: 'Shopify Store (Furniture Store)',
 		description:
-			'Custom Shopify furniture storefront — curated collections, detailed product pages, variant pickers, and a streamlined checkout built for high-ticket home goods.',
+			'Custom Shopify furniture storefront with curated collections, detailed product pages, variant pickers, and a streamlined checkout built for high-ticket home goods.',
 		stack: ['Shopify', 'Liquid', 'React', 'Tailwind'],
 		image: '/projects/project-ecommerce.svg',
 	},
 	{
 		title: 'Vacation Rental Platform',
 		description:
-			'Airbnb-style booking web app — map search, listing pages, date availability, secure payments, and host dashboards for managing properties.',
+			'Airbnb-style booking web app with map search, listing pages, date availability, secure payments, and host dashboards for managing properties.',
 		stack: ['Next.js', 'PostgreSQL', 'Stripe', 'Mapbox'],
 		image: '/projects/project-webapps.svg',
 	},
@@ -219,7 +220,7 @@ export const contact = {
 	},
 	headline: "Let's build something remarkable.",
 	subtext:
-		'Open to collaborations, freelance projects, and full-time opportunities. Reach out — I typically respond within 24 hours.',
+		'Open to collaborations, freelance projects, and full-time opportunities. Reach out and I typically respond within 24 hours.',
 };
 
 export const socialLinks: SocialLink[] = [
@@ -278,7 +279,7 @@ export const experience = {
 				{
 					role: 'Senior / Lead Full Stack Developer',
 					org: 'Remote',
-					period: '2023 - 2025',
+					period: '2023 to 2025',
 					bullets: [
 						'Architected and delivered scalable full-stack applications.',
 						'Led development initiatives, performed code reviews, and mentored junior developers.',
@@ -290,7 +291,7 @@ export const experience = {
 				{
 					role: 'Mid-Level Full Stack Developer',
 					org: '@Livestorm',
-					period: '2021 - 2023 | Remote',
+					period: '2021 to 2023, Remote',
 					bullets: [
 						'Developed and maintained production-grade web apps and backend services.',
 						'Improved performance through optimization and API enhancements.',
@@ -301,7 +302,7 @@ export const experience = {
 				{
 					role: 'Junior Developer',
 					org: '@NearForm',
-					period: '2020 - 2021 | Dublin, Ireland',
+					period: '2020 to 2021, Dublin, Ireland',
 					bullets: [
 						'Built responsive web interfaces and backend integrations.',
 						'Translated UI/UX designs into accessible applications.',
@@ -317,7 +318,7 @@ export const experience = {
 				{
 					role: 'B.A. (Moderatorship) in Computer Science and Business',
 					org: 'Trinity College Dublin',
-					period: '2016 - 2020 | Dublin, Ireland',
+					period: '2016 to 2020, Dublin, Ireland',
 					bullets: [
 						'Graduated with Second Class Honours (2:1).',
 						'Focus areas: AI, Full-Stack Development, Web Technologies, and E-Commerce Systems.',

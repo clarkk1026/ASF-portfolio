@@ -57,41 +57,11 @@
 	padding-inline: 2rem;
 }
 
-.navbar-logo {
-	display: flex;
-	align-items: center;
-	gap: 0.75rem;
-	text-decoration: none;
-	color: inherit;
-}
-
-.navbar-logo-img {
-	flex-shrink: 0;
-}
-
-.navbar-logo-mark {
-	width: 2.4rem;
-	height: 2.4rem;
-	border-radius: 10px;
-	display: grid;
-	place-items: center;
-	font-family: 'Fugaz One', sans-serif;
-	font-size: 0.85rem;
-	background: linear-gradient(135deg, rgba(31, 195, 255, 0.25), rgba(147, 51, 234, 0.25));
-	border: 1px solid rgba(31, 195, 255, 0.35);
-	box-shadow: 0 0 24px rgba(31, 195, 255, 0.15);
-}
-
-.navbar-logo-text {
-	font-family: 'Open Sans', sans-serif;
-	font-size: 0.95rem;
-	font-weight: 600;
-	letter-spacing: 0.04em;
-}
-
 .navbar-links {
 	display: flex;
 	align-items: center;
+	justify-content: center;
+	flex: 1;
 	gap: 0.35rem;
 	list-style: none;
 }
@@ -123,62 +93,8 @@
 }
 
 .navbar-cta {
-	position: relative;
-	overflow: hidden;
-	isolation: isolate;
-	font-family: 'Open Sans', sans-serif;
-	font-size: 0.78rem;
-	font-weight: 700;
-	letter-spacing: 0.12em;
-	text-transform: uppercase;
-	text-decoration: none;
-	color: #020a12;
-	background: linear-gradient(
-		115deg,
-		var(--comet-cyan) 0%,
-		var(--comet-ice) 48%,
-		var(--comet-violet) 100%
-	);
 	padding: 0.7rem 1.35rem;
-	border-radius: 999px;
-	border: 1px solid rgba(255, 255, 255, 0.35);
-	box-shadow:
-		0 0 0 1px rgba(31, 195, 255, 0.25),
-		0 8px 28px rgba(31, 195, 255, 0.32),
-		inset 0 1px 0 rgba(255, 255, 255, 0.45);
-	transition:
-		transform 0.25s ease,
-		box-shadow 0.25s ease,
-		filter 0.25s ease;
-}
-
-.navbar-cta::before {
-	content: '';
-	position: absolute;
-	inset: 0;
-	background: linear-gradient(
-		105deg,
-		transparent 30%,
-		rgba(255, 255, 255, 0.45) 50%,
-		transparent 70%
-	);
-	transform: translateX(-120%);
-	transition: transform 0.55s ease;
-	pointer-events: none;
-}
-
-.navbar-cta:hover {
-	transform: translateY(-2px);
-	filter: brightness(1.06);
-	box-shadow:
-		0 0 0 1px rgba(31, 195, 255, 0.45),
-		0 12px 36px rgba(31, 195, 255, 0.45),
-		0 0 24px rgba(120, 160, 255, 0.25),
-		inset 0 1px 0 rgba(255, 255, 255, 0.55);
-}
-
-.navbar-cta:hover::before {
-	transform: translateX(120%);
+	flex-shrink: 0;
 }
 
 .navbar-toggle {

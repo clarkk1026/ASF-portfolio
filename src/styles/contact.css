@@ -52,22 +52,11 @@
 	margin-bottom: 1.5rem;
 }
 
-.contact-email {
-	display: inline-block;
+.contact-email-address {
 	font-family: 'Open Sans', sans-serif;
-	font-size: 1.15rem;
-	font-weight: 600;
-	color: rgb(31, 195, 255);
-	text-decoration: none;
-	margin-bottom: 1.75rem;
-	transition:
-		transform 0.25s ease,
-		text-shadow 0.25s ease;
-}
-
-.contact-email:hover {
-	transform: translateY(-2px);
-	text-shadow: 0 0 24px rgba(31, 195, 255, 0.45);
+	font-size: 0.95rem;
+	color: rgba(255, 255, 255, 0.55);
+	margin: 0.85rem 0 1.75rem;
 }
 
 .contact-links {

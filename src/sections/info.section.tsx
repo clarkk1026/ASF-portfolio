@@ -20,7 +20,7 @@ export const InfoSection = () => {
 				<Reveal delay={0}>
 					<p className='hero-eyebrow'>
 						<span className='hero-status-dot' />
-						Available for new opportunities · {personal.location}
+						Available for new opportunities in {personal.location}
 					</p>
 				</Reveal>
 
@@ -48,13 +48,13 @@ export const InfoSection = () => {
 					<div className='hero-actions'>
 						<a
 							href='#projects'
-							className='hero-btn hero-btn-primary'
+							className='comet-btn comet-btn-work comet-btn-lg'
 						>
 							View My Work
 						</a>
 						<a
 							href='#contact'
-							className='hero-btn hero-btn-secondary'
+							className='comet-btn comet-btn-contact comet-btn-lg'
 						>
 							Contact Me
 						</a>
