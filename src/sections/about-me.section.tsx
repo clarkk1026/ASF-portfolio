@@ -32,7 +32,7 @@ export const AboutMe = () => {
 						<div className='about-story-body'>
 							<p>
 								I enjoy building products that solve real business problems,
-								combining <mark>AI</mark> and modern{' '}
+								combining <mark>AI</mark>, <mark>Shopify</mark>, and modern{' '}
 								<mark>full-stack</mark> technologies. My journey has been shaped
 								by overcoming personal challenges from an early age, adapting to
 								new environments, and learning through real-world experience.

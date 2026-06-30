@@ -8,7 +8,7 @@ type RoleRotatorProps = {
 
 const roleLeadLetter = (role: string): BrandLetter | null => {
 	const letter = role.trim()[0]?.toUpperCase();
-	if (letter === 'A' || letter === 'F') return letter;
+	if (letter === 'A' || letter === 'S' || letter === 'F') return letter;
 	return null;
 };
 

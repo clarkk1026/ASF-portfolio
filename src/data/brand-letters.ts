@@ -3,6 +3,10 @@ const brandLetterMeta = {
 		label: 'AI',
 		color: '#a78bfa',
 	},
+	S: {
+		label: 'Shopify',
+		color: '#96bf47',
+	},
 	F: {
 		label: 'Full Stack',
 		color: '#f97316',
@@ -11,6 +15,7 @@ const brandLetterMeta = {
 
 const brandLetterColors = {
 	A: brandLetterMeta.A.color,
+	S: brandLetterMeta.S.color,
 	F: brandLetterMeta.F.color,
 } as const;
 

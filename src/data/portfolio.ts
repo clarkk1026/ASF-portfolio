@@ -9,6 +9,7 @@ import {
     FaNodeJs,
     FaPython,
     FaReact,
+    FaShopify,
     FaTelegramPlane,
 } from 'react-icons/fa';
 import { IoMailOutline } from 'react-icons/io5';
@@ -93,8 +94,8 @@ export type TechGroup = {
 export const personal = {
 	name: 'BEN CLARK',
 	fullName: 'Ben Clark',
-	title: 'AI Developer | Full Stack Engineer',
-	roles: ['AI Developer', 'Full Stack Engineer'],
+	title: 'AI Developer | Shopify Developer | Full Stack Engineer',
+	roles: ['AI Developer', 'Shopify Developer', 'Full Stack Engineer'],
 	tagline: 'Building products that solve real business problems.',
 	location: 'Dublin, Ireland',
 	email: 'benclarkk1026@gmail.com',
@@ -122,7 +123,7 @@ export const navLinks: NavLink[] = [
 
 export const highlights: Highlight[] = [
 	{ value: '5+', label: 'Years Building' },
-	{ value: '2', label: 'Core Domains' },
+	{ value: '3', label: 'Core Domains' },
 	{ value: 'AI', label: 'Workflows Integrated' },
 	{ value: '100%', label: 'Product Mindset' },
 	{ value: '10+', label: 'Projects Delivered' },
@@ -130,7 +131,7 @@ export const highlights: Highlight[] = [
 
 export const traits: string[] = [
 	'AI Integration',
-	'Full-Stack Systems',
+	'Shopify & E-Commerce',
 	'Scalable Architecture',
 	'Performance First',
 	'Agile Delivery',
@@ -146,6 +147,15 @@ export const expertise: ExpertiseItem[] = [
 		iconColor: 'rgb(168, 130, 255)',
 		glowColor: 'rgba(168, 130, 255, 0.55)',
 		tags: ['LLM APIs', 'Python', 'TensorFlow', 'PyTorch'],
+	},
+	{
+		title: 'Shopify Development',
+		description:
+			'Build and optimize production Shopify storefronts for global brands — themes, Liquid, custom apps, checkout flows, and conversion-focused UX. Selected Work on this site shows live stores across fashion, beauty, lifestyle, and retail.',
+		icon: FaShopify,
+		iconColor: 'rgb(150, 191, 72)',
+		glowColor: 'rgba(150, 191, 72, 0.55)',
+		tags: ['Shopify', 'Liquid', 'Storefronts', 'E-Commerce', 'Theme Dev'],
 	},
 	{
 		title: 'Full Stack Engineering',
@@ -212,7 +222,7 @@ export const expertiseSection = {
 		title: 'Core',
 		subtitle: 'Skills',
 		summary:
-			'Two domains I combine to ship intelligent, technically solid products end to end',
+			'Three domains I combine to ship intelligent commerce and technically solid products end to end',
 	},
 };
 
@@ -314,10 +324,10 @@ export const about = {
 		title: 'About',
 		subtitle: 'ME',
 		summary:
-			'Building products with AI and full stack tech shaped by real world experience and entrepreneurship',
+			'Building products with AI, Shopify, and full stack tech shaped by real world experience and entrepreneurship',
 	},
 	intro: [
-		'I enjoy building products that solve real business problems, combining AI and modern full-stack technologies. My journey has been shaped by overcoming personal challenges from an early age, adapting to new environments, and learning through real-world experience.',
+		'I enjoy building products that solve real business problems, combining AI, Shopify, and modern full-stack technologies. My journey has been shaped by overcoming personal challenges from an early age, adapting to new environments, and learning through real-world experience.',
 		'Alongside software engineering, I built and operated a small clothing business, which taught me the importance of execution, customer focus, and consistency. Today I focus on creating scalable applications, integrating AI into practical workflows, and turning ideas into reliable products that people actually use.',
 	],
 };

@@ -1,5 +1,6 @@
 :root {
 	--brand-letter-a: #c4b5fd;
+	--brand-letter-s: #96bf47;
 	--brand-letter-f: #fb923c;
 }
 
@@ -18,6 +19,15 @@
 	text-shadow:
 		0 0 14px rgba(167, 139, 250, 0.75),
 		0 0 28px rgba(167, 139, 250, 0.35);
+}
+
+.brand-letter-s {
+	color: var(--brand-letter-s);
+	font-style: normal;
+	font-weight: 400;
+	text-shadow:
+		0 0 14px rgba(150, 191, 72, 0.75),
+		0 0 28px rgba(150, 191, 72, 0.35);
 }
 
 .brand-letter-f {
