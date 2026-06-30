@@ -149,7 +149,7 @@ export const expertise: ExpertiseItem[] = [
 	{
 		title: 'Shopify Development',
 		description:
-			'Build and optimize production Shopify storefronts for global brands — themes, Liquid, custom apps, checkout flows, and conversion-focused UX. Selected Work on this site shows live stores across fashion, beauty, lifestyle, and retail.',
+			'Build and optimize production Shopify storefronts for global brands, themes, Liquid, custom apps, checkout flows, and conversion-focused UX. Selected Work on this site shows live stores across fashion, beauty, lifestyle, and retail.',
 		icon: FaShopify,
 		iconColor: 'rgb(150, 191, 72)',
 		glowColor: 'rgba(150, 191, 72, 0.55)',
@@ -170,7 +170,7 @@ export const projects: ProjectItem[] = [
 	{
 		title: 'Happy Hydro',
 		description:
-			'Shopify storefront for a leading US indoor gardening retailer — large catalog navigation, brand collections, product detail pages, and checkout flows built for repeat customers and high order volume.',
+			'Shopify storefront for a leading US indoor gardening retailer, large catalog navigation, brand collections, product detail pages, and checkout flows built for repeat customers and high order volume.',
 		stack: ['Shopify', 'Liquid', 'Theme Dev', 'E-commerce UX'],
 		image:
 			'https://image.thum.io/get/width/1200/crop/675/noanimate/https://happyhydro.com',
@@ -180,7 +180,7 @@ export const projects: ProjectItem[] = [
 	{
 		title: 'Labyrinth Style',
 		description:
-			'Luxury resort-wear Shopify store for a Cape Town brand — sale collections, product grids, and brand storytelling for kimonos, kaftans, and dresses across seasonal drops.',
+			'Luxury resort-wear Shopify store for a Cape Town brand, sale collections, product grids, and brand storytelling for kimonos, kaftans, and dresses across seasonal drops.',
 		stack: ['Shopify', 'Liquid', 'Fashion Retail', 'Mobile UX'],
 		image:
 			'https://image.thum.io/get/width/1200/crop/675/noanimate/https://labyrinthstyle.com',
@@ -198,7 +198,7 @@ export const projects: ProjectItem[] = [
 	{
 		title: 'La Boutique de Xéa',
 		description:
-			'French boutique e-commerce build — curated collections, localized merchandising, and a polished brand experience for everyday luxury shopping.',
+			'French boutique e-commerce build, curated collections, localized merchandising, and a polished brand experience for everyday luxury shopping.',
 		stack: ['Shopify', 'Liquid', 'International', 'Brand UX'],
 		image:
 			'https://image.thum.io/get/width/1200/crop/675/noanimate/https://laboutiquedexea.com',
@@ -207,7 +207,7 @@ export const projects: ProjectItem[] = [
 	{
 		title: 'Crown & Caliber',
 		description:
-			'Premium lifestyle and watches commerce experience — editorial sections, rich content layouts, subscription flows, and a luxury browsing journey across categories.',
+			'Premium lifestyle and watches commerce experience, editorial sections, rich content layouts, subscription flows, and a luxury browsing journey across categories.',
 		stack: ['Shopify', 'Content Commerce', 'Luxury Retail', 'UX'],
 		image:
 			'https://image.thum.io/get/width/1200/crop/675/noanimate/https://www.crownandcaliber.com',
@@ -263,14 +263,14 @@ export const visitorNote = {
 	liveCountsLabel: 'Live visitor counts',
 	cancelVoteLabel: 'Remove my vote',
 	namePlaceholder: 'Your name (optional)',
-	messagePlaceholder: 'Optional note for Ben...',
+	messagePlaceholder: 'Optional note for Ben',
 	submitLabel: 'Apply',
-	submittingLabel: 'Applying...',
+	submittingLabel: 'Applying',
 	formNote: 'One apply per visitor. Your vote updates the live totals everyone sees.',
-	thanksMessage: 'Thanks — your response is counted in the live totals.',
+	thanksMessage: 'Thanks! Your response is counted in the live totals.',
 	repliesTitle: 'Visitor notes',
 	repliesSummary: 'Public notes left by visitors on this page.',
-	loadingReplies: 'Loading live counts...',
+	loadingReplies: 'Loading live counts',
 	loadError: 'Could not load live counts. Please refresh the page.',
 	emptyReplies: 'No notes yet. Be the first to share your take.',
 	notifyApplied: 'Your response was applied.',
@@ -338,7 +338,7 @@ export const benStory = {
 	],
 	technicalLeadership: [
 		'Later he moved into technical and product-focused work: software systems, AI integration, backend infrastructure, and product architecture.',
-		'He built and led multiple small teams across different projects — product development, technical execution, and operational support for business projects with his partner.',
+		'He built and led multiple small teams across different projects, product development, technical execution, and operational support for business projects with his partner.',
 		'Results were practical: working products, improved live systems, and helping early ideas become stable enough for real users.',
 	],
 	teamsLed: [
@@ -353,26 +353,26 @@ export const benStory = {
 	],
 };
 
-/** Human-side interests Bon can mention naturally — not invented CV facts. */
+/** Human-side interests Bon can mention naturally, not invented CV facts. */
 export const benPersonality = {
 	wellbeing: [
-		'Ben cares about sustainable pace — sleep, breaks, and not burning out on long builds.',
+		'Ben cares about sustainable pace, sleep, breaks, and not burning out on long builds.',
 		'He values simple healthy habits: moving when he can, eating reasonably, and stepping away from the screen when a problem needs fresh eyes.',
-		'Hard work matters to him, but so does recovery — he learned that consistency beats heroic all-nighters.',
+		'Hard work matters to him, but so does recovery, he learned that consistency beats heroic all-nighters.',
 	],
 	music: [
-		'He often listens to music while coding — usually calm or instrumental stuff that helps focus without shouting over his thoughts.',
+		'He often listens to music while coding, usually calm or instrumental stuff that helps focus without shouting over his thoughts.',
 		'Music is more mood than genre for him: something steady in the background while he ships features or untangles a bug.',
 		'He is not a musician himself, but a good soundtrack makes long build sessions feel lighter.',
 	],
 	playAndLife: [
-		'For Ben, "play" often means tinkering — side ideas, small experiments, or exploring a new tool just to see what happens.',
-		'He spent years in libraries soaking up business stories — he still enjoys learning for its own sake.',
+		'For Ben, "play" often means tinkering, side ideas, small experiments, or exploring a new tool just to see what happens.',
+		'He spent years in libraries soaking up business stories, he still enjoys learning for its own sake.',
 		'He likes connecting with people who are curious, kind, and building something real, whether that is code or a business.',
 	],
 	valuesForVisitors: [
 		'Encourage people to take care of themselves while they chase ambitious goals.',
-		'Be honest when something is outside his lane — and point people toward Ben when work or collaboration is the real topic.',
+		'Be honest when something is outside his lane, and point people toward Ben when work or collaboration is the real topic.',
 		'Stay warm and human even when the question is silly, random, or not about development.',
 	],
 };

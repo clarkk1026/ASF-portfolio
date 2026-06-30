@@ -1,7 +1,7 @@
 export const BOT_NAME = 'Bon';
 export const BOT_SUBTITLE = 'AI BEN';
 
-export const botGreeting = `Hey — I'm **Bon** (AI BEN). I know Ben's work inside out, but I'm also happy to chat like a real person — music, wellbeing, random thoughts, whatever. Ask about his skills, story, or just say hi.
+export const botGreeting = `Hey! I'm **Bon** (AI BEN). I know Ben's work inside out, and I'm happy to chat like a real person about music, wellbeing, random thoughts, whatever. Ask about his skills, story, or just say hi.
 
 [[mood:happy]]`;
 

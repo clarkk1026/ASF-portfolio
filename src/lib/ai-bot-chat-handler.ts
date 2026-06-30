@@ -93,7 +93,7 @@ export const handleChatRequest = async (
 
 	if (!message) {
 		return formatReply(
-			`Hey — I'm Bon. Ask about Ben's work, his story, or just chat like a normal person. I'm listening.\n\n[[mood:warm]]`,
+			`Hey! I'm Bon. Ask about Ben's work, his story, or just chat like a normal person. I'm listening.\n\n[[mood:warm]]`,
 			'empty',
 			'local',
 		);

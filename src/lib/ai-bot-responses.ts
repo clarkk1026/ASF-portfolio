@@ -109,9 +109,9 @@ const expandColloquial = (input: string): string => {
 
 const impoliteReply = (ctx: BotContext): BotReply => ({
 	text: pick([
-		`Hey — I'm still here, but let's keep it respectful. I'm happy to talk about Ben, or just have a normal friendly chat if you're in the mood for that.\n\n[[mood:calm]]`,
-		`Ouch — that one's a bit sharp. No worries, we can reset. Ask me about Ben's work, or tell me what's actually on your mind.\n\n[[mood:thoughtful]]`,
-		`I'd rather not go there. I'm Bon — I can help with Ben's portfolio, or chat like a decent human if you want to try again.\n\n[[mood:sorry]]`,
+		`Hey, I'm still here, but let's keep it respectful. I'm happy to talk about Ben, or just have a normal friendly chat if you're in the mood for that.\n\n[[mood:calm]]`,
+		`Ouch, that one's a bit sharp. No worries, we can reset. Ask me about Ben's work, or tell me what's actually on your mind.\n\n[[mood:thoughtful]]`,
+		`I'd rather not go there. I'm Bon, I can help with Ben's portfolio, or chat like a decent human if you want to try again.\n\n[[mood:sorry]]`,
 	]),
 	intent: 'impolite',
 	userName: ctx.userName,
@@ -119,9 +119,9 @@ const impoliteReply = (ctx: BotContext): BotReply => ({
 
 const blockedTopicReply = (ctx: BotContext): BotReply => ({
 	text: pick([
-		`That's not really something I can help with — especially homework or exam answers. I'm better at Ben's work, or a friendly chat about life stuff. What would you like instead?\n\n[[mood:shy]]`,
-		`I'll pass on that one — politics debates and gambling tips aren't my lane. Happy to talk about Ben, wellbeing, music, or how to reach him though.\n\n[[mood:calm]]`,
-		`I can't do that for you, but I'm not trying to be cold about it. Ask me about Ben's skills, story, or something lighter — I'm genuinely glad to chat.\n\n[[mood:warm]]`,
+		`That's not really something I can help with, especially homework or exam answers. I'm better at Ben's work, or a friendly chat about life stuff. What would you like instead?\n\n[[mood:shy]]`,
+		`I'll pass on that one, politics debates and gambling tips aren't my lane. Happy to talk about Ben, wellbeing, music, or how to reach him though.\n\n[[mood:calm]]`,
+		`I can't do that for you, but I'm not trying to be cold about it. Ask me about Ben's skills, story, or something lighter, I'm genuinely glad to chat.\n\n[[mood:warm]]`,
 	]),
 	intent: 'blocked_topic',
 	userName: ctx.userName,
@@ -132,7 +132,7 @@ const IMPOLITE_PATTERNS = [
 	/\b(f+u+c+k+\s*ben|ben\s*sucks|ben\s*is\s*(trash|garbage|useless|stupid|bad))\b/,
 ];
 
-/** Only hard-block topics Bon should never help with — not casual life chat. */
+/** Only hard-block topics Bon should never help with, not casual life chat. */
 const BLOCKED_TOPIC_PATTERNS = [
 	/\b(president|election|politics|who should i vote|political party)\b/,
 	/\b(bitcoin|crypto|stock\s*price|lottery|gambling|bet\s*on)\b/,
@@ -262,11 +262,11 @@ const scoreBenRelevance = (q: string, tokens: string[]) => {
 const prefix = (lines: string[]) => {
 	const openers = [
 		'',
-		'Good question — ',
+		'Good question. ',
 		'Sure, ',
 		'Yeah, ',
-		'Oh nice — ',
-		'Happy to share — ',
+		'Oh nice. ',
+		'Happy to share. ',
 	];
 	return pick(openers) + pick(lines);
 };
@@ -313,31 +313,31 @@ const isQuestion = (q: string) =>
 
 const humanExperience = () =>
 	prefix([
-		`Ben's been building professionally for **5+ years** now — and it's been a solid climb.\n\nHe led as **Senior / Lead Full Stack Developer** (2023–2025, remote) — shipping React/Next.js products, mentoring devs, and weaving AI into real workflows.\n\nBefore that, **Livestorm** (2021–2023) sharpened his production skills, and **NearForm** in Dublin (2020–2021) is where he cut his teeth as a junior dev.\n\nWant details on any of those roles? Just ask.`,
-		`So career-wise, Ben's got over **five years** in the game. Latest gig was **Senior / Lead Full Stack** (remote, 2023–2025). He's also done time at **Livestorm** and started out at **NearForm** in Dublin.\n\nHe's not just coding — he's led initiatives, done code reviews, and helped junior devs grow. Pretty well-rounded if you ask me.`,
+		`Ben's been building professionally for **5+ years** now, and it's been a solid climb.\n\nHe led as **Senior / Lead Full Stack Developer** (2023–2025, remote), shipping React/Next.js products, mentoring devs, and weaving AI into real workflows.\n\nBefore that, **Livestorm** (2021–2023) sharpened his production skills, and **NearForm** in Dublin (2020–2021) is where he cut his teeth as a junior dev.\n\nWant details on any of those roles? Just ask.`,
+		`So career-wise, Ben's got over **five years** in the game. Latest gig was **Senior / Lead Full Stack** (remote, 2023–2025). He's also done time at **Livestorm** and started out at **NearForm** in Dublin.\n\nHe's not just coding, he's led initiatives, done code reviews, and helped junior devs grow. Pretty well-rounded if you ask me.`,
 	]);
 
 const humanProjects = () =>
 	prefix([
-		`Ben has shipped **live Shopify storefronts** for real brands — not mockups. Selected work on this site includes:\n\n• **Happy Hydro** — US indoor gardening retailer\n• **Labyrinth Style** — luxury resort wear\n• **Remedior Skincare** — DTC skincare\n• **La Boutique de Xéa** — French boutique\n• **Crown & Caliber** — luxury lifestyle commerce\n\nScroll to **Selected Work** or ask about a specific store.\n\n[[mood:excited]]`,
-		`His portfolio highlights **production Shopify builds** — fashion, beauty, lifestyle, and retail across multiple markets. Each card links to the live site. Want details on one of them?`,
+		`Ben has shipped **live Shopify storefronts** for real brands, not mockups. Selected work on this site includes:\n\n• **Happy Hydro:** US indoor gardening retailer\n• **Labyrinth Style:** luxury resort wear\n• **Remedior Skincare:** DTC skincare\n• **La Boutique de Xéa:** French boutique\n• **Crown & Caliber:** luxury lifestyle commerce\n\nScroll to **Selected Work** or ask about a specific store.\n\n[[mood:excited]]`,
+		`His portfolio highlights **production Shopify builds**, fashion, beauty, lifestyle, and retail across multiple markets. Each card links to the live site. Want details on one of them?`,
 	]);
 
 const humanSkills = () =>
 	prefix([
-		`Ben's sweet spot is really three things working together:\n\n**AI engineering** — LLMs, Python, TensorFlow, PyTorch, shipping features not slide decks.\n\n**Shopify & e-commerce** — storefronts, custom apps, conversion-focused builds (plus he ran his own clothing brand, so he gets the business side).\n\n**Full-stack** — React, Next.js, Node, AWS, Vercel, the whole pipeline.\n\nHe's also strong on Postgres, MongoDB, Redis, Docker, Prisma — the usual modern stack.`,
-		`If I had to sum Ben up in one line: **AI + commerce + full-stack**, all with a product mindset.\n\nHe builds intelligent features, high-performing Shopify experiences, and end-to-end web apps. Traits like ${traits.slice(0, 3).join(', ')} show up in how he actually works — not just on a CV.`,
+		`Ben's sweet spot is really three things working together:\n\n**AI engineering**, LLMs, Python, TensorFlow, PyTorch, shipping features not slide decks.\n\n**Shopify & e-commerce**, storefronts, custom apps, conversion-focused builds (plus he ran his own clothing brand, so he gets the business side).\n\n**Full-stack**, React, Next.js, Node, AWS, Vercel, the whole pipeline.\n\nHe's also strong on Postgres, MongoDB, Redis, Docker, Prisma, the usual modern stack.`,
+		`If I had to sum Ben up in one line: **AI + commerce + full-stack**, all with a product mindset.\n\nHe builds intelligent features, high-performing Shopify experiences, and end-to-end web apps. Traits like ${traits.slice(0, 3).join(', ')} show up in how he actually works, not just on a CV.`,
 	]);
 
 const humanTech = (mentioned?: string) => {
 	if (mentioned) {
 		return prefix([
-			`Yeah, **${mentioned}** is definitely in Ben's wheelhouse. His broader stack covers Next.js, React, TypeScript, Node, Postgres, Redis, Docker, AWS, Vercel, Python, and AI tooling like TensorFlow and PyTorch.\n\nHe's used to picking the right tool for the job — not just chasing hype.`,
-			`**${mentioned}** — yep, he works with that regularly. Alongside it he's comfortable across frontend (React/Next/Tailwind), backend (Node/Express/Nest), databases, and cloud deploys. Pretty pragmatic engineer.`,
+			`Yeah, **${mentioned}** is definitely in Ben's wheelhouse. His broader stack covers Next.js, React, TypeScript, Node, Postgres, Redis, Docker, AWS, Vercel, Python, and AI tooling like TensorFlow and PyTorch.\n\nHe's used to picking the right tool for the job, not just chasing hype.`,
+			`**${mentioned}**, yep, he works with that regularly. Alongside it he's comfortable across frontend (React/Next/Tailwind), backend (Node/Express/Nest), databases, and cloud deploys. Pretty pragmatic engineer.`,
 		]);
 	}
 	return prefix([
-		`Tooling-wise, Ben's stack is modern and battle-tested:\n\n**Frontend:** Next.js, React, TypeScript, Tailwind\n**Backend:** Node, Express, NestJS\n**Data:** PostgreSQL, MongoDB, Redis, Prisma, Firebase\n**Infra & AI:** Docker, AWS, Vercel, Python, TensorFlow, PyTorch\n\nHe picks tools based on what the product needs — not resume padding.`,
+		`Tooling-wise, Ben's stack is modern and battle-tested:\n\n**Frontend:** Next.js, React, TypeScript, Tailwind\n**Backend:** Node, Express, NestJS\n**Data:** PostgreSQL, MongoDB, Redis, Prisma, Firebase\n**Infra & AI:** Docker, AWS, Vercel, Python, TensorFlow, PyTorch\n\nHe picks tools based on what the product needs, not resume padding.`,
 	]);
 };
 
@@ -349,7 +349,7 @@ const humanContact = () =>
 
 const humanAbout = () =>
 	prefix([
-		`Ben is originally from **Japan**. He faced early loss, adapted to a new country, and built stability largely on his own — which shaped his focus on **independence**, **responsibility**, and **execution**.\n\nIn university he started a **sock business** that grew into a **clothing company** with a classmate. Later he moved into **software**, **AI**, and **product leadership**, leading small teams across business and technical work.\n\n${benStory.lessons[0]}\n\n[[mood:thoughtful]]`,
+		`Ben is originally from **Japan**. He faced early loss, adapted to a new country, and built stability largely on his own, which shaped his focus on **independence**, **responsibility**, and **execution**.\n\nIn university he started a **sock business** that grew into a **clothing company** with a classmate. Later he moved into **software**, **AI**, and **product leadership**, leading small teams across business and technical work.\n\n${benStory.lessons[0]}\n\n[[mood:thoughtful]]`,
 		`${benStory.summary}\n\nToday he combines that entrepreneurial background with **AI**, **Shopify**, and **full-stack** engineering.\n\n[[mood:warm]]`,
 	]);
 
@@ -365,10 +365,10 @@ const humanCasualChat = (input: string, ctx: BotContext): BotReply => {
 
 	return {
 		text: pick([
-			`Fair question${nameBit}. I'm mostly here for Ben's portfolio, but I don't mind a human chat. Tell me more — or ask about his **skills**, **story**, or **contact** whenever you want.\n\n[[mood:warm]]`,
-			`Ha — okay${nameBit}, I'm listening. I'm Bon, Ben's site voice. We can talk about life stuff or dive into his work — your call.\n\n[[mood:happy]]`,
+			`Fair question${nameBit}. I'm mostly here for Ben's portfolio, but I don't mind a human chat. Tell me more, or ask about his **skills**, **story**, or **contact** whenever you want.\n\n[[mood:warm]]`,
+			`Ha, okay${nameBit}, I'm listening. I'm Bon, Ben's site voice. We can talk about life stuff or dive into his work, your call.\n\n[[mood:happy]]`,
 			`Not everything has to be about code${nameBit}. I'm happy to chat. If Ben's background is what you came for, I know that side really well too.\n\n[[mood:calm]]`,
-			`Got you${nameBit} — "${trimmed}" is a mood. I'm here for it. Want something about Ben, or just keeping it casual?\n\n[[mood:thoughtful]]`,
+			`Got you${nameBit}, "${trimmed}" is a mood. I'm here for it. Want something about Ben, or just keeping it casual?\n\n[[mood:thoughtful]]`,
 		]),
 		intent: 'casual',
 		userName: ctx.userName,
@@ -397,7 +397,7 @@ const humanFallback = (input: string, tokens: string[], ctx: BotContext) => {
 
 	if (hasWord(tokens, ['good', 'great', 'best', 'awesome', 'cool', 'nice'])) {
 		return {
-			text: `Ha, I'll take that as a compliment${nameBit}! Anything else on your mind — Ben's work, or just life stuff?\n\n[[mood:happy]]`,
+			text: `Ha, I'll take that as a compliment${nameBit}! Anything else on your mind, Ben's work, or just life stuff?\n\n[[mood:happy]]`,
 			intent: 'positive',
 		};
 	}
@@ -462,10 +462,10 @@ const handlers: IntentHandler[] = [
 			const name = ctx.userName;
 			return pick([
 				name
-					? `Hi ${name} — I'm **Bon** (AI BEN). I know Ben's work, but I'm also happy to just talk like a person. What's on your mind?\n\n[[mood:happy]]`
-					: `Hi — I'm **Bon** (AI BEN). Ben is an **AI Developer**, **Shopify Developer**, and **Full Stack Engineer** in ${personal.location}. We can talk shop or just chat. What would you like?\n\n[[mood:happy]]`,
-				`Hello! I'm here for Ben's portfolio **and** normal conversation — skills, story, music, life stuff, whatever.`,
-				`Hey — nice of you to stop by. I'm Bon. Ask me anything about Ben, or just say what's up.`,
+					? `Hi ${name}, I'm **Bon** (AI BEN). I know Ben's work, but I'm also happy to just talk like a person. What's on your mind?\n\n[[mood:happy]]`
+					: `Hi, I'm **Bon** (AI BEN). Ben is an **AI Developer**, **Shopify Developer**, and **Full Stack Engineer** in ${personal.location}. We can talk shop or just chat. What would you like?\n\n[[mood:happy]]`,
+				`Hello! I'm here for Ben's portfolio **and** normal conversation, skills, story, music, life stuff, whatever.`,
+				`Hey, nice of you to stop by. I'm Bon. Ask me anything about Ben, or just say what's up.`,
 			]);
 		},
 	},
@@ -475,7 +475,7 @@ const handlers: IntentHandler[] = [
 		reply: (_q, _t, ctx) =>
 			pick([
 				`Anytime${ctx.userName ? `, ${ctx.userName}` : ''}! If Ben's a fit for what you need, ${personal.email} is the move.`,
-				`You're welcome! Glad I could help. Feel free to keep asking — or reach out to Ben directly whenever you're ready.`,
+				`You're welcome! Glad I could help. Feel free to keep asking, or reach out to Ben directly whenever you're ready.`,
 				`Happy to help! 😊 Ben's usually pretty responsive if you email him at **${personal.email}**.`,
 			]),
 	},
@@ -486,7 +486,7 @@ const handlers: IntentHandler[] = [
 		reply: (_q, _t, ctx) =>
 			pick([
 				`Catch you later${ctx.userName ? `, ${ctx.userName}` : ''}! Ben's at **${personal.email}** if you want to continue the conversation for real.`,
-				`Bye! 👋 Come back anytime — I'll be here.`,
+				`Bye! 👋 Come back anytime, I'll be here.`,
 				`Good talking with you! Don't hesitate to reach out to Ben when the time's right.`,
 			]),
 	},
@@ -500,7 +500,7 @@ const handlers: IntentHandler[] = [
 			return s;
 		},
 		reply: () =>
-			`I'm **Bon** — think of me as someone who knows Ben well and actually likes talking to people.\n\nYou can ask about:\n• His **experience**, **skills**, and **projects**\n• His **personal story** (Japan, entrepreneurship, leadership)\n• **Health & balance**, **music**, or random life chat\n• How to **contact** him\n\nNo need to be formal. I'll meet you where you are.`,
+			`I'm **Bon**. Think of me as someone who knows Ben well and actually likes talking to people.\n\nYou can ask about:\n• His **experience**, **skills**, and **projects**\n• His **personal story** (Japan, entrepreneurship, leadership)\n• **Health & balance**, **music**, or random life chat\n• How to **contact** him\n\nNo need to be formal. I'll meet you where you are.`,
 	},
 	{
 		id: 'identity',
@@ -535,7 +535,7 @@ const handlers: IntentHandler[] = [
 		},
 		reply: (_q, _t, ctx) =>
 			pick([
-				`I'm doing alright${ctx.userName ? `, ${ctx.userName}` : ''} — thanks for asking. Kind of enjoying being the voice on Ben's site today. How are **you** doing?\n\n[[mood:happy]]`,
+				`I'm doing alright${ctx.userName ? `, ${ctx.userName}` : ''}, thanks for asking. Kind of enjoying being the voice on Ben's site today. How are **you** doing?\n\n[[mood:happy]]`,
 				`Pretty good! A little shy sometimes when I don't know someone yet, but I'm warm once we get talking. What's on your mind?\n\n[[mood:shy]]`,
 				`Honestly? Calm and curious. I like when visitors actually say hi like humans. How's your day going?\n\n[[mood:calm]]`,
 			]),
@@ -557,8 +557,8 @@ const handlers: IntentHandler[] = [
 		},
 		reply: (_q, _t, ctx) =>
 			pick([
-				`Hey${ctx.userName ? ` ${ctx.userName}` : ''} — I'm sorry you're carrying that. I'm just Bon on a portfolio site, not a therapist, but I do care. Take a breath if you can, drink some water, step away from the screen for a minute. If you want a real human, Ben's at **${personal.email}**. I'm here too if you want to talk about lighter stuff or his work.\n\n[[mood:sorry]]`,
-				`That sounds heavy. Please be gentle with yourself today — rest counts as productive sometimes. I'm happy to listen or distract you with something about Ben's projects if that helps.\n\n[[mood:thoughtful]]`,
+				`Hey${ctx.userName ? ` ${ctx.userName}` : ''}, I'm sorry you're carrying that. I'm just Bon on a portfolio site, not a therapist, but I do care. Take a breath if you can, drink some water, step away from the screen for a minute. If you want a real human, Ben's at **${personal.email}**. I'm here too if you want to talk about lighter stuff or his work.\n\n[[mood:sorry]]`,
+				`That sounds heavy. Please be gentle with yourself today, rest counts as productive sometimes. I'm happy to listen or distract you with something about Ben's projects if that helps.\n\n[[mood:thoughtful]]`,
 			]),
 	},
 	{
@@ -572,8 +572,8 @@ const handlers: IntentHandler[] = [
 		},
 		reply: () =>
 			pick([
-				`${benPersonality.wellbeing[0]} ${benPersonality.wellbeing[2]}\n\nIf you're grinding on something big — code, school, life — breaks are not quitting. They're how you last.\n\n[[mood:warm]]`,
-				`Ben's big on sustainable pace. ${benPersonality.wellbeing[1]} What about you — are you taking care of yourself while you're building whatever you're building?\n\n[[mood:thoughtful]]`,
+				`${benPersonality.wellbeing[0]} ${benPersonality.wellbeing[2]}\n\nIf you're grinding on something big, code, school, life, breaks are not quitting. They're how you last.\n\n[[mood:warm]]`,
+				`Ben's big on sustainable pace. ${benPersonality.wellbeing[1]} What about you, are you taking care of yourself while you're building whatever you're building?\n\n[[mood:thoughtful]]`,
 			]),
 	},
 	{
@@ -600,8 +600,8 @@ const handlers: IntentHandler[] = [
 		},
 		reply: () =>
 			pick([
-				`I'm not great at actual games in a chat box — but ${benPersonality.playAndLife[0].toLowerCase()}\n\nWant to hear about something Ben built for fun, or should we just riff?\n\n[[mood:happy]]`,
-				`Boredom happens. Ben usually channels it into tinkering — ${benPersonality.playAndLife[1].toLowerCase()}\n\nTell me what you're into and we'll find a thread.\n\n[[mood:thoughtful]]`,
+				`I'm not great at actual games in a chat box, but ${benPersonality.playAndLife[0].toLowerCase()}\n\nWant to hear about something Ben built for fun, or should we just riff?\n\n[[mood:happy]]`,
+				`Boredom happens. Ben usually channels it into tinkering, ${benPersonality.playAndLife[1].toLowerCase()}\n\nTell me what you're into and we'll find a thread.\n\n[[mood:thoughtful]]`,
 			]),
 	},
 	{
@@ -610,7 +610,7 @@ const handlers: IntentHandler[] = [
 			matches(q, [/tell me a joke|make me laugh|say something funny|cheer me up/]) ? 11 : 0,
 		reply: () =>
 			pick([
-				`Why do programmers prefer dark mode? Because light attracts bugs.\n\n...I'll see myself out. Want a real conversation about Ben or about your day?\n\n[[mood:happy]]`,
+				`Why do programmers prefer dark mode? Because light attracts bugs.\n\nI'll see myself out. Want a real conversation about Ben or about your day?\n\n[[mood:happy]]`,
 				`A user asked Bon for the meaning of life. Bon said: "Have you tried turning it off and on again?"\n\nOkay, dad joke deployed. What else you got?\n\n[[mood:excited]]`,
 			]),
 	},
@@ -619,7 +619,7 @@ const handlers: IntentHandler[] = [
 		score: (q, tokens) => (isGibberish(q, tokens) ? 11 : 0),
 		reply: (_q, _t, ctx) =>
 			pick([
-				`Haha okay${ctx.userName ? ` ${ctx.userName}` : ''} — I felt that energy. Random keyboard smash or are we testing if I'm alive? I'm alive. What's up?\n\n[[mood:happy]]`,
+				`Haha okay${ctx.userName ? ` ${ctx.userName}` : ''}, I felt that energy. Random keyboard smash or are we testing if I'm alive? I'm alive. What's up?\n\n[[mood:happy]]`,
 				`That was beautifully nonsense. I respect it. Want to talk about Ben, music, health habits, or keep being weird?\n\n[[mood:excited]]`,
 			]),
 	},
@@ -651,7 +651,7 @@ const handlers: IntentHandler[] = [
 		},
 		reply: () =>
 			prefix([
-				`Ben went to **Trinity College Dublin** (2016–2020) — solid choice.\n\nHe graduated with a **B.A. in Computer Science and Business**, **2:1 honours**. Focus areas included AI, full-stack dev, web tech, and e-commerce systems.\n\nSmart combo for someone who builds products, not just code.`,
+				`Ben went to **Trinity College Dublin** (2016–2020), solid choice.\n\nHe graduated with a **B.A. in Computer Science and Business**, **2:1 honours**. Focus areas included AI, full-stack dev, web tech, and e-commerce systems.\n\nSmart combo for someone who builds products, not just code.`,
 			]),
 	},
 	{
@@ -702,7 +702,7 @@ const handlers: IntentHandler[] = [
 		},
 		reply: () =>
 			prefix([
-				`Shopify's a big part of Ben's story. He's a proper **Shopify developer** — themes, custom apps, conversion-focused storefronts.\n\nFun fact: he also **ran his own clothing brand**, so he understands merchants and customers, not just Liquid templates and APIs.`,
+				`Shopify's a big part of Ben's story. He's a proper **Shopify developer**, themes, custom apps, conversion-focused storefronts.\n\nFun fact: he also **ran his own clothing brand**, so he understands merchants and customers, not just Liquid templates and APIs.`,
 				`Yeah, e-commerce is core for Ben. He builds on **Shopify** and custom stacks, always thinking about performance and conversion. Running his own clothing business gave him real merchant instincts.`,
 			]),
 	},
@@ -713,15 +713,15 @@ const handlers: IntentHandler[] = [
 			if (matches(q, [/artificial intelligence|machine learning|ai engineer|ml engineer/])) s += 10;
 			if (hasWord(tokens, ['ai', 'llm', 'gpt', 'chatgpt', 'copilot', 'ml', 'machine'])) s += 6;
 			if (hasWord(tokens, ['tensorflow', 'pytorch', 'python'])) s += 5;
-			// "cursor" as IDE — only when paired with dev/ai context
+			// "cursor" as IDE, only when paired with dev/ai context
 			if (hasWord(tokens, ['cursor']) && hasWord(tokens, ['ide', 'tool', 'editor', 'ai', 'code']))
 				s += 5;
 			return s;
 		},
 		reply: () =>
 			prefix([
-				`AI isn't a buzzword for Ben — he actually ships it. LLM APIs, Python, TensorFlow, PyTorch, intelligent features in real products.\n\nHe uses tools like Copilot and ChatGPT daily, but the goal is always **practical workflows** that save time and improve quality.`,
-				`Ben's big on **practical AI**. Not demos for LinkedIn — actual features in production. Think LLM integrations, Python pipelines, and ML where it genuinely helps the product.`,
+				`AI isn't a buzzword for Ben, he actually ships it. LLM APIs, Python, TensorFlow, PyTorch, intelligent features in real products.\n\nHe uses tools like Copilot and ChatGPT daily, but the goal is always **practical workflows** that save time and improve quality.`,
+				`Ben's big on **practical AI**. Not demos for LinkedIn, actual features in production. Think LLM integrations, Python pipelines, and ML where it genuinely helps the product.`,
 			]),
 	},
 	{
@@ -807,8 +807,8 @@ const handlers: IntentHandler[] = [
 		},
 		reply: () =>
 			prefix([
-				`Yes — Ben's **open to freelance, collaborations, and full-time roles**. Remote works great for him; he's done it across multiple jobs.\n\nDrop him a line at **${personal.email}** — he typically replies within **24 hours**.`,
-				`From what I know, he's actively open to new opportunities — freelance projects, collabs, or full-time. Remote-friendly and based in ${personal.location}. Email's the best first step: **${personal.email}**.`,
+				`Yes, Ben's **open to freelance, collaborations, and full-time roles**. Remote works great for him; he's done it across multiple jobs.\n\nDrop him a line at **${personal.email}**, he typically replies within **24 hours**.`,
+				`From what I know, he's actively open to new opportunities, freelance projects, collabs, or full-time. Remote-friendly and based in ${personal.location}. Email's the best first step: **${personal.email}**.`,
 			]),
 	},
 	{
@@ -822,20 +822,20 @@ const handlers: IntentHandler[] = [
 		reply: () =>
 			prefix([
 				`Ben's based in **${personal.location}**. He's worked remotely for years and is totally comfortable with distributed teams worldwide.`,
-				`He's in **${personal.location}** — but location hasn't stopped him. Most of his recent roles have been remote anyway.`,
+				`He's in **${personal.location}**, but location hasn't stopped him. Most of his recent roles have been remote anyway.`,
 			]),
 	},
 	{
 		id: 'livestorm',
 		score: (q) => (/livestorm/.test(q) ? 12 : 0),
 		reply: () =>
-			`Ah, **Livestorm** — that was 2021 to 2023, remote. Ben was a **Mid-Level Full Stack Developer** there. Production apps, API optimization, agile teams with product and design, and he started bringing AI-assisted workflows into everyday dev. Good chapter in his career.`,
+			`Ah, **Livestorm**, that was 2021 to 2023, remote. Ben was a **Mid-Level Full Stack Developer** there. Production apps, API optimization, agile teams with product and design, and he started bringing AI-assisted workflows into everyday dev. Good chapter in his career.`,
 	},
 	{
 		id: 'nearform',
 		score: (q) => (/nearform|near form/.test(q) ? 12 : 0),
 		reply: () =>
-			`**NearForm** in Dublin — that's where Ben started out (2020–2021) as a **Junior Developer**. Responsive UIs, backend integrations, turning designs into accessible apps, solid Git habits. Everyone's gotta start somewhere, and that was a strong place to learn.`,
+			`**NearForm** in Dublin, that's where Ben started out (2020–2021) as a **Junior Developer**. Responsive UIs, backend integrations, turning designs into accessible apps, solid Git habits. Everyone's gotta start somewhere, and that was a strong place to learn.`,
 	},
 	{
 		id: 'shopify_stores',
@@ -856,7 +856,7 @@ const handlers: IntentHandler[] = [
 			return s;
 		},
 		reply: () =>
-			`You're on Ben's portfolio right now! Sections to explore:\n\n• **About** — his story\n• **Core Skills** — what he's great at\n• **Work Experience** — jobs & education\n• **Selected Work** — project previews\n• **Tech Stack** — tools he uses daily\n• **Contact** — how to reach him\n\nUse the nav up top or just scroll. What catches your eye?`,
+			`You're on Ben's portfolio right now! Sections to explore:\n\n• **About:** his story\n• **Core Skills:** what he's great at\n• **Work Experience:** jobs & education\n• **Selected Work:** project previews\n• **Tech Stack:** tools he uses daily\n• **Contact:** how to reach him\n\nUse the nav up top or just scroll. What catches your eye?`,
 	},
 	{
 		id: 'pricing',
@@ -866,13 +866,13 @@ const handlers: IntentHandler[] = [
 			return 0;
 		},
 		reply: () =>
-			`Rates depend on the project — Ben doesn't publish a fixed price list here. Best approach: email him at **${personal.email}** with what you have in mind. He'll give you an honest answer once he understands scope and timeline.`,
+			`Rates depend on the project, Ben doesn't publish a fixed price list here. Best approach: email him at **${personal.email}** with what you have in mind. He'll give you an honest answer once he understands scope and timeline.`,
 	},
 	{
 		id: 'compare',
 		score: (q) => (/better than|vs |versus|compare|difference between/.test(q) ? 8 : 0),
 		reply: () =>
-			`Ha — I'm flattered you're thinking deeply! I can't really compare Ben to others since I only know his story well. What I can say: he brings **AI + Shopify + full-stack** together with real product experience. If you tell me what you're looking for, I can say whether that fits his background.`,
+			`Ha, I'm flattered you're thinking deeply! I can't really compare Ben to others since I only know his story well. What I can say: he brings **AI + Shopify + full-stack** together with real product experience. If you tell me what you're looking for, I can say whether that fits his background.`,
 	},
 	{
 		id: 'followup',
@@ -885,16 +885,16 @@ const handlers: IntentHandler[] = [
 		},
 		reply: (_q, _t, ctx) => {
 			const followups: Record<string, string> = {
-				experience: `Want me to zoom in on a specific role — **Livestorm**, **NearForm**, or his **Senior/Lead** years? Or his **education** at Trinity?`,
+				experience: `Want me to zoom in on a specific role, **Livestorm**, **NearForm**, or his **Senior/Lead** years? Or his **education** at Trinity?`,
 				projects: `I can dive deeper into **Happy Hydro**, **Labyrinth Style**, **Remedior Skincare**, or any store in Selected Work. Which one interests you?`,
-				skills: `Happy to go deeper on **AI**, **Shopify**, or **full-stack** — or name a tech like React or Node and I'll tell you how he uses it.`,
+				skills: `Happy to go deeper on **AI**, **Shopify**, or **full-stack**, or name a tech like React or Node and I'll tell you how he uses it.`,
 				contact: `Email **${personal.email}**, Telegram **@${personal.telegramUsername}**, or Discord **${personal.discordUsername}**. I can suggest what to write in a first message if you want.\n\n[[mood:warm]]`,
-				tech: `Name any tool or language — React, Docker, Postgres, whatever — and I'll tell you how it fits Ben's work.`,
+				tech: `Name any tool or language, React, Docker, Postgres, whatever, and I'll tell you how it fits Ben's work.`,
 				about: `I can also share more about his **personal journey**, **projects**, or **how to contact him**. What would you like next?\n\n[[mood:warm]]`,
 			};
 			return (
 				followups[ctx.lastIntent ?? ''] ??
-				`Sure — what part of Ben's background interests you most? Experience, projects, skills, or how to get in touch?`
+				`Sure, what part of Ben's background interests you most? Experience, projects, skills, or how to get in touch?`
 			);
 		},
 	},
@@ -915,7 +915,7 @@ export const getBotResponse = (
 
 	if (!q) {
 		return {
-			text: `Hey — I'm Bon. Ask about Ben's work, his story, music, wellbeing, or whatever's on your mind.`,
+			text: `Hey, I'm Bon. Ask about Ben's work, his story, music, wellbeing, or whatever's on your mind.`,
 			intent: 'empty',
 			userName: ctx.userName,
 		};
@@ -940,7 +940,7 @@ export const getBotResponse = (
 	if (isGibberish(q, tokens)) {
 		return {
 			text: pick([
-				`Haha okay — I felt that energy. Random keyboard smash or are we testing if I'm alive? I'm alive. What's up?\n\n[[mood:happy]]`,
+				`Haha okay, I felt that energy. Random keyboard smash or are we testing if I'm alive? I'm alive. What's up?\n\n[[mood:happy]]`,
 				`Beautifully nonsense. I respect it. Want Ben's story, music chat, or more chaos?\n\n[[mood:excited]]`,
 			]),
 			intent: 'nonsense',
