@@ -30,6 +30,7 @@
 		"generate:favicons": "node scripts/generate-favicons.mjs"
 	},
 	"dependencies": {
+		"@vercel/blob": "^2.5.0",
 		"@vercel/kv": "^3.0.0",
 		"@vercel/node": "^5.8.22",
 		"react": "^19.2.5",

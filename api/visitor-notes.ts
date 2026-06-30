@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import {
+	isVisitorNotesPersistent,
 	readVisitorNotesStore,
 	writeVisitorNotesStore,
 } from './lib/visitor-notes-store.js';
@@ -14,6 +15,12 @@ import {
 	type VisitorVoteChangePayload,
 	type VisitorVotePayload,
 } from '../src/lib/visitor-notes-types.js';
+
+const respondWithCounts = (store: Awaited<ReturnType<typeof readVisitorNotesStore>>, status: number, res: VercelResponse) =>
+	res.status(status).json({
+		...withCounts(store),
+		livePersistent: isVisitorNotesPersistent(),
+	});
 
 const MAX_REPLIES = 200;
 const MAX_MESSAGE = 600;
@@ -67,7 +74,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 	try {
 		if (req.method === 'GET') {
 			const store = await readVisitorNotesStore();
-			return res.status(200).json(withCounts(store));
+			return respondWithCounts(store, 200, res);
 		}
 
 		if (req.method === 'POST') {
@@ -76,20 +83,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 			if (isVotePayload(req.body)) {
 				incrementVote(store, req.body.sentiment);
 				await writeVisitorNotesStore(store);
-				return res.status(201).json(withCounts(store));
+				return respondWithCounts(store, 201, res);
 			}
 
 			if (isVoteChangePayload(req.body)) {
 				decrementVote(store, req.body.from);
 				incrementVote(store, req.body.to);
 				await writeVisitorNotesStore(store);
-				return res.status(201).json(withCounts(store));
+				return respondWithCounts(store, 201, res);
 			}
 
 			if (isVoteCancelPayload(req.body)) {
 				decrementVote(store, req.body.sentiment);
 				await writeVisitorNotesStore(store);
-				return res.status(201).json(withCounts(store));
+				return respondWithCounts(store, 201, res);
 			}
 
 			if (isNotePayload(req.body)) {
@@ -102,7 +109,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 				});
 				store.replies = store.replies.slice(0, MAX_REPLIES);
 				await writeVisitorNotesStore(store);
-				return res.status(201).json(withCounts(store));
+				return respondWithCounts(store, 201, res);
 			}
 
 			return res.status(400).json({ error: 'Invalid payload' });

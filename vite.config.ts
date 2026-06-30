@@ -36,6 +36,11 @@ const readStore = () => {
 	}
 };
 
+const respondWithCounts = (store: ReturnType<typeof readStore>) => ({
+	...withCounts(store),
+	livePersistent: true,
+});
+
 const writeStore = (store: ReturnType<typeof normalizeStore>) => {
 	fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true });
 	fs.writeFileSync(DATA_FILE, `${JSON.stringify(store, null, 2)}\n`);
@@ -103,7 +108,7 @@ const visitorNotesDevApi = () => ({
 			try {
 				if (req.method === 'GET') {
 					res.setHeader('Content-Type', 'application/json');
-					res.end(JSON.stringify(withCounts(readStore())));
+					res.end(JSON.stringify(respondWithCounts(readStore())));
 					return;
 				}
 
@@ -116,7 +121,7 @@ const visitorNotesDevApi = () => ({
 						writeStore(store);
 						res.statusCode = 201;
 						res.setHeader('Content-Type', 'application/json');
-						res.end(JSON.stringify(withCounts(store)));
+						res.end(JSON.stringify(respondWithCounts(store)));
 						return;
 					}
 
@@ -126,7 +131,7 @@ const visitorNotesDevApi = () => ({
 						writeStore(store);
 						res.statusCode = 201;
 						res.setHeader('Content-Type', 'application/json');
-						res.end(JSON.stringify(withCounts(store)));
+						res.end(JSON.stringify(respondWithCounts(store)));
 						return;
 					}
 
@@ -135,7 +140,7 @@ const visitorNotesDevApi = () => ({
 						writeStore(store);
 						res.statusCode = 201;
 						res.setHeader('Content-Type', 'application/json');
-						res.end(JSON.stringify(withCounts(store)));
+						res.end(JSON.stringify(respondWithCounts(store)));
 						return;
 					}
 
@@ -151,7 +156,7 @@ const visitorNotesDevApi = () => ({
 						writeStore(store);
 						res.statusCode = 201;
 						res.setHeader('Content-Type', 'application/json');
-						res.end(JSON.stringify(withCounts(store)));
+						res.end(JSON.stringify(respondWithCounts(store)));
 						return;
 					}
 

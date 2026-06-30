@@ -96,6 +96,7 @@ export const VisitorNote = () => {
 	);
 	const snapshotRef = useRef<VisitorNotesSnapshot | null>(null);
 	const skipRemoteNotifyUntilRef = useRef(0);
+	const lastCountsRef = useRef({ support: 0, disagree: 0, notCare: 0 });
 
 	const liveCounts = {
 		support: supportCount,
@@ -103,12 +104,50 @@ export const VisitorNote = () => {
 		notCare: notCareCount,
 	};
 
-	const applyData = (data: Awaited<ReturnType<typeof fetchVisitorNotes>>) => {
-		setSupportCount(data.supportCount);
-		setDisagreeCount(data.disagreeCount);
-		setNotCareCount(data.notCareCount);
-		setReplies(data.replies);
-		snapshotRef.current = snapshotFromData(data);
+	const applyData = (
+		data: Awaited<ReturnType<typeof fetchVisitorNotes>>,
+		options?: { trustServer?: boolean },
+	) => {
+		const isPersistent = data.livePersistent ?? false;
+		const serverCounts = {
+			support: data.supportCount,
+			disagree: data.disagreeCount,
+			notCare: data.notCareCount,
+		};
+
+		let counts = serverCounts;
+		if (!options?.trustServer && !isPersistent) {
+			const last = lastCountsRef.current;
+			counts = {
+				support: Math.max(serverCounts.support, last.support),
+				disagree: Math.max(serverCounts.disagree, last.disagree),
+				notCare: Math.max(serverCounts.notCare, last.notCare),
+			};
+		}
+
+		lastCountsRef.current = counts;
+		setSupportCount(counts.support);
+		setDisagreeCount(counts.disagree);
+		setNotCareCount(counts.notCare);
+		setReplies((previous) => {
+			if (isPersistent || options?.trustServer) return data.replies;
+			if (data.replies.length === 0 && previous.length > 0) return previous;
+
+			const merged = new Map(previous.map((reply) => [reply.id, reply]));
+			for (const reply of data.replies) {
+				merged.set(reply.id, reply);
+			}
+
+			return [...merged.values()].sort((a, b) =>
+				b.createdAt.localeCompare(a.createdAt),
+			);
+		});
+		snapshotRef.current = snapshotFromData({
+			...data,
+			supportCount: counts.support,
+			disagreeCount: counts.disagree,
+			notCareCount: counts.notCare,
+		});
 		setLoadError('');
 	};
 
@@ -177,7 +216,7 @@ export const VisitorNote = () => {
 		try {
 			const data = await cancelVisitorVote(appliedVote);
 			suppressRemoteNotifications();
-			applyData(data);
+			applyData(data, { trustServer: true });
 			localStorage.removeItem(VOTE_KEY);
 			localStorage.removeItem(SUBMITTED_KEY);
 			setAppliedVote(null);
@@ -224,7 +263,7 @@ export const VisitorNote = () => {
 			}
 
 			suppressRemoteNotifications();
-			applyData(data);
+			applyData(data, { trustServer: true });
 			localStorage.setItem(VOTE_KEY, choice);
 			localStorage.setItem(SUBMITTED_KEY, '1');
 			setAppliedVote(choice);

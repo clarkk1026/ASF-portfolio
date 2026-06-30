@@ -1,4 +1,5 @@
 import { createClient } from '@vercel/kv';
+import { list, put } from '@vercel/blob';
 import {
 	emptyStore,
 	normalizeStore,
@@ -6,11 +7,12 @@ import {
 } from '../../src/lib/visitor-notes-types.js';
 
 const KV_KEY = 'visitor-notes';
+const BLOB_PATH = 'visitor-notes/store.json';
 const MEMORY_KEY = '__portfolioVisitorNotesStore';
 
-type StorageMode = 'kv' | 'memory';
+export type VisitorNotesStorageMode = 'kv' | 'blob' | 'memory';
 
-let mode: StorageMode | null = null;
+let mode: VisitorNotesStorageMode | null = null;
 let kvClient: ReturnType<typeof createClient> | null = null;
 
 const resolveKvConfig = () => {
@@ -31,19 +33,24 @@ const resolveKvConfig = () => {
 	return null;
 };
 
-const getMode = (): StorageMode => {
+const hasBlobToken = () => Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+
+export const getVisitorNotesStorageMode = (): VisitorNotesStorageMode => {
 	if (mode) return mode;
 
-	const config = resolveKvConfig();
-	if (config) {
+	if (resolveKvConfig()) {
 		mode = 'kv';
-		kvClient = createClient(config);
+		return mode;
+	}
+
+	if (hasBlobToken()) {
+		mode = 'blob';
 		return mode;
 	}
 
 	mode = 'memory';
 	console.warn(
-		'[visitor-notes] KV not configured; using in-memory storage. Connect Vercel KV for persistent live counts.',
+		'[visitor-notes] Using in-memory storage. Connect Vercel KV or Blob for persistent live counts.',
 	);
 	return mode;
 };
@@ -77,10 +84,52 @@ const setMemoryStore = (store: VisitorNotesStore) => {
 	globalStore[MEMORY_KEY] = store;
 };
 
+const readBlobStore = async (): Promise<VisitorNotesStore> => {
+	const token = process.env.BLOB_READ_WRITE_TOKEN;
+	if (!token) return emptyStore();
+
+	try {
+		const { blobs } = await list({ prefix: 'visitor-notes/', token });
+		const blob = blobs.find((entry) => entry.pathname === BLOB_PATH);
+		if (!blob?.url) return emptyStore();
+
+		const response = await fetch(blob.url, { cache: 'no-store' });
+		if (!response.ok) return emptyStore();
+
+		return normalizeStore(await response.json());
+	} catch {
+		return emptyStore();
+	}
+};
+
+const writeBlobStore = async (store: VisitorNotesStore) => {
+	const token = process.env.BLOB_READ_WRITE_TOKEN;
+	if (!token) {
+		throw new Error('Blob token unavailable');
+	}
+
+	await put(BLOB_PATH, JSON.stringify(normalizeStore(store)), {
+		access: 'public',
+		addRandomSuffix: false,
+		allowOverwrite: true,
+		token,
+		contentType: 'application/json',
+	});
+};
+
+export const isVisitorNotesPersistent = () =>
+	getVisitorNotesStorageMode() !== 'memory';
+
 export const readVisitorNotesStore = async (): Promise<VisitorNotesStore> => {
-	if (getMode() === 'kv') {
+	const storageMode = getVisitorNotesStorageMode();
+
+	if (storageMode === 'kv') {
 		const raw = await getKv().get<VisitorNotesStore>(KV_KEY);
 		return normalizeStore(raw ?? emptyStore());
+	}
+
+	if (storageMode === 'blob') {
+		return readBlobStore();
 	}
 
 	return normalizeStore(getMemoryStore());
@@ -88,9 +137,15 @@ export const readVisitorNotesStore = async (): Promise<VisitorNotesStore> => {
 
 export const writeVisitorNotesStore = async (store: VisitorNotesStore): Promise<void> => {
 	const normalized = normalizeStore(store);
+	const storageMode = getVisitorNotesStorageMode();
 
-	if (getMode() === 'kv') {
+	if (storageMode === 'kv') {
 		await getKv().set(KV_KEY, normalized);
+		return;
+	}
+
+	if (storageMode === 'blob') {
+		await writeBlobStore(normalized);
 		return;
 	}
 
