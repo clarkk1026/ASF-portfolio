@@ -23,11 +23,28 @@ import type { VisitorReply } from '../lib/visitor-notes-types';
 import { voteKeyForSentiment } from '../lib/visitor-notes-types';
 
 const POLL_INTERVAL_MS = 5000;
-const SUBMITTED_KEY = 'portfolio-visitor-note-submitted';
-
-const readHasSubmitted = () => localStorage.getItem(SUBMITTED_KEY) === '1';
+const SESSION_COUNTS_KEY = 'portfolio-visitor-counts-session';
 
 type LiveCounts = { support: number; disagree: number; notCare: number };
+
+const readSessionCounts = (): LiveCounts | null => {
+	try {
+		const raw = sessionStorage.getItem(SESSION_COUNTS_KEY);
+		if (!raw) return null;
+		const parsed = JSON.parse(raw) as Partial<LiveCounts>;
+		return {
+			support: Math.max(0, Number(parsed.support) || 0),
+			disagree: Math.max(0, Number(parsed.disagree) || 0),
+			notCare: Math.max(0, Number(parsed.notCare) || 0),
+		};
+	} catch {
+		return null;
+	}
+};
+
+const writeSessionCounts = (counts: LiveCounts) => {
+	sessionStorage.setItem(SESSION_COUNTS_KEY, JSON.stringify(counts));
+};
 
 const sentimentOptions = [
 	{
@@ -84,6 +101,7 @@ const applyCounts = (
 };
 
 export const VisitorNote = () => {
+	const bootCounts = readSessionCounts();
 	const { pushToast } = useToast();
 	const [selection, setSelection] = useState<VisitorNoteSentiment | null>(null);
 	const [appliedVote, setAppliedVote] = useState<VisitorNoteSentiment | null>(null);
@@ -92,15 +110,15 @@ export const VisitorNote = () => {
 	const [error, setError] = useState('');
 	const [loadError, setLoadError] = useState('');
 	const [loading, setLoading] = useState(true);
+	const [ready, setReady] = useState(false);
 	const [submitting, setSubmitting] = useState(false);
 	const [voting, setVoting] = useState(false);
-	const [supportCount, setSupportCount] = useState(0);
-	const [disagreeCount, setDisagreeCount] = useState(0);
-	const [notCareCount, setNotCareCount] = useState(0);
+	const [supportCount, setSupportCount] = useState(bootCounts?.support ?? 0);
+	const [disagreeCount, setDisagreeCount] = useState(bootCounts?.disagree ?? 0);
+	const [notCareCount, setNotCareCount] = useState(bootCounts?.notCare ?? 0);
 	const [replies, setReplies] = useState<VisitorReply[]>([]);
 	const [voteLocked, setVoteLocked] = useState(false);
 	const [actionsRemaining, setActionsRemaining] = useState(2);
-	const [hasSubmitted, setHasSubmitted] = useState(readHasSubmitted);
 	const snapshotRef = useRef<VisitorNotesSnapshot | null>(null);
 	const skipRemoteNotifyUntilRef = useRef(0);
 	const appliedVoteRef = useRef<VisitorNoteSentiment | null>(null);
@@ -114,9 +132,16 @@ export const VisitorNote = () => {
 	const syncFromServer = (
 		data: Awaited<ReturnType<typeof fetchVisitorNotes>>,
 	) => {
-		setSupportCount(data.supportCount);
-		setDisagreeCount(data.disagreeCount);
-		setNotCareCount(data.notCareCount);
+		const counts: LiveCounts = {
+			support: data.supportCount,
+			disagree: data.disagreeCount,
+			notCare: data.notCareCount,
+		};
+
+		setSupportCount(counts.support);
+		setDisagreeCount(counts.disagree);
+		setNotCareCount(counts.notCare);
+		writeSessionCounts(counts);
 		setReplies(data.replies);
 		setVoteLocked(data.voteLocked ?? false);
 		setActionsRemaining(data.actionsRemaining ?? 0);
@@ -124,14 +149,7 @@ export const VisitorNote = () => {
 		const serverVote = data.yourVote ?? null;
 		appliedVoteRef.current = serverVote;
 		setAppliedVote(serverVote);
-		if (serverVote) {
-			setSelection(serverVote);
-			setHasSubmitted(true);
-			localStorage.setItem(SUBMITTED_KEY, '1');
-		} else {
-			setHasSubmitted(false);
-			localStorage.removeItem(SUBMITTED_KEY);
-		}
+		setSelection(serverVote);
 
 		snapshotRef.current = snapshotFromData(data);
 		setLoadError('');
@@ -141,6 +159,7 @@ export const VisitorNote = () => {
 		setSupportCount(counts.support);
 		setDisagreeCount(counts.disagree);
 		setNotCareCount(counts.notCare);
+		writeSessionCounts(counts);
 	};
 
 	const suppressRemoteNotifications = () => {
@@ -156,14 +175,20 @@ export const VisitorNote = () => {
 			);
 		} finally {
 			setLoading(false);
+			setReady(true);
 		}
 	}, []);
 
 	useEffect(() => {
+		localStorage.removeItem('portfolio-visitor-note-submitted');
+		localStorage.removeItem('portfolio-visitor-vote');
+		localStorage.removeItem('portfolio-visitor-counts-cache');
 		void loadNotes();
 	}, [loadNotes]);
 
 	useEffect(() => {
+		if (!ready) return;
+
 		const poll = async () => {
 			if (document.hidden || submitting || voting) return;
 
@@ -191,7 +216,7 @@ export const VisitorNote = () => {
 		}, POLL_INTERVAL_MS);
 
 		return () => window.clearInterval(intervalId);
-	}, [pushToast, submitting, voting]);
+	}, [ready, pushToast, submitting, voting]);
 
 	const onPickSentiment = (choice: VisitorNoteSentiment) => {
 		if (submitting || voting || voteLocked) return;
@@ -214,8 +239,6 @@ export const VisitorNote = () => {
 			const data = await cancelVisitorVote();
 			syncFromServer(data);
 			setSelection(null);
-			setHasSubmitted(false);
-			localStorage.removeItem(SUBMITTED_KEY);
 			pushToast(visitorNote.notifyVoteCancelled, 'info');
 		} catch (err) {
 			try {
@@ -277,8 +300,6 @@ export const VisitorNote = () => {
 
 			syncFromServer(data);
 			setMessage('');
-			setHasSubmitted(true);
-			localStorage.setItem(SUBMITTED_KEY, '1');
 			pushToast(visitorNote.notifyApplied, 'success');
 		} catch (err) {
 			try {
@@ -296,9 +317,143 @@ export const VisitorNote = () => {
 
 	const activeChoice = selection ?? appliedVote;
 	const canChangeVote = !voteLocked && actionsRemaining > 0;
-	const showThanks = hasSubmitted && Boolean(appliedVote);
-	const showLockedEmpty = voteLocked && !appliedVote;
-	const showForm = !hasSubmitted && !voteLocked;
+	const showThanks = ready && Boolean(appliedVote);
+	const showLockedEmpty = ready && voteLocked && !appliedVote;
+	const showForm = ready && !appliedVote && !voteLocked;
+	const displayCount = (key: keyof LiveCounts) => {
+		if (loading && !bootCounts) return '—';
+		return liveCounts[key];
+	};
+
+	const renderActionArea = () => {
+		if (!ready) {
+			return (
+				<div
+					className='visitor-note-action-placeholder glass-card'
+					aria-hidden='true'
+				>
+					<p>{visitorNote.loadingReplies}</p>
+				</div>
+			);
+		}
+
+		if (showThanks) {
+			return (
+				<div className='visitor-note-thanks-wrap'>
+					<p className='visitor-note-thanks glass-card'>
+						{visitorNote.thanksMessage}
+					</p>
+					{canChangeVote ? (
+						<button
+							type='button'
+							className='visitor-note-cancel-vote'
+							onClick={() => void onCancelVote()}
+							disabled={voting}
+						>
+							{visitorNote.cancelVoteLabel}
+						</button>
+					) : null}
+					{voteLocked ? (
+						<p className='visitor-note-limit-notice'>
+							{visitorNote.voteLimitMessage}
+						</p>
+					) : null}
+				</div>
+			);
+		}
+
+		if (showLockedEmpty) {
+			return (
+				<p className='visitor-note-limit-notice visitor-note-limit-notice-card glass-card'>
+					{visitorNote.voteLimitMessage}
+				</p>
+			);
+		}
+
+		if (showForm) {
+			return (
+				<div className='visitor-note-card glass-card visitor-note-interactive'>
+					<h2>{visitorNote.headline}</h2>
+					<p>{visitorNote.subtext}</p>
+
+					<form
+						className='visitor-note-form'
+						onSubmit={onApply}
+					>
+						<div
+							className='visitor-note-sentiment'
+							role='group'
+							aria-label='Choose your status'
+						>
+							{sentimentOptions.map(({ id, label, Icon }) => (
+								<button
+									key={id}
+									type='button'
+									className={`comet-btn comet-btn-vote visitor-note-choice visitor-note-choice-${id === 'not-care' ? 'notcare' : id} ${activeChoice === id ? 'visitor-note-choice-active' : ''}`}
+									onClick={() => onPickSentiment(id)}
+									disabled={submitting || voting}
+									aria-label={label}
+									title={label}
+								>
+									<Icon className='visitor-note-choice-icon' />
+								</button>
+							))}
+						</div>
+
+						{error ? (
+							<p
+								className='visitor-note-error'
+								role='alert'
+							>
+								{error}
+							</p>
+						) : null}
+
+						<label className='visitor-note-field'>
+							<span className='visually-hidden'>Your name</span>
+							<input
+								type='text'
+								name='name'
+								value={name}
+								onChange={(e) => setName(e.target.value)}
+								placeholder={visitorNote.namePlaceholder}
+								autoComplete='name'
+								maxLength={48}
+								disabled={submitting || voting}
+							/>
+						</label>
+
+						<label className='visitor-note-field'>
+							<span className='visually-hidden'>Your note</span>
+							<textarea
+								name='message'
+								value={message}
+								onChange={(e) => setMessage(e.target.value)}
+								placeholder={visitorNote.messagePlaceholder}
+								rows={4}
+								maxLength={600}
+								disabled={submitting || voting}
+							/>
+						</label>
+
+						<button
+							type='submit'
+							className='comet-btn comet-btn-talk comet-btn-lg visitor-note-submit'
+							disabled={submitting || voting || !activeChoice}
+						>
+							{submitting
+								? visitorNote.submittingLabel
+								: visitorNote.submitLabel}
+						</button>
+
+						<p className='visitor-note-privacy'>{visitorNote.formNote}</p>
+					</form>
+				</div>
+			);
+		}
+
+		return null;
+	};
 
 	return (
 		<section
@@ -330,7 +485,7 @@ export const VisitorNote = () => {
 										<Icon />
 									</span>
 									<span className='visitor-note-stat-value'>
-										{loading ? '—' : liveCounts[countKey]}
+										{displayCount(countKey)}
 									</span>
 									<span className='visitor-note-stat-label'>{label}</span>
 								</div>
@@ -395,116 +550,7 @@ export const VisitorNote = () => {
 					</div>
 				</Reveal>
 
-				{showThanks ? (
-					<Reveal delay={160}>
-						<div className='visitor-note-thanks-wrap'>
-							<p className='visitor-note-thanks glass-card'>
-								{visitorNote.thanksMessage}
-							</p>
-							{canChangeVote ? (
-								<button
-									type='button'
-									className='visitor-note-cancel-vote'
-									onClick={() => void onCancelVote()}
-									disabled={voting}
-								>
-									{visitorNote.cancelVoteLabel}
-								</button>
-							) : null}
-							{voteLocked ? (
-								<p className='visitor-note-limit-notice'>
-									{visitorNote.voteLimitMessage}
-								</p>
-							) : null}
-						</div>
-					</Reveal>
-				) : showLockedEmpty ? (
-					<Reveal delay={160}>
-						<p className='visitor-note-limit-notice visitor-note-limit-notice-card glass-card'>
-							{visitorNote.voteLimitMessage}
-						</p>
-					</Reveal>
-				) : showForm ? (
-					<Reveal delay={160}>
-						<div className='visitor-note-card glass-card visitor-note-interactive'>
-							<h2>{visitorNote.headline}</h2>
-							<p>{visitorNote.subtext}</p>
-
-							<form
-								className='visitor-note-form'
-								onSubmit={onApply}
-							>
-								<div
-									className='visitor-note-sentiment'
-									role='group'
-									aria-label='Choose your status'
-								>
-									{sentimentOptions.map(({ id, label, Icon }) => (
-										<button
-											key={id}
-											type='button'
-											className={`comet-btn comet-btn-vote visitor-note-choice visitor-note-choice-${id === 'not-care' ? 'notcare' : id} ${activeChoice === id ? 'visitor-note-choice-active' : ''}`}
-											onClick={() => onPickSentiment(id)}
-											disabled={submitting || voting}
-											aria-label={label}
-											title={label}
-										>
-											<Icon className='visitor-note-choice-icon' />
-										</button>
-									))}
-								</div>
-
-								{error ? (
-									<p
-										className='visitor-note-error'
-										role='alert'
-									>
-										{error}
-									</p>
-								) : null}
-
-								<label className='visitor-note-field'>
-									<span className='visually-hidden'>Your name</span>
-									<input
-										type='text'
-										name='name'
-										value={name}
-										onChange={(e) => setName(e.target.value)}
-										placeholder={visitorNote.namePlaceholder}
-										autoComplete='name'
-										maxLength={48}
-										disabled={submitting || voting}
-									/>
-								</label>
-
-								<label className='visitor-note-field'>
-									<span className='visually-hidden'>Your note</span>
-									<textarea
-										name='message'
-										value={message}
-										onChange={(e) => setMessage(e.target.value)}
-										placeholder={visitorNote.messagePlaceholder}
-										rows={4}
-										maxLength={600}
-										disabled={submitting || voting}
-									/>
-								</label>
-
-								<button
-									type='submit'
-									className='comet-btn comet-btn-talk comet-btn-lg visitor-note-submit'
-									disabled={submitting || voting || !activeChoice}
-								>
-									{submitting
-										? visitorNote.submittingLabel
-										: visitorNote.submitLabel}
-								</button>
-
-								<p className='visitor-note-privacy'>{visitorNote.formNote}</p>
-							</form>
-						</div>
-					</Reveal>
-				) : null}
+				<div className='visitor-note-action-area'>{renderActionArea()}</div>
 			</div>
 		</section>
 	);
