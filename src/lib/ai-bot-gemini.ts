@@ -6,8 +6,8 @@ export type GeminiHistoryMessage = {
 };
 
 const DEFAULT_MODEL = 'gemini-2.0-flash';
-const MAX_TOKENS = 320;
-const TEMPERATURE = 0.55;
+const MAX_TOKENS = 640;
+const TEMPERATURE = 0.72;
 
 const toGeminiRole = (role: 'user' | 'assistant'): 'user' | 'model' =>
 	role === 'assistant' ? 'model' : 'user';
@@ -19,7 +19,7 @@ export const callGeminiChat = async (
 	model = process.env.GEMINI_MODEL ?? DEFAULT_MODEL,
 ) => {
 	const contents = [
-		...history.slice(-10).map((item) => ({
+		...history.slice(-12).map((item) => ({
 			role: toGeminiRole(item.role),
 			parts: [{ text: item.content }],
 		})),

@@ -109,9 +109,9 @@ const expandColloquial = (input: string): string => {
 
 const impoliteReply = (ctx: BotContext): BotReply => ({
 	text: pick([
-		`Hey, I'm still here, but let's keep it respectful. I'm happy to talk about Ben, or just have a normal friendly chat if you're in the mood for that.\n\n[[mood:calm]]`,
-		`Ouch, that one's a bit sharp. No worries, we can reset. Ask me about Ben's work, or tell me what's actually on your mind.\n\n[[mood:thoughtful]]`,
-		`I'd rather not go there. I'm Bon, I can help with Ben's portfolio, or chat like a decent human if you want to try again.\n\n[[mood:sorry]]`,
+		`Okay, that's not the vibe. I'm still here if you want a real conversation about Ben or literally anything civil.\n\n[[mood:annoyed]]`,
+		`Sharp. I'm not going to match that energy. Reset? Ask about Ben's work or just talk like a normal person.\n\n[[mood:angry]]`,
+		`Nah, I'm not doing insults. I'm Bon. Portfolio questions, life chat, or we can pretend that didn't happen.\n\n[[mood:calm]]`,
 	]),
 	intent: 'impolite',
 	userName: ctx.userName,
@@ -119,9 +119,9 @@ const impoliteReply = (ctx: BotContext): BotReply => ({
 
 const blockedTopicReply = (ctx: BotContext): BotReply => ({
 	text: pick([
-		`That's not really something I can help with, especially homework or exam answers. I'm better at Ben's work, or a friendly chat about life stuff. What would you like instead?\n\n[[mood:shy]]`,
-		`I'll pass on that one, politics debates and gambling tips aren't my lane. Happy to talk about Ben, wellbeing, music, or how to reach him though.\n\n[[mood:calm]]`,
-		`I can't do that for you, but I'm not trying to be cold about it. Ask me about Ben's skills, story, or something lighter, I'm genuinely glad to chat.\n\n[[mood:warm]]`,
+		`I'm not writing your homework or exam answers. I can explain how Ben approaches problems, or chat about something else.\n\n[[mood:annoyed]]`,
+		`Hard pass on politics fights and gambling tips. Ben's work, wellbeing, music, contact info, I'm good for that.\n\n[[mood:calm]]`,
+		`Can't help with that one. Not being cold, just honest. Want Ben's skills, story, or something lighter?\n\n[[mood:warm]]`,
 	]),
 	intent: 'blocked_topic',
 	userName: ctx.userName,
@@ -619,8 +619,8 @@ const handlers: IntentHandler[] = [
 		score: (q, tokens) => (isGibberish(q, tokens) ? 11 : 0),
 		reply: (_q, _t, ctx) =>
 			pick([
-				`Haha okay${ctx.userName ? ` ${ctx.userName}` : ''}, I felt that energy. Random keyboard smash or are we testing if I'm alive? I'm alive. What's up?\n\n[[mood:happy]]`,
-				`That was beautifully nonsense. I respect it. Want to talk about Ben, music, health habits, or keep being weird?\n\n[[mood:excited]]`,
+				`Haha okay${ctx.userName ? ` ${ctx.userName}` : ''}, that was random. I'm alive. What are we actually talking about?\n\n[[mood:shocked]]`,
+				`That reads like keyboard yoga. I'm not pretending it means something deep. Ben's work, music, or say something real?\n\n[[mood:playful]]`,
 			]),
 	},
 	{
@@ -940,8 +940,8 @@ export const getBotResponse = (
 	if (isGibberish(q, tokens)) {
 		return {
 			text: pick([
-				`Haha okay, I felt that energy. Random keyboard smash or are we testing if I'm alive? I'm alive. What's up?\n\n[[mood:happy]]`,
-				`Beautifully nonsense. I respect it. Want Ben's story, music chat, or more chaos?\n\n[[mood:excited]]`,
+				`Haha okay, that was random. I'm alive. What's the actual question?\n\n[[mood:shocked]]`,
+				`Keyboard smash detected. I'm not agreeing that it was profound. Ben's story, music, or try words?\n\n[[mood:playful]]`,
 			]),
 			intent: 'nonsense',
 			userName: ctx.userName,

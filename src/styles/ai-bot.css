@@ -246,12 +246,16 @@
 
 .ai-bot-avatar-mood-happy,
 .ai-bot-avatar-mood-excited,
-.ai-bot-avatar-mood-warm {
+.ai-bot-avatar-mood-warm,
+.ai-bot-avatar-mood-smile,
+.ai-bot-avatar-mood-proud {
 	box-shadow: 0 0 18px rgba(251, 191, 36, 0.18);
 }
 
 .ai-bot-avatar-mood-shy,
-.ai-bot-avatar-mood-thoughtful {
+.ai-bot-avatar-mood-thoughtful,
+.ai-bot-avatar-mood-curious,
+.ai-bot-avatar-mood-embarrassed {
 	box-shadow: 0 0 18px rgba(168, 130, 255, 0.16);
 }
 
@@ -262,6 +266,19 @@
 
 .ai-bot-avatar-mood-calm {
 	box-shadow: 0 0 18px rgba(31, 195, 255, 0.14);
+}
+
+.ai-bot-avatar-mood-angry,
+.ai-bot-avatar-mood-annoyed {
+	box-shadow: 0 0 18px rgba(248, 113, 113, 0.2);
+}
+
+.ai-bot-avatar-mood-playful {
+	box-shadow: 0 0 18px rgba(244, 114, 182, 0.18);
+}
+
+.ai-bot-avatar-mood-shocked {
+	box-shadow: 0 0 18px rgba(251, 146, 60, 0.2);
 }
 
 .ai-bot-bubble {
