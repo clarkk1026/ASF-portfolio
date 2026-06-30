@@ -991,9 +991,9 @@ export const getBotResponse = (
 
 export const simulateTypingDelay = (
 	text: string,
-	source: 'gemini' | 'local' = 'local',
+	source: 'gemini' | 'groq' | 'local' = 'local',
 ) => {
-	if (source === 'gemini') {
+	if (source === 'gemini' || source === 'groq') {
 		const base = 100 + text.length * 1.5;
 		return Math.min(280, Math.max(120, base));
 	}

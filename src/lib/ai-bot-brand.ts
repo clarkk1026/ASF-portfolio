@@ -70,6 +70,7 @@ export const resolveMoodFromIntent = (intent: string): BotMood => {
 		clarify: 'curious',
 		site: 'calm',
 		gemini: 'thoughtful',
+		groq: 'thoughtful',
 	};
 
 	return map[intent] ?? 'calm';

@@ -45,7 +45,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
 		const reply = await handleChatRequest(
 			body,
-			process.env.GEMINI_API_KEY,
+			{
+				geminiApiKey: process.env.GEMINI_API_KEY,
+				groqApiKey: process.env.GROQ_API_KEY,
+			},
 			clientKey,
 		);
 

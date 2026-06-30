@@ -1,45 +1,26 @@
 import { buildBotSystemPrompt } from './ai-bot-context.js';
 import type { BotContext } from './ai-bot-responses.js';
-import { buildVisitorTurnContext } from './ai-bot-visitor-context.js';
+import { buildVisitorSessionNotes } from './ai-bot-visitor-context.js';
 
 export type GeminiHistoryMessage = {
 	role: 'user' | 'assistant';
 	content: string;
 };
 
-type GeminiHistoryItem = {
-	role: 'user' | 'assistant';
-	content: string;
-};
-
-const DEFAULT_MODEL = 'gemini-2.0-flash';
+const DEFAULT_MODEL = 'gemini-2.5-flash';
+const FALLBACK_MODELS = ['gemini-2.5-flash-lite', 'gemini-flash-latest'] as const;
 const MAX_TOKENS = 768;
-const TEMPERATURE = 0.68;
+const TEMPERATURE = 0.7;
 
 const toGeminiRole = (role: 'user' | 'assistant'): 'user' | 'model' =>
 	role === 'assistant' ? 'model' : 'user';
 
-export const callGeminiChat = async (
+const requestGemini = async (
 	apiKey: string,
-	userMessage: string,
-	history: GeminiHistoryMessage[],
-	context: BotContext,
-	model = process.env.GEMINI_MODEL ?? DEFAULT_MODEL,
+	model: string,
+	systemPrompt: string,
+	contents: { role: 'user' | 'model'; parts: { text: string }[] }[],
 ) => {
-	const contextualMessage = buildVisitorTurnContext(
-		userMessage,
-		context,
-		history as GeminiHistoryItem[],
-	);
-
-	const contents = [
-		...history.slice(-14).map((item) => ({
-			role: toGeminiRole(item.role),
-			parts: [{ text: item.content }],
-		})),
-		{ role: 'user' as const, parts: [{ text: contextualMessage }] },
-	];
-
 	const response = await fetch(
 		`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
 		{
@@ -50,13 +31,13 @@ export const callGeminiChat = async (
 			},
 			body: JSON.stringify({
 				system_instruction: {
-					parts: [{ text: buildBotSystemPrompt() }],
+					parts: [{ text: systemPrompt }],
 				},
 				contents,
 				generationConfig: {
 					temperature: TEMPERATURE,
 					maxOutputTokens: MAX_TOKENS,
-					topP: 0.9,
+					topP: 0.92,
 				},
 			}),
 		},
@@ -64,7 +45,7 @@ export const callGeminiChat = async (
 
 	if (!response.ok) {
 		const detail = await response.text();
-		throw new Error(`Gemini request failed (${response.status}): ${detail}`);
+		throw new Error(`Gemini ${model} failed (${response.status}): ${detail}`);
 	}
 
 	const payload = (await response.json()) as {
@@ -77,8 +58,42 @@ export const callGeminiChat = async (
 		.trim();
 
 	if (!text) {
-		throw new Error('Gemini returned an empty response');
+		throw new Error(`Gemini ${model} returned an empty response`);
 	}
 
 	return text;
+};
+
+export const callGeminiChat = async (
+	apiKey: string,
+	userMessage: string,
+	history: GeminiHistoryMessage[],
+	context: BotContext,
+	model = process.env.GEMINI_MODEL ?? DEFAULT_MODEL,
+) => {
+	const sessionNotes = buildVisitorSessionNotes(context);
+	const systemPrompt = sessionNotes
+		? `${buildBotSystemPrompt()}\n\n${sessionNotes}`
+		: buildBotSystemPrompt();
+
+	const contents = [
+		...history.slice(-12).map((item) => ({
+			role: toGeminiRole(item.role),
+			parts: [{ text: item.content }],
+		})),
+		{ role: 'user' as const, parts: [{ text: userMessage }] },
+	];
+
+	const models = [model, ...FALLBACK_MODELS.filter((candidate) => candidate !== model)];
+	let lastError: Error | null = null;
+
+	for (const candidate of models) {
+		try {
+			return await requestGemini(apiKey, candidate, systemPrompt, contents);
+		} catch (error) {
+			lastError = error instanceof Error ? error : new Error(String(error));
+		}
+	}
+
+	throw lastError ?? new Error('Gemini request failed');
 };

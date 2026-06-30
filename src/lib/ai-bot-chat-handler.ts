@@ -6,8 +6,13 @@ import {
 	type BotMood,
 } from './ai-bot-brand.js';
 import { getBotResponse, type BotContext } from './ai-bot-responses.js';
-import { callGeminiChat, type GeminiHistoryMessage } from './ai-bot-gemini.js';
-import { extractVisitorName } from './ai-bot-visitor-context.js';
+import { callGeminiChat } from './ai-bot-gemini.js';
+import { callGroqChat } from './ai-bot-groq.js';
+import { buildBotSystemPrompt } from './ai-bot-context.js';
+import {
+	buildVisitorSessionNotes,
+	extractVisitorName,
+} from './ai-bot-visitor-context.js';
 import {
 	getGithubLockedBotReply,
 	isGithubQuestion,
@@ -25,10 +30,12 @@ export type ChatRequestBody = {
 	context?: BotContext;
 };
 
+export type ChatReplySource = 'gemini' | 'groq' | 'local';
+
 export type ChatResponseBody = {
 	text: string;
 	intent: string;
-	source: 'gemini' | 'local';
+	source: ChatReplySource;
 	mood?: BotMood;
 	showGithubAlert?: boolean;
 	userName?: string;
@@ -54,7 +61,7 @@ const checkRateLimit = (key: string) => {
 	return true;
 };
 
-const toGeminiHistory = (history: ChatHistoryItem[] = []): GeminiHistoryMessage[] =>
+const toModelHistory = (history: ChatHistoryItem[] = []) =>
 	history
 		.filter(
 			(item) =>
@@ -66,10 +73,17 @@ const toGeminiHistory = (history: ChatHistoryItem[] = []): GeminiHistoryMessage[
 			content: item.content.trim().slice(0, MAX_MESSAGE_LENGTH),
 		}));
 
+const buildSystemPrompt = (context: BotContext) => {
+	const sessionNotes = buildVisitorSessionNotes(context);
+	return sessionNotes
+		? `${buildBotSystemPrompt()}\n\n${sessionNotes}`
+		: buildBotSystemPrompt();
+};
+
 const formatReply = (
 	rawText: string,
 	intent: string,
-	source: 'gemini' | 'local',
+	source: ChatReplySource,
 	showGithubAlert = false,
 	userName?: string,
 ): ChatResponseBody => {
@@ -87,9 +101,46 @@ const formatReply = (
 	};
 };
 
+const callPrimaryModel = async (
+	message: string,
+	history: ChatHistoryItem[],
+	context: BotContext,
+	geminiApiKey?: string,
+	groqApiKey?: string,
+): Promise<{ text: string; source: ChatReplySource }> => {
+	const modelHistory = toModelHistory(history);
+	const systemPrompt = buildSystemPrompt(context);
+
+	if (geminiApiKey) {
+		try {
+			const text = await callGeminiChat(
+				geminiApiKey,
+				message,
+				modelHistory,
+				context,
+			);
+			return { text, source: 'gemini' };
+		} catch (error) {
+			console.error('[bon-chat] Gemini failed:', error);
+		}
+	}
+
+	if (groqApiKey) {
+		const text = await callGroqChat(
+			groqApiKey,
+			message,
+			modelHistory,
+			systemPrompt,
+		);
+		return { text, source: 'groq' };
+	}
+
+	throw new Error('No AI provider available');
+};
+
 export const handleChatRequest = async (
 	body: ChatRequestBody,
-	apiKey: string | undefined,
+	keys: { geminiApiKey?: string; groqApiKey?: string },
 	clientKey: string,
 ): Promise<ChatResponseBody> => {
 	const message = body.message?.trim() ?? '';
@@ -143,7 +194,7 @@ export const handleChatRequest = async (
 		);
 	}
 
-	if (!apiKey) {
+	if (!keys.geminiApiKey && !keys.groqApiKey) {
 		return formatReply(
 			localGuard.text,
 			localGuard.intent,
@@ -154,21 +205,23 @@ export const handleChatRequest = async (
 	}
 
 	try {
-		const rawText = await callGeminiChat(
-			apiKey,
+		const { text, source } = await callPrimaryModel(
 			message,
-			toGeminiHistory(body.history),
+			body.history ?? [],
 			context,
+			keys.geminiApiKey,
+			keys.groqApiKey,
 		);
 
 		return formatReply(
-			rawText,
-			localGuard.intent === 'fallback' ? 'gemini' : localGuard.intent,
-			'gemini',
+			text,
+			localGuard.intent === 'fallback' ? source : localGuard.intent,
+			source,
 			false,
 			context.userName,
 		);
-	} catch {
+	} catch (error) {
+		console.error('[bon-chat] AI providers failed:', error);
 		return formatReply(
 			localGuard.text,
 			localGuard.intent,
