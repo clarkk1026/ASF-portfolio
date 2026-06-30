@@ -121,7 +121,7 @@ export const AiBot = () => {
 		let userName = botContext.userName;
 		let mood: BotMood = 'calm';
 		let showGithubAlert = false;
-		let replySource: 'groq' | 'local' = 'local';
+		let replySource: 'gemini' | 'local' = 'local';
 
 		try {
 			const reply = await fetchBotReply(trimmed, nextMessages, botContext);

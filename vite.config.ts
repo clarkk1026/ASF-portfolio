@@ -173,7 +173,7 @@ const visitorNotesDevApi = () => ({
 	},
 });
 
-const chatDevApi = (groqApiKey?: string) => ({
+const chatDevApi = (geminiApiKey?: string) => ({
 	name: 'chat-dev-api',
 	configureServer(server: import('vite').ViteDevServer) {
 		server.middlewares.use('/api/chat', async (req, res) => {
@@ -205,7 +205,7 @@ const chatDevApi = (groqApiKey?: string) => ({
 
 				const reply = await handleChatRequest(
 					body,
-					groqApiKey,
+					geminiApiKey,
 					req.socket.remoteAddress ?? 'local',
 				);
 
@@ -225,7 +225,7 @@ export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), '');
 
 	return {
-		plugins: [react(), visitorNotesDevApi(), chatDevApi(env.GROQ_API_KEY)],
+		plugins: [react(), visitorNotesDevApi(), chatDevApi(env.GEMINI_API_KEY)],
 		server: {
 			host: true,
 			open: true,

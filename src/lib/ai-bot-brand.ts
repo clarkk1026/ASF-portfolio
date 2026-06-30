@@ -56,7 +56,7 @@ export const resolveMoodFromIntent = (intent: string): BotMood => {
 		positive: 'happy',
 		clarify: 'thoughtful',
 		site: 'calm',
-		groq: 'thoughtful',
+		gemini: 'thoughtful',
 	};
 
 	return map[intent] ?? 'calm';

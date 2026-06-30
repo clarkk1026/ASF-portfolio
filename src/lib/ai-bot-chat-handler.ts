@@ -6,7 +6,7 @@ import {
 	type BotMood,
 } from './ai-bot-brand.js';
 import { getBotResponse, type BotContext } from './ai-bot-responses.js';
-import { callGroqChat, type GroqChatMessage } from './ai-bot-groq.js';
+import { callGeminiChat, type GeminiHistoryMessage } from './ai-bot-gemini.js';
 import {
 	getGithubLockedBotReply,
 	isGithubQuestion,
@@ -27,7 +27,7 @@ export type ChatRequestBody = {
 export type ChatResponseBody = {
 	text: string;
 	intent: string;
-	source: 'groq' | 'local';
+	source: 'gemini' | 'local';
 	mood?: BotMood;
 	showGithubAlert?: boolean;
 };
@@ -52,7 +52,7 @@ const checkRateLimit = (key: string) => {
 	return true;
 };
 
-const toGroqHistory = (history: ChatHistoryItem[] = []): GroqChatMessage[] =>
+const toGeminiHistory = (history: ChatHistoryItem[] = []): GeminiHistoryMessage[] =>
 	history
 		.filter(
 			(item) =>
@@ -67,7 +67,7 @@ const toGroqHistory = (history: ChatHistoryItem[] = []): GroqChatMessage[] =>
 const formatReply = (
 	rawText: string,
 	intent: string,
-	source: 'groq' | 'local',
+	source: 'gemini' | 'local',
 	showGithubAlert = false,
 ): ChatResponseBody => {
 	const cleaned = stripGithubFromReply(rawText);
@@ -134,13 +134,13 @@ export const handleChatRequest = async (
 	}
 
 	try {
-		const rawText = await callGroqChat(
+		const rawText = await callGeminiChat(
 			apiKey,
 			message,
-			toGroqHistory(body.history),
+			toGeminiHistory(body.history),
 		);
 
-		return formatReply(rawText, 'groq', 'groq');
+		return formatReply(rawText, 'gemini', 'gemini');
 	} catch {
 		return formatReply(localGuard.text, localGuard.intent, 'local');
 	}
