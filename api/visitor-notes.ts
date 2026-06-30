@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { kv } from '@vercel/kv';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import {
@@ -12,7 +13,7 @@ import {
 	type VisitorVoteCancelPayload,
 	type VisitorVoteChangePayload,
 	type VisitorVotePayload,
-} from '../src/lib/visitor-notes-types';
+} from '../src/lib/visitor-notes-types.js';
 
 const KV_KEY = 'visitor-notes';
 const MAX_REPLIES = 200;
@@ -96,7 +97,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
 			if (isNotePayload(req.body)) {
 				store.replies.unshift({
-					id: crypto.randomUUID(),
+					id: randomUUID(),
 					sentiment: req.body.sentiment,
 					name: req.body.name?.trim() || 'Anonymous',
 					message: req.body.message.trim(),

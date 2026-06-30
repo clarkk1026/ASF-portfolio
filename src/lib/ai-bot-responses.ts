@@ -5,12 +5,12 @@ import {
 	highlights,
 	personal,
 	traits,
-} from '../data/portfolio';
-import { botGreeting, type BotMood } from './ai-bot-brand';
+} from '../data/portfolio.js';
+import { botGreeting, type BotMood } from './ai-bot-brand.js';
 import {
 	getGithubLockedBotReply,
 	isGithubQuestion,
-} from './ai-bot-github-guard';
+} from './ai-bot-github-guard.js';
 
 export type BotMessage = {
 	id: string;

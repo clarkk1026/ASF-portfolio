@@ -1,11 +1,17 @@
-import { parseBotMood, stripGithubFromReply, type BotMood } from './ai-bot-brand';
-import { getBotResponse, type BotContext } from './ai-bot-responses';
-import { callGroqChat, type GroqChatMessage } from './ai-bot-groq';
+import {
+	hasBotMoodTag,
+	parseBotMood,
+	resolveMoodFromIntent,
+	stripGithubFromReply,
+	type BotMood,
+} from './ai-bot-brand.js';
+import { getBotResponse, type BotContext } from './ai-bot-responses.js';
+import { callGroqChat, type GroqChatMessage } from './ai-bot-groq.js';
 import {
 	getGithubLockedBotReply,
 	isGithubQuestion,
-} from './ai-bot-github-guard';
-import { personal } from '../data/portfolio';
+} from './ai-bot-github-guard.js';
+import { personal } from '../data/portfolio.js';
 
 export type ChatHistoryItem = {
 	role: 'user' | 'assistant';
@@ -65,13 +71,14 @@ const formatReply = (
 	showGithubAlert = false,
 ): ChatResponseBody => {
 	const cleaned = stripGithubFromReply(rawText);
+	const hadMoodTag = hasBotMoodTag(cleaned);
 	const { text, mood } = parseBotMood(cleaned);
 
 	return {
 		text,
 		intent,
 		source,
-		mood,
+		mood: hadMoodTag ? mood : resolveMoodFromIntent(intent),
 		showGithubAlert,
 	};
 };

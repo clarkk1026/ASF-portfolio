@@ -1,5 +1,5 @@
-import { githubContactLocked } from './contact-lock';
-import { personal } from '../data/portfolio';
+import { githubContactLocked } from './contact-lock.js';
+import { personal } from '../data/portfolio.js';
 
 const GITHUB_QUESTION =
 	/\b(github|git\s*hub|buildflux26|your\s*repo|repo\s*link|code\s*on\s*github|see\s*(his|your|ben'?s?)?\s*code|source\s*code|open\s*source|github\s*profile|git\s*profile|clone\s*repo|fork\s*repo)\b/i;

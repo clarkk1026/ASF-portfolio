@@ -10,8 +10,8 @@ import {
 	projects,
 	techStack,
 	traits,
-} from '../data/portfolio';
-import { BOT_NAME, BOT_SUBTITLE } from './ai-bot-brand';
+} from '../data/portfolio.js';
+import { BOT_NAME, BOT_SUBTITLE } from './ai-bot-brand.js';
 
 export const buildBotSystemPrompt = () => {
 	const roles = experience.timeline

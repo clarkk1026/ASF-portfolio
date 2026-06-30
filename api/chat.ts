@@ -2,7 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import {
 	handleChatRequest,
 	type ChatRequestBody,
-} from '../src/lib/ai-bot-chat-handler';
+} from '../src/lib/ai-bot-chat-handler.js';
 
 const readBody = async (req: VercelRequest): Promise<ChatRequestBody | null> => {
 	if (req.body && typeof req.body === 'object') {

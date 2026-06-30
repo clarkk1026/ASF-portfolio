@@ -7,7 +7,9 @@ import {
 	BOT_NAME,
 	BOT_SUBTITLE,
 	botGreeting,
+	hasBotMoodTag,
 	parseBotMood,
+	resolveMoodFromIntent,
 	type BotMood,
 } from '../lib/ai-bot-brand';
 import {
@@ -123,18 +125,20 @@ export const AiBot = () => {
 		try {
 			const reply = await fetchBotReply(trimmed, nextMessages, botContext);
 			replySource = reply.source;
-			const parsed = reply.mood
-				? { text: reply.text, mood: reply.mood }
-				: parseBotMood(reply.text);
+			const parsed = parseBotMood(reply.text);
 			replyText = parsed.text;
-			mood = parsed.mood;
+			mood =
+				reply.mood ??
+				(hasBotMoodTag(reply.text) ? parsed.mood : resolveMoodFromIntent(reply.intent));
 			intent = reply.intent;
 			showGithubAlert = Boolean(reply.showGithubAlert);
 		} catch {
 			const fallback = getBotResponse(trimmed, botContext);
 			const parsed = parseBotMood(fallback.text);
 			replyText = parsed.text;
-			mood = parsed.mood;
+			mood = hasBotMoodTag(fallback.text)
+				? parsed.mood
+				: resolveMoodFromIntent(fallback.intent);
 			intent = fallback.intent;
 			userName = fallback.userName ?? userName;
 			showGithubAlert = intent === 'github_locked';

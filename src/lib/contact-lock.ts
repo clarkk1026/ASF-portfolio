@@ -1,4 +1,4 @@
-import { personal } from '../data/portfolio';
+import { personal } from '../data/portfolio.js';
 
 export const githubContactLocked = true;
 

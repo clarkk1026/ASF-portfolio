@@ -16,7 +16,51 @@ export type BotMood =
 	| 'warm';
 
 const MOOD_TAG =
-	/\[\[mood:(happy|shy|sad|excited|calm|sorry|thoughtful|warm)\]\]\s*$/i;
+	/\[\[mood:(happy|shy|sad|excited|calm|sorry|thoughtful|warm)\]\]/i;
+
+export const hasBotMoodTag = (text: string) => MOOD_TAG.test(text);
+
+export const resolveMoodFromIntent = (intent: string): BotMood => {
+	const map: Record<string, BotMood> = {
+		empty: 'warm',
+		too_long: 'shy',
+		rate_limit: 'calm',
+		greeting: 'happy',
+		thanks: 'warm',
+		bye: 'warm',
+		help: 'warm',
+		identity: 'calm',
+		experience: 'thoughtful',
+		education: 'calm',
+		projects: 'excited',
+		skills: 'excited',
+		tech: 'calm',
+		shopify: 'excited',
+		ai: 'excited',
+		story: 'thoughtful',
+		about: 'thoughtful',
+		contact: 'warm',
+		availability: 'happy',
+		location: 'calm',
+		github_locked: 'sorry',
+		impolite: 'calm',
+		blocked_topic: 'shy',
+		mood_check: 'happy',
+		feelings: 'sorry',
+		wellness: 'warm',
+		music: 'happy',
+		play: 'happy',
+		joke: 'happy',
+		nonsense: 'excited',
+		casual: 'warm',
+		positive: 'happy',
+		clarify: 'thoughtful',
+		site: 'calm',
+		groq: 'thoughtful',
+	};
+
+	return map[intent] ?? 'calm';
+};
 
 export const BOT_MOOD_LABEL: Record<BotMood, string> = {
 	happy: 'Happy',

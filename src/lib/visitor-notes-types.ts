@@ -1,4 +1,4 @@
-import type { VisitorNoteSentiment } from '../data/portfolio';
+import type { VisitorNoteSentiment } from '../data/portfolio.js';
 
 export type VisitorReply = {
 	id: string;

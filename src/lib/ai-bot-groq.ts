@@ -1,4 +1,4 @@
-import { buildBotSystemPrompt } from './ai-bot-context';
+import { buildBotSystemPrompt } from './ai-bot-context.js';
 
 export type GroqChatMessage = {
 	role: 'system' | 'user' | 'assistant';
