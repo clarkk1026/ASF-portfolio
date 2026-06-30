@@ -7,6 +7,7 @@ import {
 } from './ai-bot-brand.js';
 import { getBotResponse, type BotContext } from './ai-bot-responses.js';
 import { callGeminiChat, type GeminiHistoryMessage } from './ai-bot-gemini.js';
+import { extractVisitorName } from './ai-bot-visitor-context.js';
 import {
 	getGithubLockedBotReply,
 	isGithubQuestion,
@@ -30,6 +31,7 @@ export type ChatResponseBody = {
 	source: 'gemini' | 'local';
 	mood?: BotMood;
 	showGithubAlert?: boolean;
+	userName?: string;
 };
 
 const MAX_MESSAGE_LENGTH = 500;
@@ -69,6 +71,7 @@ const formatReply = (
 	intent: string,
 	source: 'gemini' | 'local',
 	showGithubAlert = false,
+	userName?: string,
 ): ChatResponseBody => {
 	const cleaned = stripGithubFromReply(rawText);
 	const hadMoodTag = hasBotMoodTag(cleaned);
@@ -80,6 +83,7 @@ const formatReply = (
 		source,
 		mood: hadMoodTag ? mood : resolveMoodFromIntent(intent),
 		showGithubAlert,
+		userName,
 	};
 };
 
@@ -89,7 +93,11 @@ export const handleChatRequest = async (
 	clientKey: string,
 ): Promise<ChatResponseBody> => {
 	const message = body.message?.trim() ?? '';
-	const context: BotContext = body.context ?? { lastIntent: null, turn: 0 };
+	const baseContext: BotContext = body.context ?? { lastIntent: null, turn: 0 };
+	const context: BotContext = {
+		...baseContext,
+		userName: extractVisitorName(message) ?? baseContext.userName,
+	};
 
 	if (!message) {
 		return formatReply(
@@ -126,11 +134,23 @@ export const handleChatRequest = async (
 
 	const localGuard = getBotResponse(message, context);
 	if (localGuard.intent === 'impolite' || localGuard.intent === 'blocked_topic') {
-		return formatReply(localGuard.text, localGuard.intent, 'local');
+		return formatReply(
+			localGuard.text,
+			localGuard.intent,
+			'local',
+			false,
+			localGuard.userName ?? context.userName,
+		);
 	}
 
 	if (!apiKey) {
-		return formatReply(localGuard.text, localGuard.intent, 'local');
+		return formatReply(
+			localGuard.text,
+			localGuard.intent,
+			'local',
+			false,
+			localGuard.userName ?? context.userName,
+		);
 	}
 
 	try {
@@ -138,10 +158,23 @@ export const handleChatRequest = async (
 			apiKey,
 			message,
 			toGeminiHistory(body.history),
+			context,
 		);
 
-		return formatReply(rawText, 'gemini', 'gemini');
+		return formatReply(
+			rawText,
+			localGuard.intent === 'fallback' ? 'gemini' : localGuard.intent,
+			'gemini',
+			false,
+			context.userName,
+		);
 	} catch {
-		return formatReply(localGuard.text, localGuard.intent, 'local');
+		return formatReply(
+			localGuard.text,
+			localGuard.intent,
+			'local',
+			false,
+			localGuard.userName ?? context.userName,
+		);
 	}
 };

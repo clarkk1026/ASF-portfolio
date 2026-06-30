@@ -133,6 +133,7 @@ export const AiBot = () => {
 				(hasBotMoodTag(reply.text) ? parsed.mood : resolveMoodFromIntent(reply.intent));
 			intent = reply.intent;
 			showGithubAlert = Boolean(reply.showGithubAlert);
+			userName = reply.userName ?? userName;
 		} catch {
 			const fallback = getBotResponse(trimmed, botContext);
 			const parsed = parseBotMood(fallback.text);

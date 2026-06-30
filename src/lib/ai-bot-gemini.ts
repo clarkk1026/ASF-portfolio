@@ -1,13 +1,20 @@
 import { buildBotSystemPrompt } from './ai-bot-context.js';
+import type { BotContext } from './ai-bot-responses.js';
+import { buildVisitorTurnContext } from './ai-bot-visitor-context.js';
 
 export type GeminiHistoryMessage = {
 	role: 'user' | 'assistant';
 	content: string;
 };
 
+type GeminiHistoryItem = {
+	role: 'user' | 'assistant';
+	content: string;
+};
+
 const DEFAULT_MODEL = 'gemini-2.0-flash';
-const MAX_TOKENS = 640;
-const TEMPERATURE = 0.72;
+const MAX_TOKENS = 768;
+const TEMPERATURE = 0.68;
 
 const toGeminiRole = (role: 'user' | 'assistant'): 'user' | 'model' =>
 	role === 'assistant' ? 'model' : 'user';
@@ -16,14 +23,21 @@ export const callGeminiChat = async (
 	apiKey: string,
 	userMessage: string,
 	history: GeminiHistoryMessage[],
+	context: BotContext,
 	model = process.env.GEMINI_MODEL ?? DEFAULT_MODEL,
 ) => {
+	const contextualMessage = buildVisitorTurnContext(
+		userMessage,
+		context,
+		history as GeminiHistoryItem[],
+	);
+
 	const contents = [
-		...history.slice(-12).map((item) => ({
+		...history.slice(-14).map((item) => ({
 			role: toGeminiRole(item.role),
 			parts: [{ text: item.content }],
 		})),
-		{ role: 'user' as const, parts: [{ text: userMessage }] },
+		{ role: 'user' as const, parts: [{ text: contextualMessage }] },
 	];
 
 	const response = await fetch(
@@ -42,6 +56,7 @@ export const callGeminiChat = async (
 				generationConfig: {
 					temperature: TEMPERATURE,
 					maxOutputTokens: MAX_TOKENS,
+					topP: 0.9,
 				},
 			}),
 		},

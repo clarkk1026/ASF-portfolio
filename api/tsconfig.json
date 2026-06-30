@@ -18,6 +18,7 @@
 		"../src/lib/ai-bot-brand.ts",
 		"../src/lib/ai-bot-responses.ts",
 		"../src/lib/ai-bot-gemini.ts",
+		"../src/lib/ai-bot-visitor-context.ts",
 		"../src/lib/ai-bot-context.ts",
 		"../src/lib/ai-bot-github-guard.ts",
 		"../src/lib/contact-lock.ts",
