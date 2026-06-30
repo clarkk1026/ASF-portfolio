@@ -1,21 +1,20 @@
 import { randomUUID } from 'node:crypto';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { getKv, hasKvEnv } from './lib/kv.js';
+import {
+	readVisitorNotesStore,
+	writeVisitorNotesStore,
+} from './lib/visitor-notes-store.js';
 import {
 	decrementVote,
-	emptyStore,
 	incrementVote,
 	isVisitorSentiment,
-	normalizeStore,
 	withCounts,
 	type VisitorNotePayload,
-	type VisitorNotesStore,
 	type VisitorVoteCancelPayload,
 	type VisitorVoteChangePayload,
 	type VisitorVotePayload,
 } from '../src/lib/visitor-notes-types.js';
 
-const KV_KEY = 'visitor-notes';
 const MAX_REPLIES = 200;
 const MAX_MESSAGE = 600;
 const MAX_NAME = 48;
@@ -65,39 +64,31 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 		return res.status(204).end();
 	}
 
-	if (!hasKvEnv()) {
-		return res.status(503).json({ error: 'Visitor notes storage unavailable' });
-	}
-
-	const kv = getKv();
-
 	try {
 		if (req.method === 'GET') {
-			const raw = (await kv.get<VisitorNotesStore>(KV_KEY)) ?? emptyStore();
-			return res.status(200).json(withCounts(normalizeStore(raw)));
+			const store = await readVisitorNotesStore();
+			return res.status(200).json(withCounts(store));
 		}
 
 		if (req.method === 'POST') {
-			const store = normalizeStore(
-				(await kv.get<VisitorNotesStore>(KV_KEY)) ?? emptyStore(),
-			);
+			const store = await readVisitorNotesStore();
 
 			if (isVotePayload(req.body)) {
 				incrementVote(store, req.body.sentiment);
-				await kv.set(KV_KEY, store);
+				await writeVisitorNotesStore(store);
 				return res.status(201).json(withCounts(store));
 			}
 
 			if (isVoteChangePayload(req.body)) {
 				decrementVote(store, req.body.from);
 				incrementVote(store, req.body.to);
-				await kv.set(KV_KEY, store);
+				await writeVisitorNotesStore(store);
 				return res.status(201).json(withCounts(store));
 			}
 
 			if (isVoteCancelPayload(req.body)) {
 				decrementVote(store, req.body.sentiment);
-				await kv.set(KV_KEY, store);
+				await writeVisitorNotesStore(store);
 				return res.status(201).json(withCounts(store));
 			}
 
@@ -110,7 +101,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 					createdAt: new Date().toISOString(),
 				});
 				store.replies = store.replies.slice(0, MAX_REPLIES);
-				await kv.set(KV_KEY, store);
+				await writeVisitorNotesStore(store);
 				return res.status(201).json(withCounts(store));
 			}
 
