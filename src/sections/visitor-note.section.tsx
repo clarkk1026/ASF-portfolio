@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
+import { FaMinus, FaThumbsDown, FaThumbsUp } from 'react-icons/fa6';
 import { LayeredSectionTitle } from '../components/layered-section-title';
 import { Reveal } from '../components/reveal';
 import { useToast } from '../components/toast-provider';
@@ -22,7 +23,36 @@ import type { VisitorReply } from '../lib/visitor-notes-types';
 
 const SUBMITTED_KEY = 'portfolio-visitor-note-submitted';
 const VOTE_KEY = 'portfolio-visitor-vote';
-const POLL_INTERVAL_MS = 15000;
+const POLL_INTERVAL_MS = 10000;
+
+const sentimentOptions = [
+	{
+		id: 'support' as const,
+		label: visitorNote.supportLabel,
+		Icon: FaThumbsUp,
+		countKey: 'support' as const,
+	},
+	{
+		id: 'disagree' as const,
+		label: visitorNote.disagreeLabel,
+		Icon: FaThumbsDown,
+		countKey: 'disagree' as const,
+	},
+	{
+		id: 'not-care' as const,
+		label: visitorNote.notCareLabel,
+		Icon: FaMinus,
+		countKey: 'notCare' as const,
+	},
+];
+
+const readSavedVote = (): VisitorNoteSentiment | null => {
+	const saved = localStorage.getItem(VOTE_KEY);
+	if (saved === 'support' || saved === 'disagree' || saved === 'not-care') {
+		return saved;
+	}
+	return null;
+};
 
 const formatReplyDate = (iso: string) => {
 	const date = new Date(iso);
@@ -42,12 +72,18 @@ const sentimentLabel = (sentiment: VisitorNoteSentiment) => {
 
 export const VisitorNote = () => {
 	const { pushToast } = useToast();
-	const [sentiment, setSentiment] = useState<VisitorNoteSentiment | null>(
-		null,
+	const savedVote = readSavedVote();
+	const wasSubmitted = localStorage.getItem(SUBMITTED_KEY) === '1';
+	const [selection, setSelection] = useState<VisitorNoteSentiment | null>(
+		wasSubmitted ? null : savedVote,
+	);
+	const [appliedVote, setAppliedVote] = useState<VisitorNoteSentiment | null>(
+		savedVote,
 	);
 	const [name, setName] = useState('');
 	const [message, setMessage] = useState('');
 	const [error, setError] = useState('');
+	const [loadError, setLoadError] = useState('');
 	const [loading, setLoading] = useState(true);
 	const [submitting, setSubmitting] = useState(false);
 	const [voting, setVoting] = useState(false);
@@ -56,23 +92,16 @@ export const VisitorNote = () => {
 	const [notCareCount, setNotCareCount] = useState(0);
 	const [replies, setReplies] = useState<VisitorReply[]>([]);
 	const [hasSubmitted, setHasSubmitted] = useState(
-		() => localStorage.getItem(SUBMITTED_KEY) === '1',
-	);
-	const [userVote, setUserVote] = useState<VisitorNoteSentiment | null>(
-		() => {
-			const saved = localStorage.getItem(VOTE_KEY);
-			if (
-				saved === 'support' ||
-				saved === 'disagree' ||
-				saved === 'not-care'
-			) {
-				return saved;
-			}
-			return null;
-		},
+		() => wasSubmitted || Boolean(savedVote),
 	);
 	const snapshotRef = useRef<VisitorNotesSnapshot | null>(null);
 	const skipRemoteNotifyUntilRef = useRef(0);
+
+	const liveCounts = {
+		support: supportCount,
+		disagree: disagreeCount,
+		notCare: notCareCount,
+	};
 
 	const applyData = (data: Awaited<ReturnType<typeof fetchVisitorNotes>>) => {
 		setSupportCount(data.supportCount);
@@ -80,29 +109,21 @@ export const VisitorNote = () => {
 		setNotCareCount(data.notCareCount);
 		setReplies(data.replies);
 		snapshotRef.current = snapshotFromData(data);
-	};
-
-	const notifyRemoteChanges = (
-		data: Awaited<ReturnType<typeof fetchVisitorNotes>>,
-	) => {
-		if (Date.now() < skipRemoteNotifyUntilRef.current) return;
-
-		const previous = snapshotRef.current;
-		if (!previous) return;
-
-		for (const message of diffVisitorActivity(previous, data)) {
-			pushToast(message, 'activity');
-		}
+		setLoadError('');
 	};
 
 	const suppressRemoteNotifications = () => {
-		skipRemoteNotifyUntilRef.current = Date.now() + 4000;
+		skipRemoteNotifyUntilRef.current = Date.now() + 5000;
 	};
 
 	const loadNotes = useCallback(async () => {
 		setLoading(true);
 		try {
 			applyData(await fetchVisitorNotes());
+		} catch (err) {
+			setLoadError(
+				err instanceof Error ? err.message : visitorNote.loadError,
+			);
 		} finally {
 			setLoading(false);
 		}
@@ -118,10 +139,20 @@ export const VisitorNote = () => {
 
 			try {
 				const data = await fetchVisitorNotes();
-				notifyRemoteChanges(data);
+				const previous = snapshotRef.current;
+
+				if (
+					previous &&
+					Date.now() >= skipRemoteNotifyUntilRef.current
+				) {
+					for (const note of diffVisitorActivity(previous, data)) {
+						pushToast(note, 'activity');
+					}
+				}
+
 				applyData(data);
 			} catch {
-				// Keep the last known counts if polling fails.
+				// Keep last known live totals if polling fails briefly.
 			}
 		};
 
@@ -132,144 +163,83 @@ export const VisitorNote = () => {
 		return () => window.clearInterval(intervalId);
 	}, [pushToast]);
 
-	const totalVisitorCount = supportCount + disagreeCount + notCareCount;
-
-	const onVote = async (choice: VisitorNoteSentiment) => {
-		if (voting) return;
-
+	const onPickSentiment = (choice: VisitorNoteSentiment) => {
+		if (submitting || voting || hasSubmitted) return;
+		setSelection(choice);
 		setError('');
-		setVoting(true);
-		try {
-			const data = await submitVisitorVote(choice);
-			suppressRemoteNotifications();
-			applyData(data);
-			localStorage.setItem(VOTE_KEY, choice);
-			setUserVote(choice);
-			setSentiment(choice);
-			pushToast(visitorNote.notifyVoteRecorded, 'success');
-		} catch (err) {
-			setError(err instanceof Error ? err.message : 'Could not register vote.');
-		} finally {
-			setVoting(false);
-		}
-	};
-
-	const onChangeVote = async (choice: VisitorNoteSentiment) => {
-		if (!userVote || userVote === choice || voting) return;
-
-		setError('');
-		setVoting(true);
-		try {
-			const data = await changeVisitorVote(userVote, choice);
-			suppressRemoteNotifications();
-			applyData(data);
-			localStorage.setItem(VOTE_KEY, choice);
-			setUserVote(choice);
-			setSentiment(choice);
-			pushToast(
-				visitorNote.notifyVoteUpdated.replace(
-					'{sentiment}',
-					sentimentLabel(choice),
-				),
-				'success',
-			);
-		} catch (err) {
-			setError(err instanceof Error ? err.message : 'Could not change vote.');
-		} finally {
-			setVoting(false);
-		}
 	};
 
 	const onCancelVote = async () => {
-		if (!userVote || voting) return;
+		if (!appliedVote || voting || submitting) return;
 
 		setError('');
 		setVoting(true);
 		try {
-			const data = await cancelVisitorVote(userVote);
+			const data = await cancelVisitorVote(appliedVote);
 			suppressRemoteNotifications();
 			applyData(data);
 			localStorage.removeItem(VOTE_KEY);
-			setUserVote(null);
-			setSentiment(null);
-			pushToast(visitorNote.notifyVoteCancelled, 'success');
+			localStorage.removeItem(SUBMITTED_KEY);
+			setAppliedVote(null);
+			setSelection(null);
+			setHasSubmitted(false);
+			pushToast(visitorNote.notifyVoteCancelled, 'info');
 		} catch (err) {
-			setError(err instanceof Error ? err.message : 'Could not cancel vote.');
+			setError(err instanceof Error ? err.message : 'Could not remove vote.');
 		} finally {
 			setVoting(false);
 		}
 	};
 
-	const onSentimentPick = async (choice: VisitorNoteSentiment) => {
-		if (voting) return;
-
-		if (!userVote) {
-			await onVote(choice);
-			return;
-		}
-
-		if (userVote === choice) {
-			setSentiment(choice);
-			return;
-		}
-
-		await onChangeVote(choice);
-	};
-
-	useEffect(() => {
-		if (userVote) {
-			setSentiment(userVote);
-		}
-	}, [userVote]);
-
-	const activeSentiment = userVote ?? sentiment;
-	const canPost = Boolean(activeSentiment || message.trim());
-
-	const onSubmit = async (e: FormEvent) => {
+	const onApply = async (e: FormEvent) => {
 		e.preventDefault();
 		setError('');
 
+		const choice = selection;
 		const trimmedMessage = message.trim();
-		const hasChoice = Boolean(activeSentiment);
 
-		if (!hasChoice && !trimmedMessage) {
-			setError('Choose a button or write a note before posting.');
-			return;
-		}
-
-		if (trimmedMessage && !hasChoice) {
-			setError('Choose interested, not convinced, or neutral for your note.');
-			return;
-		}
-
-		if (!trimmedMessage && hasChoice) {
-			suppressRemoteNotifications();
-			localStorage.setItem(SUBMITTED_KEY, '1');
-			setHasSubmitted(true);
-			pushToast(visitorNote.notifyVoteRecorded, 'success');
+		if (!choice) {
+			setError('Choose interested, not convinced, or neutral before applying.');
 			return;
 		}
 
 		setSubmitting(true);
 		try {
-			const data = await submitVisitorNote({
-				sentiment: activeSentiment!,
-				name,
-				message: trimmedMessage,
-			});
+			let data: Awaited<ReturnType<typeof fetchVisitorNotes>>;
+
+			if (!appliedVote) {
+				data = await submitVisitorVote(choice);
+			} else if (appliedVote !== choice) {
+				data = await changeVisitorVote(appliedVote, choice);
+			} else {
+				data = await fetchVisitorNotes();
+			}
+
+			if (trimmedMessage) {
+				data = await submitVisitorNote({
+					sentiment: choice,
+					name,
+					message: trimmedMessage,
+				});
+			}
+
 			suppressRemoteNotifications();
 			applyData(data);
+			localStorage.setItem(VOTE_KEY, choice);
 			localStorage.setItem(SUBMITTED_KEY, '1');
+			setAppliedVote(choice);
 			setHasSubmitted(true);
-			pushToast(visitorNote.notifyNotePosted, 'success');
+			pushToast(visitorNote.notifyApplied, 'success');
 		} catch (err) {
 			setError(
-				err instanceof Error ? err.message : 'Could not post your note.',
+				err instanceof Error ? err.message : 'Could not apply your response.',
 			);
 		} finally {
 			setSubmitting(false);
 		}
 	};
+
+	const activeChoice = selection ?? appliedVote;
 
 	return (
 		<section
@@ -286,39 +256,35 @@ export const VisitorNote = () => {
 
 			<div className='visitor-note-content'>
 				<Reveal delay={80}>
-					<div className='visitor-note-stats'>
-						<div className='visitor-note-stat visitor-note-stat-total'>
-							<span className='visitor-note-stat-value'>
-								{loading ? '0' : totalVisitorCount}
-							</span>
-							<span className='visitor-note-stat-label'>
-								{visitorNote.totalVisitorsStatLabel}
-							</span>
+					<div className='visitor-note-stats-wrap'>
+						<p className='visitor-note-live-label'>{visitorNote.liveCountsLabel}</p>
+						<div className='visitor-note-stats'>
+							{sentimentOptions.map(({ id, label, Icon, countKey }) => (
+								<div
+									key={id}
+									className={`visitor-note-stat visitor-note-stat-${id === 'not-care' ? 'notcare' : id}`}
+								>
+									<span
+										className='visitor-note-stat-icon'
+										aria-hidden='true'
+									>
+										<Icon />
+									</span>
+									<span className='visitor-note-stat-value'>
+										{loading ? '—' : liveCounts[countKey]}
+									</span>
+									<span className='visitor-note-stat-label'>{label}</span>
+								</div>
+							))}
 						</div>
-						<div className='visitor-note-stat visitor-note-stat-support'>
-							<span className='visitor-note-stat-value'>
-								{loading ? '0' : supportCount}
-							</span>
-							<span className='visitor-note-stat-label'>
-								{visitorNote.supportStatLabel}
-							</span>
-						</div>
-						<div className='visitor-note-stat visitor-note-stat-disagree'>
-							<span className='visitor-note-stat-value'>
-								{loading ? '0' : disagreeCount}
-							</span>
-							<span className='visitor-note-stat-label'>
-								{visitorNote.disagreeStatLabel}
-							</span>
-						</div>
-						<div className='visitor-note-stat visitor-note-stat-notcare'>
-							<span className='visitor-note-stat-value'>
-								{loading ? '0' : notCareCount}
-							</span>
-							<span className='visitor-note-stat-label'>
-								{visitorNote.notCareStatLabel}
-							</span>
-						</div>
+						{loadError ? (
+							<p
+								className='visitor-note-load-error'
+								role='alert'
+							>
+								{loadError}
+							</p>
+						) : null}
 					</div>
 				</Reveal>
 
@@ -378,56 +344,63 @@ export const VisitorNote = () => {
 
 							<form
 								className='visitor-note-form'
-								onSubmit={onSubmit}
+								onSubmit={onApply}
 							>
 								<div
 									className='visitor-note-sentiment'
 									role='group'
-									aria-label='Cast your vote'
+									aria-label='Choose your status'
 								>
-									<button
-										type='button'
-										className={`visitor-note-choice ${(userVote ?? sentiment) === 'support' ? 'visitor-note-choice-active visitor-note-choice-support' : ''}`}
-										onClick={() => void onSentimentPick('support')}
-										disabled={voting}
-									>
-										{visitorNote.supportLabel}
-									</button>
-									<button
-										type='button'
-										className={`visitor-note-choice ${(userVote ?? sentiment) === 'disagree' ? 'visitor-note-choice-active visitor-note-choice-disagree' : ''}`}
-										onClick={() => void onSentimentPick('disagree')}
-										disabled={voting}
-									>
-										{visitorNote.disagreeLabel}
-									</button>
-									<button
-										type='button'
-										className={`visitor-note-choice ${(userVote ?? sentiment) === 'not-care' ? 'visitor-note-choice-active visitor-note-choice-notcare' : ''}`}
-										onClick={() => void onSentimentPick('not-care')}
-										disabled={voting}
-									>
-										{visitorNote.notCareLabel}
-									</button>
+									{sentimentOptions.map(({ id, label, Icon }) => (
+										<button
+											key={id}
+											type='button'
+											className={`comet-btn comet-btn-vote visitor-note-choice visitor-note-choice-${id === 'not-care' ? 'notcare' : id} ${activeChoice === id ? 'visitor-note-choice-active' : ''}`}
+											onClick={() => onPickSentiment(id)}
+											disabled={submitting || voting}
+											aria-label={label}
+											title={label}
+										>
+											<Icon className='visitor-note-choice-icon' />
+										</button>
+									))}
 								</div>
 
-								{userVote ? (
+								{appliedVote ? (
 									<div className='visitor-note-vote-actions'>
 										<p className='visitor-note-vote-done'>
-											You voted: {sentimentLabel(userVote)}
+											{(() => {
+												const applied = sentimentOptions.find(
+													(item) => item.id === appliedVote,
+												);
+												const AppliedIcon = applied?.Icon;
+												return (
+													<>
+														{AppliedIcon ? (
+															<span
+																className='visitor-note-vote-done-icon'
+																aria-hidden='true'
+															>
+																<AppliedIcon />
+															</span>
+														) : null}
+														<span>Applied: {sentimentLabel(appliedVote)}</span>
+													</>
+												);
+											})()}
 										</p>
 										<button
 											type='button'
 											className='visitor-note-cancel-vote'
 											onClick={() => void onCancelVote()}
-											disabled={voting}
+											disabled={voting || submitting}
 										>
 											{visitorNote.cancelVoteLabel}
 										</button>
 									</div>
 								) : null}
 
-								{error && !submitting && !voting ? (
+								{error ? (
 									<p
 										className='visitor-note-error'
 										role='alert'
@@ -446,6 +419,7 @@ export const VisitorNote = () => {
 										placeholder={visitorNote.namePlaceholder}
 										autoComplete='name'
 										maxLength={48}
+										disabled={submitting || voting}
 									/>
 								</label>
 
@@ -456,32 +430,43 @@ export const VisitorNote = () => {
 										value={message}
 										onChange={(e) => setMessage(e.target.value)}
 										placeholder={visitorNote.messagePlaceholder}
-										rows={5}
+										rows={4}
 										maxLength={600}
+										disabled={submitting || voting}
 									/>
 								</label>
 
 								<button
 									type='submit'
 									className='comet-btn comet-btn-talk comet-btn-lg visitor-note-submit'
-									disabled={submitting || voting || !canPost}
+									disabled={submitting || voting || !activeChoice}
 								>
 									{submitting
 										? visitorNote.submittingLabel
 										: visitorNote.submitLabel}
 								</button>
 
-								<p className='visitor-note-privacy'>
-									{visitorNote.formNote}
-								</p>
+								<p className='visitor-note-privacy'>{visitorNote.formNote}</p>
 							</form>
 						</div>
 					</Reveal>
 				) : (
 					<Reveal delay={160}>
-						<p className='visitor-note-thanks glass-card'>
-							{visitorNote.thanksMessage}
-						</p>
+						<div className='visitor-note-thanks-wrap'>
+							<p className='visitor-note-thanks glass-card'>
+								{visitorNote.thanksMessage}
+							</p>
+							{appliedVote ? (
+								<button
+									type='button'
+									className='visitor-note-cancel-vote'
+									onClick={() => void onCancelVote()}
+									disabled={voting}
+								>
+									{visitorNote.cancelVoteLabel}
+								</button>
+							) : null}
+						</div>
 					</Reveal>
 				)}
 			</div>

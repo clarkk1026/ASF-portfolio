@@ -32,7 +32,13 @@ export const WorkExperience = () => {
 	const [metrics, setMetrics] = useState<TimelineMetrics>(emptyMetrics);
 
 	const allItems = useMemo(
-		() => experience.timeline.flatMap(({ items }) => items),
+		() =>
+			experience.timeline.flatMap((section) =>
+				section.items.map((item, index) => ({
+					...item,
+					sectionHeading: index === 0 ? section.heading : null,
+				})),
+			),
 		[],
 	);
 
@@ -143,7 +149,8 @@ export const WorkExperience = () => {
 						</div>
 					)}
 
-					{allItems.map(({ role, org, period, bullets }, itemIdx) => (
+					{allItems.map(
+						({ sectionHeading, role, org, period, bullets }, itemIdx) => (
 						<Reveal
 							key={`${role}-${org}`}
 							delay={80 + itemIdx * 80}
@@ -154,6 +161,9 @@ export const WorkExperience = () => {
 									itemRefs.current[itemIdx] = el;
 								}}
 							>
+								{sectionHeading ? (
+									<h3 className='timeline-group-heading'>{sectionHeading}</h3>
+								) : null}
 								<div className='timeline-item glass-card'>
 									<div className='timeline-meta'>
 										<p className='designation'>{role}</p>
@@ -173,7 +183,8 @@ export const WorkExperience = () => {
 								</div>
 							</div>
 						</Reveal>
-					))}
+					),
+					)}
 				</div>
 			</div>
 		</section>

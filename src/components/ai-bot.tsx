@@ -1,5 +1,6 @@
 import { type FormEvent, useEffect, useMemo, useRef, useState } from 'react';
-import { FaComments, FaPaperPlane, FaXmark } from 'react-icons/fa6';
+import { FaPaperPlane, FaXmark } from 'react-icons/fa6';
+import { BonIcon } from './bon-icon';
 import { fetchBotReply } from '../lib/ai-bot-api';
 import {
 	BOT_MOOD_COLOR,
@@ -174,12 +175,15 @@ export const AiBot = () => {
 			{!open ? (
 				<button
 					type='button'
-					className='comet-btn comet-btn-talk ai-bot-fab ai-bot-interactive'
+					className='comet-btn comet-btn-chatbot ai-bot-fab ai-bot-interactive'
 					onClick={() => setOpen(true)}
 					aria-label='Open Bon chat'
 					aria-expanded={false}
 				>
-					<FaComments className='ai-bot-fab-icon' />
+					<BonIcon
+						size='fab'
+						decorative
+					/>
 				</button>
 			) : null}
 
@@ -189,7 +193,7 @@ export const AiBot = () => {
 						<div
 							className={`ai-bot-avatar ai-bot-icon-animated ai-bot-avatar-mood-${activeMood}`}
 						>
-							<FaComments className='ai-bot-header-icon' />
+							<BonIcon size='avatar' />
 						</div>
 
 						<div className='ai-bot-header-copy'>

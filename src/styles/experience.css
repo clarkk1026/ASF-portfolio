@@ -78,6 +78,16 @@
 		filter 0.3s ease;
 }
 
+.timeline-group-heading {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: rgba(160, 220, 255, 0.62);
+	margin: 0 0 0.85rem 0.15rem;
+}
+
 .timeline-list:not(.timeline-list-active) {
 	opacity: 0.72;
 	filter: saturate(0.85);

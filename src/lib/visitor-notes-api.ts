@@ -1,12 +1,8 @@
 import {
-	decrementVote,
-	emptyStore,
-	incrementVote,
 	normalizeStore,
 	withCounts,
 	type VisitorNotePayload,
 	type VisitorNotesResponse,
-	type VisitorNotesStore,
 	type VisitorPostPayload,
 	type VisitorVoteCancelPayload,
 	type VisitorVoteChangePayload,
@@ -15,29 +11,6 @@ import {
 import type { VisitorNoteSentiment } from '../data/portfolio';
 
 const API_PATH = '/api/visitor-notes';
-const STORAGE_KEY = 'portfolio-visitor-notes';
-
-const readLocalStore = (): VisitorNotesStore => {
-	try {
-		const raw = localStorage.getItem(STORAGE_KEY);
-		if (!raw) return emptyStore();
-		return normalizeStore(JSON.parse(raw));
-	} catch {
-		return emptyStore();
-	}
-};
-
-const writeLocalStore = (store: VisitorNotesStore) => {
-	localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
-};
-
-const createReply = (payload: VisitorNotePayload) => ({
-	id: crypto.randomUUID(),
-	sentiment: payload.sentiment,
-	name: payload.name?.trim() || 'Anonymous',
-	message: payload.message.trim(),
-	createdAt: new Date().toISOString(),
-});
 
 const postPayload = async (
 	body: VisitorPostPayload,
@@ -46,49 +19,31 @@ const postPayload = async (
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify(body),
+		cache: 'no-store',
 	});
 
-	if (res.ok) {
-		return withCounts(normalizeStore(await res.json()));
+	if (!res.ok) {
+		const err = (await res.json().catch(() => null)) as { error?: string } | null;
+		throw new Error(err?.error ?? 'Request failed');
 	}
 
-	const err = (await res.json().catch(() => null)) as { error?: string } | null;
-	throw new Error(err?.error ?? 'Request failed');
-};
-
-const withLocalFallback = async (
-	body: VisitorPostPayload,
-	apply: (store: VisitorNotesStore) => void,
-): Promise<VisitorNotesResponse> => {
-	try {
-		return await postPayload(body);
-	} catch (error) {
-		if (error instanceof Error && error.message === 'Request failed') {
-			throw error;
-		}
-
-		const store = readLocalStore();
-		apply(store);
-		writeLocalStore(store);
-		return withCounts(store);
-	}
+	return withCounts(normalizeStore(await res.json()));
 };
 
 export const fetchVisitorNotes = async (): Promise<VisitorNotesResponse> => {
-	try {
-		const res = await fetch(API_PATH);
-		if (!res.ok) throw new Error('fetch failed');
-		return withCounts(normalizeStore(await res.json()));
-	} catch {
-		return withCounts(readLocalStore());
+	const res = await fetch(API_PATH, { cache: 'no-store' });
+	if (!res.ok) {
+		throw new Error('Could not load live visitor counts.');
 	}
+
+	return withCounts(normalizeStore(await res.json()));
 };
 
 export const submitVisitorVote = async (
 	sentiment: VisitorNoteSentiment,
 ): Promise<VisitorNotesResponse> => {
 	const payload: VisitorVotePayload = { type: 'vote', sentiment };
-	return withLocalFallback(payload, (store) => incrementVote(store, sentiment));
+	return postPayload(payload);
 };
 
 export const changeVisitorVote = async (
@@ -96,29 +51,23 @@ export const changeVisitorVote = async (
 	to: VisitorNoteSentiment,
 ): Promise<VisitorNotesResponse> => {
 	if (from === to) {
-		return withCounts(readLocalStore());
+		return fetchVisitorNotes();
 	}
 
 	const payload: VisitorVoteChangePayload = { type: 'vote-change', from, to };
-	return withLocalFallback(payload, (store) => {
-		decrementVote(store, from);
-		incrementVote(store, to);
-	});
+	return postPayload(payload);
 };
 
 export const cancelVisitorVote = async (
 	sentiment: VisitorNoteSentiment,
 ): Promise<VisitorNotesResponse> => {
 	const payload: VisitorVoteCancelPayload = { type: 'vote-cancel', sentiment };
-	return withLocalFallback(payload, (store) => decrementVote(store, sentiment));
+	return postPayload(payload);
 };
 
 export const submitVisitorNote = async (
 	payload: Omit<VisitorNotePayload, 'type'>,
 ): Promise<VisitorNotesResponse> => {
 	const body: VisitorNotePayload = { type: 'note', ...payload };
-	return withLocalFallback(body, (store) => {
-		store.replies.unshift(createReply(body));
-		store.replies = store.replies.slice(0, 200);
-	});
+	return postPayload(body);
 };

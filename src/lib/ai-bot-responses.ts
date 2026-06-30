@@ -343,8 +343,8 @@ const humanTech = (mentioned?: string) => {
 
 const humanContact = () =>
 	prefix([
-		`Best ways to reach Ben:\n\n📧 **${personal.email}**\n💬 **Telegram:** [web.telegram.org/a/](https://web.telegram.org/a/)\n\n${contact.subtext}\n\n[[mood:warm]]`,
-		`Email Ben at **${personal.email}** or message him on Telegram. He is open to freelance, collaboration, and full-time roles.\n\n[[mood:calm]]`,
+		`Best ways to reach Ben:\n\n📧 **${personal.email}**\n💬 **Telegram:** [@${personal.telegramUsername}](https://t.me/${personal.telegramUsername})\n🎮 **Discord:** ${personal.discordUsername}\n\n${contact.subtext}\n\n[[mood:warm]]`,
+		`Email Ben at **${personal.email}**, message him on Telegram (@${personal.telegramUsername}), or connect on Discord (${personal.discordUsername}). He is open to freelance, collaboration, and full-time roles.\n\n[[mood:calm]]`,
 	]);
 
 const humanAbout = () =>
@@ -888,7 +888,7 @@ const handlers: IntentHandler[] = [
 				experience: `Want me to zoom in on a specific role — **Livestorm**, **NearForm**, or his **Senior/Lead** years? Or his **education** at Trinity?`,
 				projects: `I can dive deeper into **Happy Hydro**, **Labyrinth Style**, **Remedior Skincare**, or any store in Selected Work. Which one interests you?`,
 				skills: `Happy to go deeper on **AI**, **Shopify**, or **full-stack** — or name a tech like React or Node and I'll tell you how he uses it.`,
-				contact: `Email **${personal.email}** or reach out on Telegram. I can suggest what to write in a first message if you want.\n\n[[mood:warm]]`,
+				contact: `Email **${personal.email}**, Telegram **@${personal.telegramUsername}**, or Discord **${personal.discordUsername}**. I can suggest what to write in a first message if you want.\n\n[[mood:warm]]`,
 				tech: `Name any tool or language — React, Docker, Postgres, whatever — and I'll tell you how it fits Ben's work.`,
 				about: `I can also share more about his **personal journey**, **projects**, or **how to contact him**. What would you like next?\n\n[[mood:warm]]`,
 			};

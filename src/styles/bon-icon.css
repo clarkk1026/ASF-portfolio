@@ -1,0 +1,133 @@
+.bon-icon {
+	display: block;
+	flex-shrink: 0;
+	color: #ffffff;
+	overflow: visible;
+}
+
+.bon-icon-fab {
+	width: 2rem;
+	height: 2rem;
+}
+
+.bon-icon-avatar {
+	width: 1.65rem;
+	height: 1.65rem;
+}
+
+.bon-icon-rig {
+	transform-box: fill-box;
+	transform-origin: 14px 15px;
+	animation: bon-icon-bob 2.6s ease-in-out infinite;
+}
+
+.bon-icon-antenna {
+	stroke: currentColor;
+	stroke-width: 1.6;
+	stroke-linecap: round;
+	transform-box: fill-box;
+	transform-origin: 14px 8px;
+	animation: bon-icon-antenna 1.8s ease-in-out infinite;
+}
+
+.bon-icon-antenna-tip,
+.bon-icon-head,
+.bon-icon-body {
+	fill: currentColor;
+}
+
+.bon-icon-head {
+	opacity: 0.98;
+}
+
+.bon-icon-body {
+	opacity: 0.92;
+}
+
+.bon-icon-eye {
+	fill: #0c2238;
+	transform-box: fill-box;
+	transform-origin: center;
+}
+
+.bon-icon-eye-l {
+	animation: bon-icon-blink 3.6s ease-in-out infinite;
+}
+
+.bon-icon-eye-r {
+	animation: bon-icon-blink 3.6s ease-in-out 0.12s infinite;
+}
+
+.bon-icon-mouth {
+	fill: #0c2238;
+	opacity: 0.75;
+	transform-box: fill-box;
+	transform-origin: 14px 18px;
+	animation: bon-icon-mouth 2.2s ease-in-out infinite;
+}
+
+.comet-btn-chatbot .bon-icon-eye,
+.comet-btn-chatbot .bon-icon-mouth {
+	fill: #142d4d;
+}
+
+.ai-bot-avatar .bon-icon {
+	color: #f8fcff;
+}
+
+.ai-bot-avatar .bon-icon-eye,
+.ai-bot-avatar .bon-icon-mouth {
+	fill: #061018;
+}
+
+@keyframes bon-icon-bob {
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(-1.5px);
+	}
+}
+
+@keyframes bon-icon-antenna {
+	0%,
+	100% {
+		transform: rotate(0deg);
+	}
+	50% {
+		transform: rotate(6deg);
+	}
+}
+
+@keyframes bon-icon-blink {
+	0%,
+	44%,
+	48%,
+	100% {
+		transform: scaleY(1);
+	}
+	46% {
+		transform: scaleY(0.1);
+	}
+}
+
+@keyframes bon-icon-mouth {
+	0%,
+	100% {
+		transform: scaleX(1);
+	}
+	50% {
+		transform: scaleX(1.08);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.bon-icon-rig,
+	.bon-icon-antenna,
+	.bon-icon-eye-l,
+	.bon-icon-eye-r,
+	.bon-icon-mouth {
+		animation: none;
+	}
+}

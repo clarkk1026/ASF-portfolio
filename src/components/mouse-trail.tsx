@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react';
-import { isNearScrollCometPointer } from '../lib/scroll-comet-pointer';
 
 type TrailPoint = { x: number; y: number };
 
@@ -170,8 +169,7 @@ export const MouseTrail = () => {
 
 			const hideTrail =
 				overAiBot ||
-				document.body.classList.contains('scroll-comet-dragging') ||
-				isNearScrollCometPointer(targetX, targetY);
+				document.body.classList.contains('scroll-comet-dragging');
 
 			if (active && !hideTrail) {
 				trail[0].x = targetX;

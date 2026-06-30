@@ -6,10 +6,29 @@ export const discordContactHref = personal.discordUserId
 
 export const openDiscordContact = (
 	event?: { preventDefault: () => void },
+	onNotify?: (message: string) => void,
 ) => {
 	if (personal.discordUserId) return;
 
 	event?.preventDefault();
-	void navigator.clipboard.writeText(personal.discordUsername);
-	window.open('https://discord.com/channels/@me', '_blank', 'noopener,noreferrer');
+
+	const usernameMessage = `Discord: ${personal.discordUsername}`;
+
+	if (navigator.clipboard?.writeText) {
+		void navigator.clipboard.writeText(personal.discordUsername).then(
+			() =>
+				onNotify?.(
+					`Discord username copied: ${personal.discordUsername}`,
+				),
+			() => onNotify?.(usernameMessage),
+		);
+	} else {
+		onNotify?.(usernameMessage);
+	}
+
+	window.open(
+		'https://discord.com/channels/@me',
+		'_blank',
+		'noopener,noreferrer',
+	);
 };

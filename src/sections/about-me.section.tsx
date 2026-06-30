@@ -30,28 +30,9 @@ export const AboutMe = () => {
 						</header>
 
 						<div className='about-story-body'>
-							<p>
-								I enjoy building products that solve real business problems,
-								combining <mark>AI</mark>, <mark>Shopify</mark>, and modern{' '}
-								<mark>full-stack</mark> technologies. My journey has been shaped
-								by overcoming personal challenges from an early age, adapting to
-								new environments, and learning through real-world experience.
-							</p>
-
-							<div className='about-story-break'>
-								<span />
-								<span />
-								<span />
-							</div>
-
-							<p>
-								Alongside software engineering, I built and operated a small{' '}
-								<mark>clothing business</mark>, which taught me the importance
-								of execution, customer focus, and consistency. Today I focus on
-								creating scalable applications, integrating AI into practical
-								workflows, and turning ideas into reliable products that people
-								actually use.
-							</p>
+							{about.intro.map((paragraph) => (
+								<p key={paragraph.slice(0, 32)}>{paragraph}</p>
+							))}
 						</div>
 
 						<footer className='about-story-footer'>

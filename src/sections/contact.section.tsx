@@ -4,24 +4,28 @@ import { LayeredSectionTitle } from '../components/layered-section-title';
 import { Reveal } from '../components/reveal';
 import { useToast } from '../components/toast-provider';
 import { contact, gmailComposeUrl, personal, socialLinks } from '../data/portfolio';
-import { preventLockedGithubContact } from '../lib/contact-lock';
+import { githubContactLocked, preventLockedGithubContact } from '../lib/contact-lock';
 import { discordContactHref, openDiscordContact } from '../lib/discord-contact';
 
 const socialLinkProps = (
 	link: (typeof socialLinks)[number],
-	onGithubLockedClick?: (event: MouseEvent<HTMLAnchorElement>) => void,
+	options?: {
+		onGithubLockedClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
+		onDiscordNotify?: (message: string) => void;
+	},
 ) => {
-	if (link.label === 'GitHub' && onGithubLockedClick) {
+	if (link.label === 'GitHub' && githubContactLocked && options?.onGithubLockedClick) {
 		return {
-			href: link.href,
-			onClick: onGithubLockedClick,
+			href: '#contact',
+			onClick: options.onGithubLockedClick,
 		};
 	}
 
 	if (link.action === 'discord') {
 		return {
 			href: discordContactHref,
-			onClick: openDiscordContact,
+			onClick: (event: MouseEvent<HTMLAnchorElement>) =>
+				openDiscordContact(event, options?.onDiscordNotify),
 		};
 	}
 
@@ -76,12 +80,14 @@ export const Contact = () => {
 											color={link.glowColor}
 											icon={<link.icon color={link.iconColor} />}
 											aria-label={link.label.toLowerCase()}
-											{...socialLinkProps(
-												link,
-												link.label === 'GitHub'
-													? onGithubLockedClick
-													: undefined,
-											)}
+											{...socialLinkProps(link, {
+												onGithubLockedClick:
+													link.label === 'GitHub'
+														? onGithubLockedClick
+														: undefined,
+												onDiscordNotify: (message) =>
+													pushToast(message, 'info'),
+											})}
 										/>
 									))}
 								</div>

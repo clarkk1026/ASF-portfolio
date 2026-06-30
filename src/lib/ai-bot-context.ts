@@ -119,7 +119,7 @@ ${techLines}
 
 Contact:
 ${contact.subtext}
-Telegram is available. Email is the best first step: ${personal.email}
+Telegram: @${personal.telegramUsername} (https://t.me/${personal.telegramUsername}). Discord: ${personal.discordUsername}. Email is the best first step: ${personal.email}
 
 MOOD TAG (required):
 End every reply with exactly one mood tag on its own last line:

@@ -71,6 +71,60 @@
 		inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
+/* Chat bot launcher — related glow, violet accent */
+.comet-btn-chatbot {
+	color: #f4f8ff;
+	background: linear-gradient(
+		125deg,
+		rgb(72, 118, 210) 0%,
+		rgb(110, 95, 240) 46%,
+		rgb(31, 195, 255) 100%
+	);
+	border-color: rgba(200, 210, 255, 0.32);
+	box-shadow:
+		0 0 0 1px rgba(120, 100, 255, 0.22),
+		0 8px 28px rgba(88, 72, 200, 0.35),
+		inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.comet-btn-chatbot:hover {
+	filter: brightness(1.07);
+	box-shadow:
+		0 0 0 1px rgba(120, 100, 255, 0.4),
+		0 12px 36px rgba(88, 72, 200, 0.45),
+		inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+/* Visitor sentiment — compact comet circles */
+.comet-btn-vote {
+	width: 2.85rem;
+	height: 2.85rem;
+	min-height: 0;
+	padding: 0;
+	letter-spacing: 0;
+	font-size: 0;
+	color: rgba(220, 240, 255, 0.88);
+	background: linear-gradient(
+		140deg,
+		rgba(28, 62, 98, 0.96) 0%,
+		rgba(16, 38, 68, 0.98) 100%
+	);
+	border-color: rgba(31, 195, 255, 0.32);
+	box-shadow:
+		0 0 0 1px rgba(31, 195, 255, 0.14),
+		0 6px 22px rgba(0, 0, 0, 0.32),
+		inset 0 1px 0 rgba(31, 195, 255, 0.18);
+}
+
+.comet-btn-vote:hover {
+	filter: brightness(1.1);
+	border-color: rgba(31, 195, 255, 0.5);
+	box-shadow:
+		0 0 0 1px rgba(31, 195, 255, 0.28),
+		0 10px 28px rgba(31, 195, 255, 0.18),
+		inset 0 1px 0 rgba(31, 195, 255, 0.28);
+}
+
 /* View work — portfolio / explore */
 .comet-btn-work {
 	color: #e8f4fc;
