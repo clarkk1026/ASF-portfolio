@@ -25,6 +25,8 @@ export type VisitorNotesResponse = VisitorNotesStore & {
 	notCareCount: number;
 	/** False when counts may reset (serverless memory). True with KV or Blob. */
 	livePersistent?: boolean;
+	/** Where counts are stored: kv, blob, or memory. */
+	storageMode?: 'kv' | 'blob' | 'memory';
 };
 
 export type VisitorVotePayload = {

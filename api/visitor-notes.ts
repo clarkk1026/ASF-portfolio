@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import {
+	getVisitorNotesStorageMode,
 	isVisitorNotesPersistent,
 	readVisitorNotesStore,
 	writeVisitorNotesStore,
@@ -20,6 +21,7 @@ const respondWithCounts = (store: Awaited<ReturnType<typeof readVisitorNotesStor
 	res.status(status).json({
 		...withCounts(store),
 		livePersistent: isVisitorNotesPersistent(),
+		storageMode: getVisitorNotesStorageMode(),
 	});
 
 const MAX_REPLIES = 200;
@@ -116,7 +118,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 		}
 
 		return res.status(405).json({ error: 'Method not allowed' });
-	} catch {
+	} catch (error) {
+		console.error('[visitor-notes] API error:', error);
 		return res.status(500).json({ error: 'Visitor notes storage unavailable' });
 	}
 }

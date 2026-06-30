@@ -12,6 +12,24 @@ import type { VisitorNoteSentiment } from '../data/portfolio';
 
 const API_PATH = '/api/visitor-notes';
 
+const parseResponse = async (res: Response): Promise<VisitorNotesResponse> => {
+	const raw = (await res.json()) as Record<string, unknown>;
+	const livePersistent =
+		typeof raw.livePersistent === 'boolean' ? raw.livePersistent : undefined;
+	const storageMode =
+		raw.storageMode === 'kv' ||
+		raw.storageMode === 'blob' ||
+		raw.storageMode === 'memory'
+			? raw.storageMode
+			: undefined;
+
+	return {
+		...withCounts(normalizeStore(raw)),
+		livePersistent,
+		storageMode,
+	};
+};
+
 const postPayload = async (
 	body: VisitorPostPayload,
 ): Promise<VisitorNotesResponse> => {
@@ -27,7 +45,7 @@ const postPayload = async (
 		throw new Error(err?.error ?? 'Request failed');
 	}
 
-	return withCounts(normalizeStore(await res.json()));
+	return parseResponse(res);
 };
 
 export const fetchVisitorNotes = async (): Promise<VisitorNotesResponse> => {
@@ -36,7 +54,7 @@ export const fetchVisitorNotes = async (): Promise<VisitorNotesResponse> => {
 		throw new Error('Could not load live visitor counts.');
 	}
 
-	return withCounts(normalizeStore(await res.json()));
+	return parseResponse(res);
 };
 
 export const submitVisitorVote = async (

@@ -1,5 +1,5 @@
 import { createClient } from '@vercel/kv';
-import { list, put } from '@vercel/blob';
+import { get, put } from '@vercel/blob';
 import {
 	emptyStore,
 	normalizeStore,
@@ -33,7 +33,13 @@ const resolveKvConfig = () => {
 	return null;
 };
 
-const hasBlobToken = () => Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+const hasBlobStorage = () =>
+	Boolean(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID);
+
+const blobClientOptions = () => ({
+	token: process.env.BLOB_READ_WRITE_TOKEN,
+	storeId: process.env.BLOB_STORE_ID,
+});
 
 export const getVisitorNotesStorageMode = (): VisitorNotesStorageMode => {
 	if (mode) return mode;
@@ -43,7 +49,7 @@ export const getVisitorNotesStorageMode = (): VisitorNotesStorageMode => {
 		return mode;
 	}
 
-	if (hasBlobToken()) {
+	if (hasBlobStorage()) {
 		mode = 'blob';
 		return mode;
 	}
@@ -84,36 +90,41 @@ const setMemoryStore = (store: VisitorNotesStore) => {
 	globalStore[MEMORY_KEY] = store;
 };
 
+const blobAccess = (): 'private' | 'public' =>
+	process.env.BLOB_ACCESS === 'public' ? 'public' : 'private';
+
 const readBlobStore = async (): Promise<VisitorNotesStore> => {
-	const token = process.env.BLOB_READ_WRITE_TOKEN;
-	if (!token) return emptyStore();
+	if (!hasBlobStorage()) return emptyStore();
 
 	try {
-		const { blobs } = await list({ prefix: 'visitor-notes/', token });
-		const blob = blobs.find((entry) => entry.pathname === BLOB_PATH);
-		if (!blob?.url) return emptyStore();
+		const result = await get(BLOB_PATH, {
+			access: blobAccess(),
+			...blobClientOptions(),
+		});
 
-		const response = await fetch(blob.url, { cache: 'no-store' });
-		if (!response.ok) return emptyStore();
+		if (!result || result.statusCode !== 200 || !result.stream) {
+			return emptyStore();
+		}
 
-		return normalizeStore(await response.json());
-	} catch {
+		const text = await new Response(result.stream).text();
+		return normalizeStore(JSON.parse(text));
+	} catch (error) {
+		console.error('[visitor-notes] Blob read failed:', error);
 		return emptyStore();
 	}
 };
 
 const writeBlobStore = async (store: VisitorNotesStore) => {
-	const token = process.env.BLOB_READ_WRITE_TOKEN;
-	if (!token) {
-		throw new Error('Blob token unavailable');
+	if (!hasBlobStorage()) {
+		throw new Error('Blob storage unavailable');
 	}
 
 	await put(BLOB_PATH, JSON.stringify(normalizeStore(store)), {
-		access: 'public',
+		access: blobAccess(),
 		addRandomSuffix: false,
 		allowOverwrite: true,
-		token,
 		contentType: 'application/json',
+		...blobClientOptions(),
 	});
 };
 
