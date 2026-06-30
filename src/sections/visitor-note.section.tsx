@@ -23,6 +23,9 @@ import type { VisitorReply } from '../lib/visitor-notes-types';
 import { voteKeyForSentiment } from '../lib/visitor-notes-types';
 
 const POLL_INTERVAL_MS = 5000;
+const SUBMITTED_KEY = 'portfolio-visitor-note-submitted';
+
+const readHasSubmitted = () => localStorage.getItem(SUBMITTED_KEY) === '1';
 
 type LiveCounts = { support: number; disagree: number; notCare: number };
 
@@ -97,6 +100,7 @@ export const VisitorNote = () => {
 	const [replies, setReplies] = useState<VisitorReply[]>([]);
 	const [voteLocked, setVoteLocked] = useState(false);
 	const [actionsRemaining, setActionsRemaining] = useState(2);
+	const [hasSubmitted, setHasSubmitted] = useState(readHasSubmitted);
 	const snapshotRef = useRef<VisitorNotesSnapshot | null>(null);
 	const skipRemoteNotifyUntilRef = useRef(0);
 	const appliedVoteRef = useRef<VisitorNoteSentiment | null>(null);
@@ -122,6 +126,11 @@ export const VisitorNote = () => {
 		setAppliedVote(serverVote);
 		if (serverVote) {
 			setSelection(serverVote);
+			setHasSubmitted(true);
+			localStorage.setItem(SUBMITTED_KEY, '1');
+		} else {
+			setHasSubmitted(false);
+			localStorage.removeItem(SUBMITTED_KEY);
 		}
 
 		snapshotRef.current = snapshotFromData(data);
@@ -205,6 +214,8 @@ export const VisitorNote = () => {
 			const data = await cancelVisitorVote();
 			syncFromServer(data);
 			setSelection(null);
+			setHasSubmitted(false);
+			localStorage.removeItem(SUBMITTED_KEY);
 			pushToast(visitorNote.notifyVoteCancelled, 'info');
 		} catch (err) {
 			try {
@@ -266,6 +277,8 @@ export const VisitorNote = () => {
 
 			syncFromServer(data);
 			setMessage('');
+			setHasSubmitted(true);
+			localStorage.setItem(SUBMITTED_KEY, '1');
 			pushToast(visitorNote.notifyApplied, 'success');
 		} catch (err) {
 			try {
@@ -283,8 +296,9 @@ export const VisitorNote = () => {
 
 	const activeChoice = selection ?? appliedVote;
 	const canChangeVote = !voteLocked && actionsRemaining > 0;
-	const showLockedState = voteLocked && Boolean(appliedVote);
+	const showThanks = hasSubmitted && Boolean(appliedVote);
 	const showLockedEmpty = voteLocked && !appliedVote;
+	const showForm = !hasSubmitted && !voteLocked;
 
 	return (
 		<section
@@ -381,15 +395,27 @@ export const VisitorNote = () => {
 					</div>
 				</Reveal>
 
-				{showLockedState ? (
+				{showThanks ? (
 					<Reveal delay={160}>
 						<div className='visitor-note-thanks-wrap'>
 							<p className='visitor-note-thanks glass-card'>
 								{visitorNote.thanksMessage}
 							</p>
-							<p className='visitor-note-limit-notice'>
-								{visitorNote.voteLimitMessage}
-							</p>
+							{canChangeVote ? (
+								<button
+									type='button'
+									className='visitor-note-cancel-vote'
+									onClick={() => void onCancelVote()}
+									disabled={voting}
+								>
+									{visitorNote.cancelVoteLabel}
+								</button>
+							) : null}
+							{voteLocked ? (
+								<p className='visitor-note-limit-notice'>
+									{visitorNote.voteLimitMessage}
+								</p>
+							) : null}
 						</div>
 					</Reveal>
 				) : showLockedEmpty ? (
@@ -398,20 +424,11 @@ export const VisitorNote = () => {
 							{visitorNote.voteLimitMessage}
 						</p>
 					</Reveal>
-				) : (
+				) : showForm ? (
 					<Reveal delay={160}>
 						<div className='visitor-note-card glass-card visitor-note-interactive'>
 							<h2>{visitorNote.headline}</h2>
 							<p>{visitorNote.subtext}</p>
-
-							{canChangeVote && appliedVote ? (
-								<p className='visitor-note-actions-remaining'>
-									{visitorNote.actionsRemainingLabel.replace(
-										'{count}',
-										String(actionsRemaining),
-									)}
-								</p>
-							) : null}
 
 							<form
 								className='visitor-note-form'
@@ -428,7 +445,7 @@ export const VisitorNote = () => {
 											type='button'
 											className={`comet-btn comet-btn-vote visitor-note-choice visitor-note-choice-${id === 'not-care' ? 'notcare' : id} ${activeChoice === id ? 'visitor-note-choice-active' : ''}`}
 											onClick={() => onPickSentiment(id)}
-											disabled={submitting || voting || voteLocked}
+											disabled={submitting || voting}
 											aria-label={label}
 											title={label}
 										>
@@ -436,42 +453,6 @@ export const VisitorNote = () => {
 										</button>
 									))}
 								</div>
-
-								{appliedVote ? (
-									<div className='visitor-note-vote-actions'>
-										<p className='visitor-note-vote-done'>
-											{(() => {
-												const applied = sentimentOptions.find(
-													(item) => item.id === appliedVote,
-												);
-												const AppliedIcon = applied?.Icon;
-												return (
-													<>
-														{AppliedIcon ? (
-															<span
-																className='visitor-note-vote-done-icon'
-																aria-hidden='true'
-															>
-																<AppliedIcon />
-															</span>
-														) : null}
-														<span>Applied: {sentimentLabel(appliedVote)}</span>
-													</>
-												);
-											})()}
-										</p>
-										{canChangeVote ? (
-											<button
-												type='button'
-												className='visitor-note-cancel-vote'
-												onClick={() => void onCancelVote()}
-												disabled={voting || submitting}
-											>
-												{visitorNote.cancelVoteLabel}
-											</button>
-										) : null}
-									</div>
-								) : null}
 
 								{error ? (
 									<p
@@ -492,7 +473,7 @@ export const VisitorNote = () => {
 										placeholder={visitorNote.namePlaceholder}
 										autoComplete='name'
 										maxLength={48}
-										disabled={submitting || voting || voteLocked}
+										disabled={submitting || voting}
 									/>
 								</label>
 
@@ -505,22 +486,14 @@ export const VisitorNote = () => {
 										placeholder={visitorNote.messagePlaceholder}
 										rows={4}
 										maxLength={600}
-										disabled={submitting || voting || voteLocked}
+										disabled={submitting || voting}
 									/>
 								</label>
 
 								<button
 									type='submit'
 									className='comet-btn comet-btn-talk comet-btn-lg visitor-note-submit'
-									disabled={
-										submitting ||
-										voting ||
-										voteLocked ||
-										!activeChoice ||
-										(Boolean(appliedVote) &&
-											activeChoice === appliedVote &&
-											!message.trim())
-									}
+									disabled={submitting || voting || !activeChoice}
 								>
 									{submitting
 										? visitorNote.submittingLabel
@@ -531,7 +504,7 @@ export const VisitorNote = () => {
 							</form>
 						</div>
 					</Reveal>
-				)}
+				) : null}
 			</div>
 		</section>
 	);
