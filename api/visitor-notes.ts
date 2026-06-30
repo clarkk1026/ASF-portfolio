@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
-import { kv } from '@vercel/kv';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { getKv, hasKvEnv } from './lib/kv.js';
 import {
 	decrementVote,
 	emptyStore,
@@ -64,6 +64,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 	if (req.method === 'OPTIONS') {
 		return res.status(204).end();
 	}
+
+	if (!hasKvEnv()) {
+		return res.status(503).json({ error: 'Visitor notes storage unavailable' });
+	}
+
+	const kv = getKv();
 
 	try {
 		if (req.method === 'GET') {
