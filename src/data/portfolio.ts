@@ -294,7 +294,7 @@ export const visitorNote = {
 	},
 	headline: 'Share your take with Ben.',
 	subtext:
-		'Pick a status, optionally add a short note, then apply once. Counts below are live for every visitor.',
+		'Pick a status, optionally add a short note, then apply. Counts update live for every visitor.',
 	supportLabel: 'Interested',
 	disagreeLabel: 'Not convinced',
 	notCareLabel: 'Neutral',
@@ -304,8 +304,12 @@ export const visitorNote = {
 	messagePlaceholder: 'Optional note for Ben',
 	submitLabel: 'Apply',
 	submittingLabel: 'Applying',
-	formNote: 'One apply per visitor. Your vote updates the live totals everyone sees.',
+	formNote:
+		'Each browser gets 2 vote actions total (apply, change, or remove). After that, your status is locked.',
 	thanksMessage: 'Thanks! Your response is counted in the live totals.',
+	actionsRemainingLabel: '{count} vote action(s) left on this browser.',
+	voteLimitMessage:
+		'You have used both vote actions on this browser. Your status can no longer be changed.',
 	repliesTitle: 'Visitor notes',
 	repliesSummary: 'Public notes left by visitors on this page.',
 	loadingReplies: 'Loading live counts',

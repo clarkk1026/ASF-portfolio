@@ -9,11 +9,11 @@ import {
 	type ChatRequestBody,
 } from './src/lib/ai-bot-chat-handler';
 import {
-	decrementVote,
+	clearVisitorVote,
 	emptyStore,
-	incrementVote,
 	isVisitorSentiment,
 	normalizeStore,
+	setVisitorVote,
 	withCounts,
 	type VisitorNotePayload,
 	type VisitorVoteCancelPayload,
@@ -36,9 +36,18 @@ const readStore = () => {
 	}
 };
 
-const respondWithCounts = (store: ReturnType<typeof readStore>) => ({
-	...withCounts(store),
+const VISITOR_ID_PATTERN = /^[0-9a-f-]{36}$/i;
+
+const isValidVisitorId = (value: unknown): value is string =>
+	typeof value === 'string' && VISITOR_ID_PATTERN.test(value);
+
+const respondWithCounts = (
+	store: ReturnType<typeof readStore>,
+	visitorId?: string,
+) => ({
+	...withCounts(store, visitorId ? store.sessions[visitorId] ?? null : null),
 	livePersistent: true,
+	storageMode: 'memory' as const,
 });
 
 const writeStore = (store: ReturnType<typeof normalizeStore>) => {
@@ -59,6 +68,7 @@ const isVotePayload = (body: unknown): body is VisitorVotePayload =>
 	!!body &&
 	typeof body === 'object' &&
 	(body as VisitorVotePayload).type === 'vote' &&
+	isValidVisitorId((body as VisitorVotePayload).visitorId) &&
 	isVisitorSentiment((body as VisitorVotePayload).sentiment);
 
 const isVoteChangePayload = (body: unknown): body is VisitorVoteChangePayload => {
@@ -66,9 +76,8 @@ const isVoteChangePayload = (body: unknown): body is VisitorVoteChangePayload =>
 	const payload = body as VisitorVoteChangePayload;
 	return (
 		payload.type === 'vote-change' &&
-		isVisitorSentiment(payload.from) &&
-		isVisitorSentiment(payload.to) &&
-		payload.from !== payload.to
+		isValidVisitorId(payload.visitorId) &&
+		isVisitorSentiment(payload.to)
 	);
 };
 
@@ -76,12 +85,18 @@ const isVoteCancelPayload = (body: unknown): body is VisitorVoteCancelPayload =>
 	!!body &&
 	typeof body === 'object' &&
 	(body as VisitorVoteCancelPayload).type === 'vote-cancel' &&
-	isVisitorSentiment((body as VisitorVoteCancelPayload).sentiment);
+	isValidVisitorId((body as VisitorVoteCancelPayload).visitorId);
 
 const isNotePayload = (body: unknown): body is VisitorNotePayload => {
 	if (!body || typeof body !== 'object') return false;
 	const payload = body as VisitorNotePayload;
-	if (payload.type !== 'note' || !isVisitorSentiment(payload.sentiment)) return false;
+	if (
+		payload.type !== 'note' ||
+		!isValidVisitorId(payload.visitorId) ||
+		!isVisitorSentiment(payload.sentiment)
+	) {
+		return false;
+	}
 	if (typeof payload.message !== 'string' || !payload.message.trim()) return false;
 	if (payload.message.trim().length > MAX_MESSAGE) return false;
 	if (payload.name !== undefined && typeof payload.name !== 'string') return false;
@@ -106,9 +121,17 @@ const visitorNotesDevApi = () => ({
 			}
 
 			try {
+				const url = new URL(req.url ?? '/', 'http://localhost');
+				const visitorId =
+					url.searchParams.get('visitorId') &&
+					isValidVisitorId(url.searchParams.get('visitorId'))
+						? url.searchParams.get('visitorId')!
+						: undefined;
+
 				if (req.method === 'GET') {
 					res.setHeader('Content-Type', 'application/json');
-					res.end(JSON.stringify(respondWithCounts(readStore())));
+					res.setHeader('Cache-Control', 'no-store');
+					res.end(JSON.stringify(respondWithCounts(readStore(), visitorId)));
 					return;
 				}
 
@@ -117,30 +140,65 @@ const visitorNotesDevApi = () => ({
 					const store = readStore();
 
 					if (isVotePayload(body)) {
-						incrementVote(store, body.sentiment);
-						writeStore(store);
+						const result = setVisitorVote(store, body.visitorId, body.sentiment);
+						if (!result.ok) {
+							res.statusCode = 403;
+							res.setHeader('Content-Type', 'application/json');
+							res.end(
+								JSON.stringify({
+									error: result.error,
+									voteLocked: true,
+									...respondWithCounts(store, body.visitorId),
+								}),
+							);
+							return;
+						}
+						if (result.changed) writeStore(store);
 						res.statusCode = 201;
 						res.setHeader('Content-Type', 'application/json');
-						res.end(JSON.stringify(respondWithCounts(store)));
+						res.end(JSON.stringify(respondWithCounts(store, body.visitorId)));
 						return;
 					}
 
 					if (isVoteChangePayload(body)) {
-						decrementVote(store, body.from);
-						incrementVote(store, body.to);
-						writeStore(store);
+						const result = setVisitorVote(store, body.visitorId, body.to);
+						if (!result.ok) {
+							res.statusCode = 403;
+							res.setHeader('Content-Type', 'application/json');
+							res.end(
+								JSON.stringify({
+									error: result.error,
+									voteLocked: true,
+									...respondWithCounts(store, body.visitorId),
+								}),
+							);
+							return;
+						}
+						if (result.changed) writeStore(store);
 						res.statusCode = 201;
 						res.setHeader('Content-Type', 'application/json');
-						res.end(JSON.stringify(respondWithCounts(store)));
+						res.end(JSON.stringify(respondWithCounts(store, body.visitorId)));
 						return;
 					}
 
 					if (isVoteCancelPayload(body)) {
-						decrementVote(store, body.sentiment);
-						writeStore(store);
+						const result = clearVisitorVote(store, body.visitorId);
+						if (!result.ok) {
+							res.statusCode = 403;
+							res.setHeader('Content-Type', 'application/json');
+							res.end(
+								JSON.stringify({
+									error: result.error,
+									voteLocked: true,
+									...respondWithCounts(store, body.visitorId),
+								}),
+							);
+							return;
+						}
+						if (result.changed) writeStore(store);
 						res.statusCode = 201;
 						res.setHeader('Content-Type', 'application/json');
-						res.end(JSON.stringify(respondWithCounts(store)));
+						res.end(JSON.stringify(respondWithCounts(store, body.visitorId)));
 						return;
 					}
 
@@ -156,7 +214,7 @@ const visitorNotesDevApi = () => ({
 						writeStore(store);
 						res.statusCode = 201;
 						res.setHeader('Content-Type', 'application/json');
-						res.end(JSON.stringify(respondWithCounts(store)));
+						res.end(JSON.stringify(respondWithCounts(store, body.visitorId)));
 						return;
 					}
 
