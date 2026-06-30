@@ -1,23 +1,61 @@
 .projects {
-	padding: 5rem 4rem;
+	padding: 3rem 4rem 4.5rem;
 	display: flex;
-	gap: 3.5rem;
-	align-items: flex-start;
+	flex-direction: column;
+	align-items: center;
+	gap: 1.5rem;
 	overflow-x: clip;
 }
 
-.projects-grid {
-	flex: 1;
+.projects-header {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.projects-gallery-wrap {
+	position: relative;
+	width: 100%;
+}
+
+.projects-gallery-viewport {
+	position: relative;
+	width: 100%;
+}
+
+.projects-gallery {
+	overflow-x: hidden;
+	overflow-y: hidden;
+	width: 100%;
+	touch-action: pan-y;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+	padding: 0 0 0.75rem;
+	-webkit-overflow-scrolling: touch;
+}
+
+.projects-gallery::-webkit-scrollbar {
+	display: none;
+}
+
+.projects-gallery-track {
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+	gap: 1.35rem;
+	width: max-content;
+	padding-inline: 0.5rem;
+}
+
+.projects-gallery-item {
+	flex: 0 0 min(22rem, 78vw);
 	min-width: 0;
-	display: grid;
-	grid-template-columns: 1fr;
-	gap: 1.25rem;
-	padding: 1rem 0;
 }
 
 .project-card {
 	display: flex;
 	flex-direction: column;
+	height: 100%;
 	padding: 0;
 	color: inherit;
 	position: relative;
@@ -84,7 +122,7 @@
 
 .project-screen-name h3 {
 	font-family: 'Fugaz One', sans-serif;
-	font-size: clamp(1.4rem, 3vw, 2rem);
+	font-size: clamp(1.2rem, 2.5vw, 1.65rem);
 	font-style: italic;
 	font-weight: 400;
 	text-transform: uppercase;
@@ -101,15 +139,20 @@
 .project-card-body {
 	display: flex;
 	flex-direction: column;
+	flex: 1;
 	gap: 0.75rem;
 	padding: 1.25rem 1.5rem 1.5rem;
 }
 
 .project-card-body p {
 	font-family: 'Open Sans', sans-serif;
-	font-size: 0.92rem;
-	line-height: 1.65;
+	font-size: 0.88rem;
+	line-height: 1.6;
 	color: rgba(255, 255, 255, 0.72);
+	display: -webkit-box;
+	-webkit-line-clamp: 4;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
 }
 
 .project-stack {
@@ -168,6 +211,7 @@
 	color: rgb(31, 195, 255);
 	text-decoration: none;
 	width: fit-content;
+	margin-top: auto;
 	transition: color 0.2s ease;
 }
 
@@ -175,15 +219,68 @@
 	color: rgb(160, 220, 255);
 }
 
+.projects-scroll-rail {
+	width: min(88%, 48rem);
+	margin: 0.75rem auto 0;
+	padding: 0;
+}
+
+.projects-scroll-track {
+	position: relative;
+	height: 10px;
+	border-radius: 999px;
+	touch-action: none;
+	user-select: none;
+	background: rgba(8, 12, 20, 0.85);
+	border: 1px solid rgba(255, 255, 255, 0.05);
+	box-shadow:
+		inset 0 2px 10px rgba(0, 0, 0, 0.85),
+		inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.projects-scroll-thumb {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	height: 10px;
+	border-radius: 999px;
+	pointer-events: auto;
+	will-change: transform, width, opacity;
+	background: radial-gradient(
+		ellipse 120% 100% at 50% 50%,
+		rgba(255, 255, 255, 0.95) 0%,
+		rgb(31, 195, 255) 38%,
+		rgba(31, 195, 255, 0.55) 72%,
+		rgba(31, 195, 255, 0) 100%
+	);
+	box-shadow:
+		0 0 10px rgba(31, 195, 255, 0.95),
+		0 0 22px rgba(31, 195, 255, 0.55),
+		0 0 40px rgba(31, 195, 255, 0.2);
+	transition: opacity 0.45s ease;
+}
+
+.projects-scroll-thumb-hidden {
+	opacity: 0;
+}
+
 @media screen and (max-width: 900px) {
 	.projects {
-		padding: 4rem 1.5rem;
-		flex-direction: column;
-		gap: 1.5rem;
+		padding: 2.5rem 1.5rem 3.5rem;
+		gap: 1.25rem;
 	}
 
-	.projects-grid {
-		width: 100%;
-		padding: 0;
+	.projects-gallery-item {
+		flex-basis: min(20rem, 86vw);
+	}
+
+	.projects-scroll-rail {
+		width: min(88%, 100%);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.projects-scroll-thumb {
+		transition: none;
 	}
 }

@@ -67,6 +67,9 @@ export type ProjectItem = {
 	featured?: boolean;
 };
 
+const projectPreview = (siteUrl: string) =>
+	`https://image.thum.io/get/width/1200/crop/675/noanimate/${siteUrl.replace(/\/$/, '')}`;
+
 export type TimelineItem = {
 	role: string;
 	org: string;
@@ -172,46 +175,81 @@ export const projects: ProjectItem[] = [
 		description:
 			'Shopify storefront for a leading US indoor gardening retailer, large catalog navigation, brand collections, product detail pages, and checkout flows built for repeat customers and high order volume.',
 		stack: ['Shopify', 'Liquid', 'Theme Dev', 'E-commerce UX'],
-		image:
-			'https://image.thum.io/get/width/1200/crop/675/noanimate/https://happyhydro.com',
+		image: projectPreview('https://happyhydro.com'),
 		url: 'https://happyhydro.com/',
 		featured: true,
+	},
+	{
+		title: 'Reroom AI',
+		description:
+			'AI-powered interior design platform with room staging, product visualization, and a conversion-focused landing experience for home and design shoppers.',
+		stack: ['React', 'AI UX', 'Product Landing', 'Performance'],
+		image: projectPreview('https://reroom.ai'),
+		url: 'https://reroom.ai/',
 	},
 	{
 		title: 'Labyrinth Style',
 		description:
 			'Luxury resort-wear Shopify store for a Cape Town brand, sale collections, product grids, and brand storytelling for kimonos, kaftans, and dresses across seasonal drops.',
 		stack: ['Shopify', 'Liquid', 'Fashion Retail', 'Mobile UX'],
-		image:
-			'https://image.thum.io/get/width/1200/crop/675/noanimate/https://labyrinthstyle.com',
+		image: projectPreview('https://labyrinthstyle.com'),
 		url: 'https://labyrinthstyle.com/',
-	},
-	{
-		title: 'Remedior Skincare',
-		description:
-			'Direct-to-consumer skincare storefront with product-led pages, trust-focused layout, and a smooth mobile checkout path for daily skincare routines.',
-		stack: ['Shopify', 'Liquid', 'DTC', 'Conversion'],
-		image:
-			'https://image.thum.io/get/width/1200/crop/675/noanimate/https://remediorskincare.com',
-		url: 'https://remediorskincare.com/',
 	},
 	{
 		title: 'La Boutique de Xéa',
 		description:
 			'French boutique e-commerce build, curated collections, localized merchandising, and a polished brand experience for everyday luxury shopping.',
 		stack: ['Shopify', 'Liquid', 'International', 'Brand UX'],
-		image:
-			'https://image.thum.io/get/width/1200/crop/675/noanimate/https://laboutiquedexea.com',
+		image: projectPreview('https://laboutiquedexea.com'),
 		url: 'https://laboutiquedexea.com/',
+	},
+	{
+		title: 'Remedior Skincare',
+		description:
+			'Direct-to-consumer skincare storefront with product-led pages, trust-focused layout, and a smooth mobile checkout path for daily skincare routines.',
+		stack: ['Shopify', 'Liquid', 'DTC', 'Conversion'],
+		image: projectPreview('https://remediorskincare.com'),
+		url: 'https://remediorskincare.com/',
 	},
 	{
 		title: 'Crown & Caliber',
 		description:
 			'Premium lifestyle and watches commerce experience, editorial sections, rich content layouts, subscription flows, and a luxury browsing journey across categories.',
 		stack: ['Shopify', 'Content Commerce', 'Luxury Retail', 'UX'],
-		image:
-			'https://image.thum.io/get/width/1200/crop/675/noanimate/https://www.crownandcaliber.com',
+		image: projectPreview('https://www.crownandcaliber.com'),
 		url: 'https://www.crownandcaliber.com/',
+	},
+	{
+		title: 'Scharf Messer',
+		description:
+			'German cutlery and kitchenware storefront with sharp product photography, category-led navigation, and a premium shopping flow for chef-grade tools.',
+		stack: ['Shopify', 'Liquid', 'Retail', 'International'],
+		image: projectPreview('https://scharf-messer.com'),
+		url: 'https://scharf-messer.com/',
+	},
+	{
+		title: 'Pelle Classica',
+		description:
+			'Luxury leather goods e-commerce experience with editorial merchandising, collection pages, and a refined brand journey for handcrafted accessories.',
+		stack: ['Shopify', 'Liquid', 'Luxury Retail', 'Brand UX'],
+		image: projectPreview('https://pelleclassica.com'),
+		url: 'https://pelleclassica.com/',
+	},
+	{
+		title: 'Homducts',
+		description:
+			'Pakistan-based HVAC and home ducting commerce site with category browsing, product detail pages, and a practical checkout path for trade and retail buyers.',
+		stack: ['Shopify', 'Liquid', 'Regional Commerce', 'Mobile UX'],
+		image: projectPreview('https://homducts.pk'),
+		url: 'https://homducts.pk/',
+	},
+	{
+		title: 'EyeMax',
+		description:
+			'Optical retail storefront for eyewear and eye care products, built for quick product discovery, trust signals, and mobile-first shopping in Pakistan.',
+		stack: ['Shopify', 'Liquid', 'Health Retail', 'Conversion'],
+		image: projectPreview('https://eyemax.pk'),
+		url: 'https://eyemax.pk/',
 	},
 ];
 

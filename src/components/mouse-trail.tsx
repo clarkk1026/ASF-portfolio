@@ -191,6 +191,7 @@ export const MouseTrail = () => {
 		resize();
 		window.addEventListener('resize', resize);
 		document.addEventListener('mousemove', handleMouseMove, { passive: true });
+		document.addEventListener('pointermove', syncPointer, { passive: true });
 		document.addEventListener('pointerdown', syncPointer, { passive: true });
 		document.addEventListener('mouseleave', handleMouseLeave);
 		document.addEventListener('mouseenter', handleMouseEnter);
@@ -200,6 +201,7 @@ export const MouseTrail = () => {
 			cancelAnimationFrame(rafId);
 			window.removeEventListener('resize', resize);
 			document.removeEventListener('mousemove', handleMouseMove);
+			document.removeEventListener('pointermove', syncPointer);
 			document.removeEventListener('pointerdown', syncPointer);
 			document.removeEventListener('mouseleave', handleMouseLeave);
 			document.removeEventListener('mouseenter', handleMouseEnter);

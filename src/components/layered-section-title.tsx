@@ -2,7 +2,7 @@ type LayeredSectionTitleProps = {
 	primary: string;
 	secondary: string;
 	summary?: string;
-	align?: 'left' | 'right';
+	align?: 'left' | 'right' | 'center';
 	longSecondary?: boolean;
 };
 
