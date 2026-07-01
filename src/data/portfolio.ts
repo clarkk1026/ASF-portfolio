@@ -294,7 +294,7 @@ export const visitorNote = {
 	},
 	headline: 'Share your take with Ben.',
 	subtext:
-		'Pick a status, add your name, optionally leave a note, then apply once. You can edit your response later.',
+		'Add your name, then pick a status or write a note (one is enough), and apply once.',
 	supportLabel: 'Interested',
 	disagreeLabel: 'Not convinced',
 	notCareLabel: 'Neutral',

@@ -124,69 +124,76 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 			const store = await readVisitorNotesStore();
 
 			if (isVotePayload(req.body)) {
-				if (req.body.userKey !== normalizeUserKey(req.body.name)) {
-					return res.status(400).json({ error: 'Invalid user identity.' });
+				const userKey = normalizeUserKey(req.body.name);
+				if (!userKey) {
+					return res.status(400).json({ error: 'Enter a valid name to apply.' });
 				}
 				const result = setVisitorVote(
 					store,
-					req.body.userKey,
+					userKey,
 					req.body.sentiment,
 					req.body.name,
 				);
 				if (!result.ok) {
-					return rejectMutation(res, store, req.body.userKey, result.error);
+					return rejectMutation(res, store, userKey, result.error);
 				}
 				if (result.changed) {
 					await writeVisitorNotesStore(store);
 				}
-				return respondWithCounts(store, 201, res, req.body.userKey);
+				return respondWithCounts(store, 201, res, userKey);
 			}
 
 			if (isVoteChangePayload(req.body)) {
-				if (req.body.userKey !== normalizeUserKey(req.body.name)) {
-					return res.status(400).json({ error: 'Invalid user identity.' });
+				const userKey = normalizeUserKey(req.body.name);
+				if (!userKey) {
+					return res.status(400).json({ error: 'Enter a valid name to save changes.' });
 				}
 				const result = setVisitorVote(
 					store,
-					req.body.userKey,
+					userKey,
 					req.body.to,
 					req.body.name,
 				);
 				if (!result.ok) {
-					return rejectMutation(res, store, req.body.userKey, result.error);
+					return rejectMutation(res, store, userKey, result.error);
 				}
 				if (result.changed) {
 					await writeVisitorNotesStore(store);
 				}
-				return respondWithCounts(store, 201, res, req.body.userKey);
+				return respondWithCounts(store, 201, res, userKey);
 			}
 
 			if (isVoteCancelPayload(req.body)) {
+				const userKey = normalizeUserKey(req.body.userKey);
+				if (!userKey) {
+					return res.status(400).json({ error: 'Invalid user identity.' });
+				}
 				const result = clearVisitorVote();
 				return rejectMutation(
 					res,
 					store,
-					req.body.userKey,
+					userKey,
 					result.ok ? 'Votes cannot be removed.' : result.error,
 				);
 			}
 
 			if (isNotePayload(req.body)) {
-				if (req.body.userKey !== normalizeUserKey(req.body.name)) {
-					return res.status(400).json({ error: 'Invalid user identity.' });
+				const userKey = normalizeUserKey(req.body.name);
+				if (!userKey) {
+					return res.status(400).json({ error: 'Enter a valid name to leave a note.' });
 				}
-				const result = upsertVisitorNote(store, req.body.userKey, {
+				const result = upsertVisitorNote(store, userKey, {
 					id: randomUUID(),
 					sentiment: req.body.sentiment,
 					name: req.body.name,
 					message: req.body.message,
 				});
 				if (!result.ok) {
-					return rejectMutation(res, store, req.body.userKey, result.error);
+					return rejectMutation(res, store, userKey, result.error);
 				}
 				store.replies = store.replies.slice(0, MAX_REPLIES);
 				await writeVisitorNotesStore(store);
-				return respondWithCounts(store, 201, res, req.body.userKey);
+				return respondWithCounts(store, 201, res, userKey);
 			}
 
 			return res.status(400).json({ error: 'Invalid payload' });

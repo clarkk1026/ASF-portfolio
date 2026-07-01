@@ -250,20 +250,21 @@ export const VisitorNote = () => {
 		const trimmedMessage = message.trim();
 		const isEdit = hasApplied && editing;
 
-		if (!choice) {
-			setError('Choose interested, not convinced, or neutral before applying.');
-			return;
-		}
-
 		if (!trimmedName) {
 			setError('Enter your name to apply. One response per person.');
 			return;
 		}
 
+		if (!choice && !trimmedMessage) {
+			setError('Pick a status or write a note before applying.');
+			return;
+		}
+
+		const resolvedChoice = choice ?? 'not-care';
 		const previousVote = appliedVoteRef.current;
 
 		if (isEdit) {
-			if (previousVote === choice && !trimmedMessage) {
+			if (previousVote === resolvedChoice && !trimmedMessage) {
 				setEditing(false);
 				return;
 			}
@@ -272,7 +273,7 @@ export const VisitorNote = () => {
 			return;
 		}
 
-		const optimistic = applyCounts(liveCounts, previousVote, choice);
+		const optimistic = applyCounts(liveCounts, previousVote, resolvedChoice);
 		setSubmitting(true);
 		setCounts(optimistic);
 		suppressRemoteNotifications();
@@ -281,16 +282,16 @@ export const VisitorNote = () => {
 			let data: Awaited<ReturnType<typeof fetchVisitorNotes>>;
 
 			if (!previousVote) {
-				data = await submitVisitorVote(choice, trimmedName);
-			} else if (previousVote !== choice) {
-				data = await changeVisitorVote(previousVote, choice, trimmedName);
+				data = await submitVisitorVote(resolvedChoice, trimmedName);
+			} else if (previousVote !== resolvedChoice) {
+				data = await changeVisitorVote(previousVote, resolvedChoice, trimmedName);
 			} else {
 				data = await fetchVisitorNotes();
 			}
 
 			if (trimmedMessage) {
 				data = await submitVisitorNote({
-					sentiment: choice,
+					sentiment: resolvedChoice,
 					name: trimmedName,
 					message: trimmedMessage,
 				});
@@ -318,6 +319,8 @@ export const VisitorNote = () => {
 	};
 
 	const activeChoice = selection ?? appliedVote;
+	const canApply =
+		Boolean(name.trim()) && Boolean(selection || message.trim());
 	const showThanks = ready && hasApplied && !editing;
 	const showForm = ready && (!hasApplied || editing);
 	const displayCount = (key: keyof LiveCounts) => {
@@ -424,7 +427,7 @@ export const VisitorNote = () => {
 							<button
 								type='submit'
 								className='comet-btn comet-btn-talk comet-btn-lg visitor-note-submit'
-								disabled={submitting || !activeChoice || !name.trim()}
+								disabled={submitting || !canApply}
 							>
 								{submitting
 									? editing

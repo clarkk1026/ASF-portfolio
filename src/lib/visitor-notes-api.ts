@@ -1,4 +1,5 @@
 import {
+	isValidUserKey,
 	normalizeStore,
 	normalizeUserKey,
 	withCounts,
@@ -15,7 +16,11 @@ const USER_KEY_STORAGE = 'portfolio-visitor-user-key';
 
 export const getStoredUserKey = (): string | null => {
 	const stored = localStorage.getItem(USER_KEY_STORAGE);
-	return stored && stored.trim() ? stored : null;
+	if (!stored || !isValidUserKey(stored)) {
+		if (stored) localStorage.removeItem(USER_KEY_STORAGE);
+		return null;
+	}
+	return stored;
 };
 
 export const storeUserKey = (userKey: string) => {
@@ -24,8 +29,17 @@ export const storeUserKey = (userKey: string) => {
 
 export const buildUserKey = (name: string): string | null => normalizeUserKey(name);
 
-const parseResponse = async (res: Response): Promise<VisitorNotesResponse> => {
-	const raw = (await res.json()) as Record<string, unknown>;
+const parseResponse = async (
+	res: Response,
+): Promise<VisitorNotesResponse & { error?: string }> => {
+	let raw: Record<string, unknown>;
+	try {
+		raw = (await res.json()) as Record<string, unknown>;
+	} catch {
+		throw new Error(res.statusText || 'Request failed');
+	}
+
+	const error = typeof raw.error === 'string' ? raw.error : undefined;
 	const livePersistent =
 		typeof raw.livePersistent === 'boolean' ? raw.livePersistent : undefined;
 	const storageMode =
@@ -67,6 +81,7 @@ const parseResponse = async (res: Response): Promise<VisitorNotesResponse> => {
 		canEdit,
 		yourReplyId,
 		userKey,
+		error,
 	};
 };
 
@@ -83,9 +98,7 @@ const postPayload = async (
 	const data = await parseResponse(res);
 
 	if (!res.ok) {
-		throw new Error(
-			(data as unknown as { error?: string }).error ?? 'Request failed',
-		);
+		throw new Error(data.error ?? 'Request failed');
 	}
 
 	if (data.userKey) {
@@ -163,7 +176,7 @@ export const submitVisitorNote = async (
 		userKey,
 		sentiment: payload.sentiment,
 		name: payload.name.trim(),
-		message: payload.message,
+		message: payload.message.trim(),
 	};
 	return postPayload(body);
 };
