@@ -89,6 +89,8 @@ export const VisitorNote = () => {
 	const [hasApplied, setHasApplied] = useState(false);
 	const [editing, setEditing] = useState(false);
 	const [yourReplyId, setYourReplyId] = useState<string | null>(null);
+	const [canChangeVote, setCanChangeVote] = useState(true);
+	const [canChangeNote, setCanChangeNote] = useState(true);
 	const [name, setName] = useState('');
 	const [message, setMessage] = useState('');
 	const [error, setError] = useState('');
@@ -127,6 +129,8 @@ export const VisitorNote = () => {
 		setReplies(data.replies);
 		setHasApplied(data.hasApplied ?? Boolean(data.yourVote));
 		setYourReplyId(data.yourReplyId ?? null);
+		setCanChangeVote(data.canChangeVote ?? true);
+		setCanChangeNote(data.canChangeNote ?? true);
 
 		const serverVote = data.yourVote ?? null;
 		appliedVoteRef.current = serverVote;
@@ -235,12 +239,21 @@ export const VisitorNote = () => {
 			return;
 		}
 
-		const resolvedChoice = choice ?? 'not-care';
+		const resolvedChoice = choice ?? appliedVote ?? 'not-care';
 		const previousVote = appliedVoteRef.current;
+		const voteChanged = Boolean(choice && choice !== previousVote);
 
 		if (isEdit) {
-			if (previousVote === resolvedChoice && !trimmedMessage) {
+			if (!trimmedMessage && !voteChanged) {
 				setEditing(false);
+				return;
+			}
+			if (trimmedMessage && !canChangeNote) {
+				setError('You used your note edit. You can still change your status separately.');
+				return;
+			}
+			if (!trimmedMessage && voteChanged && !canChangeVote) {
+				setError('You used your status changes (2 resets). Your note can still be edited separately.');
 				return;
 			}
 		} else if (hasApplied) {
@@ -292,9 +305,18 @@ export const VisitorNote = () => {
 	const activeChoice = selection ?? appliedVote;
 	const trimmedMessage = message.trim();
 	const trimmedName = name.trim();
-	const canApply =
+	const voteChanged =
+		Boolean(selection) && selection !== appliedVote;
+	const canApplyInitial =
+		!hasApplied &&
 		Boolean(selection || trimmedMessage) &&
 		(!trimmedMessage || Boolean(trimmedName));
+	const canApplyEdit =
+		hasApplied &&
+		editing &&
+		((trimmedMessage && Boolean(trimmedName) && canChangeNote) ||
+			(!trimmedMessage && voteChanged && canChangeVote));
+	const canApply = canApplyInitial || canApplyEdit;
 	const showThanks = ready && hasApplied && !editing;
 	const showForm = ready && (!hasApplied || editing);
 	const displayCount = (key: keyof LiveCounts) => {

@@ -1,5 +1,10 @@
 import type { VisitorNoteSentiment } from '../data/portfolio.js';
 
+/** Initial apply + 2 status changes */
+export const MAX_VOTE_ACTIONS = 3;
+/** Initial post + 1 note edit */
+export const MAX_NOTE_ACTIONS = 2;
+
 export type VisitorReply = {
 	id: string;
 	sentiment: VisitorNoteSentiment;
@@ -16,7 +21,8 @@ export type VisitorVoteCounts = {
 
 export type VisitorSession = {
 	sentiment: VisitorNoteSentiment | null;
-	hasApplied: boolean;
+	voteActionCount: number;
+	noteActionCount: number;
 	replyId: string | null;
 	displayName: string;
 };
@@ -36,6 +42,10 @@ export type VisitorNotesResponse = VisitorNotesStore & {
 	yourVote?: VisitorNoteSentiment | null;
 	hasApplied?: boolean;
 	canEdit?: boolean;
+	canChangeVote?: boolean;
+	canChangeNote?: boolean;
+	voteActionsLeft?: number;
+	noteActionsLeft?: number;
 	yourReplyId?: string | null;
 };
 
@@ -110,20 +120,39 @@ export const sortVisitorReplies = (replies: VisitorReply[]): VisitorReply[] =>
 		return a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
 	});
 
-export const normalizeSession = (raw: unknown): VisitorSession => {
-	if (!raw || typeof raw !== 'object') {
-		return { sentiment: null, hasApplied: false, replyId: null, displayName: '' };
-	}
+const emptySession = (): VisitorSession => ({
+	sentiment: null,
+	voteActionCount: 0,
+	noteActionCount: 0,
+	replyId: null,
+	displayName: '',
+});
 
-	const data = raw as Partial<VisitorSession> & { actionCount?: number };
+export const normalizeSession = (raw: unknown): VisitorSession => {
+	if (!raw || typeof raw !== 'object') return emptySession();
+
+	const data = raw as Partial<VisitorSession> & {
+		hasApplied?: boolean;
+		actionCount?: number;
+	};
 	const sentiment = isVisitorSentiment(data.sentiment) ? data.sentiment : null;
+	const replyId = typeof data.replyId === 'string' ? data.replyId : null;
+	const voteActionCount = Math.max(
+		0,
+		Number(data.voteActionCount) ||
+			(data.hasApplied && sentiment && !replyId ? 1 : 0) ||
+			(Number(data.actionCount) > 0 && sentiment ? 1 : 0),
+	);
+	const noteActionCount = Math.max(
+		0,
+		Number(data.noteActionCount) || (replyId ? 1 : 0),
+	);
 
 	return {
 		sentiment,
-		hasApplied: Boolean(
-			data.hasApplied ?? sentiment ?? (Number(data.actionCount) > 0),
-		),
-		replyId: typeof data.replyId === 'string' ? data.replyId : null,
+		voteActionCount,
+		noteActionCount,
+		replyId,
 		displayName: typeof data.displayName === 'string' ? data.displayName : '',
 	};
 };
@@ -189,6 +218,14 @@ export const normalizeStore = (raw: unknown): VisitorNotesStore => {
 	};
 };
 
+export const sessionHasApplied = (session: VisitorSession | null) =>
+	Boolean(
+		session &&
+			(session.voteActionCount > 0 ||
+				session.noteActionCount > 0 ||
+				session.sentiment),
+	);
+
 export const withCounts = (
 	store: VisitorNotesStore,
 	visitorId?: string | null,
@@ -197,7 +234,13 @@ export const withCounts = (
 		visitorId && isValidVisitorId(visitorId)
 			? store.sessions[visitorId] ?? null
 			: null;
-	const hasApplied = session?.hasApplied ?? false;
+	const hasApplied = sessionHasApplied(session);
+	const voteActionsLeft = session
+		? Math.max(0, MAX_VOTE_ACTIONS - session.voteActionCount)
+		: MAX_VOTE_ACTIONS;
+	const noteActionsLeft = session
+		? Math.max(0, MAX_NOTE_ACTIONS - session.noteActionCount)
+		: MAX_NOTE_ACTIONS;
 
 	return {
 		...store,
@@ -208,6 +251,10 @@ export const withCounts = (
 		yourVote: session?.sentiment ?? null,
 		hasApplied,
 		canEdit: hasApplied,
+		canChangeVote: voteActionsLeft > 0,
+		canChangeNote: noteActionsLeft > 0,
+		voteActionsLeft,
+		noteActionsLeft,
 		yourReplyId: session?.replyId ?? null,
 	};
 };
@@ -239,14 +286,26 @@ export const getOrCreateSession = (
 	displayName = '',
 ): VisitorSession => {
 	if (!store.sessions[visitorId]) {
-		store.sessions[visitorId] = {
-			sentiment: null,
-			hasApplied: false,
-			replyId: null,
-			displayName,
-		};
+		store.sessions[visitorId] = { ...emptySession(), displayName };
 	}
 	return store.sessions[visitorId];
+};
+
+const applySentimentChange = (
+	store: VisitorNotesStore,
+	session: VisitorSession,
+	sentiment: VisitorNoteSentiment,
+) => {
+	if (session.sentiment === sentiment) return;
+
+	if (session.sentiment) {
+		decrementVote(store, session.sentiment);
+		incrementVote(store, sentiment);
+	} else {
+		incrementVote(store, sentiment);
+	}
+
+	session.sentiment = sentiment;
 };
 
 export type VoteMutationResult =
@@ -264,24 +323,23 @@ export const setVisitorVote = (
 		return { ok: true, changed: false };
 	}
 
-	if (!session.hasApplied) {
-		incrementVote(store, sentiment);
-		session.sentiment = sentiment;
-		session.hasApplied = true;
-		return { ok: true, changed: true };
-	}
-
-	if (!session.sentiment) {
+	if (session.voteActionCount >= MAX_VOTE_ACTIONS) {
 		return {
 			ok: false,
-			error: 'You already applied once. Edit your existing response instead.',
+			error: 'You used your status changes (2 resets). Your note can still be edited separately.',
 			locked: true,
 		};
 	}
 
-	decrementVote(store, session.sentiment);
-	incrementVote(store, sentiment);
+	if (!session.sentiment) {
+		incrementVote(store, sentiment);
+	} else {
+		decrementVote(store, session.sentiment);
+		incrementVote(store, sentiment);
+	}
+
 	session.sentiment = sentiment;
+	session.voteActionCount += 1;
 	return { ok: true, changed: true };
 };
 
@@ -323,24 +381,27 @@ export const upsertVisitorNote = (
 	}
 
 	const session = getOrCreateSession(store, visitorId, name);
+	const isNoteEdit = Boolean(session.replyId);
 
-	if (!session.hasApplied) {
-		incrementVote(store, payload.sentiment);
-		session.sentiment = payload.sentiment;
-		session.hasApplied = true;
-	} else if (session.sentiment && session.sentiment !== payload.sentiment) {
-		decrementVote(store, session.sentiment);
-		incrementVote(store, payload.sentiment);
-		session.sentiment = payload.sentiment;
+	if (session.noteActionCount >= MAX_NOTE_ACTIONS) {
+		return {
+			ok: false,
+			error: 'You used your note edit. You can still change your status separately.',
+			locked: true,
+		};
+	}
+
+	if (session.sentiment !== payload.sentiment) {
+		applySentimentChange(store, session, payload.sentiment);
 	} else if (!session.sentiment) {
 		incrementVote(store, payload.sentiment);
 		session.sentiment = payload.sentiment;
-		session.hasApplied = true;
 	}
 
 	session.displayName = name;
+	session.noteActionCount += 1;
 
-	if (session.replyId) {
+	if (isNoteEdit) {
 		const reply = store.replies.find((item) => item.id === session.replyId);
 		if (reply) {
 			reply.sentiment = payload.sentiment;

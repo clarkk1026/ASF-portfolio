@@ -307,7 +307,7 @@ export const visitorNote = {
 	submittingLabel: 'Applying',
 	savingLabel: 'Saving',
 	formNote:
-		'One apply per browser. After that you can only edit your status or note — not remove it.',
+		'Status and note are separate: you can apply a status twice more after the first click (2 resets), and post a note once plus edit it once. Limits do not share.',
 	thanksMessage: 'Thanks! Your response is counted in the live totals.',
 	repliesTitle: 'Visitor notes',
 	repliesSummary: 'Sorted by newest first, then name.',
