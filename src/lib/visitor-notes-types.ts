@@ -1,7 +1,5 @@
 import type { VisitorNoteSentiment } from '../data/portfolio.js';
 
-export const MAX_VOTE_ACTIONS = 2;
-
 export type VisitorReply = {
 	id: string;
 	sentiment: VisitorNoteSentiment;
@@ -18,7 +16,9 @@ export type VisitorVoteCounts = {
 
 export type VisitorSession = {
 	sentiment: VisitorNoteSentiment | null;
-	actionCount: number;
+	hasApplied: boolean;
+	replyId: string | null;
+	displayName: string;
 };
 
 export type VisitorNotesStore = {
@@ -34,34 +34,37 @@ export type VisitorNotesResponse = VisitorNotesStore & {
 	livePersistent?: boolean;
 	storageMode?: 'kv' | 'blob' | 'memory';
 	yourVote?: VisitorNoteSentiment | null;
-	actionCount?: number;
-	voteLocked?: boolean;
-	actionsRemaining?: number;
+	hasApplied?: boolean;
+	canEdit?: boolean;
+	yourReplyId?: string | null;
+	userKey?: string | null;
 };
 
 export type VisitorVotePayload = {
 	type: 'vote';
-	visitorId: string;
+	userKey: string;
 	sentiment: VisitorNoteSentiment;
+	name: string;
 };
 
 export type VisitorVoteChangePayload = {
 	type: 'vote-change';
-	visitorId: string;
+	userKey: string;
 	from: VisitorNoteSentiment;
 	to: VisitorNoteSentiment;
+	name: string;
 };
 
 export type VisitorVoteCancelPayload = {
 	type: 'vote-cancel';
-	visitorId: string;
+	userKey: string;
 };
 
 export type VisitorNotePayload = {
 	type: 'note';
-	visitorId: string;
+	userKey: string;
 	sentiment: VisitorNoteSentiment;
-	name?: string;
+	name: string;
 	message: string;
 };
 
@@ -83,6 +86,53 @@ export const emptyStore = (): VisitorNotesStore => ({
 	sessions: {},
 });
 
+const SENTIMENTS: VisitorNoteSentiment[] = ['support', 'disagree', 'not-care'];
+
+export const isVisitorSentiment = (
+	value: unknown,
+): value is VisitorNoteSentiment =>
+	typeof value === 'string' && SENTIMENTS.includes(value as VisitorNoteSentiment);
+
+export const normalizeUserKey = (name: string): string | null => {
+	const trimmed = name.trim();
+	if (!trimmed || trimmed.length > 48 || /^anonymous$/i.test(trimmed)) {
+		return null;
+	}
+	return trimmed.toLowerCase().replace(/\s+/g, ' ');
+};
+
+export const isValidUserKey = (value: unknown): value is string => {
+	if (typeof value !== 'string') return false;
+	const key = value.trim();
+	return key.length > 0 && key.length <= 48 && normalizeUserKey(key) === key;
+};
+
+export const sortVisitorReplies = (replies: VisitorReply[]): VisitorReply[] =>
+	[...replies].sort((a, b) => {
+		const byTime = b.createdAt.localeCompare(a.createdAt);
+		if (byTime !== 0) return byTime;
+
+		return a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
+	});
+
+export const normalizeSession = (raw: unknown): VisitorSession => {
+	if (!raw || typeof raw !== 'object') {
+		return { sentiment: null, hasApplied: false, replyId: null, displayName: '' };
+	}
+
+	const data = raw as Partial<VisitorSession> & { actionCount?: number };
+	const sentiment = isVisitorSentiment(data.sentiment) ? data.sentiment : null;
+
+	return {
+		sentiment,
+		hasApplied: Boolean(
+			data.hasApplied ?? sentiment ?? (Number(data.actionCount) > 0),
+		),
+		replyId: typeof data.replyId === 'string' ? data.replyId : null,
+		displayName: typeof data.displayName === 'string' ? data.displayName : '',
+	};
+};
+
 export const normalizeStore = (raw: unknown): VisitorNotesStore => {
 	if (!raw || typeof raw !== 'object') return emptyStore();
 
@@ -91,11 +141,19 @@ export const normalizeStore = (raw: unknown): VisitorNotesStore => {
 		disagreeCount?: number;
 		notCareCount?: number;
 	};
-	const replies = Array.isArray(data.replies) ? data.replies : [];
-	const sessions =
+	const replies = sortVisitorReplies(
+		Array.isArray(data.replies) ? data.replies : [],
+	);
+	const rawSessions =
 		data.sessions && typeof data.sessions === 'object' && !Array.isArray(data.sessions)
 			? data.sessions
 			: {};
+	const sessions = Object.fromEntries(
+		Object.entries(rawSessions).map(([id, session]) => [
+			id,
+			normalizeSession(session),
+		]),
+	);
 
 	if (data.votes && typeof data.votes === 'object') {
 		return {
@@ -138,29 +196,25 @@ export const normalizeStore = (raw: unknown): VisitorNotesStore => {
 
 export const withCounts = (
 	store: VisitorNotesStore,
-	session?: VisitorSession | null,
+	userKey?: string | null,
 ): VisitorNotesResponse => {
-	const actionCount = session?.actionCount ?? 0;
-	const voteLocked = actionCount >= MAX_VOTE_ACTIONS;
+	const session =
+		userKey && isValidUserKey(userKey) ? store.sessions[userKey] ?? null : null;
+	const hasApplied = session?.hasApplied ?? false;
 
 	return {
 		...store,
+		replies: sortVisitorReplies(store.replies),
 		supportCount: store.votes.support,
 		disagreeCount: store.votes.disagree,
 		notCareCount: store.votes.notCare,
 		yourVote: session?.sentiment ?? null,
-		actionCount,
-		voteLocked,
-		actionsRemaining: Math.max(0, MAX_VOTE_ACTIONS - actionCount),
+		hasApplied,
+		canEdit: hasApplied,
+		yourReplyId: session?.replyId ?? null,
+		userKey: session ? userKey ?? null : null,
 	};
 };
-
-const SENTIMENTS: VisitorNoteSentiment[] = ['support', 'disagree', 'not-care'];
-
-export const isVisitorSentiment = (
-	value: unknown,
-): value is VisitorNoteSentiment =>
-	typeof value === 'string' && SENTIMENTS.includes(value as VisitorNoteSentiment);
 
 export const voteKeyForSentiment = (sentiment: VisitorNoteSentiment) => {
 	if (sentiment === 'support') return 'support' as const;
@@ -185,69 +239,112 @@ export const decrementVote = (
 
 export const getOrCreateSession = (
 	store: VisitorNotesStore,
-	visitorId: string,
+	userKey: string,
+	displayName: string,
 ): VisitorSession => {
-	if (!store.sessions[visitorId]) {
-		store.sessions[visitorId] = { sentiment: null, actionCount: 0 };
+	if (!store.sessions[userKey]) {
+		store.sessions[userKey] = {
+			sentiment: null,
+			hasApplied: false,
+			replyId: null,
+			displayName,
+		};
 	}
-	return store.sessions[visitorId];
+	return store.sessions[userKey];
 };
 
 export type VoteMutationResult =
-	| { ok: true; changed: boolean }
+	| { ok: true; changed: boolean; userKey: string }
 	| { ok: false; error: string; locked: boolean };
 
 export const setVisitorVote = (
 	store: VisitorNotesStore,
-	visitorId: string,
+	userKey: string,
 	sentiment: VisitorNoteSentiment,
+	displayName: string,
 ): VoteMutationResult => {
-	const session = getOrCreateSession(store, visitorId);
+	const session = getOrCreateSession(store, userKey, displayName);
 
 	if (session.sentiment === sentiment) {
-		return { ok: true, changed: false };
+		session.displayName = displayName.trim();
+		return { ok: true, changed: false, userKey };
 	}
 
-	if (session.actionCount >= MAX_VOTE_ACTIONS) {
-		return {
-			ok: false,
-			error: 'You have used all vote changes for this browser.',
-			locked: true,
-		};
+	if (!session.hasApplied) {
+		incrementVote(store, sentiment);
+		session.sentiment = sentiment;
+		session.hasApplied = true;
+		session.displayName = displayName.trim();
+		return { ok: true, changed: true, userKey };
 	}
-
-	if (session.sentiment) {
-		decrementVote(store, session.sentiment);
-	}
-
-	incrementVote(store, sentiment);
-	session.sentiment = sentiment;
-	session.actionCount += 1;
-
-	return { ok: true, changed: true };
-};
-
-export const clearVisitorVote = (
-	store: VisitorNotesStore,
-	visitorId: string,
-): VoteMutationResult => {
-	const session = getOrCreateSession(store, visitorId);
 
 	if (!session.sentiment) {
-		return { ok: true, changed: false };
-	}
-
-	if (session.actionCount >= MAX_VOTE_ACTIONS) {
 		return {
 			ok: false,
-			error: 'You have used all vote changes for this browser.',
+			error: 'You already applied once. Edit your existing response instead.',
 			locked: true,
 		};
 	}
 
 	decrementVote(store, session.sentiment);
-	session.sentiment = null;
-	session.actionCount += 1;
+	incrementVote(store, sentiment);
+	session.sentiment = sentiment;
+	session.displayName = displayName.trim();
+	return { ok: true, changed: true, userKey };
+};
 
-	return { ok: true, changed: true };
+export const clearVisitorVote = (): Extract<
+	VoteMutationResult,
+	{ ok: false }
+> => ({
+	ok: false,
+	error: 'Votes cannot be removed. Edit your response instead.',
+	locked: false,
+});
+
+export const upsertVisitorNote = (
+	store: VisitorNotesStore,
+	userKey: string,
+	payload: {
+		id: string;
+		sentiment: VisitorNoteSentiment;
+		name: string;
+		message: string;
+	},
+): VoteMutationResult => {
+	const session = getOrCreateSession(store, userKey, payload.name);
+
+	if (!session.hasApplied || !session.sentiment) {
+		return {
+			ok: false,
+			error: 'Apply a status before leaving a note.',
+			locked: false,
+		};
+	}
+
+	const name = payload.name.trim();
+	const message = payload.message.trim();
+	session.displayName = name;
+
+	if (session.replyId) {
+		const reply = store.replies.find((item) => item.id === session.replyId);
+		if (reply) {
+			reply.sentiment = payload.sentiment;
+			reply.name = name;
+			reply.message = message;
+			store.replies = sortVisitorReplies(store.replies);
+			return { ok: true, changed: true, userKey };
+		}
+	}
+
+	store.replies.unshift({
+		id: payload.id,
+		sentiment: payload.sentiment,
+		name,
+		message,
+		createdAt: new Date().toISOString(),
+	});
+	session.replyId = payload.id;
+	store.replies = sortVisitorReplies(store.replies);
+	return { ok: true, changed: true, userKey };
 };

@@ -8,7 +8,6 @@ import {
 	type VisitorNoteSentiment,
 } from '../data/portfolio';
 import {
-	cancelVisitorVote,
 	changeVisitorVote,
 	fetchVisitorNotes,
 	submitVisitorNote,
@@ -105,6 +104,9 @@ export const VisitorNote = () => {
 	const { pushToast } = useToast();
 	const [selection, setSelection] = useState<VisitorNoteSentiment | null>(null);
 	const [appliedVote, setAppliedVote] = useState<VisitorNoteSentiment | null>(null);
+	const [hasApplied, setHasApplied] = useState(false);
+	const [editing, setEditing] = useState(false);
+	const [yourReplyId, setYourReplyId] = useState<string | null>(null);
 	const [name, setName] = useState('');
 	const [message, setMessage] = useState('');
 	const [error, setError] = useState('');
@@ -112,16 +114,14 @@ export const VisitorNote = () => {
 	const [loading, setLoading] = useState(true);
 	const [ready, setReady] = useState(false);
 	const [submitting, setSubmitting] = useState(false);
-	const [voting, setVoting] = useState(false);
 	const [supportCount, setSupportCount] = useState(bootCounts?.support ?? 0);
 	const [disagreeCount, setDisagreeCount] = useState(bootCounts?.disagree ?? 0);
 	const [notCareCount, setNotCareCount] = useState(bootCounts?.notCare ?? 0);
 	const [replies, setReplies] = useState<VisitorReply[]>([]);
-	const [voteLocked, setVoteLocked] = useState(false);
-	const [actionsRemaining, setActionsRemaining] = useState(2);
 	const snapshotRef = useRef<VisitorNotesSnapshot | null>(null);
 	const skipRemoteNotifyUntilRef = useRef(0);
 	const appliedVoteRef = useRef<VisitorNoteSentiment | null>(null);
+	const editingRef = useRef(false);
 
 	const liveCounts = {
 		support: supportCount,
@@ -143,8 +143,8 @@ export const VisitorNote = () => {
 		setNotCareCount(counts.notCare);
 		writeSessionCounts(counts);
 		setReplies(data.replies);
-		setVoteLocked(data.voteLocked ?? false);
-		setActionsRemaining(data.actionsRemaining ?? 0);
+		setHasApplied(data.hasApplied ?? Boolean(data.yourVote));
+		setYourReplyId(data.yourReplyId ?? null);
 
 		const serverVote = data.yourVote ?? null;
 		appliedVoteRef.current = serverVote;
@@ -180,9 +180,14 @@ export const VisitorNote = () => {
 	}, []);
 
 	useEffect(() => {
+		editingRef.current = editing;
+	}, [editing]);
+
+	useEffect(() => {
 		localStorage.removeItem('portfolio-visitor-note-submitted');
 		localStorage.removeItem('portfolio-visitor-vote');
 		localStorage.removeItem('portfolio-visitor-counts-cache');
+		localStorage.removeItem('portfolio-visitor-id');
 		void loadNotes();
 	}, [loadNotes]);
 
@@ -190,7 +195,7 @@ export const VisitorNote = () => {
 		if (!ready) return;
 
 		const poll = async () => {
-			if (document.hidden || submitting || voting) return;
+			if (document.hidden || submitting || editingRef.current) return;
 
 			try {
 				const data = await fetchVisitorNotes();
@@ -216,40 +221,24 @@ export const VisitorNote = () => {
 		}, POLL_INTERVAL_MS);
 
 		return () => window.clearInterval(intervalId);
-	}, [ready, pushToast, submitting, voting]);
+	}, [ready, pushToast, submitting]);
 
 	const onPickSentiment = (choice: VisitorNoteSentiment) => {
-		if (submitting || voting || voteLocked) return;
+		if (submitting) return;
 		setSelection(choice);
 		setError('');
 	};
 
-	const onCancelVote = async () => {
-		if (!appliedVote || voting || submitting || voteLocked) return;
+	const startEditing = () => {
+		const reply = yourReplyId
+			? replies.find((item) => item.id === yourReplyId)
+			: null;
 
-		const previousVote = appliedVote;
-		const optimistic = applyCounts(liveCounts, previousVote, null);
-
+		setName(reply?.name && reply.name !== 'Anonymous' ? reply.name : '');
+		setMessage(reply?.message ?? '');
+		setSelection(appliedVote);
+		setEditing(true);
 		setError('');
-		setVoting(true);
-		setCounts(optimistic);
-		suppressRemoteNotifications();
-
-		try {
-			const data = await cancelVisitorVote();
-			syncFromServer(data);
-			setSelection(null);
-			pushToast(visitorNote.notifyVoteCancelled, 'info');
-		} catch (err) {
-			try {
-				syncFromServer(await fetchVisitorNotes());
-			} catch {
-				// Keep optimistic rollback via next poll.
-			}
-			setError(err instanceof Error ? err.message : 'Could not remove vote.');
-		} finally {
-			setVoting(false);
-		}
 	};
 
 	const onApply = async (e: FormEvent) => {
@@ -257,20 +246,29 @@ export const VisitorNote = () => {
 		setError('');
 
 		const choice = selection;
+		const trimmedName = name.trim();
 		const trimmedMessage = message.trim();
+		const isEdit = hasApplied && editing;
 
 		if (!choice) {
 			setError('Choose interested, not convinced, or neutral before applying.');
 			return;
 		}
 
-		if (voteLocked) {
-			setError(visitorNote.voteLimitMessage);
+		if (!trimmedName) {
+			setError('Enter your name to apply. One response per person.');
 			return;
 		}
 
 		const previousVote = appliedVoteRef.current;
-		if (previousVote === choice && !trimmedMessage) {
+
+		if (isEdit) {
+			if (previousVote === choice && !trimmedMessage) {
+				setEditing(false);
+				return;
+			}
+		} else if (hasApplied) {
+			setError('You already applied. Use Edit my response to update it.');
 			return;
 		}
 
@@ -283,9 +281,9 @@ export const VisitorNote = () => {
 			let data: Awaited<ReturnType<typeof fetchVisitorNotes>>;
 
 			if (!previousVote) {
-				data = await submitVisitorVote(choice);
+				data = await submitVisitorVote(choice, trimmedName);
 			} else if (previousVote !== choice) {
-				data = await changeVisitorVote(previousVote, choice);
+				data = await changeVisitorVote(previousVote, choice, trimmedName);
 			} else {
 				data = await fetchVisitorNotes();
 			}
@@ -293,14 +291,18 @@ export const VisitorNote = () => {
 			if (trimmedMessage) {
 				data = await submitVisitorNote({
 					sentiment: choice,
-					name,
+					name: trimmedName,
 					message: trimmedMessage,
 				});
 			}
 
 			syncFromServer(data);
+			setEditing(false);
 			setMessage('');
-			pushToast(visitorNote.notifyApplied, 'success');
+			pushToast(
+				isEdit ? visitorNote.notifyUpdated : visitorNote.notifyApplied,
+				'success',
+			);
 		} catch (err) {
 			try {
 				syncFromServer(await fetchVisitorNotes());
@@ -316,10 +318,8 @@ export const VisitorNote = () => {
 	};
 
 	const activeChoice = selection ?? appliedVote;
-	const canChangeVote = !voteLocked && actionsRemaining > 0;
-	const showThanks = ready && Boolean(appliedVote);
-	const showLockedEmpty = ready && voteLocked && !appliedVote;
-	const showForm = ready && !appliedVote && !voteLocked;
+	const showThanks = ready && hasApplied && !editing;
+	const showForm = ready && (!hasApplied || editing);
 	const displayCount = (key: keyof LiveCounts) => {
 		if (loading && !bootCounts) return '—';
 		return liveCounts[key];
@@ -343,37 +343,21 @@ export const VisitorNote = () => {
 					<p className='visitor-note-thanks glass-card'>
 						{visitorNote.thanksMessage}
 					</p>
-					{canChangeVote ? (
-						<button
-							type='button'
-							className='visitor-note-cancel-vote'
-							onClick={() => void onCancelVote()}
-							disabled={voting}
-						>
-							{visitorNote.cancelVoteLabel}
-						</button>
-					) : null}
-					{voteLocked ? (
-						<p className='visitor-note-limit-notice'>
-							{visitorNote.voteLimitMessage}
-						</p>
-					) : null}
+					<button
+						type='button'
+						className='visitor-note-edit-response'
+						onClick={startEditing}
+					>
+						{visitorNote.editResponseLabel}
+					</button>
 				</div>
-			);
-		}
-
-		if (showLockedEmpty) {
-			return (
-				<p className='visitor-note-limit-notice visitor-note-limit-notice-card glass-card'>
-					{visitorNote.voteLimitMessage}
-				</p>
 			);
 		}
 
 		if (showForm) {
 			return (
 				<div className='visitor-note-card glass-card visitor-note-interactive'>
-					<h2>{visitorNote.headline}</h2>
+					<h2>{editing ? visitorNote.editResponseLabel : visitorNote.headline}</h2>
 					<p>{visitorNote.subtext}</p>
 
 					<form
@@ -391,7 +375,7 @@ export const VisitorNote = () => {
 									type='button'
 									className={`comet-btn comet-btn-vote visitor-note-choice visitor-note-choice-${id === 'not-care' ? 'notcare' : id} ${activeChoice === id ? 'visitor-note-choice-active' : ''}`}
 									onClick={() => onPickSentiment(id)}
-									disabled={submitting || voting}
+									disabled={submitting}
 									aria-label={label}
 									title={label}
 								>
@@ -419,7 +403,7 @@ export const VisitorNote = () => {
 								placeholder={visitorNote.namePlaceholder}
 								autoComplete='name'
 								maxLength={48}
-								disabled={submitting || voting}
+								disabled={submitting}
 							/>
 						</label>
 
@@ -432,19 +416,38 @@ export const VisitorNote = () => {
 								placeholder={visitorNote.messagePlaceholder}
 								rows={4}
 								maxLength={600}
-								disabled={submitting || voting}
+								disabled={submitting}
 							/>
 						</label>
 
-						<button
-							type='submit'
-							className='comet-btn comet-btn-talk comet-btn-lg visitor-note-submit'
-							disabled={submitting || voting || !activeChoice}
-						>
-							{submitting
-								? visitorNote.submittingLabel
-								: visitorNote.submitLabel}
-						</button>
+						<div className='visitor-note-form-actions'>
+							<button
+								type='submit'
+								className='comet-btn comet-btn-talk comet-btn-lg visitor-note-submit'
+								disabled={submitting || !activeChoice || !name.trim()}
+							>
+								{submitting
+									? editing
+										? visitorNote.savingLabel
+										: visitorNote.submittingLabel
+									: editing
+										? visitorNote.saveLabel
+										: visitorNote.submitLabel}
+							</button>
+							{editing ? (
+								<button
+									type='button'
+									className='visitor-note-cancel-edit'
+									onClick={() => {
+										setEditing(false);
+										setError('');
+									}}
+									disabled={submitting}
+								>
+									Cancel
+								</button>
+							) : null}
+						</div>
 
 						<p className='visitor-note-privacy'>{visitorNote.formNote}</p>
 					</form>

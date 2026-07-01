@@ -168,6 +168,44 @@
 	cursor: not-allowed !important;
 }
 
+.visitor-note-edit-response,
+.visitor-note-cancel-edit {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	padding: 0.45rem 0.85rem;
+	border-radius: 999px;
+	border: 1px solid rgba(255, 255, 255, 0.16);
+	background: transparent;
+	color: rgba(160, 220, 255, 0.82);
+	transition:
+		border-color 0.25s ease,
+		color 0.25s ease,
+		background 0.25s ease;
+}
+
+.visitor-note-edit-response:hover:not(:disabled),
+.visitor-note-cancel-edit:hover:not(:disabled) {
+	border-color: rgba(31, 195, 255, 0.45);
+	color: rgb(200, 235, 255);
+	background: rgba(31, 195, 255, 0.08);
+}
+
+.visitor-note-edit-response:disabled,
+.visitor-note-cancel-edit:disabled {
+	opacity: 0.45;
+	cursor: not-allowed !important;
+}
+
+.visitor-note-form-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.65rem;
+}
+
 .visitor-note-replies {
 	padding: 1.75rem 1.5rem;
 }

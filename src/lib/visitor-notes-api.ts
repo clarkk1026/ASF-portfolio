@@ -1,26 +1,28 @@
 import {
 	normalizeStore,
+	normalizeUserKey,
 	withCounts,
 	type VisitorNotePayload,
 	type VisitorNotesResponse,
 	type VisitorPostPayload,
-	type VisitorVoteCancelPayload,
 	type VisitorVoteChangePayload,
 	type VisitorVotePayload,
 } from './visitor-notes-types';
 import type { VisitorNoteSentiment } from '../data/portfolio';
 
 const API_PATH = '/api/visitor-notes';
-const VISITOR_ID_KEY = 'portfolio-visitor-id';
+const USER_KEY_STORAGE = 'portfolio-visitor-user-key';
 
-export const getVisitorId = (): string => {
-	let id = localStorage.getItem(VISITOR_ID_KEY);
-	if (!id) {
-		id = crypto.randomUUID();
-		localStorage.setItem(VISITOR_ID_KEY, id);
-	}
-	return id;
+export const getStoredUserKey = (): string | null => {
+	const stored = localStorage.getItem(USER_KEY_STORAGE);
+	return stored && stored.trim() ? stored : null;
 };
+
+export const storeUserKey = (userKey: string) => {
+	localStorage.setItem(USER_KEY_STORAGE, userKey);
+};
+
+export const buildUserKey = (name: string): string | null => normalizeUserKey(name);
 
 const parseResponse = async (res: Response): Promise<VisitorNotesResponse> => {
 	const raw = (await res.json()) as Record<string, unknown>;
@@ -40,21 +42,31 @@ const parseResponse = async (res: Response): Promise<VisitorNotesResponse> => {
 			: raw.yourVote === null
 				? null
 				: undefined;
-	const actionCount =
-		typeof raw.actionCount === 'number' ? raw.actionCount : undefined;
-	const voteLocked =
-		typeof raw.voteLocked === 'boolean' ? raw.voteLocked : undefined;
-	const actionsRemaining =
-		typeof raw.actionsRemaining === 'number' ? raw.actionsRemaining : undefined;
+	const hasApplied =
+		typeof raw.hasApplied === 'boolean' ? raw.hasApplied : undefined;
+	const canEdit = typeof raw.canEdit === 'boolean' ? raw.canEdit : undefined;
+	const yourReplyId =
+		typeof raw.yourReplyId === 'string'
+			? raw.yourReplyId
+			: raw.yourReplyId === null
+				? null
+				: undefined;
+	const userKey =
+		typeof raw.userKey === 'string'
+			? raw.userKey
+			: raw.userKey === null
+				? null
+				: undefined;
 
 	return {
 		...withCounts(normalizeStore(raw)),
 		livePersistent,
 		storageMode,
 		yourVote,
-		actionCount,
-		voteLocked,
-		actionsRemaining,
+		hasApplied,
+		canEdit,
+		yourReplyId,
+		userKey,
 	};
 };
 
@@ -76,28 +88,44 @@ const postPayload = async (
 		);
 	}
 
+	if (data.userKey) {
+		storeUserKey(data.userKey);
+	}
+
 	return data;
 };
 
 export const fetchVisitorNotes = async (): Promise<VisitorNotesResponse> => {
-	const visitorId = getVisitorId();
-	const res = await fetch(`${API_PATH}?visitorId=${encodeURIComponent(visitorId)}`, {
-		cache: 'no-store',
-	});
+	const userKey = getStoredUserKey();
+	const url = userKey
+		? `${API_PATH}?userKey=${encodeURIComponent(userKey)}`
+		: API_PATH;
+	const res = await fetch(url, { cache: 'no-store' });
 	if (!res.ok) {
 		throw new Error('Could not load live visitor counts.');
 	}
 
-	return parseResponse(res);
+	const data = await parseResponse(res);
+	if (data.userKey) {
+		storeUserKey(data.userKey);
+	}
+	return data;
 };
 
 export const submitVisitorVote = async (
 	sentiment: VisitorNoteSentiment,
+	name: string,
 ): Promise<VisitorNotesResponse> => {
+	const userKey = buildUserKey(name);
+	if (!userKey) {
+		throw new Error('Enter your name to apply. One response per person.');
+	}
+
 	const payload: VisitorVotePayload = {
 		type: 'vote',
-		visitorId: getVisitorId(),
+		userKey,
 		sentiment,
+		name: name.trim(),
 	};
 	return postPayload(payload);
 };
@@ -105,31 +133,37 @@ export const submitVisitorVote = async (
 export const changeVisitorVote = async (
 	_from: VisitorNoteSentiment,
 	to: VisitorNoteSentiment,
+	name: string,
 ): Promise<VisitorNotesResponse> => {
+	const userKey = getStoredUserKey() ?? buildUserKey(name);
+	if (!userKey) {
+		throw new Error('Enter your name to save changes.');
+	}
+
 	const payload: VisitorVoteChangePayload = {
 		type: 'vote-change',
-		visitorId: getVisitorId(),
+		userKey,
 		from: _from,
 		to,
-	};
-	return postPayload(payload);
-};
-
-export const cancelVisitorVote = async (): Promise<VisitorNotesResponse> => {
-	const payload: VisitorVoteCancelPayload = {
-		type: 'vote-cancel',
-		visitorId: getVisitorId(),
+		name: name.trim(),
 	};
 	return postPayload(payload);
 };
 
 export const submitVisitorNote = async (
-	payload: Omit<VisitorNotePayload, 'type' | 'visitorId'>,
+	payload: Omit<VisitorNotePayload, 'type' | 'userKey'>,
 ): Promise<VisitorNotesResponse> => {
+	const userKey = getStoredUserKey() ?? buildUserKey(payload.name);
+	if (!userKey) {
+		throw new Error('Enter your name to leave a note.');
+	}
+
 	const body: VisitorNotePayload = {
 		type: 'note',
-		visitorId: getVisitorId(),
-		...payload,
+		userKey,
+		sentiment: payload.sentiment,
+		name: payload.name.trim(),
+		message: payload.message,
 	};
 	return postPayload(body);
 };

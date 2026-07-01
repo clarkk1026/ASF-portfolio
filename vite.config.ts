@@ -11,9 +11,12 @@ import {
 import {
 	clearVisitorVote,
 	emptyStore,
+	isValidUserKey,
 	isVisitorSentiment,
 	normalizeStore,
+	normalizeUserKey,
 	setVisitorVote,
+	upsertVisitorNote,
 	withCounts,
 	type VisitorNotePayload,
 	type VisitorVoteCancelPayload,
@@ -36,16 +39,17 @@ const readStore = () => {
 	}
 };
 
-const VISITOR_ID_PATTERN = /^[0-9a-f-]{36}$/i;
-
-const isValidVisitorId = (value: unknown): value is string =>
-	typeof value === 'string' && VISITOR_ID_PATTERN.test(value);
+const isValidName = (value: unknown): value is string =>
+	typeof value === 'string' &&
+	value.trim().length > 0 &&
+	value.trim().length <= MAX_NAME &&
+	normalizeUserKey(value) !== null;
 
 const respondWithCounts = (
 	store: ReturnType<typeof readStore>,
-	visitorId?: string,
+	userKey?: string,
 ) => ({
-	...withCounts(store, visitorId ? store.sessions[visitorId] ?? null : null),
+	...withCounts(store, userKey && isValidUserKey(userKey) ? userKey : null),
 	livePersistent: true,
 	storageMode: 'memory' as const,
 });
@@ -68,7 +72,8 @@ const isVotePayload = (body: unknown): body is VisitorVotePayload =>
 	!!body &&
 	typeof body === 'object' &&
 	(body as VisitorVotePayload).type === 'vote' &&
-	isValidVisitorId((body as VisitorVotePayload).visitorId) &&
+	isValidUserKey((body as VisitorVotePayload).userKey) &&
+	isValidName((body as VisitorVotePayload).name) &&
 	isVisitorSentiment((body as VisitorVotePayload).sentiment);
 
 const isVoteChangePayload = (body: unknown): body is VisitorVoteChangePayload => {
@@ -76,7 +81,8 @@ const isVoteChangePayload = (body: unknown): body is VisitorVoteChangePayload =>
 	const payload = body as VisitorVoteChangePayload;
 	return (
 		payload.type === 'vote-change' &&
-		isValidVisitorId(payload.visitorId) &&
+		isValidUserKey(payload.userKey) &&
+		isValidName(payload.name) &&
 		isVisitorSentiment(payload.to)
 	);
 };
@@ -85,24 +91,21 @@ const isVoteCancelPayload = (body: unknown): body is VisitorVoteCancelPayload =>
 	!!body &&
 	typeof body === 'object' &&
 	(body as VisitorVoteCancelPayload).type === 'vote-cancel' &&
-	isValidVisitorId((body as VisitorVoteCancelPayload).visitorId);
+	isValidUserKey((body as VisitorVoteCancelPayload).userKey);
 
 const isNotePayload = (body: unknown): body is VisitorNotePayload => {
 	if (!body || typeof body !== 'object') return false;
 	const payload = body as VisitorNotePayload;
 	if (
 		payload.type !== 'note' ||
-		!isValidVisitorId(payload.visitorId) ||
+		!isValidUserKey(payload.userKey) ||
+		!isValidName(payload.name) ||
 		!isVisitorSentiment(payload.sentiment)
 	) {
 		return false;
 	}
 	if (typeof payload.message !== 'string' || !payload.message.trim()) return false;
 	if (payload.message.trim().length > MAX_MESSAGE) return false;
-	if (payload.name !== undefined && typeof payload.name !== 'string') return false;
-	if (typeof payload.name === 'string' && payload.name.trim().length > MAX_NAME) {
-		return false;
-	}
 	return true;
 };
 
@@ -122,16 +125,16 @@ const visitorNotesDevApi = () => ({
 
 			try {
 				const url = new URL(req.url ?? '/', 'http://localhost');
-				const visitorId =
-					url.searchParams.get('visitorId') &&
-					isValidVisitorId(url.searchParams.get('visitorId'))
-						? url.searchParams.get('visitorId')!
+				const userKey =
+					url.searchParams.get('userKey') &&
+					isValidUserKey(url.searchParams.get('userKey'))
+						? url.searchParams.get('userKey')!
 						: undefined;
 
 				if (req.method === 'GET') {
 					res.setHeader('Content-Type', 'application/json');
 					res.setHeader('Cache-Control', 'no-store');
-					res.end(JSON.stringify(respondWithCounts(readStore(), visitorId)));
+					res.end(JSON.stringify(respondWithCounts(readStore(), userKey)));
 					return;
 				}
 
@@ -140,15 +143,19 @@ const visitorNotesDevApi = () => ({
 					const store = readStore();
 
 					if (isVotePayload(body)) {
-						const result = setVisitorVote(store, body.visitorId, body.sentiment);
+						const result = setVisitorVote(
+							store,
+							body.userKey,
+							body.sentiment,
+							body.name,
+						);
 						if (!result.ok) {
 							res.statusCode = 403;
 							res.setHeader('Content-Type', 'application/json');
 							res.end(
 								JSON.stringify({
 									error: result.error,
-									voteLocked: true,
-									...respondWithCounts(store, body.visitorId),
+									...respondWithCounts(store, body.userKey),
 								}),
 							);
 							return;
@@ -156,20 +163,24 @@ const visitorNotesDevApi = () => ({
 						if (result.changed) writeStore(store);
 						res.statusCode = 201;
 						res.setHeader('Content-Type', 'application/json');
-						res.end(JSON.stringify(respondWithCounts(store, body.visitorId)));
+						res.end(JSON.stringify(respondWithCounts(store, body.userKey)));
 						return;
 					}
 
 					if (isVoteChangePayload(body)) {
-						const result = setVisitorVote(store, body.visitorId, body.to);
+						const result = setVisitorVote(
+							store,
+							body.userKey,
+							body.to,
+							body.name,
+						);
 						if (!result.ok) {
 							res.statusCode = 403;
 							res.setHeader('Content-Type', 'application/json');
 							res.end(
 								JSON.stringify({
 									error: result.error,
-									voteLocked: true,
-									...respondWithCounts(store, body.visitorId),
+									...respondWithCounts(store, body.userKey),
 								}),
 							);
 							return;
@@ -177,44 +188,46 @@ const visitorNotesDevApi = () => ({
 						if (result.changed) writeStore(store);
 						res.statusCode = 201;
 						res.setHeader('Content-Type', 'application/json');
-						res.end(JSON.stringify(respondWithCounts(store, body.visitorId)));
+						res.end(JSON.stringify(respondWithCounts(store, body.userKey)));
 						return;
 					}
 
 					if (isVoteCancelPayload(body)) {
-						const result = clearVisitorVote(store, body.visitorId);
+						const result = clearVisitorVote();
+						res.statusCode = 403;
+						res.setHeader('Content-Type', 'application/json');
+						res.end(
+							JSON.stringify({
+								error: result.ok ? 'Votes cannot be removed.' : result.error,
+								...respondWithCounts(store, body.userKey),
+							}),
+						);
+						return;
+					}
+
+					if (isNotePayload(body)) {
+						const result = upsertVisitorNote(store, body.userKey, {
+							id: randomUUID(),
+							sentiment: body.sentiment,
+							name: body.name,
+							message: body.message,
+						});
 						if (!result.ok) {
 							res.statusCode = 403;
 							res.setHeader('Content-Type', 'application/json');
 							res.end(
 								JSON.stringify({
 									error: result.error,
-									voteLocked: true,
-									...respondWithCounts(store, body.visitorId),
+									...respondWithCounts(store, body.userKey),
 								}),
 							);
 							return;
 						}
-						if (result.changed) writeStore(store);
-						res.statusCode = 201;
-						res.setHeader('Content-Type', 'application/json');
-						res.end(JSON.stringify(respondWithCounts(store, body.visitorId)));
-						return;
-					}
-
-					if (isNotePayload(body)) {
-						store.replies.unshift({
-							id: randomUUID(),
-							sentiment: body.sentiment,
-							name: body.name?.trim() || 'Anonymous',
-							message: body.message.trim(),
-							createdAt: new Date().toISOString(),
-						});
 						store.replies = store.replies.slice(0, MAX_REPLIES);
 						writeStore(store);
 						res.statusCode = 201;
 						res.setHeader('Content-Type', 'application/json');
-						res.end(JSON.stringify(respondWithCounts(store, body.visitorId)));
+						res.end(JSON.stringify(respondWithCounts(store, body.userKey)));
 						return;
 					}
 
