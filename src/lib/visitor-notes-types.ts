@@ -37,32 +37,28 @@ export type VisitorNotesResponse = VisitorNotesStore & {
 	hasApplied?: boolean;
 	canEdit?: boolean;
 	yourReplyId?: string | null;
-	userKey?: string | null;
 };
 
 export type VisitorVotePayload = {
 	type: 'vote';
-	userKey: string;
+	visitorId: string;
 	sentiment: VisitorNoteSentiment;
-	name: string;
 };
 
 export type VisitorVoteChangePayload = {
 	type: 'vote-change';
-	userKey: string;
-	from: VisitorNoteSentiment;
+	visitorId: string;
 	to: VisitorNoteSentiment;
-	name: string;
 };
 
 export type VisitorVoteCancelPayload = {
 	type: 'vote-cancel';
-	userKey: string;
+	visitorId: string;
 };
 
 export type VisitorNotePayload = {
 	type: 'note';
-	userKey: string;
+	visitorId: string;
 	sentiment: VisitorNoteSentiment;
 	name: string;
 	message: string;
@@ -73,6 +69,8 @@ export type VisitorPostPayload =
 	| VisitorVoteChangePayload
 	| VisitorVoteCancelPayload
 	| VisitorNotePayload;
+
+export const VISITOR_ID_PATTERN = /^[0-9a-f-]{36}$/i;
 
 export const emptyVoteCounts = (): VisitorVoteCounts => ({
 	support: 0,
@@ -93,18 +91,15 @@ export const isVisitorSentiment = (
 ): value is VisitorNoteSentiment =>
 	typeof value === 'string' && SENTIMENTS.includes(value as VisitorNoteSentiment);
 
-export const normalizeUserKey = (name: string): string | null => {
+export const isValidVisitorId = (value: unknown): value is string =>
+	typeof value === 'string' && VISITOR_ID_PATTERN.test(value);
+
+export const normalizeNoteName = (name: string): string | null => {
 	const trimmed = name.trim();
 	if (!trimmed || trimmed.length > 48 || /^anonymous$/i.test(trimmed)) {
 		return null;
 	}
-	return trimmed.toLowerCase().replace(/\s+/g, ' ');
-};
-
-export const isValidUserKey = (value: unknown): value is string => {
-	if (typeof value !== 'string') return false;
-	const key = value.trim();
-	return key.length > 0 && key.length <= 48 && normalizeUserKey(key) === key;
+	return trimmed;
 };
 
 export const sortVisitorReplies = (replies: VisitorReply[]): VisitorReply[] =>
@@ -196,10 +191,12 @@ export const normalizeStore = (raw: unknown): VisitorNotesStore => {
 
 export const withCounts = (
 	store: VisitorNotesStore,
-	userKey?: string | null,
+	visitorId?: string | null,
 ): VisitorNotesResponse => {
 	const session =
-		userKey && isValidUserKey(userKey) ? store.sessions[userKey] ?? null : null;
+		visitorId && isValidVisitorId(visitorId)
+			? store.sessions[visitorId] ?? null
+			: null;
 	const hasApplied = session?.hasApplied ?? false;
 
 	return {
@@ -212,7 +209,6 @@ export const withCounts = (
 		hasApplied,
 		canEdit: hasApplied,
 		yourReplyId: session?.replyId ?? null,
-		userKey: session ? userKey ?? null : null,
 	};
 };
 
@@ -239,43 +235,40 @@ export const decrementVote = (
 
 export const getOrCreateSession = (
 	store: VisitorNotesStore,
-	userKey: string,
-	displayName: string,
+	visitorId: string,
+	displayName = '',
 ): VisitorSession => {
-	if (!store.sessions[userKey]) {
-		store.sessions[userKey] = {
+	if (!store.sessions[visitorId]) {
+		store.sessions[visitorId] = {
 			sentiment: null,
 			hasApplied: false,
 			replyId: null,
 			displayName,
 		};
 	}
-	return store.sessions[userKey];
+	return store.sessions[visitorId];
 };
 
 export type VoteMutationResult =
-	| { ok: true; changed: boolean; userKey: string }
+	| { ok: true; changed: boolean }
 	| { ok: false; error: string; locked: boolean };
 
 export const setVisitorVote = (
 	store: VisitorNotesStore,
-	userKey: string,
+	visitorId: string,
 	sentiment: VisitorNoteSentiment,
-	displayName: string,
 ): VoteMutationResult => {
-	const session = getOrCreateSession(store, userKey, displayName);
+	const session = getOrCreateSession(store, visitorId);
 
 	if (session.sentiment === sentiment) {
-		session.displayName = displayName.trim();
-		return { ok: true, changed: false, userKey };
+		return { ok: true, changed: false };
 	}
 
 	if (!session.hasApplied) {
 		incrementVote(store, sentiment);
 		session.sentiment = sentiment;
 		session.hasApplied = true;
-		session.displayName = displayName.trim();
-		return { ok: true, changed: true, userKey };
+		return { ok: true, changed: true };
 	}
 
 	if (!session.sentiment) {
@@ -289,8 +282,7 @@ export const setVisitorVote = (
 	decrementVote(store, session.sentiment);
 	incrementVote(store, sentiment);
 	session.sentiment = sentiment;
-	session.displayName = displayName.trim();
-	return { ok: true, changed: true, userKey };
+	return { ok: true, changed: true };
 };
 
 export const clearVisitorVote = (): Extract<
@@ -304,7 +296,7 @@ export const clearVisitorVote = (): Extract<
 
 export const upsertVisitorNote = (
 	store: VisitorNotesStore,
-	userKey: string,
+	visitorId: string,
 	payload: {
 		id: string;
 		sentiment: VisitorNoteSentiment;
@@ -312,18 +304,40 @@ export const upsertVisitorNote = (
 		message: string;
 	},
 ): VoteMutationResult => {
-	const session = getOrCreateSession(store, userKey, payload.name);
-
-	if (!session.hasApplied || !session.sentiment) {
+	const name = normalizeNoteName(payload.name);
+	if (!name) {
 		return {
 			ok: false,
-			error: 'Apply a status before leaving a note.',
+			error: 'Enter your name when leaving a note.',
 			locked: false,
 		};
 	}
 
-	const name = payload.name.trim();
 	const message = payload.message.trim();
+	if (!message) {
+		return {
+			ok: false,
+			error: 'Write a note before applying.',
+			locked: false,
+		};
+	}
+
+	const session = getOrCreateSession(store, visitorId, name);
+
+	if (!session.hasApplied) {
+		incrementVote(store, payload.sentiment);
+		session.sentiment = payload.sentiment;
+		session.hasApplied = true;
+	} else if (session.sentiment && session.sentiment !== payload.sentiment) {
+		decrementVote(store, session.sentiment);
+		incrementVote(store, payload.sentiment);
+		session.sentiment = payload.sentiment;
+	} else if (!session.sentiment) {
+		incrementVote(store, payload.sentiment);
+		session.sentiment = payload.sentiment;
+		session.hasApplied = true;
+	}
+
 	session.displayName = name;
 
 	if (session.replyId) {
@@ -333,7 +347,7 @@ export const upsertVisitorNote = (
 			reply.name = name;
 			reply.message = message;
 			store.replies = sortVisitorReplies(store.replies);
-			return { ok: true, changed: true, userKey };
+			return { ok: true, changed: true };
 		}
 	}
 
@@ -346,5 +360,5 @@ export const upsertVisitorNote = (
 	});
 	session.replyId = payload.id;
 	store.replies = sortVisitorReplies(store.replies);
-	return { ok: true, changed: true, userKey };
+	return { ok: true, changed: true };
 };

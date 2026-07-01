@@ -11,10 +11,10 @@ import {
 import {
 	clearVisitorVote,
 	emptyStore,
-	isValidUserKey,
+	isValidVisitorId,
 	isVisitorSentiment,
+	normalizeNoteName,
 	normalizeStore,
-	normalizeUserKey,
 	setVisitorVote,
 	upsertVisitorNote,
 	withCounts,
@@ -28,8 +28,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_FILE = path.resolve(__dirname, 'dev-data/visitor-notes.json');
 const MAX_REPLIES = 200;
 const MAX_MESSAGE = 600;
-const MAX_NAME = 48;
-
 const readStore = () => {
 	try {
 		const raw = fs.readFileSync(DATA_FILE, 'utf8');
@@ -39,17 +37,15 @@ const readStore = () => {
 	}
 };
 
-const isValidName = (value: unknown): value is string =>
-	typeof value === 'string' &&
-	value.trim().length > 0 &&
-	value.trim().length <= MAX_NAME &&
-	normalizeUserKey(value) !== null;
-
 const respondWithCounts = (
 	store: ReturnType<typeof readStore>,
-	userKey?: string,
+	visitorId?: string,
 ) => ({
-	...withCounts(store, userKey && isValidUserKey(userKey) ? userKey : null),
+	...withCounts(
+		store,
+		visitorId && isValidVisitorId(visitorId) ? visitorId : null,
+	),
+	visitorId: visitorId ?? null,
 	livePersistent: true,
 	storageMode: 'memory' as const,
 });
@@ -72,8 +68,7 @@ const isVotePayload = (body: unknown): body is VisitorVotePayload =>
 	!!body &&
 	typeof body === 'object' &&
 	(body as VisitorVotePayload).type === 'vote' &&
-	isValidUserKey((body as VisitorVotePayload).userKey) &&
-	isValidName((body as VisitorVotePayload).name) &&
+	isValidVisitorId((body as VisitorVotePayload).visitorId) &&
 	isVisitorSentiment((body as VisitorVotePayload).sentiment);
 
 const isVoteChangePayload = (body: unknown): body is VisitorVoteChangePayload => {
@@ -81,8 +76,7 @@ const isVoteChangePayload = (body: unknown): body is VisitorVoteChangePayload =>
 	const payload = body as VisitorVoteChangePayload;
 	return (
 		payload.type === 'vote-change' &&
-		isValidUserKey(payload.userKey) &&
-		isValidName(payload.name) &&
+		isValidVisitorId(payload.visitorId) &&
 		isVisitorSentiment(payload.to)
 	);
 };
@@ -91,15 +85,15 @@ const isVoteCancelPayload = (body: unknown): body is VisitorVoteCancelPayload =>
 	!!body &&
 	typeof body === 'object' &&
 	(body as VisitorVoteCancelPayload).type === 'vote-cancel' &&
-	isValidUserKey((body as VisitorVoteCancelPayload).userKey);
+	isValidVisitorId((body as VisitorVoteCancelPayload).visitorId);
 
 const isNotePayload = (body: unknown): body is VisitorNotePayload => {
 	if (!body || typeof body !== 'object') return false;
 	const payload = body as VisitorNotePayload;
 	if (
 		payload.type !== 'note' ||
-		!isValidUserKey(payload.userKey) ||
-		!isValidName(payload.name) ||
+		!isValidVisitorId(payload.visitorId) ||
+		!normalizeNoteName(payload.name) ||
 		!isVisitorSentiment(payload.sentiment)
 	) {
 		return false;
@@ -125,16 +119,16 @@ const visitorNotesDevApi = () => ({
 
 			try {
 				const url = new URL(req.url ?? '/', 'http://localhost');
-				const userKey =
-					url.searchParams.get('userKey') &&
-					isValidUserKey(url.searchParams.get('userKey'))
-						? url.searchParams.get('userKey')!
+				const visitorId =
+					url.searchParams.get('visitorId') &&
+					isValidVisitorId(url.searchParams.get('visitorId'))
+						? url.searchParams.get('visitorId')!
 						: undefined;
 
 				if (req.method === 'GET') {
 					res.setHeader('Content-Type', 'application/json');
 					res.setHeader('Cache-Control', 'no-store');
-					res.end(JSON.stringify(respondWithCounts(readStore(), userKey)));
+					res.end(JSON.stringify(respondWithCounts(readStore(), visitorId)));
 					return;
 				}
 
@@ -145,9 +139,8 @@ const visitorNotesDevApi = () => ({
 					if (isVotePayload(body)) {
 						const result = setVisitorVote(
 							store,
-							body.userKey,
+							body.visitorId,
 							body.sentiment,
-							body.name,
 						);
 						if (!result.ok) {
 							res.statusCode = 403;
@@ -155,7 +148,7 @@ const visitorNotesDevApi = () => ({
 							res.end(
 								JSON.stringify({
 									error: result.error,
-									...respondWithCounts(store, body.userKey),
+									...respondWithCounts(store, body.visitorId),
 								}),
 							);
 							return;
@@ -163,16 +156,15 @@ const visitorNotesDevApi = () => ({
 						if (result.changed) writeStore(store);
 						res.statusCode = 201;
 						res.setHeader('Content-Type', 'application/json');
-						res.end(JSON.stringify(respondWithCounts(store, body.userKey)));
+						res.end(JSON.stringify(respondWithCounts(store, body.visitorId)));
 						return;
 					}
 
 					if (isVoteChangePayload(body)) {
 						const result = setVisitorVote(
 							store,
-							body.userKey,
+							body.visitorId,
 							body.to,
-							body.name,
 						);
 						if (!result.ok) {
 							res.statusCode = 403;
@@ -180,7 +172,7 @@ const visitorNotesDevApi = () => ({
 							res.end(
 								JSON.stringify({
 									error: result.error,
-									...respondWithCounts(store, body.userKey),
+									...respondWithCounts(store, body.visitorId),
 								}),
 							);
 							return;
@@ -188,7 +180,7 @@ const visitorNotesDevApi = () => ({
 						if (result.changed) writeStore(store);
 						res.statusCode = 201;
 						res.setHeader('Content-Type', 'application/json');
-						res.end(JSON.stringify(respondWithCounts(store, body.userKey)));
+						res.end(JSON.stringify(respondWithCounts(store, body.visitorId)));
 						return;
 					}
 
@@ -199,14 +191,14 @@ const visitorNotesDevApi = () => ({
 						res.end(
 							JSON.stringify({
 								error: result.ok ? 'Votes cannot be removed.' : result.error,
-								...respondWithCounts(store, body.userKey),
+								...respondWithCounts(store, body.visitorId),
 							}),
 						);
 						return;
 					}
 
 					if (isNotePayload(body)) {
-						const result = upsertVisitorNote(store, body.userKey, {
+						const result = upsertVisitorNote(store, body.visitorId, {
 							id: randomUUID(),
 							sentiment: body.sentiment,
 							name: body.name,
@@ -218,7 +210,7 @@ const visitorNotesDevApi = () => ({
 							res.end(
 								JSON.stringify({
 									error: result.error,
-									...respondWithCounts(store, body.userKey),
+									...respondWithCounts(store, body.visitorId),
 								}),
 							);
 							return;
@@ -227,7 +219,7 @@ const visitorNotesDevApi = () => ({
 						writeStore(store);
 						res.statusCode = 201;
 						res.setHeader('Content-Type', 'application/json');
-						res.end(JSON.stringify(respondWithCounts(store, body.userKey)));
+						res.end(JSON.stringify(respondWithCounts(store, body.visitorId)));
 						return;
 					}
 

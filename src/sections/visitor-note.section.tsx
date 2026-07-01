@@ -19,7 +19,6 @@ import {
 	type VisitorNotesSnapshot,
 } from '../lib/visitor-notes-events';
 import type { VisitorReply } from '../lib/visitor-notes-types';
-import { voteKeyForSentiment } from '../lib/visitor-notes-types';
 
 const POLL_INTERVAL_MS = 5000;
 const SESSION_COUNTS_KEY = 'portfolio-visitor-counts-session';
@@ -82,23 +81,6 @@ const sentimentLabel = (sentiment: VisitorNoteSentiment) => {
 	return visitorNote.notCareLabel;
 };
 
-const applyCounts = (
-	counts: LiveCounts,
-	from: VisitorNoteSentiment | null,
-	to: VisitorNoteSentiment | null,
-): LiveCounts => {
-	const next = { ...counts };
-	if (from) {
-		const fromKey = voteKeyForSentiment(from);
-		next[fromKey] = Math.max(0, next[fromKey] - 1);
-	}
-	if (to) {
-		const toKey = voteKeyForSentiment(to);
-		next[toKey] += 1;
-	}
-	return next;
-};
-
 export const VisitorNote = () => {
 	const bootCounts = readSessionCounts();
 	const { pushToast } = useToast();
@@ -155,13 +137,6 @@ export const VisitorNote = () => {
 		setLoadError('');
 	};
 
-	const setCounts = (counts: LiveCounts) => {
-		setSupportCount(counts.support);
-		setDisagreeCount(counts.disagree);
-		setNotCareCount(counts.notCare);
-		writeSessionCounts(counts);
-	};
-
 	const suppressRemoteNotifications = () => {
 		skipRemoteNotifyUntilRef.current = Date.now() + 4000;
 	};
@@ -187,7 +162,7 @@ export const VisitorNote = () => {
 		localStorage.removeItem('portfolio-visitor-note-submitted');
 		localStorage.removeItem('portfolio-visitor-vote');
 		localStorage.removeItem('portfolio-visitor-counts-cache');
-		localStorage.removeItem('portfolio-visitor-id');
+		localStorage.removeItem('portfolio-visitor-user-key');
 		void loadNotes();
 	}, [loadNotes]);
 
@@ -250,8 +225,8 @@ export const VisitorNote = () => {
 		const trimmedMessage = message.trim();
 		const isEdit = hasApplied && editing;
 
-		if (!trimmedName) {
-			setError('Enter your name to apply. One response per person.');
+		if (trimmedMessage && !trimmedName) {
+			setError('Enter your name when leaving a note.');
 			return;
 		}
 
@@ -273,21 +248,11 @@ export const VisitorNote = () => {
 			return;
 		}
 
-		const optimistic = applyCounts(liveCounts, previousVote, resolvedChoice);
 		setSubmitting(true);
-		setCounts(optimistic);
 		suppressRemoteNotifications();
 
 		try {
 			let data: Awaited<ReturnType<typeof fetchVisitorNotes>>;
-
-			if (!previousVote) {
-				data = await submitVisitorVote(resolvedChoice, trimmedName);
-			} else if (previousVote !== resolvedChoice) {
-				data = await changeVisitorVote(previousVote, resolvedChoice, trimmedName);
-			} else {
-				data = await fetchVisitorNotes();
-			}
 
 			if (trimmedMessage) {
 				data = await submitVisitorNote({
@@ -295,6 +260,12 @@ export const VisitorNote = () => {
 					name: trimmedName,
 					message: trimmedMessage,
 				});
+			} else if (!previousVote) {
+				data = await submitVisitorVote(resolvedChoice);
+			} else if (previousVote !== resolvedChoice) {
+				data = await changeVisitorVote(resolvedChoice);
+			} else {
+				data = await fetchVisitorNotes();
 			}
 
 			syncFromServer(data);
@@ -308,7 +279,7 @@ export const VisitorNote = () => {
 			try {
 				syncFromServer(await fetchVisitorNotes());
 			} catch {
-				setCounts(liveCounts);
+				// Keep last known totals if refresh fails.
 			}
 			setError(
 				err instanceof Error ? err.message : 'Could not apply your response.',
@@ -319,8 +290,11 @@ export const VisitorNote = () => {
 	};
 
 	const activeChoice = selection ?? appliedVote;
+	const trimmedMessage = message.trim();
+	const trimmedName = name.trim();
 	const canApply =
-		Boolean(name.trim()) && Boolean(selection || message.trim());
+		Boolean(selection || trimmedMessage) &&
+		(!trimmedMessage || Boolean(trimmedName));
 	const showThanks = ready && hasApplied && !editing;
 	const showForm = ready && (!hasApplied || editing);
 	const displayCount = (key: keyof LiveCounts) => {
