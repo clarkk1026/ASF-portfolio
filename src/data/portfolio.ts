@@ -97,6 +97,7 @@ export type TechGroup = {
 export const personal = {
 	name: 'BEN CLARK',
 	fullName: 'Ben Clark',
+	originalName: 'Koyote Nara',
 	title: 'AI Developer | Shopify Developer | Full Stack Engineer',
 	roles: ['AI Developer', 'Shopify Developer', 'Full Stack Engineer'],
 	tagline: 'Building products that solve real business problems.',
@@ -368,7 +369,8 @@ export const benStory = {
 	summary:
 		'Ben is originally from Japan. He faced early loss, moved to a new country, and built stability largely on his own. That shaped his focus on independence, responsibility, and execution over promises. He started with a small sock business in university, grew it with a classmate into a clothing company, then moved into software, AI, backend systems, and product leadership while leading small teams across business and technical work.',
 	earlyLife: [
-		'Originally from Japan. Ben lost his father when he was young and his mother later passed away as well.',
+		'Originally from Japan, where his birth name is Koyote Nara. Ben Clark is the name he uses professionally today.',
+		'Ben lost his father when he was young and his mother later passed away as well.',
 		'After that he had to adapt to living in a different country and build stability without a traditional family support system.',
 		'That experience shaped how he works today: independence, responsibility, and not relying on assumptions or promises from others.',
 	],

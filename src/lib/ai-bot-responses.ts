@@ -210,6 +210,10 @@ const BEN_RELATED_TERMS = [
 	'entrepreneur',
 	'japan',
 	'japanese',
+	'koyote',
+	'nara',
+	'original',
+	'birth',
 	'sock',
 	'university',
 	'childhood',
@@ -349,7 +353,7 @@ const humanContact = () =>
 
 const humanAbout = () =>
 	prefix([
-		`Ben is originally from **Japan**. He faced early loss, adapted to a new country, and built stability largely on his own, which shaped his focus on **independence**, **responsibility**, and **execution**.\n\nIn university he started a **sock business** that grew into a **clothing company** with a classmate. Later he moved into **software**, **AI**, and **product leadership**, leading small teams across business and technical work.\n\n${benStory.lessons[0]}\n\n[[mood:thoughtful]]`,
+		`Ben is originally from **Japan**, where his birth name is **${personal.originalName}**. He goes by **${personal.fullName}** professionally today. He faced early loss, adapted to a new country, and built stability largely on his own, which shaped his focus on **independence**, **responsibility**, and **execution**.\n\nIn university he started a **sock business** that grew into a **clothing company** with a classmate. Later he moved into **software**, **AI**, and **product leadership**, leading small teams across business and technical work.\n\n${benStory.lessons[0]}\n\n[[mood:thoughtful]]`,
 		`${benStory.summary}\n\nToday he combines that entrepreneurial background with **AI**, **Shopify**, and **full-stack** engineering.\n\n[[mood:warm]]`,
 	]);
 
@@ -736,6 +740,7 @@ const handlers: IntentHandler[] = [
 					/childhood/,
 					/from japan/,
 					/why (is he|does he)/,
+					/original name|birth name|real name|koyote|nara/,
 				])
 			) {
 				s += 11;
@@ -758,7 +763,15 @@ const handlers: IntentHandler[] = [
 			}
 			return s;
 		},
-		reply: () => humanStory(),
+		reply: (q) => {
+			if (matches(q, [/original name|birth name|real name|koyote|nara/])) {
+				return pick([
+					`Ben's original name from Japan is **${personal.originalName}**. He goes by **${personal.fullName}** professionally today, but that earlier name is part of his story.\n\n[[mood:thoughtful]]`,
+					`Yeah, **${personal.originalName}** is his birth name from Japan. **${personal.fullName}** is what he uses in work and on this site now.\n\n[[mood:calm]]`,
+				]);
+			}
+			return humanStory();
+		},
 	},
 	{
 		id: 'about',
