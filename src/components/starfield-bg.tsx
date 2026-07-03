@@ -1,5 +1,15 @@
 import { useEffect, useRef } from 'react';
-import { drawMeteor, spawnMeteor, type Meteor } from '../lib/meteor-fx';
+import {
+	getCometPointer,
+	segmentHitsCometPointer,
+	triggerCometImpact,
+} from '../lib/comet-pointer';
+import {
+	drawMeteor,
+	spawnMeteor,
+	spawnMeteorBurst,
+	type Meteor,
+} from '../lib/meteor-fx';
 
 type Star = {
 	x: number;
@@ -13,7 +23,7 @@ type Star = {
 };
 
 const STAR_COUNT = 220;
-const MAX_METEORS = 6;
+const MAX_METEORS = 10;
 const SKY_TOP = '#04060c';
 const SKY_MID = '#020308';
 const SKY_BOTTOM = '#000000';
@@ -58,7 +68,7 @@ export const FallingStarsLayer = () => {
 		let meteorAnimId = 0;
 		let lastSpawn = 0;
 		let lastFrame = 0;
-		let nextSpawnIn = random(1400, 2800);
+		let nextSpawnIn = random(700, 1400);
 
 		const resize = () => {
 			width = window.innerWidth;
@@ -70,7 +80,7 @@ export const FallingStarsLayer = () => {
 			meteorCanvas.style.width = `${width}px`;
 			meteorCanvas.style.height = `${height}px`;
 			meteorCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-			meteors = [spawnMeteor(width, height)];
+			meteors = [spawnMeteor(width, height), spawnMeteor(width, height)];
 			lastSpawn = performance.now();
 			lastFrame = lastSpawn;
 		};
@@ -82,14 +92,30 @@ export const FallingStarsLayer = () => {
 			if (timestamp - lastSpawn > nextSpawnIn && meteors.length < MAX_METEORS) {
 				meteors.push(spawnMeteor(width, height));
 				lastSpawn = timestamp;
-				nextSpawnIn = random(1300, 2600);
+				nextSpawnIn = random(650, 1300);
 			}
 
 			meteorCtx.clearRect(0, 0, width, height);
 
+			const pointer = getCometPointer();
+
 			meteors = meteors.filter((meteor) => {
+				const prevX = meteor.x;
+				const prevY = meteor.y;
 				meteor.x += meteor.vx * dt;
 				meteor.y += meteor.vy * dt;
+
+				const collided =
+					pointer.active &&
+					!pointer.hidden &&
+					segmentHitsCometPointer(prevX, prevY, meteor.x, meteor.y, 4);
+
+				if (collided) {
+					spawnMeteorBurst(meteor, pointer.x, pointer.y);
+					triggerCometImpact();
+					return false;
+				}
+
 				const onScreen =
 					meteor.x > -meteor.length &&
 					meteor.x < width + meteor.length &&

@@ -1,4 +1,10 @@
 import { useEffect, useRef } from 'react';
+import {
+	decayCometImpactPulse,
+	getCometImpactPulse,
+	updateCometPointer,
+} from '../lib/comet-pointer';
+import { drawMeteorBursts, updateMeteorBursts } from '../lib/meteor-fx';
 
 type Point = { x: number; y: number };
 
@@ -86,33 +92,46 @@ const drawCometHead = (
 	x: number,
 	y: number,
 	time: number,
+	impactPulse: number,
 ) => {
 	const pulse = 0.92 + 0.08 * Math.sin(time * 0.0018);
+	const hitBoost = 1 + impactPulse * 0.55;
 
 	ctx.save();
 	ctx.globalCompositeOperation = 'lighter';
 
-	const halo = ctx.createRadialGradient(x, y, 0, x, y, 11);
-	halo.addColorStop(0, `rgba(255, 255, 255, ${0.16 * pulse})`);
-	halo.addColorStop(0.4, `rgba(140, 195, 255, ${0.07 * pulse})`);
+	if (impactPulse > 0.02) {
+		const shock = ctx.createRadialGradient(x, y, 0, x, y, 22 + impactPulse * 18);
+		shock.addColorStop(0, `rgba(255, 255, 255, ${0.7 * impactPulse})`);
+		shock.addColorStop(0.35, `rgba(180, 225, 255, ${0.35 * impactPulse})`);
+		shock.addColorStop(1, 'rgba(31, 120, 220, 0)');
+		ctx.fillStyle = shock;
+		ctx.beginPath();
+		ctx.arc(x, y, 22 + impactPulse * 18, 0, Math.PI * 2);
+		ctx.fill();
+	}
+
+	const halo = ctx.createRadialGradient(x, y, 0, x, y, 11 * hitBoost);
+	halo.addColorStop(0, `rgba(255, 255, 255, ${0.16 * pulse * hitBoost})`);
+	halo.addColorStop(0.4, `rgba(140, 195, 255, ${0.07 * pulse * hitBoost})`);
 	halo.addColorStop(1, 'rgba(31, 120, 220, 0)');
 	ctx.fillStyle = halo;
 	ctx.beginPath();
-	ctx.arc(x, y, 11, 0, Math.PI * 2);
+	ctx.arc(x, y, 11 * hitBoost, 0, Math.PI * 2);
 	ctx.fill();
 
-	const bloom = ctx.createRadialGradient(x, y, 0, x, y, 6.5);
+	const bloom = ctx.createRadialGradient(x, y, 0, x, y, 6.5 * hitBoost);
 	bloom.addColorStop(0, 'rgba(255, 255, 255, 1)');
 	bloom.addColorStop(0.32, `rgba(225, 242, 255, ${0.78 * pulse})`);
 	bloom.addColorStop(0.6, `rgba(110, 185, 255, ${0.28 * pulse})`);
 	bloom.addColorStop(1, 'rgba(31, 120, 220, 0)');
 	ctx.fillStyle = bloom;
 	ctx.beginPath();
-	ctx.arc(x, y, 6.5, 0, Math.PI * 2);
+	ctx.arc(x, y, 6.5 * hitBoost, 0, Math.PI * 2);
 	ctx.fill();
 
-	const ray = 4.8 * pulse;
-	ctx.strokeStyle = `rgba(215, 238, 255, ${0.22 * pulse})`;
+	const ray = 4.8 * pulse * hitBoost;
+	ctx.strokeStyle = `rgba(215, 238, 255, ${0.22 * pulse * hitBoost})`;
 	ctx.lineWidth = 0.55;
 	ctx.lineCap = 'round';
 	ctx.beginPath();
@@ -124,7 +143,7 @@ const drawCometHead = (
 
 	ctx.fillStyle = '#ffffff';
 	ctx.beginPath();
-	ctx.arc(x, y, 2, 0, Math.PI * 2);
+	ctx.arc(x, y, 2 + impactPulse * 0.8, 0, Math.PI * 2);
 	ctx.fill();
 
 	ctx.restore();
@@ -228,11 +247,23 @@ export const MouseTrail = () => {
 				overAiBot ||
 				document.body.classList.contains('scroll-comet-dragging');
 
+			updateCometPointer({
+				x: pointerX,
+				y: pointerY,
+				active,
+				hidden: hideTrail,
+			});
+
+			updateMeteorBursts(1);
+			decayCometImpactPulse(0.06);
+
 			if (active && !hideTrail) {
 				updateTrail();
 				drawFlowingTail(ctx, trail, speed);
-				drawCometHead(ctx, pointerX, pointerY, time);
+				drawMeteorBursts(ctx);
+				drawCometHead(ctx, pointerX, pointerY, time, getCometImpactPulse());
 			} else {
+				drawMeteorBursts(ctx);
 				speed *= 0.75;
 				if (speed < 0.02) speed = 0;
 			}
