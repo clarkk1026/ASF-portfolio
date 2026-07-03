@@ -2,102 +2,36 @@ import { useEffect, useRef } from 'react';
 
 type Point = { x: number; y: number };
 
-const HISTORY_MAX = 28;
-const SAMPLE_DIST = 2;
-const BRIGHTNESS = 0.92;
-const WARMTH = 0.35;
+const TRAIL_POINTS = 22;
 
-const tailColor = (alpha: number) => {
-	const r = Math.round(200 + WARMTH * 55);
-	const g = Math.round(220 + WARMTH * 20);
-	return `rgba(${r}, ${g}, 255, ${alpha * BRIGHTNESS})`;
-};
-
-const drawVelocityTail = (
+const buildSmoothPath = (
 	ctx: CanvasRenderingContext2D,
-	headX: number,
-	headY: number,
-	dirX: number,
-	dirY: number,
-	speed: number,
+	points: Point[],
 ) => {
-	const tailLen = 55 + Math.min(speed * 11, 150);
-	const segments = 24;
+	const n = points.length;
+	if (n < 2) return;
 
-	ctx.save();
-	ctx.globalCompositeOperation = 'lighter';
-	ctx.lineCap = 'round';
+	ctx.moveTo(points[n - 1].x, points[n - 1].y);
 
-	const tailX = headX - dirX * tailLen;
-	const tailY = headY - dirY * tailLen;
-
-	const wakeGrad = ctx.createLinearGradient(tailX, tailY, headX, headY);
-	wakeGrad.addColorStop(0, 'rgba(40, 90, 160, 0)');
-	wakeGrad.addColorStop(0.5, `rgba(60, 140, 220, ${0.07 * BRIGHTNESS})`);
-	wakeGrad.addColorStop(0.8, `rgba(120, 190, 255, ${0.16 * BRIGHTNESS})`);
-	wakeGrad.addColorStop(1, `rgba(200, 235, 255, ${0.28 * BRIGHTNESS})`);
-
-	ctx.strokeStyle = wakeGrad;
-	ctx.lineWidth = 7 + Math.min(speed * 0.06, 5);
-	ctx.beginPath();
-	ctx.moveTo(tailX, tailY);
-	ctx.lineTo(headX, headY);
-	ctx.stroke();
-
-	for (let i = 0; i < segments; i++) {
-		const t0 = i / segments;
-		const t1 = (i + 1) / segments;
-		const fade0 = Math.pow(t0, 3);
-		const fade1 = Math.pow(t1, 3);
-
-		const x0 = headX - dirX * tailLen * (1 - t0);
-		const y0 = headY - dirY * tailLen * (1 - t0);
-		const x1 = headX - dirX * tailLen * (1 - t1);
-		const y1 = headY - dirY * tailLen * (1 - t1);
-
-		const segGrad = ctx.createLinearGradient(x0, y0, x1, y1);
-		segGrad.addColorStop(0, tailColor(fade0 * 0.55));
-		segGrad.addColorStop(1, tailColor(fade1 * 0.82));
-
-		ctx.strokeStyle = segGrad;
-		ctx.lineWidth = 0.2 + fade1 * fade1 * 2.4;
-		ctx.beginPath();
-		ctx.moveTo(x0, y0);
-		ctx.lineTo(x1, y1);
-		ctx.stroke();
+	for (let i = n - 2; i > 0; i--) {
+		const cx = (points[i].x + points[i - 1].x) * 0.5;
+		const cy = (points[i].y + points[i - 1].y) * 0.5;
+		ctx.quadraticCurveTo(points[i].x, points[i].y, cx, cy);
 	}
 
-	const hotLen = tailLen * 0.22;
-	const hotGrad = ctx.createLinearGradient(
-		headX - dirX * hotLen,
-		headY - dirY * hotLen,
-		headX,
-		headY,
-	);
-	hotGrad.addColorStop(0, `rgba(180, 225, 255, ${0.45 * BRIGHTNESS})`);
-	hotGrad.addColorStop(0.6, `rgba(240, 250, 255, ${0.9 * BRIGHTNESS})`);
-	hotGrad.addColorStop(1, 'rgba(255, 255, 255, 1)');
-
-	ctx.strokeStyle = hotGrad;
-	ctx.lineWidth = 1.6 + Math.min(speed * 0.02, 1);
-	ctx.beginPath();
-	ctx.moveTo(headX - dirX * hotLen, headY - dirY * hotLen);
-	ctx.lineTo(headX, headY);
-	ctx.stroke();
-
-	ctx.restore();
+	ctx.lineTo(points[0].x, points[0].y);
 };
 
-const drawPathTail = (
+const drawFlowingTail = (
 	ctx: CanvasRenderingContext2D,
-	history: Point[],
+	trail: Point[],
 	speed: number,
 ) => {
-	if (history.length < 2) return;
+	if (trail.length < 2 || speed < 0.15) return;
 
-	const head = history[0];
-	const tail = history[history.length - 1];
-	const segments = history.length - 1;
+	const head = trail[0];
+	const tail = trail[trail.length - 1];
+	const motion = Math.min(speed / 18, 1);
 
 	ctx.save();
 	ctx.lineCap = 'round';
@@ -105,55 +39,42 @@ const drawPathTail = (
 	ctx.globalCompositeOperation = 'lighter';
 
 	const wakeGrad = ctx.createLinearGradient(tail.x, tail.y, head.x, head.y);
-	wakeGrad.addColorStop(0, 'rgba(30, 80, 160, 0)');
-	wakeGrad.addColorStop(0.4, `rgba(55, 130, 210, ${0.08 * BRIGHTNESS})`);
-	wakeGrad.addColorStop(0.72, `rgba(100, 180, 255, ${0.2 * BRIGHTNESS})`);
-	wakeGrad.addColorStop(1, `rgba(220, 240, 255, ${0.34 * BRIGHTNESS})`);
+	wakeGrad.addColorStop(0, 'rgba(25, 70, 140, 0)');
+	wakeGrad.addColorStop(0.35, `rgba(50, 110, 200, ${0.04 + motion * 0.05})`);
+	wakeGrad.addColorStop(0.7, `rgba(90, 170, 255, ${0.1 + motion * 0.12})`);
+	wakeGrad.addColorStop(1, `rgba(215, 238, 255, ${0.2 + motion * 0.18})`);
 
 	ctx.strokeStyle = wakeGrad;
-	ctx.lineWidth = 5.5 + Math.min(speed * 0.05, 4);
+	ctx.lineWidth = 3.5 + motion * 4;
 	ctx.beginPath();
-	ctx.moveTo(tail.x, tail.y);
-	for (let i = history.length - 2; i >= 0; i--) {
-		ctx.lineTo(history[i].x, history[i].y);
-	}
+	buildSmoothPath(ctx, trail);
 	ctx.stroke();
 
-	for (let i = 0; i < segments; i++) {
-		const t0 = i / segments;
-		const t1 = (i + 1) / segments;
-		const fade0 = Math.pow(t0, 2.6);
-		const fade1 = Math.pow(t1, 2.6);
-		const p0 = history[history.length - 1 - i];
-		const p1 = history[history.length - 2 - i];
+	const coreGrad = ctx.createLinearGradient(tail.x, tail.y, head.x, head.y);
+	coreGrad.addColorStop(0, 'rgba(120, 175, 255, 0)');
+	coreGrad.addColorStop(0.45, `rgba(160, 205, 255, ${0.12 + motion * 0.18})`);
+	coreGrad.addColorStop(0.82, `rgba(230, 245, 255, ${0.45 + motion * 0.35})`);
+	coreGrad.addColorStop(1, 'rgba(255, 255, 255, 0.92)');
 
-		const segGrad = ctx.createLinearGradient(p0.x, p0.y, p1.x, p1.y);
-		segGrad.addColorStop(0, tailColor(fade0 * 0.42));
-		segGrad.addColorStop(1, tailColor(fade1 * 0.78));
+	ctx.strokeStyle = coreGrad;
+	ctx.lineWidth = 0.8 + motion * 1.6;
+	ctx.beginPath();
+	buildSmoothPath(ctx, trail);
+	ctx.stroke();
 
-		ctx.strokeStyle = segGrad;
-		ctx.lineWidth = 0.3 + fade1 * 2.2;
-		ctx.beginPath();
-		ctx.moveTo(p0.x, p0.y);
-		ctx.lineTo(p1.x, p1.y);
-		ctx.stroke();
-	}
-
-	const hotEnd = Math.min(5, segments);
-	if (hotEnd > 0) {
-		const hotStart = history[hotEnd];
+	const hotLen = Math.min(6, trail.length - 1);
+	if (hotLen > 1) {
+		const hotSlice = trail.slice(0, hotLen + 1);
+		const hotStart = hotSlice[hotSlice.length - 1];
 		const hotGrad = ctx.createLinearGradient(hotStart.x, hotStart.y, head.x, head.y);
-		hotGrad.addColorStop(0, `rgba(180, 220, 255, ${0.5 * BRIGHTNESS})`);
-		hotGrad.addColorStop(0.6, `rgba(240, 250, 255, ${0.92 * BRIGHTNESS})`);
+		hotGrad.addColorStop(0, `rgba(190, 225, 255, ${0.35 + motion * 0.2})`);
+		hotGrad.addColorStop(0.55, 'rgba(245, 250, 255, 0.9)');
 		hotGrad.addColorStop(1, 'rgba(255, 255, 255, 1)');
 
 		ctx.strokeStyle = hotGrad;
-		ctx.lineWidth = 1.5 + Math.min(speed * 0.018, 1.2);
+		ctx.lineWidth = 1.3 + motion * 0.7;
 		ctx.beginPath();
-		ctx.moveTo(hotStart.x, hotStart.y);
-		for (let i = hotEnd - 1; i >= 0; i--) {
-			ctx.lineTo(history[i].x, history[i].y);
-		}
+		buildSmoothPath(ctx, hotSlice);
 		ctx.stroke();
 	}
 
@@ -164,52 +85,46 @@ const drawCometHead = (
 	ctx: CanvasRenderingContext2D,
 	x: number,
 	y: number,
-	speed: number,
 	time: number,
 ) => {
-	const twinkle = 0.9 + 0.1 * Math.sin(time * 0.002 + 0.4);
+	const pulse = 0.92 + 0.08 * Math.sin(time * 0.0018);
 
 	ctx.save();
 	ctx.globalCompositeOperation = 'lighter';
 
-	const outerBloom = ctx.createRadialGradient(x, y, 0, x, y, 14);
-	outerBloom.addColorStop(0, `rgba(255, 255, 255, ${0.22 * twinkle})`);
-	outerBloom.addColorStop(0.35, `rgba(160, 210, 255, ${0.1 * twinkle})`);
-	outerBloom.addColorStop(1, 'rgba(31, 120, 220, 0)');
-	ctx.fillStyle = outerBloom;
+	const halo = ctx.createRadialGradient(x, y, 0, x, y, 11);
+	halo.addColorStop(0, `rgba(255, 255, 255, ${0.16 * pulse})`);
+	halo.addColorStop(0.4, `rgba(140, 195, 255, ${0.07 * pulse})`);
+	halo.addColorStop(1, 'rgba(31, 120, 220, 0)');
+	ctx.fillStyle = halo;
 	ctx.beginPath();
-	ctx.arc(x, y, 14, 0, Math.PI * 2);
+	ctx.arc(x, y, 11, 0, Math.PI * 2);
 	ctx.fill();
 
-	const bloom = ctx.createRadialGradient(x, y, 0, x, y, 8);
+	const bloom = ctx.createRadialGradient(x, y, 0, x, y, 6.5);
 	bloom.addColorStop(0, 'rgba(255, 255, 255, 1)');
-	bloom.addColorStop(0.28, `rgba(220, 245, 255, ${0.82 * twinkle})`);
-	bloom.addColorStop(0.55, `rgba(100, 180, 255, ${0.3 * twinkle})`);
+	bloom.addColorStop(0.32, `rgba(225, 242, 255, ${0.78 * pulse})`);
+	bloom.addColorStop(0.6, `rgba(110, 185, 255, ${0.28 * pulse})`);
 	bloom.addColorStop(1, 'rgba(31, 120, 220, 0)');
 	ctx.fillStyle = bloom;
 	ctx.beginPath();
-	ctx.arc(x, y, 8, 0, Math.PI * 2);
+	ctx.arc(x, y, 6.5, 0, Math.PI * 2);
 	ctx.fill();
 
-	const spike = (5.5 + Math.min(speed * 0.08, 2)) * twinkle;
-	ctx.strokeStyle = `rgba(220, 240, 255, ${0.28 * twinkle})`;
-	ctx.lineWidth = 0.65;
+	const ray = 4.8 * pulse;
+	ctx.strokeStyle = `rgba(215, 238, 255, ${0.22 * pulse})`;
+	ctx.lineWidth = 0.55;
 	ctx.lineCap = 'round';
 	ctx.beginPath();
-	ctx.moveTo(x - spike, y);
-	ctx.lineTo(x + spike, y);
-	ctx.moveTo(x, y - spike);
-	ctx.lineTo(x, y + spike);
+	ctx.moveTo(x - ray, y);
+	ctx.lineTo(x + ray, y);
+	ctx.moveTo(x, y - ray);
+	ctx.lineTo(x, y + ray);
 	ctx.stroke();
 
 	ctx.fillStyle = '#ffffff';
 	ctx.beginPath();
-	ctx.arc(x, y, 2.2, 0, Math.PI * 2);
-	ctx.fill();
-
-	ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
-	ctx.beginPath();
-	ctx.arc(x, y, 1, 0, Math.PI * 2);
+	ctx.arc(x, y, 2, 0, Math.PI * 2);
 	ctx.fill();
 
 	ctx.restore();
@@ -233,17 +148,23 @@ export const MouseTrail = () => {
 
 		let pointerX = -100;
 		let pointerY = -100;
-		let renderX = -100;
-		let renderY = -100;
-		let prevRenderX = -100;
-		let prevRenderY = -100;
-		let velX = 0;
-		let velY = 0;
+		let prevPointerX = -100;
+		let prevPointerY = -100;
 		let speed = 0;
-		let lastSampleX = -100;
-		let lastSampleY = -100;
 
-		const history: Point[] = [];
+		const trail: Point[] = Array.from({ length: TRAIL_POINTS }, () => ({
+			x: -100,
+			y: -100,
+		}));
+
+		const resetTrail = (x: number, y: number) => {
+			for (const point of trail) {
+				point.x = x;
+				point.y = y;
+			}
+			prevPointerX = x;
+			prevPointerY = y;
+		};
 
 		const resize = () => {
 			width = window.innerWidth;
@@ -254,17 +175,6 @@ export const MouseTrail = () => {
 			canvas.style.width = `${width}px`;
 			canvas.style.height = `${height}px`;
 			ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-		};
-
-		const pushHistory = (x: number, y: number) => {
-			const dist = Math.hypot(x - lastSampleX, y - lastSampleY);
-			if (dist < SAMPLE_DIST && history.length > 0) return;
-
-			history.unshift({ x, y });
-			if (history.length > HISTORY_MAX) history.pop();
-
-			lastSampleX = x;
-			lastSampleY = y;
 		};
 
 		const syncPointer = (e: MouseEvent | PointerEvent) => {
@@ -280,11 +190,35 @@ export const MouseTrail = () => {
 
 		const handleMouseLeave = () => {
 			active = false;
-			history.length = 0;
 		};
 
-		const handleMouseEnter = () => {
+		const handleMouseEnter = (e: MouseEvent) => {
 			active = true;
+			resetTrail(e.clientX, e.clientY);
+			pointerX = e.clientX;
+			pointerY = e.clientY;
+		};
+
+		const updateTrail = () => {
+			trail[0].x = pointerX;
+			trail[0].y = pointerY;
+
+			const moveSpeed = Math.hypot(
+				pointerX - prevPointerX,
+				pointerY - prevPointerY,
+			);
+			prevPointerX = pointerX;
+			prevPointerY = pointerY;
+			speed += (moveSpeed - speed) * 0.22;
+
+			const speedBoost = Math.min(moveSpeed * 0.02, 0.08);
+
+			for (let i = 1; i < trail.length; i++) {
+				const ratio = i / (trail.length - 1);
+				const follow = 0.4 - ratio * 0.28 + speedBoost;
+				trail[i].x += (trail[i - 1].x - trail[i].x) * follow;
+				trail[i].y += (trail[i - 1].y - trail[i].y) * follow;
+			}
 		};
 
 		const render = (time: number) => {
@@ -295,44 +229,12 @@ export const MouseTrail = () => {
 				document.body.classList.contains('scroll-comet-dragging');
 
 			if (active && !hideTrail) {
-				const dx = pointerX - renderX;
-				const dy = pointerY - renderY;
-				const instantSpeed = Math.hypot(dx, dy);
-				speed += (instantSpeed - speed) * 0.28;
-
-				const follow = 0.44 + Math.min(speed / 26, 0.46);
-				renderX += dx * follow;
-				renderY += dy * follow;
-
-				const frameDx = renderX - prevRenderX;
-				const frameDy = renderY - prevRenderY;
-				velX += (frameDx - velX) * 0.32;
-				velY += (frameDy - velY) * 0.32;
-				prevRenderX = renderX;
-				prevRenderY = renderY;
-
-				pushHistory(renderX, renderY);
-
-				const velMag = Math.hypot(velX, velY);
-				if (velMag > 0.6) {
-					drawVelocityTail(
-						ctx,
-						renderX,
-						renderY,
-						velX / velMag,
-						velY / velMag,
-						speed,
-					);
-				}
-
-				if (speed > 0.3) {
-					drawPathTail(ctx, history, speed);
-				}
-
-				drawCometHead(ctx, renderX, renderY, speed, time);
+				updateTrail();
+				drawFlowingTail(ctx, trail, speed);
+				drawCometHead(ctx, pointerX, pointerY, time);
 			} else {
-				speed *= 0.82;
-				if (speed < 0.05) speed = 0;
+				speed *= 0.75;
+				if (speed < 0.02) speed = 0;
 			}
 
 			rafId = requestAnimationFrame(render);
