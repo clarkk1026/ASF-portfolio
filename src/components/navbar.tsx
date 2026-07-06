@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { BrandLogo } from './brand-logo';
 import { navLinks } from '../data/portfolio';
+import { BrandLogo } from './brand-logo';
 
 export const Navbar = () => {
 	const [scrolled, setScrolled] = useState(false);
@@ -26,12 +26,9 @@ export const Navbar = () => {
 					href='#home'
 					className='navbar-brand'
 					onClick={() => setMenuOpen(false)}
-					aria-label='Ben Clark — home'
+					aria-label='ASF — home'
 				>
-					<BrandLogo
-						size={38}
-						showLabel
-					/>
+					<BrandLogo />
 				</a>
 
 				<ul className={`navbar-links ${menuOpen ? 'navbar-links-open' : ''}`}>

@@ -152,8 +152,8 @@
 		padding-inline: 1.25rem;
 	}
 
-	.navbar-brand .brand-logo-label {
-		display: none;
+	.navbar-brand .brand-logo-mark {
+		font-size: 0.98rem;
 	}
 
 	.navbar-toggle {
