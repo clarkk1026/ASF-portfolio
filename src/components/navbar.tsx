@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { BrandLogo } from './brand-logo';
 import { navLinks } from '../data/portfolio';
 
 export const Navbar = () => {
@@ -21,6 +22,18 @@ export const Navbar = () => {
 	return (
 		<header className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`}>
 			<nav className='navbar-inner container'>
+				<a
+					href='#home'
+					className='navbar-brand'
+					onClick={() => setMenuOpen(false)}
+					aria-label='Ben Clark — home'
+				>
+					<BrandLogo
+						size={38}
+						showLabel
+					/>
+				</a>
+
 				<ul className={`navbar-links ${menuOpen ? 'navbar-links-open' : ''}`}>
 					{navLinks.map((link) => (
 						<li key={link.href}>

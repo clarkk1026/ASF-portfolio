@@ -53,18 +53,28 @@
 .navbar-inner {
 	position: relative;
 	z-index: 1;
-	display: flex;
+	display: grid;
+	grid-template-columns: auto 1fr auto;
 	align-items: center;
-	justify-content: space-between;
-	gap: 1.5rem;
+	gap: 1rem;
 	padding-inline: 2rem;
+}
+
+.navbar-brand {
+	flex-shrink: 0;
+	min-width: 0;
+	transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.navbar-brand:hover {
+	opacity: 0.92;
+	transform: translateY(-1px);
 }
 
 .navbar-links {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	flex: 1;
 	gap: 0.35rem;
 	list-style: none;
 }
@@ -138,7 +148,12 @@
 
 @media screen and (max-width: 900px) {
 	.navbar-inner {
+		grid-template-columns: 1fr auto;
 		padding-inline: 1.25rem;
+	}
+
+	.navbar-brand .brand-logo-label {
+		display: none;
 	}
 
 	.navbar-toggle {
