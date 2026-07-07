@@ -64,6 +64,7 @@
 	flex-shrink: 0;
 	min-width: 0;
 	transition: opacity 0.25s ease, transform 0.25s ease;
+	--brand-logo-height: 2.15rem;
 }
 
 .navbar-brand:hover {
@@ -152,8 +153,8 @@
 		padding-inline: 1.25rem;
 	}
 
-	.navbar-brand .brand-logo-mark {
-		font-size: 0.98rem;
+	.navbar-brand {
+		--brand-logo-height: 1.9rem;
 	}
 
 	.navbar-toggle {

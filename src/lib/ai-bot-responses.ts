@@ -210,8 +210,14 @@ const BEN_RELATED_TERMS = [
 	'entrepreneur',
 	'japan',
 	'japanese',
-	'koyote',
-	'nara',
+	'singapore',
+	'singaporean',
+	'kai',
+	'wen',
+	'lim',
+	'idaho',
+	'sandpoint',
+	'ireland',
 	'original',
 	'birth',
 	'sock',
@@ -353,14 +359,14 @@ const humanContact = () =>
 
 const humanAbout = () =>
 	prefix([
-		`Ben is originally from **Japan**, where his birth name is **${personal.originalName}**. He goes by **${personal.fullName}** professionally today. He faced early loss, adapted to a new country, and built stability largely on his own, which shaped his focus on **independence**, **responsibility**, and **execution**.\n\nIn university he started a **sock business** that grew into a **clothing company** with a classmate. Later he moved into **software**, **AI**, and **product leadership**, leading small teams across business and technical work.\n\n${benStory.lessons[0]}\n\n[[mood:thoughtful]]`,
+		`Ben is originally from **Singapore**, where his real name is **${personal.originalName}**. He goes by **${personal.fullName}** professionally — after moving to Ireland for university, Kai Wen was often mispronounced or misspelled, so a roommate nicknamed him Ben and he chose Clark for CVs and international work. Honest reason, not a dramatic reinvention.\n\nHe lost his father **${personal.fatherName}** young and his mother **${personal.motherName}** later. That taught responsibility and adaptation early. In university he worked while studying and started a **sock business** with a classmate. Later he moved into **software**, **AI**, and **product** work with small teams.\n\n${benStory.lessons[0]}\n\n[[mood:thoughtful]]`,
 		`${benStory.summary}\n\nToday he combines that entrepreneurial background with **AI**, **Shopify**, and **full-stack** engineering.\n\n[[mood:warm]]`,
 	]);
 
 const humanStory = () =>
 	prefix([
-		`Here is the honest version of Ben's path:\n\n**Early life:** ${benStory.earlyLife.join(' ')}\n\n**Entrepreneurship:** ${benStory.entrepreneurship.join(' ')}\n\n**Technical work:** ${benStory.technicalLeadership.join(' ')}\n\n**Teams led:**\n${benStory.teamsLed.map((line) => `• ${line}`).join('\n')}\n\n**What he learned:** ${benStory.lessons.join(' ')}\n\n[[mood:thoughtful]]`,
-		`${benStory.summary}\n\nIf you want, I can go deeper on his **clothing business**, **team leadership**, or **move into tech**.\n\n[[mood:calm]]`,
+		`Here is the honest version of Ben's path:\n\n**Early life:** ${benStory.earlyLife.join(' ')}\n\n**Entrepreneurship:** ${benStory.entrepreneurship.join(' ')}\n\n**Technical work:** ${benStory.technicalLeadership.join(' ')}\n\n**Teams led:**\n${benStory.teamsLed.map((line) => `• ${line}`).join('\n')}\n\n**What he learned:** ${benStory.lessons.join(' ')}\n\n**Life today:** ${benStory.lifeAndValues.join(' ')}\n\n[[mood:thoughtful]]`,
+		`${benStory.summary}\n\nIf you want, I can go deeper on his **sock business**, **move to Ireland**, **why he uses Ben Clark**, or **team leadership in tech**.\n\n[[mood:calm]]`,
 	]);
 
 const humanCasualChat = (input: string, ctx: BotContext): BotReply => {
@@ -504,7 +510,7 @@ const handlers: IntentHandler[] = [
 			return s;
 		},
 		reply: () =>
-			`I'm **Bon**. Think of me as someone who knows Ben well and actually likes talking to people.\n\nYou can ask about:\n• His **experience**, **skills**, and **projects**\n• His **personal story** (Japan, entrepreneurship, leadership)\n• **Health & balance**, **music**, or random life chat\n• How to **contact** him\n\nNo need to be formal. I'll meet you where you are.`,
+			`I'm **Bon**. Think of me as someone who knows Ben well and actually likes talking to people.\n\nYou can ask about:\n• His **experience**, **skills**, and **projects**\n• His **personal story** (Singapore, Ireland, entrepreneurship, leadership)\n• **Health & balance**, **music**, or random life chat\n• How to **contact** him\n\nNo need to be formal. I'll meet you where you are.`,
 	},
 	{
 		id: 'identity',
@@ -707,7 +713,7 @@ const handlers: IntentHandler[] = [
 		reply: () =>
 			prefix([
 				`Shopify's a big part of Ben's story. He's a proper **Shopify developer**, themes, custom apps, conversion-focused storefronts.\n\nFun fact: he also **ran his own clothing brand**, so he understands merchants and customers, not just Liquid templates and APIs.`,
-				`Yeah, e-commerce is core for Ben. He builds on **Shopify** and custom stacks, always thinking about performance and conversion. Running his own clothing business gave him real merchant instincts.`,
+				`Yeah, e-commerce is core for Ben. He builds on **Shopify** and custom stacks, always thinking about performance and conversion. Running his own sock business in university gave him real merchant instincts.`,
 			]),
 	},
 	{
@@ -738,17 +744,17 @@ const handlers: IntentHandler[] = [
 					/early life/,
 					/grow up/,
 					/childhood/,
-					/from japan/,
-					/why (is he|does he)/,
-					/original name|birth name|real name|koyote|nara/,
+					/from singapore/,
+					/why (ben clark|the name)/,
+					/original name|birth name|real name|kai wen|lim wei/,
 				])
 			) {
 				s += 11;
 			}
 			if (
 				hasWord(tokens, [
-					'japan',
-					'japanese',
+					'singapore',
+					'singaporean',
 					'mother',
 					'father',
 					'family',
@@ -757,6 +763,9 @@ const handlers: IntentHandler[] = [
 					'partner',
 					'lesson',
 					'teams',
+					'ireland',
+					'idaho',
+					'sandpoint',
 				])
 			) {
 				s += 6;
@@ -764,10 +773,10 @@ const handlers: IntentHandler[] = [
 			return s;
 		},
 		reply: (q) => {
-			if (matches(q, [/original name|birth name|real name|koyote|nara/])) {
+			if (matches(q, [/original name|birth name|real name|kai wen|why ben clark|why the name/])) {
 				return pick([
-					`Ben's original name from Japan is **${personal.originalName}**. He goes by **${personal.fullName}** professionally today, but that earlier name is part of his story.\n\n[[mood:thoughtful]]`,
-					`Yeah, **${personal.originalName}** is his birth name from Japan. **${personal.fullName}** is what he uses in work and on this site now.\n\n[[mood:calm]]`,
+					`Ben's real name is **${personal.originalName}**, from **${personal.birthPlace}**. Father: **${personal.fatherName}**. Mother: **${personal.motherName}**.\n\nHe uses **${personal.fullName}** professionally because after moving to Ireland, Kai Wen was often mispronounced or misspelled. A roommate nicknamed him **Ben**; **Clark** was a simple neutral choice for CVs and international work. Kai Wen is still his real name — Ben Clark is what most people know in tech.\n\n[[mood:thoughtful]]`,
+					`Real name: **${personal.originalName}**. Professional name: **${personal.fullName}**. The switch wasn't dramatic — studying in Ireland, his name kept getting mangled on forms and calls, so Ben stuck from a roommate and Clark made emails and CVs easier abroad.\n\n[[mood:calm]]`,
 				]);
 			}
 			return humanStory();

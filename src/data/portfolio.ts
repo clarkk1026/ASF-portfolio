@@ -97,7 +97,10 @@ export type TechGroup = {
 export const personal = {
 	name: 'BEN CLARK',
 	fullName: 'Ben Clark',
-	originalName: 'Koyote Nara',
+	originalName: 'Kai Wen Lim',
+	birthPlace: 'Singapore',
+	fatherName: 'Lim Wei Ming',
+	motherName: 'Tan Mei Ling',
 	title: 'AI Developer | Shopify Developer | Full Stack Engineer',
 	roles: ['AI Developer', 'Shopify Developer', 'Full Stack Engineer'],
 	tagline: 'Building products that solve real business problems.',
@@ -360,39 +363,48 @@ export const about = {
 			'Building products with AI, Shopify, and full stack tech shaped by real world experience and entrepreneurship',
 	},
 	intro: [
-		'I enjoy building products that solve real business problems, combining AI, Shopify, and modern full-stack technologies. My journey has been shaped by overcoming personal challenges from an early age, adapting to new environments, and learning through real-world experience.',
-		'Alongside software engineering, I built and operated a small clothing business, which taught me the importance of execution, customer focus, and consistency. Today I focus on creating scalable applications, integrating AI into practical workflows, and turning ideas into reliable products that people actually use.',
+		'I enjoy building products that solve real business problems, combining AI, Shopify, and modern full-stack technologies. I was born and raised in Singapore, moved to Ireland for my studies, and my path has been shaped by loss, adaptation, and learning through real-world experience.',
+		'During university I worked while studying and built a small sock business with a classmate, which taught me execution, customer focus, and consistency. Today I focus on scalable applications, practical AI workflows, and reliable products people actually use.',
 	],
 };
 
 export const benStory = {
 	summary:
-		'Ben is originally from Japan. He faced early loss, moved to a new country, and built stability largely on his own. That shaped his focus on independence, responsibility, and execution over promises. He started with a small sock business in university, grew it with a classmate into a clothing company, then moved into software, AI, backend systems, and product leadership while leading small teams across business and technical work.',
+		'Kai Wen Lim was born and raised in Singapore. He lost his father Lim Wei Ming at a young age and his mother Tan Mei Ling later — experiences that taught him responsibility, adaptation, and trust early. He moved to Ireland for university, worked while studying, started a small sock business with a classmate, and later moved into software, AI, and product work with small teams. He uses Ben Clark professionally; Kai Wen Lim is his real name.',
 	earlyLife: [
-		'Originally from Japan, where his birth name is Koyote Nara. Ben Clark is the name he uses professionally today.',
-		'Ben lost his father when he was young and his mother later passed away as well.',
-		'After that he had to adapt to living in a different country and build stability without a traditional family support system.',
-		'That experience shaped how he works today: independence, responsibility, and not relying on assumptions or promises from others.',
+		'Born and raised in Singapore. Real name: Kai Wen Lim. Father: Lim Wei Ming. Mother: Tan Mei Ling.',
+		'Lost his father at a young age and his mother later as well. He did not become stronger overnight, but he had to handle responsibility earlier than many peers — making decisions alone, adapting when life changed, and learning how important trust is.',
+		'Moved to Ireland for university. Adjusting to a new culture, environment, and way of living taught independence and showed him that meaningful relationships across backgrounds matter as much as technical skill.',
+		'He goes by Ben Clark in professional life. After moving to Ireland, Kai Wen was often mispronounced or misspelled on forms, in class, and on job calls. A roommate started calling him Ben because it was easier day to day. Clark he chose as a simple, neutral surname for CVs, emails, and international client work — practical when building a career abroad, not a reinvention. Kai Wen Lim is still his real name; Ben Clark is what most colleagues and clients know.',
 	],
 	entrepreneurship: [
-		'During university he worked while studying because finances were difficult. He spent a lot of time in libraries learning business through real stories and practical thinking.',
-		'He started a small sock business. It was not a perfect idea, but it gave him real experience with customers, pricing, product decisions, and operations.',
-		'With a college classmate, that grew into a small clothing company. He learned that execution and consistency matter more than the idea itself.',
+		'During university he worked while studying because he had to be practical about money and responsibility.',
+		'Spent a lot of time in libraries — studying, reading business stories, and learning from people who built things from nothing.',
+		'With a college classmate, started a small sock business. It was not a perfect business or overnight success — they learned customers, pricing, operations, and mistakes from scratch.',
+		'That experience changed how he thinks: an idea is not valuable unless you turn it into something useful for real people. Customers care whether you solve a problem and whether they can trust you, not how exciting the pitch sounds.',
 	],
 	technicalLeadership: [
-		'Later he moved into technical and product-focused work: software systems, AI integration, backend infrastructure, and product architecture.',
-		'He built and led multiple small teams across different projects, product development, technical execution, and operational support for business projects with his partner.',
-		'Results were practical: working products, improved live systems, and helping early ideas become stable enough for real users.',
+		'Later his focus moved toward technology — building systems that solve practical problems, which led into software engineering, AI integration, backend systems, and product development.',
+		'Over time he worked with small teams on different projects — sometimes more technical (systems, engineering decisions), sometimes more product-focused (what to build, real value).',
+		'Building technology is not only code. It requires understanding users, communication, teamwork, and good decisions with limited information.',
+	],
+	lifeAndValues: [
+		'Loss taught responsibility. Moving countries taught adaptability. The sock business taught execution. Software taught him how to turn ideas into working systems.',
+		'He does not frame his journey as a perfect success story — there were uncertain moments, mistakes, and things learned the hard way.',
+		'Today he values consistency, honesty, and building things with real purpose.',
+		'Living in different environments showed him that place affects how he thinks and creates. He is drawn to quieter places like Sandpoint, Idaho — not constant noise or attention, but room to focus deeply, keep building technology, and live in a more balanced way.',
+		'The through-line is building step by step — not starting with everything prepared, but learning, adapting, and creating a foundation over time.',
 	],
 	teamsLed: [
-		'A product and operations team in the clothing business.',
-		'Technical teams for software and AI projects.',
+		'Operations and product work with his classmate in the sock business.',
+		'Technical teams on software and AI projects.',
 		'Smaller cross-functional groups depending on project stage.',
 	],
 	lessons: [
-		'Ideas are only the starting point. What matters is how quickly you turn them into something real.',
-		'Understand the user problem deeply and stay consistent long enough for trust and traction to build.',
-		'Trust and alignment in people matter as much as skill. Without that, even good ideas collapse over time.',
+		'An idea only matters when you turn it into something real that helps actual people.',
+		'Customers care about problems solved and trust — not how exciting the idea sounds.',
+		'Consistency, honesty, and building with purpose outlast shortcuts.',
+		'Trust and alignment with people matter as much as skill when building anything long term.',
 	],
 };
 

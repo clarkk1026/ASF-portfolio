@@ -1,4 +1,5 @@
 :root {
+	--brand-logo-height: 2.15rem;
 	--brand-letter-a: #c4b5fd;
 	--brand-letter-s: #96bf47;
 	--brand-letter-f: #fb923c;
@@ -11,37 +12,10 @@
 	text-decoration: none;
 }
 
-.brand-logo-mark {
-	display: inline-flex;
-	align-items: baseline;
-	gap: 0.14rem;
-	font-family: 'Fugaz One', 'Open Sans', sans-serif;
-	font-size: 1.02rem;
-	font-weight: 400;
-	line-height: 1;
-	letter-spacing: 0.08em;
-	text-transform: uppercase;
-	color: #ffffff;
-}
-
-.brand-logo-a,
-.brand-logo-s,
-.brand-logo-f {
-	color: #ffffff;
-}
-
-.brand-logo-a {
-	font-style: italic;
-	transform: skewX(-7deg);
-}
-
-.brand-logo-s {
-	font-style: normal;
-	letter-spacing: 0.02em;
-}
-
-.brand-logo-f {
-	font-style: normal;
+.brand-logo-svg {
+	display: block;
+	height: var(--brand-logo-height);
+	width: auto;
 }
 
 .brand-letter {
