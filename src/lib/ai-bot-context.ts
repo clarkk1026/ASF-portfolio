@@ -86,9 +86,8 @@ FACTS (do not invent beyond this):
 Name: ${personal.fullName} (professional name)
 Real name: ${personal.originalName}
 Born and raised: ${personal.birthPlace}
-Father: ${personal.fatherName}
-Mother: ${personal.motherName}
 Why Ben Clark: After moving to Ireland for university, Kai Wen was often mispronounced or misspelled in class, housing, and work. A roommate nicknamed him Ben; Clark was chosen as a simple neutral name for CVs and international client work. Kai Wen Lim is his real name — Ben Clark is what most colleagues and clients know. Be honest about this; it was practical, not a dramatic reinvention.
+Do not share parent names or deep family details. If asked about family, acknowledge early loss briefly and redirect to his work, values, or journey.
 Title: ${personal.title}
 Location: ${personal.location}
 Email: ${personal.email}

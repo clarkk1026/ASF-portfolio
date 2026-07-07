@@ -359,7 +359,7 @@ const humanContact = () =>
 
 const humanAbout = () =>
 	prefix([
-		`Ben is originally from **Singapore**, where his real name is **${personal.originalName}**. He goes by **${personal.fullName}** professionally — after moving to Ireland for university, Kai Wen was often mispronounced or misspelled, so a roommate nicknamed him Ben and he chose Clark for CVs and international work. Honest reason, not a dramatic reinvention.\n\nHe lost his father **${personal.fatherName}** young and his mother **${personal.motherName}** later. That taught responsibility and adaptation early. In university he worked while studying and started a **sock business** with a classmate. Later he moved into **software**, **AI**, and **product** work with small teams.\n\n${benStory.lessons[0]}\n\n[[mood:thoughtful]]`,
+		`Ben is from **Singapore**. Real name **${personal.originalName}**; he goes by **${personal.fullName}** professionally — after Ireland, Kai Wen was often mispronounced, so Ben stuck from a roommate and Clark worked better on CVs abroad.\n\nHe lost both parents young, which shaped how he handles responsibility. Worked through university, started a **sock business** with a classmate, then moved into **software**, **AI**, and **product** work.\n\n${benStory.lessons[0]}\n\n[[mood:thoughtful]]`,
 		`${benStory.summary}\n\nToday he combines that entrepreneurial background with **AI**, **Shopify**, and **full-stack** engineering.\n\n[[mood:warm]]`,
 	]);
 
@@ -775,7 +775,7 @@ const handlers: IntentHandler[] = [
 		reply: (q) => {
 			if (matches(q, [/original name|birth name|real name|kai wen|why ben clark|why the name/])) {
 				return pick([
-					`Ben's real name is **${personal.originalName}**, from **${personal.birthPlace}**. Father: **${personal.fatherName}**. Mother: **${personal.motherName}**.\n\nHe uses **${personal.fullName}** professionally because after moving to Ireland, Kai Wen was often mispronounced or misspelled. A roommate nicknamed him **Ben**; **Clark** was a simple neutral choice for CVs and international work. Kai Wen is still his real name — Ben Clark is what most people know in tech.\n\n[[mood:thoughtful]]`,
+					`Real name **${personal.originalName}**, from **${personal.birthPlace}**. Professional name **${personal.fullName}** — practical choice after moving to Ireland, not a reinvention.\n\n[[mood:calm]]`,
 					`Real name: **${personal.originalName}**. Professional name: **${personal.fullName}**. The switch wasn't dramatic — studying in Ireland, his name kept getting mangled on forms and calls, so Ben stuck from a roommate and Clark made emails and CVs easier abroad.\n\n[[mood:calm]]`,
 				]);
 			}

@@ -99,8 +99,6 @@ export const personal = {
 	fullName: 'Ben Clark',
 	originalName: 'Kai Wen Lim',
 	birthPlace: 'Singapore',
-	fatherName: 'Lim Wei Ming',
-	motherName: 'Tan Mei Ling',
 	title: 'AI Developer | Shopify Developer | Full Stack Engineer',
 	roles: ['AI Developer', 'Shopify Developer', 'Full Stack Engineer'],
 	tagline: 'Building products that solve real business problems.',
@@ -370,11 +368,11 @@ export const about = {
 
 export const benStory = {
 	summary:
-		'Kai Wen Lim was born and raised in Singapore. He lost his father Lim Wei Ming at a young age and his mother Tan Mei Ling later — experiences that taught him responsibility, adaptation, and trust early. He moved to Ireland for university, worked while studying, started a small sock business with a classmate, and later moved into software, AI, and product work with small teams. He uses Ben Clark professionally; Kai Wen Lim is his real name.',
+		'Kai Wen Lim was born and raised in Singapore. He lost both parents when he was young — that shaped his sense of responsibility and independence early. He moved to Ireland for university, worked while studying, started a small sock business with a classmate, and later moved into software, AI, and product work with small teams. He uses Ben Clark professionally; Kai Wen Lim is his real name.',
 	earlyLife: [
-		'Born and raised in Singapore. Real name: Kai Wen Lim. Father: Lim Wei Ming. Mother: Tan Mei Ling.',
-		'Lost his father at a young age and his mother later as well. He did not become stronger overnight, but he had to handle responsibility earlier than many peers — making decisions alone, adapting when life changed, and learning how important trust is.',
-		'Moved to Ireland for university. Adjusting to a new culture, environment, and way of living taught independence and showed him that meaningful relationships across backgrounds matter as much as technical skill.',
+		'Born and raised in Singapore. Real name: Kai Wen Lim.',
+		'Lost both parents when he was young. He had to grow up faster than many peers — making decisions on his own, adapting when life changed, and learning how much trust matters.',
+		'Moved to Ireland for university. A new culture and environment taught independence and showed him that people and relationships matter as much as technical skill.',
 		'He goes by Ben Clark in professional life. After moving to Ireland, Kai Wen was often mispronounced or misspelled on forms, in class, and on job calls. A roommate started calling him Ben because it was easier day to day. Clark he chose as a simple, neutral surname for CVs, emails, and international client work — practical when building a career abroad, not a reinvention. Kai Wen Lim is still his real name; Ben Clark is what most colleagues and clients know.',
 	],
 	entrepreneurship: [
