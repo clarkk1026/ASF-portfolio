@@ -11,6 +11,7 @@ import {
     FaReact,
     FaShopify,
     FaTelegramPlane,
+    FaWhatsapp,
 } from 'react-icons/fa';
 import { IoMailOutline } from 'react-icons/io5';
 import {
@@ -102,8 +103,9 @@ export const personal = {
 	title: 'AI Developer | Shopify Developer | Full Stack Engineer',
 	roles: ['AI Developer', 'Shopify Developer', 'Full Stack Engineer'],
 	tagline: 'Building products that solve real business problems.',
-	location: 'Dublin, Ireland',
+	location: 'Sandpoint, Idaho, USA',
 	email: 'benclarkk1026@gmail.com',
+	whatsappNumber: '+1 (404) 786-3107',
 	discordUsername: 'benclark10261',
 	discordUserId: '',
 	telegramUsername: 'lunarben',
@@ -113,6 +115,8 @@ export const personal = {
 export const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
 	personal.email,
 )}&su=${encodeURIComponent('Portfolio inquiry')}`;
+
+export const whatsappUrl = 'https://wa.me/14047863107';
 
 export const navLinks: NavLink[] = [
 	{ label: 'About', href: '#about-me' },
@@ -330,6 +334,13 @@ export const socialLinks: SocialLink[] = [
 		glowColor: 'rgba(255, 255, 255, 0.4)',
 	},
 	{
+		label: 'WhatsApp',
+		href: whatsappUrl,
+		icon: FaWhatsapp,
+		iconColor: 'rgb(37, 211, 102)',
+		glowColor: 'rgba(37, 211, 102, 0.55)',
+	},
+	{
 		label: 'Telegram',
 		href: `https://t.me/${personal.telegramUsername}`,
 		icon: FaTelegramPlane,
@@ -361,37 +372,37 @@ export const about = {
 			'Building products with AI, Shopify, and full stack tech shaped by real world experience and entrepreneurship',
 	},
 	intro: [
-		'I enjoy building products that solve real business problems, combining AI, Shopify, and modern full-stack technologies. I was born and raised in Singapore, moved to Ireland for my studies, and my path has been shaped by loss, adaptation, and learning through real-world experience.',
-		'During university I worked while studying and built a small sock business with a classmate, which taught me execution, customer focus, and consistency. Today I focus on scalable applications, practical AI workflows, and reliable products people actually use.',
+		'I build products that solve real business problems with AI, Shopify, and modern full-stack tech. I was born and raised in Singapore, studied in Ireland, and I am now based in Sandpoint, Idaho.',
+		'My path runs through early loss, moving countries, working through university, a small sock business with a classmate, and years of software and product work. I care about execution, trust, and building things that actually help people.',
 	],
 };
 
 export const benStory = {
 	summary:
-		'Kai Wen Lim was born and raised in Singapore. He lost both parents when he was young — that shaped his sense of responsibility and independence early. He moved to Ireland for university, worked while studying, started a small sock business with a classmate, and later moved into software, AI, and product work with small teams. He uses Ben Clark professionally; Kai Wen Lim is his real name.',
+		'Kai Wen Lim was born and raised in Singapore. He lost both parents when he was young, which shaped responsibility and independence early. He moved to Ireland for university, worked while studying, started a small sock business with a classmate, and later moved into software, AI, and product work with small teams. He now lives in Sandpoint, Idaho, USA. He uses Ben Clark professionally; Kai Wen Lim is his real name.',
 	earlyLife: [
 		'Born and raised in Singapore. Real name: Kai Wen Lim.',
-		'Lost both parents when he was young. He had to grow up faster than many peers — making decisions on his own, adapting when life changed, and learning how much trust matters.',
-		'Moved to Ireland for university. A new culture and environment taught independence and showed him that people and relationships matter as much as technical skill.',
-		'He goes by Ben Clark in professional life. After moving to Ireland, Kai Wen was often mispronounced or misspelled on forms, in class, and on job calls. A roommate started calling him Ben because it was easier day to day. Clark he chose as a simple, neutral surname for CVs, emails, and international client work — practical when building a career abroad, not a reinvention. Kai Wen Lim is still his real name; Ben Clark is what most colleagues and clients know.',
+		'Lost his father young and his mother later. He did not become stronger overnight, but he learned to handle responsibility earlier than many peers — making decisions alone, adapting when life changed, and building trust with people around him.',
+		'Moved to Ireland for university. A new culture, environment, and way of living taught independence and showed him that relationships across backgrounds matter as much as technical skill.',
+		'He goes by Ben Clark professionally. In Ireland, Kai Wen was often mispronounced or misspelled; a roommate nicknamed him Ben and Clark worked better on CVs and international client work. Practical, not a reinvention — Kai Wen Lim is his real name.',
 	],
 	entrepreneurship: [
-		'During university he worked while studying because he had to be practical about money and responsibility.',
-		'Spent a lot of time in libraries — studying, reading business stories, and learning from people who built things from nothing.',
-		'With a college classmate, started a small sock business. It was not a perfect business or overnight success — they learned customers, pricing, operations, and mistakes from scratch.',
-		'That experience changed how he thinks: an idea is not valuable unless you turn it into something useful for real people. Customers care whether you solve a problem and whether they can trust you, not how exciting the pitch sounds.',
+		'Worked while studying at university because he had to be practical about money and responsibility.',
+		'Spent long hours in libraries — studying and learning from business stories and people who built things from nothing.',
+		'With a college classmate, started a small sock business. Not perfect, not overnight success — they learned customers, products, pricing, operations, and mistakes from scratch.',
+		'That changed how he thinks: an idea only matters if it becomes something useful for real people. Customers care about problems solved and trust, not how exciting the pitch sounds.',
 	],
 	technicalLeadership: [
-		'Later his focus moved toward technology — building systems that solve practical problems, which led into software engineering, AI integration, backend systems, and product development.',
-		'Over time he worked with small teams on different projects — sometimes more technical (systems, engineering decisions), sometimes more product-focused (what to build, real value).',
-		'Building technology is not only code. It requires understanding users, communication, teamwork, and good decisions with limited information.',
+		'His focus moved toward technology — systems that solve practical problems, leading into software engineering, AI integration, backend systems, and product development.',
+		'He worked with small teams on different projects — sometimes technical (systems, engineering decisions), sometimes product-focused (what to build, real value).',
+		'Building technology is not only code. It needs understanding users, communication, teamwork, and good decisions with limited information.',
 	],
 	lifeAndValues: [
 		'Loss taught responsibility. Moving countries taught adaptability. The sock business taught execution. Software taught him how to turn ideas into working systems.',
-		'He does not frame his journey as a perfect success story — there were uncertain moments, mistakes, and things learned the hard way.',
-		'Today he values consistency, honesty, and building things with real purpose.',
-		'Living in different environments showed him that place affects how he thinks and creates. He is drawn to quieter places like Sandpoint, Idaho — not constant noise or attention, but room to focus deeply, keep building technology, and live in a more balanced way.',
-		'The through-line is building step by step — not starting with everything prepared, but learning, adapting, and creating a foundation over time.',
+		'He does not see his journey as a perfect success story — there were uncertain moments, mistakes, and hard lessons.',
+		'Today he values consistency, honesty, and building with real purpose.',
+		'He is based in Sandpoint, Idaho, USA — a quieter place to focus deeply on technology and live with more balance, not constant noise or attention.',
+		'The through-line is building step by step: learning, adapting, and creating a foundation over time.',
 	],
 	teamsLed: [
 		'Operations and product work with his classmate in the sock business.',

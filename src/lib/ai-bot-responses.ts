@@ -5,6 +5,7 @@ import {
 	highlights,
 	personal,
 	traits,
+	whatsappUrl,
 } from '../data/portfolio.js';
 import { botGreeting, type BotMood } from './ai-bot-brand.js';
 import {
@@ -169,6 +170,7 @@ const BEN_RELATED_TERMS = [
 	'contact',
 	'email',
 	'telegram',
+	'whatsapp',
 	'github',
 	'livestorm',
 	'nearform',
@@ -353,13 +355,13 @@ const humanTech = (mentioned?: string) => {
 
 const humanContact = () =>
 	prefix([
-		`Best ways to reach Ben:\n\n📧 **${personal.email}**\n💬 **Telegram:** [@${personal.telegramUsername}](https://t.me/${personal.telegramUsername})\n🎮 **Discord:** ${personal.discordUsername}\n\n${contact.subtext}\n\n[[mood:warm]]`,
-		`Email Ben at **${personal.email}**, message him on Telegram (@${personal.telegramUsername}), or connect on Discord (${personal.discordUsername}). He is open to freelance, collaboration, and full-time roles.\n\n[[mood:calm]]`,
+		`Best ways to reach Ben:\n\n📧 **${personal.email}**\n📱 **WhatsApp:** [${personal.whatsappNumber}](${whatsappUrl})\n💬 **Telegram:** [@${personal.telegramUsername}](https://t.me/${personal.telegramUsername})\n🎮 **Discord:** ${personal.discordUsername}\n\n${contact.subtext}\n\n[[mood:warm]]`,
+		`Email **${personal.email}**, WhatsApp **${personal.whatsappNumber}**, Telegram @${personal.telegramUsername}, or Discord ${personal.discordUsername}. He is open to freelance, collaboration, and full-time roles.\n\n[[mood:calm]]`,
 	]);
 
 const humanAbout = () =>
 	prefix([
-		`Ben is from **Singapore**. Real name **${personal.originalName}**; he goes by **${personal.fullName}** professionally — after Ireland, Kai Wen was often mispronounced, so Ben stuck from a roommate and Clark worked better on CVs abroad.\n\nHe lost both parents young, which shaped how he handles responsibility. Worked through university, started a **sock business** with a classmate, then moved into **software**, **AI**, and **product** work.\n\n${benStory.lessons[0]}\n\n[[mood:thoughtful]]`,
+		`Ben is from **Singapore**, now based in **${personal.location}**. Real name **${personal.originalName}**; professional name **${personal.fullName}**.\n\nHe lost both parents young, studied in **Ireland**, worked through university, ran a **sock business** with a classmate, then moved into **software**, **AI**, and **product** work.\n\n${benStory.lessons[0]}\n\n[[mood:thoughtful]]`,
 		`${benStory.summary}\n\nToday he combines that entrepreneurial background with **AI**, **Shopify**, and **full-stack** engineering.\n\n[[mood:warm]]`,
 	]);
 
@@ -811,7 +813,7 @@ const handlers: IntentHandler[] = [
 			let s = 0;
 			if (matches(q, [/how (can|do) i (contact|reach|email|message)/, /get in touch/, /reach (out|ben|him|you)/]))
 				s += 11;
-			if (hasWord(tokens, ['contact', 'email', 'telegram', 'message', 'reach'])) s += 6;
+			if (hasWord(tokens, ['contact', 'email', 'telegram', 'whatsapp', 'message', 'reach'])) s += 6;
 			if (hasWord(tokens, ['hire', 'recruit', 'collaborat'])) s += 5;
 			return s;
 		},
@@ -837,8 +839,8 @@ const handlers: IntentHandler[] = [
 		id: 'location',
 		score: (q, tokens) => {
 			let s = 0;
-			if (matches(q, [/where (is|are|does)|based in|located|live|timezone/])) s += 10;
-			if (hasWord(tokens, ['dublin', 'ireland', 'location', 'remote'])) s += 5;
+			if (matches(q, [/where (is|are|does)|based in|located|live|timezone|sandpoint|idaho/])) s += 10;
+			if (hasWord(tokens, ['dublin', 'ireland', 'location', 'remote', 'sandpoint', 'idaho'])) s += 5;
 			return s;
 		},
 		reply: () =>
@@ -910,7 +912,7 @@ const handlers: IntentHandler[] = [
 				experience: `Want me to zoom in on a specific role, **Livestorm**, **NearForm**, or his **Senior/Lead** years? Or his **education** at Trinity?`,
 				projects: `I can dive deeper into **Happy Hydro**, **Labyrinth Style**, **Remedior Skincare**, or any store in Selected Work. Which one interests you?`,
 				skills: `Happy to go deeper on **AI**, **Shopify**, or **full-stack**, or name a tech like React or Node and I'll tell you how he uses it.`,
-				contact: `Email **${personal.email}**, Telegram **@${personal.telegramUsername}**, or Discord **${personal.discordUsername}**. I can suggest what to write in a first message if you want.\n\n[[mood:warm]]`,
+				contact: `Email **${personal.email}**, WhatsApp **${personal.whatsappNumber}**, Telegram **@${personal.telegramUsername}**, or Discord **${personal.discordUsername}**. I can suggest what to write in a first message if you want.\n\n[[mood:warm]]`,
 				tech: `Name any tool or language, React, Docker, Postgres, whatever, and I'll tell you how it fits Ben's work.`,
 				about: `I can also share more about his **personal journey**, **projects**, or **how to contact him**. What would you like next?\n\n[[mood:warm]]`,
 			};
@@ -991,7 +993,7 @@ export const getBotResponse = (
 
 	// Ben-related keyword rescue
 	if (scoreBenRelevance(q, tokens) > 0) {
-		if (matches(q, [/contact|email|telegram|hire/])) {
+		if (matches(q, [/contact|email|telegram|whatsapp|hire/])) {
 			return { text: humanContact(), intent: 'contact', userName: ctx.userName };
 		}
 		if (matches(q, [/experience|livestorm|nearform|career|resume/])) {

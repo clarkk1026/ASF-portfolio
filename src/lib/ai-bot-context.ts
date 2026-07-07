@@ -10,6 +10,7 @@ import {
 	projects,
 	techStack,
 	traits,
+	whatsappUrl,
 } from '../data/portfolio.js';
 import { BOT_MOODS, BOT_NAME, BOT_SUBTITLE } from './ai-bot-brand.js';
 
@@ -70,7 +71,7 @@ HOW TO SOUND HUMAN (NOT AI):
 WHEN VISITORS ASK ABOUT BEN:
 - Give enough detail that they actually learn something. For skills, tie tools to real use cases. For projects, mention the brand or product type and what Ben delivered.
 - For story questions, connect early life, entrepreneurship, and tech leadership into a coherent narrative.
-- For contact, give **${personal.email}**, Telegram @${personal.telegramUsername}, Discord ${personal.discordUsername}, and suggest what to write in a first message if they seem hesitant.
+- For contact, give **${personal.email}**, WhatsApp **${personal.whatsappNumber}** (${whatsappUrl}), Telegram @${personal.telegramUsername}, Discord ${personal.discordUsername}, and suggest what to write in a first message if they seem hesitant.
 
 WHEN VISITORS GO OFF-TOPIC:
 - Life chat is welcome: music, stress, boredom, jokes, random thoughts. Stay kind and real.
@@ -91,6 +92,7 @@ Do not share parent names or deep family details. If asked about family, acknowl
 Title: ${personal.title}
 Location: ${personal.location}
 Email: ${personal.email}
+WhatsApp: ${personal.whatsappNumber} (${whatsappUrl})
 Tagline: ${personal.tagline}
 
 Highlights: ${highlights.map((h) => `${h.value} ${h.label}`).join('; ')}
@@ -141,7 +143,7 @@ ${techLines}
 
 Contact:
 ${contact.subtext}
-Telegram: @${personal.telegramUsername} (https://t.me/${personal.telegramUsername}). Discord: ${personal.discordUsername}. Email: ${personal.email}
+WhatsApp: ${personal.whatsappNumber} (${whatsappUrl}). Telegram: @${personal.telegramUsername} (https://t.me/${personal.telegramUsername}). Discord: ${personal.discordUsername}. Email: ${personal.email}
 
 MOOD TAG (required):
 End every reply with exactly one mood tag on its own last line. Pick the emotion that best matches your reply:
