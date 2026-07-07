@@ -13,3 +13,22 @@ for (const size of sizes) {
 	await sharp(src).resize(size, size).png().toFile(path.join(dir, name));
 	console.log('wrote', name);
 }
+
+const ogWidth = 1200;
+const ogHeight = 630;
+const logoSize = 300;
+const logoBuffer = await sharp(src).resize(logoSize, logoSize).png().toBuffer();
+
+await sharp({
+	create: {
+		width: ogWidth,
+		height: ogHeight,
+		channels: 3,
+		background: { r: 0, g: 0, b: 0 },
+	},
+})
+	.composite([{ input: logoBuffer, gravity: 'center' }])
+	.png()
+	.toFile(path.join(root, 'public/og-image.png'));
+
+console.log('wrote og-image.png');

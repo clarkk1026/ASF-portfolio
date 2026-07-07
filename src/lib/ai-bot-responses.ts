@@ -2,6 +2,7 @@ import {
 	benPersonality,
 	benStory,
 	contact,
+	experience,
 	highlights,
 	personal,
 	traits,
@@ -173,6 +174,11 @@ const BEN_RELATED_TERMS = [
 	'whatsapp',
 	'github',
 	'livestorm',
+	'cloudsmith',
+	'nearform',
+	'stelfox',
+	'threadline',
+	'limerick',
 	'nearform',
 	'happy',
 	'hydro',
@@ -323,11 +329,18 @@ const isQuestion = (q: string) =>
 		q,
 	);
 
-const humanExperience = () =>
-	prefix([
-		`Ben's been building professionally for **5+ years** now, and it's been a solid climb.\n\nHe led as **Senior / Lead Full Stack Developer** (2023–2025, remote), shipping React/Next.js products, mentoring devs, and weaving AI into real workflows.\n\nBefore that, **Livestorm** (2021–2023) sharpened his production skills, and **NearForm** in Dublin (2020–2021) is where he cut his teeth as a junior dev.\n\nWant details on any of those roles? Just ask.`,
-		`So career-wise, Ben's got over **five years** in the game. Latest gig was **Senior / Lead Full Stack** (remote, 2023–2025). He's also done time at **Livestorm** and started out at **NearForm** in Dublin.\n\nHe's not just coding, he's led initiatives, done code reviews, and helped junior devs grow. Pretty well-rounded if you ask me.`,
+const humanExperience = () => {
+	const roles = experience.timeline[0]?.items ?? [];
+	const lines = roles
+		.slice(0, 4)
+		.map((item) => `• **${item.role}** at **${item.org}** (${item.period})`)
+		.join('\n');
+
+	return prefix([
+		`Ben has **5+ years** of professional software experience across full-stack, Python/AI, and front end work.\n\n${lines}\n\nLatest role: **Full Stack Software Engineer at Cloudsmith** (remote), building web apps, APIs, Python backends, and AI-enabled features. Ask about any employer if you want detail.`,
+		`Career path in short:\n\n${lines}\n\nHe graduated from the **University of Limerick** in 2020 and has worked across Ireland and remote teams since.`,
 	]);
+};
 
 const humanProjects = () =>
 	prefix([
@@ -337,8 +350,8 @@ const humanProjects = () =>
 
 const humanSkills = () =>
 	prefix([
-		`Ben's sweet spot is really three things working together:\n\n**AI engineering**, LLMs, Python, TensorFlow, PyTorch, shipping features not slide decks.\n\n**Shopify & e-commerce**, storefronts, custom apps, conversion-focused builds (plus he ran his own clothing brand, so he gets the business side).\n\n**Full-stack**, React, Next.js, Node, AWS, Vercel, the whole pipeline.\n\nHe's also strong on Postgres, MongoDB, Redis, Docker, Prisma, the usual modern stack.`,
-		`If I had to sum Ben up in one line: **AI + commerce + full-stack**, all with a product mindset.\n\nHe builds intelligent features, high-performing Shopify experiences, and end-to-end web apps. Traits like ${traits.slice(0, 3).join(', ')} show up in how he actually works, not just on a CV.`,
+		`Ben's sweet spot spans **full stack**, **Python/AI**, and **front end**:\n\n**Full stack:** React, TypeScript, Node.js, REST APIs, PostgreSQL, MongoDB, Docker, Git\n\n**Python & AI:** Python backends, FastAPI, data processing, AI API integrations, automation\n\n**Front end:** HTML, CSS, JavaScript, React, responsive UI, performance optimization\n\n**Commerce:** Shopify, Liquid, live storefront builds (see Selected Work)\n\nHe picks tools based on what the product needs.`,
+		`Think of Ben as a **Full Stack Software Engineer** who can go deep on **Python backends**, **AI-enabled features**, or **front end** delivery. He's shipped production software at Cloudsmith and Nearform, plus live Shopify stores on this portfolio.`,
 	]);
 
 const humanTech = (mentioned?: string) => {
@@ -361,8 +374,8 @@ const humanContact = () =>
 
 const humanAbout = () =>
 	prefix([
-		`Ben is from **Singapore**, now based in **${personal.location}**. Real name **${personal.originalName}**; professional name **${personal.fullName}**.\n\nHe lost both parents young, studied in **Ireland**, worked through university, ran a **sock business** with a classmate, then moved into **software**, **AI**, and **product** work.\n\n${benStory.lessons[0]}\n\n[[mood:thoughtful]]`,
-		`${benStory.summary}\n\nToday he combines that entrepreneurial background with **AI**, **Shopify**, and **full-stack** engineering.\n\n[[mood:warm]]`,
+		`Ben is from **Singapore**, now based in **${personal.location}**. Real name **${personal.originalName}**; professional name **${personal.fullName}**.\n\nHe studied at the **University of Limerick**, lost both parents young, worked through university, ran a **sock business** with a classmate, then built his career from **Stelfox** through **Nearform** to **Cloudsmith**.\n\n${benStory.lessons[0]}\n\n[[mood:thoughtful]]`,
+		`${benStory.summary}\n\nToday he works across **full stack engineering**, **Python/AI**, and **front end** development — plus live **Shopify** builds on this portfolio.\n\n[[mood:warm]]`,
 	]);
 
 const humanStory = () =>
@@ -475,7 +488,7 @@ const handlers: IntentHandler[] = [
 			return pick([
 				name
 					? `Hi ${name}, I'm **Bon** (AI BEN). I know Ben's work, but I'm also happy to just talk like a person. What's on your mind?\n\n[[mood:happy]]`
-					: `Hi, I'm **Bon** (AI BEN). Ben is an **AI Developer**, **Shopify Developer**, and **Full Stack Engineer** in ${personal.location}. We can talk shop or just chat. What would you like?\n\n[[mood:happy]]`,
+					: `Hi, I'm **Bon** (AI BEN). Ben is a **Full Stack Software Engineer** in ${personal.location} — Python/AI, front end, APIs, and database-driven web apps. We can talk shop or just chat. What would you like?\n\n[[mood:happy]]`,
 				`Hello! I'm here for Ben's portfolio **and** normal conversation, skills, story, music, life stuff, whatever.`,
 				`Hey, nice of you to stop by. I'm Bon. Ask me anything about Ben, or just say what's up.`,
 			]);
@@ -643,7 +656,7 @@ const handlers: IntentHandler[] = [
 				s += 11;
 			if (matches(q, [/tell me about (your |his |ben'?s? )?(work |job )?experience/, /years (of )?experience/, /how long has he/, /how long have/]))
 				s += 10;
-			if (hasWord(tokens, ['livestorm', 'nearform', 'senior', 'lead', 'junior', 'worked', 'employer']))
+			if (hasWord(tokens, ['cloudsmith', 'nearform', 'stelfox', 'threadline', 'senior', 'lead', 'junior', 'worked', 'employer']))
 				s += 7;
 			if (hasWord(tokens, ['experience', 'career', 'role', 'position', 'job'])) s += 5;
 			if (hasWord(tokens, ['developer', 'engineer']) && !hasWord(tokens, ['project'])) s += 3;
@@ -656,14 +669,15 @@ const handlers: IntentHandler[] = [
 		score: (q, tokens) => {
 			let s = 0;
 			if (matches(q, [/education|university|college|degree|graduate|graduated|studied|school/])) s += 10;
-			if (hasWord(tokens, ['trinity', 'tcd'])) s += 9;
+			if (hasWord(tokens, ['limerick', 'ul'])) s += 9;
+			if (hasWord(tokens, ['trinity', 'tcd'])) s += 2;
 			if (hasWord(tokens, ['dublin']) && hasWord(tokens, ['study', 'college', 'university', 'degree']))
 				s += 6;
 			return s;
 		},
 		reply: () =>
 			prefix([
-				`Ben went to **Trinity College Dublin** (2016–2020), solid choice.\n\nHe graduated with a **B.A. in Computer Science and Business**, **2:1 honours**. Focus areas included AI, full-stack dev, web tech, and e-commerce systems.\n\nSmart combo for someone who builds products, not just code.`,
+				`Ben studied at the **University of Limerick** (2016–2020), **B.Sc. in Computer Science and Information Systems**, GPA **3.9/4.0**.\n\nHe moved from Singapore to Ireland for university, which shaped his independence and how he works with international teams.\n\nDuring university he also co-founded a small sock business (**Threadline Co**) with a classmate, practical product and customer experience alongside the degree.`,
 			]),
 	},
 	{
@@ -714,8 +728,8 @@ const handlers: IntentHandler[] = [
 		},
 		reply: () =>
 			prefix([
-				`Shopify's a big part of Ben's story. He's a proper **Shopify developer**, themes, custom apps, conversion-focused storefronts.\n\nFun fact: he also **ran his own clothing brand**, so he understands merchants and customers, not just Liquid templates and APIs.`,
-				`Yeah, e-commerce is core for Ben. He builds on **Shopify** and custom stacks, always thinking about performance and conversion. Running his own sock business in university gave him real merchant instincts.`,
+				`Shopify's a big part of Ben's portfolio work. He's built **live storefronts** for real brands — themes, Liquid, checkout flows, and conversion-focused UX (see Selected Work).\n\nHe also ran a **small sock business** with a classmate during university, so he understands merchants and customers, not just templates and APIs.`,
+				`Yeah, e-commerce is core for Ben. He builds on **Shopify** and custom stacks, always thinking about performance and conversion. The Threadline sock business in Limerick gave him real merchant instincts early on.`,
 			]),
 	},
 	{
@@ -732,8 +746,8 @@ const handlers: IntentHandler[] = [
 		},
 		reply: () =>
 			prefix([
-				`AI isn't a buzzword for Ben, he actually ships it. LLM APIs, Python, TensorFlow, PyTorch, intelligent features in real products.\n\nHe uses tools like Copilot and ChatGPT daily, but the goal is always **practical workflows** that save time and improve quality.`,
-				`Ben's big on **practical AI**. Not demos for LinkedIn, actual features in production. Think LLM integrations, Python pipelines, and ML where it genuinely helps the product.`,
+				`AI is practical work for Ben, not slide-deck hype. At **Cloudsmith** he integrated AI services into business workflows: Python backends, data processing pipelines, REST APIs, and external AI API integrations.\n\nHe uses modern AI tooling in daily development, but the goal is always **reliable features** that improve real processes.`,
+				`Ben's Python/AI work covers backend APIs, data collection and transformation, error handling, logging, and shipping AI-enabled features to production — the kind of work his Senior Python Developer resume highlights.`,
 			]),
 	},
 	{
@@ -850,16 +864,28 @@ const handlers: IntentHandler[] = [
 			]),
 	},
 	{
-		id: 'livestorm',
-		score: (q) => (/livestorm/.test(q) ? 12 : 0),
+		id: 'cloudsmith',
+		score: (q) => (/cloudsmith/.test(q) ? 12 : 0),
 		reply: () =>
-			`Ah, **Livestorm**, that was 2021 to 2023, remote. Ben was a **Mid-Level Full Stack Developer** there. Production apps, API optimization, agile teams with product and design, and he started bringing AI-assisted workflows into everyday dev. Good chapter in his career.`,
+			`**Cloudsmith** (2023–Feb 2026, remote) — Ben's latest role as **Full Stack Software Engineer**. He worked across frontend, backend, and databases: React/TypeScript UIs, REST APIs, Python backends, AI service integrations, data processing, and production deployment. Depending on the project, he leaned full stack, Python/AI, or front end — all under one employer.`,
 	},
 	{
 		id: 'nearform',
 		score: (q) => (/nearform|near form/.test(q) ? 12 : 0),
 		reply: () =>
-			`**NearForm** in Dublin, that's where Ben started out (2020–2021) as a **Junior Developer**. Responsive UIs, backend integrations, turning designs into accessible apps, solid Git habits. Everyone's gotta start somewhere, and that was a strong place to learn.`,
+			`**Nearform** (2021–2023, Ireland / remote) — Ben was a **Software Developer** building web solutions end to end: frontend components, Python/Node backends, APIs, databases, debugging, and feature delivery with product-minded teams.`,
+	},
+	{
+		id: 'stelfox',
+		score: (q) => (/stelfox/.test(q) ? 12 : 0),
+		reply: () =>
+			`**Stelfox** (2020–2021, Dublin) — Ben's **Graduate Software Developer** role after university. Backend components, automation scripts, databases, APIs, and learning professional practices: Git, documentation, code quality, and teamwork.`,
+	},
+	{
+		id: 'threadline',
+		score: (q) => (/threadline|sock/.test(q) ? 11 : 0),
+		reply: () =>
+			`**Threadline Co** (2019–2020, Limerick) — while at university, Ben and a classmate started a **small sock business**. Customer research, product decisions, supplier communication, pricing, sales, and learning to operate with limited resources. It shaped his product mindset alongside his engineering career.`,
 	},
 	{
 		id: 'shopify_stores',
@@ -896,7 +922,7 @@ const handlers: IntentHandler[] = [
 		id: 'compare',
 		score: (q) => (/better than|vs |versus|compare|difference between/.test(q) ? 8 : 0),
 		reply: () =>
-			`Ha, I'm flattered you're thinking deeply! I can't really compare Ben to others since I only know his story well. What I can say: he brings **AI + Shopify + full-stack** together with real product experience. If you tell me what you're looking for, I can say whether that fits his background.`,
+			`Ha, I'm flattered you're thinking deeply! I can't really compare Ben to others since I only know his story well. What I can say: he brings **full stack engineering**, **Python/AI**, and **front end** delivery together with real product experience from Threadline and live Shopify work. If you tell me what you're looking for, I can say whether that fits his background.`,
 	},
 	{
 		id: 'followup',
@@ -909,9 +935,9 @@ const handlers: IntentHandler[] = [
 		},
 		reply: (_q, _t, ctx) => {
 			const followups: Record<string, string> = {
-				experience: `Want me to zoom in on a specific role, **Livestorm**, **NearForm**, or his **Senior/Lead** years? Or his **education** at Trinity?`,
+				experience: `Want me to zoom in on **Cloudsmith**, **Nearform**, **Stelfox**, or **Threadline**? Or his **education** at the University of Limerick?`,
 				projects: `I can dive deeper into **Happy Hydro**, **Labyrinth Style**, **Remedior Skincare**, or any store in Selected Work. Which one interests you?`,
-				skills: `Happy to go deeper on **AI**, **Shopify**, or **full-stack**, or name a tech like React or Node and I'll tell you how he uses it.`,
+				skills: `Happy to go deeper on **full stack**, **Python/AI**, **front end**, or **Shopify** — or name a tech like React or Python and I'll tell you how he uses it.`,
 				contact: `Email **${personal.email}**, WhatsApp **${personal.whatsappNumber}**, Telegram **@${personal.telegramUsername}**, or Discord **${personal.discordUsername}**. I can suggest what to write in a first message if you want.\n\n[[mood:warm]]`,
 				tech: `Name any tool or language, React, Docker, Postgres, whatever, and I'll tell you how it fits Ben's work.`,
 				about: `I can also share more about his **personal journey**, **projects**, or **how to contact him**. What would you like next?\n\n[[mood:warm]]`,
@@ -996,7 +1022,7 @@ export const getBotResponse = (
 		if (matches(q, [/contact|email|telegram|whatsapp|hire/])) {
 			return { text: humanContact(), intent: 'contact', userName: ctx.userName };
 		}
-		if (matches(q, [/experience|livestorm|nearform|career|resume/])) {
+		if (matches(q, [/experience|cloudsmith|nearform|stelfox|threadline|career|resume/])) {
 			return { text: humanExperience(), intent: 'experience', userName: ctx.userName };
 		}
 		if (matches(q, [/project|portfolio|built/])) {

@@ -100,9 +100,14 @@ export const personal = {
 	fullName: 'Ben Clark',
 	originalName: 'Kai Wen Lim',
 	birthPlace: 'Singapore',
-	title: 'AI Developer | Shopify Developer | Full Stack Engineer',
-	roles: ['AI Developer', 'Shopify Developer', 'Full Stack Engineer'],
-	tagline: 'Building products that solve real business problems.',
+	title: 'Full Stack Software Engineer · Python & AI · Front End',
+	roles: [
+		'Full Stack Software Engineer',
+		'Python & AI Developer',
+		'Front End Developer',
+	],
+	tagline:
+		'Building web applications, backend services, APIs, and database-driven systems that solve real problems.',
 	location: 'Sandpoint, Idaho, USA',
 	email: 'benclarkk1026@gmail.com',
 	whatsappNumber: '+1 (404) 786-3107',
@@ -137,28 +142,37 @@ export const highlights: Highlight[] = [
 ];
 
 export const traits: string[] = [
-	'AI Integration',
-	'Shopify & E-Commerce',
-	'Scalable Architecture',
-	'Performance First',
-	'Agile Delivery',
-	'Mentorship',
+	'Full Stack Development',
+	'Python & AI',
+	'Front End Engineering',
+	'Communication',
+	'Leadership',
+	'Product Mindset',
 ];
 
 export const expertise: ExpertiseItem[] = [
 	{
-		title: 'AI Development',
+		title: 'AI & Python Development',
 		description:
-			'Design intelligent workflows with LLM APIs, Python pipelines, and practical AI features that ship to production, not just demos.',
+			'Build Python backends, data processing workflows, REST APIs, and practical AI integrations that ship to production — not slide decks.',
 		icon: FaBrain,
 		iconColor: 'rgb(168, 130, 255)',
 		glowColor: 'rgba(168, 130, 255, 0.55)',
-		tags: ['LLM APIs', 'Python', 'TensorFlow', 'PyTorch'],
+		tags: ['Python', 'REST APIs', 'FastAPI', 'AI APIs', 'Automation'],
 	},
 	{
-		title: 'Shopify Development',
+		title: 'Front End Development',
 		description:
-			'Build and optimize production Shopify storefronts for global brands, themes, Liquid, custom apps, checkout flows, and conversion-focused UX. Selected Work on this site shows live stores across fashion, beauty, lifestyle, and retail.',
+			'Build responsive, performant web interfaces with React, TypeScript, and modern CSS — plus Shopify storefronts for live commerce brands.',
+		icon: FaReact,
+		iconColor: 'rgb(97, 219, 251)',
+		glowColor: 'rgba(97, 219, 251, 0.6)',
+		tags: ['React', 'TypeScript', 'HTML/CSS', 'Performance', 'Responsive UI'],
+	},
+	{
+		title: 'Shopify & E-Commerce',
+		description:
+			'Build and optimize production Shopify storefronts for global brands — themes, Liquid, checkout flows, and conversion-focused UX. Selected Work shows live stores across fashion, beauty, lifestyle, and retail.',
 		icon: FaShopify,
 		iconColor: 'rgb(150, 191, 72)',
 		glowColor: 'rgba(150, 191, 72, 0.55)',
@@ -167,11 +181,11 @@ export const expertise: ExpertiseItem[] = [
 	{
 		title: 'Full Stack Engineering',
 		description:
-			'Architect end-to-end products with React, Next.js, Node.js, and cloud-native infrastructure, from database to deployment.',
+			'Architect end-to-end products with React, TypeScript, Node.js, Python APIs, and database-driven backends — from UI to deployment.',
 		icon: FaLayerGroup,
 		iconColor: 'rgb(31, 195, 255)',
 		glowColor: 'rgba(31, 195, 255, 0.55)',
-		tags: ['React', 'Next.js', 'Node.js', 'AWS', 'Vercel'],
+		tags: ['React', 'Node.js', 'PostgreSQL', 'REST APIs', 'Docker'],
 	},
 ];
 
@@ -264,7 +278,7 @@ export const expertiseSection = {
 		title: 'Core',
 		subtitle: 'Skills',
 		summary:
-			'Three domains I combine to ship intelligent commerce and technically solid products end to end',
+			'Full stack, Python/AI, and front end skills aligned with how Ben works across web apps, APIs, and production systems',
 	},
 };
 
@@ -369,28 +383,27 @@ export const about = {
 		title: 'About',
 		subtitle: 'ME',
 		summary:
-			'Building products with AI, Shopify, and full stack tech shaped by real world experience and entrepreneurship',
+			'Full stack, Python/AI, and front end engineering shaped by study in Ireland, product experience, and years shipping real software',
 	},
 	intro: [
-		'I build products that solve real business problems with AI, Shopify, and modern full-stack tech. I was born and raised in Singapore, studied in Ireland, and I am now based in Sandpoint, Idaho.',
-		'My path runs through early loss, moving countries, working through university, a small sock business with a classmate, and years of software and product work. I care about execution, trust, and building things that actually help people.',
+		'I am a Full Stack Software Engineer with experience across web applications, backend services, APIs, and database-driven systems. I was born and raised in Singapore, studied Computer Science and Information Systems at the University of Limerick in Ireland, and I am now based in Sandpoint, Idaho.',
+		'My path includes graduate software roles, several years at Nearform and Cloudsmith, and a small sock business with a classmate during university. I care about reliable code, real user problems, and building things that hold up in production.',
 	],
 };
 
 export const benStory = {
 	summary:
-		'Kai Wen Lim was born and raised in Singapore. He lost both parents when he was young, which shaped responsibility and independence early. He moved to Ireland for university, worked while studying, started a small sock business with a classmate, and later moved into software, AI, and product work with small teams. He now lives in Sandpoint, Idaho, USA. He uses Ben Clark professionally; Kai Wen Lim is his real name.',
+		'Kai Wen Lim was born and raised in Singapore. He studied Computer Science and Information Systems at the University of Limerick in Ireland, lost both parents when he was young, and built his career from graduate roles at Stelfox through Nearform to full-stack and Python/AI work at Cloudsmith. He now lives in Sandpoint, Idaho, USA. He uses Ben Clark professionally; Kai Wen Lim is his real name.',
 	earlyLife: [
 		'Born and raised in Singapore. Real name: Kai Wen Lim.',
 		'Lost his father young and his mother later. He did not become stronger overnight, but he learned to handle responsibility earlier than many peers — making decisions alone, adapting when life changed, and building trust with people around him.',
-		'Moved to Ireland for university. A new culture, environment, and way of living taught independence and showed him that relationships across backgrounds matter as much as technical skill.',
+		'Moved to Ireland for university at the University of Limerick (B.Sc. Computer Science and Information Systems, GPA 3.9/4.0). A new culture and education system taught independence, problem-solving, and working with people from different backgrounds.',
 		'He goes by Ben Clark professionally. In Ireland, Kai Wen was often mispronounced or misspelled; a roommate nicknamed him Ben and Clark worked better on CVs and international client work. Practical, not a reinvention — Kai Wen Lim is his real name.',
 	],
 	entrepreneurship: [
-		'Worked while studying at university because he had to be practical about money and responsibility.',
-		'Spent long hours in libraries — studying and learning from business stories and people who built things from nothing.',
-		'With a college classmate, started a small sock business. Not perfect, not overnight success — they learned customers, products, pricing, operations, and mistakes from scratch.',
-		'That changed how he thinks: an idea only matters if it becomes something useful for real people. Customers care about problems solved and trust, not how exciting the pitch sounds.',
+		'During university he worked while studying and spent long hours in libraries learning from business stories and people who built from nothing.',
+		'With a college classmate, he started a small sock business through Threadline Co in Limerick (2019–2020) — customer research, product decisions, pricing, operations, and learning from mistakes.',
+		'That e-commerce experience shaped his software work: ideas only matter when they solve real problems, and customers care about trust more than hype.',
 	],
 	technicalLeadership: [
 		'His focus moved toward technology — systems that solve practical problems, leading into software engineering, AI integration, backend systems, and product development.',
@@ -446,44 +459,53 @@ export const experience = {
 		title: 'Work',
 		subtitle: 'Experience',
 		summary:
-			'5 years shipping full stack products from junior roles in Dublin to senior remote leadership',
+			'From graduate developer in Ireland to full-stack, Python/AI, and front end work at Cloudsmith',
 	},
 	timeline: [
 		{
 			heading: 'Experience',
 			items: [
 				{
-					role: 'Senior / Lead Full Stack Developer',
-					org: 'Remote',
-					period: '2023 to 2025',
+					role: 'Full Stack Software Engineer',
+					org: 'Cloudsmith',
+					period: '2023 to Feb 2026, Remote',
 					bullets: [
-						'Architected and delivered scalable full-stack applications.',
-						'Led development initiatives, performed code reviews, and mentored junior developers.',
-						'Built high-performance UIs with React, Next.js, and TypeScript.',
-						'Leveraged AI tools for efficiency and code quality.',
-						'Managed full feature lifecycles from planning to deployment.',
+						'Developed full-stack web applications across frontend, backend, and database layers.',
+						'Built RESTful APIs, Python backend services, and AI-enabled workflows for practical business use.',
+						'Created reusable React and TypeScript components and integrated frontends with backend systems.',
+						'Improved application performance through code optimization, database improvements, and testing.',
+						'Managed Git workflows, debugging, deployment, and collaboration across distributed teams.',
 					],
 				},
 				{
-					role: 'Mid-Level Full Stack Developer',
-					org: '@Livestorm',
-					period: '2021 to 2023, Remote',
+					role: 'Software Developer',
+					org: 'Nearform',
+					period: '2021 to 2023, Ireland / Remote',
 					bullets: [
-						'Developed and maintained production-grade web apps and backend services.',
-						'Improved performance through optimization and API enhancements.',
-						'Collaborated in agile environments with product and design teams.',
-						'Integrated AI-assisted workflows into day-to-day development.',
+						'Developed web-based software with frontend components, backend logic, and database integrations.',
+						'Built Python APIs, automation scripts, and backend services connected to user-facing applications.',
+						'Collaborated on requirements, debugging, performance improvements, and feature delivery.',
+						'Balanced technical decisions with user and business needs in agile environments.',
 					],
 				},
 				{
-					role: 'Junior Developer',
-					org: '@NearForm',
+					role: 'Graduate Software Developer',
+					org: 'Stelfox',
 					period: '2020 to 2021, Dublin, Ireland',
 					bullets: [
-						'Built responsive web interfaces and backend integrations.',
-						'Translated UI/UX designs into accessible applications.',
-						'Collaborated via Git workflows and issue-tracking systems.',
-						'Focused on debugging and performance enhancements.',
+						'Built backend components, automation scripts, APIs, and database-backed features.',
+						'Developed software using Python and web technologies in a professional team setting.',
+						'Learned version control, documentation, code quality standards, and deployment practices.',
+					],
+				},
+				{
+					role: 'Graduate Business Developer',
+					org: 'Threadline Co',
+					period: '2019 to 2020, Limerick, Ireland',
+					bullets: [
+						'Started a small sock e-commerce business with a university classmate while studying.',
+						'Managed customer research, product decisions, supplier communication, pricing, and sales.',
+						'Learned how to validate ideas, understand customers, and operate with limited resources.',
 					],
 				},
 			],
@@ -492,12 +514,13 @@ export const experience = {
 			heading: 'Education',
 			items: [
 				{
-					role: 'B.A. (Moderatorship) in Computer Science and Business',
-					org: 'Trinity College Dublin',
-					period: '2016 to 2020, Dublin, Ireland',
+					role: 'B.Sc. in Computer Science and Information Systems',
+					org: 'University of Limerick',
+					period: '2016 to 2020, Limerick, Ireland',
 					bullets: [
-						'Graduated with Second Class Honours (2:1).',
-						'Focus areas: AI, Full-Stack Development, Web Technologies, and E-Commerce Systems.',
+						'Graduated with GPA 3.9 / 4.0.',
+						'Studied after moving from Singapore to Ireland for university.',
+						'Foundation in software engineering, information systems, databases, and web technologies.',
 					],
 				},
 			],
