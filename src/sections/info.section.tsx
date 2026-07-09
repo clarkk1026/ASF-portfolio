@@ -26,7 +26,9 @@ export const InfoSection = () => {
 				</Reveal>
 
 				<Reveal delay={220}>
-					<p className='hero-subtitle'>{personal.title}</p>
+					<p className='hero-subtitle'>
+						<span className='hero-subtitle-text'>{personal.title}</span>
+					</p>
 				</Reveal>
 
 				<Reveal delay={340}>
