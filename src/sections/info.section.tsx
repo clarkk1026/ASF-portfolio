@@ -1,6 +1,5 @@
 import { HeroName3D } from '../components/hero-name-3d';
 import { Reveal } from '../components/reveal';
-import { RoleRotator } from '../components/role-rotator';
 import { highlights, personal } from '../data/portfolio';
 
 export const InfoSection = () => {
@@ -27,9 +26,7 @@ export const InfoSection = () => {
 				</Reveal>
 
 				<Reveal delay={220}>
-					<p className='hero-subtitle'>
-						<RoleRotator roles={personal.roles} />
-					</p>
+					<p className='hero-subtitle'>{personal.title}</p>
 				</Reveal>
 
 				<Reveal delay={340}>

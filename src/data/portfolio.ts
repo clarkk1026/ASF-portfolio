@@ -101,11 +101,6 @@ export const personal = {
 	originalName: 'Kai Wen Lim',
 	birthPlace: 'Singapore',
 	title: 'Full Stack Software Engineer · Python & AI · Front End',
-	roles: [
-		'Full Stack Software Engineer',
-		'Python & AI Developer',
-		'Front End Developer',
-	],
 	tagline:
 		'Building web applications, backend services, APIs, and database-driven systems that solve real problems.',
 	location: 'Sandpoint, Idaho, USA',

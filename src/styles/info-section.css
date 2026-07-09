@@ -89,31 +89,6 @@
 	margin-top: 0.35rem;
 }
 
-.role-rotator-letter {
-	font-size: 1em;
-}
-
-.role-rotator-rest {
-	color: rgba(255, 255, 255, 0.88);
-}
-
-.role-rotator {
-	display: inline-block;
-	transition:
-		opacity 0.4s ease,
-		transform 0.4s ease;
-}
-
-.role-rotator-visible {
-	opacity: 1;
-	transform: translateY(0);
-}
-
-.role-rotator:not(.role-rotator-visible) {
-	opacity: 0;
-	transform: translateY(12px);
-}
-
 .hero-tagline {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 1.05rem;
