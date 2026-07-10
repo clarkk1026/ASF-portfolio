@@ -26,16 +26,10 @@ export const InfoSection = () => {
 				</Reveal>
 
 				<Reveal delay={220}>
-					<p className='hero-subtitle'>
-						<span className='hero-subtitle-text'>{personal.title}</span>
-					</p>
-				</Reveal>
-
-				<Reveal delay={340}>
 					<p className='hero-tagline'>{personal.tagline}</p>
 				</Reveal>
 
-				<Reveal delay={460}>
+				<Reveal delay={340}>
 					<div className='hero-actions'>
 						<a
 							href='#projects'
@@ -52,7 +46,7 @@ export const InfoSection = () => {
 					</div>
 				</Reveal>
 
-				<Reveal delay={580}>
+				<Reveal delay={460}>
 					<div className='hero-stats'>
 						{highlights.map((item) => (
 							<div
