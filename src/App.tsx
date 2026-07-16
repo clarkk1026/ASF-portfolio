@@ -5,6 +5,7 @@ import { MouseTrail } from './components/mouse-trail';
 import { Navbar } from './components/navbar';
 import { ScrollBar } from './components/scroll-bar';
 import { FallingStarsLayer, StarfieldBg } from './components/starfield-bg';
+import { Team } from './sections/team.section';
 import { AboutMe } from './sections/about-me.section';
 import { Contact } from './sections/contact.section';
 import { WorkExperience } from './sections/experience.section';
@@ -31,6 +32,7 @@ import './styles/projects.css';
 import './styles/reveal.css';
 import './styles/scroll-bar.css';
 import './styles/starfield-bg.css';
+import './styles/team.css';
 import './styles/tech-stack.css';
 import './styles/visitor-note.css';
 
@@ -44,6 +46,7 @@ function App() {
 			<Navbar />
 			<InfoSection />
 			<AboutMe />
+			<Team />
 			<Expertise />
 			<WorkExperience />
 			<Projects />

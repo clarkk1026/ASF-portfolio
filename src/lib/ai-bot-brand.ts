@@ -22,7 +22,9 @@ export const BOT_MOODS = [
 
 export type BotMood = (typeof BOT_MOODS)[number];
 
-export const botGreeting = `Hey! I'm **Bon**. I know Ben's work inside out, and I talk like a real person, not a help desk. Ask about his skills, story, projects, or just say what's on your mind.
+export const botGreeting = `Hey, I'm **Bon**. I know Ben's background and work well. Ask about his skills, story, projects, or how to get in touch.
+
+For the rest of the ASF team, check the **Team** section on this page.
 
 [[mood:smile]]`;
 
@@ -69,6 +71,7 @@ export const resolveMoodFromIntent = (intent: string): BotMood => {
 		positive: 'happy',
 		clarify: 'curious',
 		site: 'calm',
+		team_deflect: 'calm',
 		gemini: 'thoughtful',
 		groq: 'thoughtful',
 	};

@@ -28,15 +28,21 @@
 	isolation: isolate;
 }
 
+.hero-letter-space {
+	display: inline-block;
+	width: 0.28em;
+	flex-shrink: 0;
+}
+
 .hero-letter {
 	position: relative;
 	display: inline-block;
-	padding: 0.12em 0.05em 0.16em;
-	margin: 0 0.008em;
+	padding: 0.12em 0.04em 0.16em;
+	margin: 0 0.006em;
 	overflow: visible;
 	cursor: default;
 	font-family: 'Fugaz One', sans-serif;
-	font-size: clamp(3.5rem, 11vw, 7rem);
+	font-size: clamp(2.4rem, 8.5vw, 5.5rem);
 	font-weight: 400;
 	font-style: italic;
 	line-height: 1.18;

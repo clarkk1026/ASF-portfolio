@@ -18,7 +18,8 @@
 	--accentBg: hsla(196, 100%, 56%, 6%);
 	--accentHi: hsla(196, 100%, 56%, 18%);
 	--gradient-start: rgb(31, 195, 255);
-	--gradient-end: rgb(147, 51, 234);
+	--gradient-end: rgb(120, 100, 255);
+	--team-accent-rgb: 120, 200, 255;
 }
 
 html {

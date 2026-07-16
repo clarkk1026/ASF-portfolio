@@ -30,25 +30,16 @@
 	font-style: italic;
 	font-weight: 400;
 	transform: skewX(-6deg);
-	text-shadow:
-		0 0 14px rgba(167, 139, 250, 0.75),
-		0 0 28px rgba(167, 139, 250, 0.35);
 }
 
 .brand-letter-s {
 	color: var(--brand-letter-s);
 	font-style: normal;
 	font-weight: 400;
-	text-shadow:
-		0 0 14px rgba(150, 191, 72, 0.75),
-		0 0 28px rgba(150, 191, 72, 0.35);
 }
 
 .brand-letter-f {
 	color: var(--brand-letter-f);
 	font-style: normal;
 	font-weight: 400;
-	text-shadow:
-		0 0 14px rgba(251, 146, 60, 0.8),
-		0 0 28px rgba(249, 115, 22, 0.35);
 }

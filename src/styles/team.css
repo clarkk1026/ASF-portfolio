@@ -1,0 +1,130 @@
+.team {
+	padding: 5rem 4rem;
+	display: flex;
+	gap: 3.5rem;
+	align-items: flex-start;
+	overflow: visible;
+}
+
+.team-content {
+	flex: 1;
+	min-width: 0;
+	padding: 1rem 0;
+}
+
+.team-remote-note {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.92rem;
+	line-height: 1.65;
+	color: rgba(255, 255, 255, 0.62);
+	margin-bottom: 1.5rem;
+	max-width: 52rem;
+}
+
+.team-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1.35rem;
+}
+
+.team-card {
+	padding: 1.75rem 1.6rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.9rem;
+	height: 100%;
+}
+
+.team-card-leader {
+	border-color: rgba(255, 255, 255, 0.14);
+}
+
+.team-card-header {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 0.75rem;
+}
+
+.team-card-identity h3 {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 1.15rem;
+	font-weight: 700;
+	letter-spacing: 0.01em;
+	line-height: 1.2;
+	color: rgba(255, 255, 255, 0.95);
+}
+
+.team-card-role {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.8rem;
+	font-weight: 600;
+	color: rgba(160, 220, 255, 0.82);
+	margin-top: 0.3rem;
+}
+
+.team-card-badge {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.65rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	padding: 0.28rem 0.5rem;
+	border-radius: 4px;
+	color: rgba(255, 255, 255, 0.9);
+	background: rgba(255, 255, 255, 0.1);
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	flex-shrink: 0;
+}
+
+.team-card-location {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.75rem;
+	font-weight: 600;
+	color: rgba(255, 255, 255, 0.48);
+}
+
+.team-card-summary {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.9rem;
+	line-height: 1.7;
+	color: rgba(255, 255, 255, 0.76);
+}
+
+.team-card-focus {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.35rem;
+	margin-top: auto;
+	padding-top: 0.35rem;
+}
+
+.team-card-focus span {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.68rem;
+	font-weight: 600;
+	padding: 0.25rem 0.5rem;
+	border-radius: 4px;
+	background: rgba(255, 255, 255, 0.04);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	color: rgba(255, 255, 255, 0.62);
+}
+
+@media screen and (max-width: 1100px) {
+	.team-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media screen and (max-width: 900px) {
+	.team {
+		padding: 4rem 1.5rem;
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+
+	.team-content {
+		width: 100%;
+		padding: 0;
+	}
+}

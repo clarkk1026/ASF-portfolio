@@ -144,13 +144,12 @@
 	padding-left: 1rem;
 	position: relative;
 	margin-bottom: 0.45rem;
+	list-style: disc;
+	margin-left: 0.5rem;
 }
 
 .timeline-description li::before {
-	content: '▹';
-	position: absolute;
-	left: 0;
-	color: rgb(31, 195, 255);
+	content: none;
 }
 
 @media screen and (max-width: 900px) {

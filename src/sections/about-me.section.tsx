@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 import { LayeredSectionTitle } from '../components/layered-section-title';
 import { Reveal } from '../components/reveal';
-import { about, personal, traits } from '../data/portfolio';
+import { about, traits } from '../data/portfolio';
 
 export const AboutMe = () => {
 	return (
@@ -25,7 +25,7 @@ export const AboutMe = () => {
 						<header className='about-story-header'>
 							<div className='about-story-label'>
 								<span className='about-story-dot' />
-								My Story
+								Our Story
 							</div>
 						</header>
 
@@ -36,8 +36,8 @@ export const AboutMe = () => {
 						</div>
 
 						<footer className='about-story-footer'>
-							<span>{personal.location}</span>
-							<span>Product Engineering Commerce</span>
+							<span>Remote studio</span>
+							<span>US, Ireland, Poland</span>
 						</footer>
 					</article>
 				</Reveal>
@@ -45,8 +45,8 @@ export const AboutMe = () => {
 				<Reveal delay={260}>
 					<div className='about-skills-block'>
 						<div className='about-skills-heading'>
-							<h3>Core Focus</h3>
-							<p>What I bring to every project</p>
+							<h3>How We Work</h3>
+							<p>What ASF brings to every engagement</p>
 						</div>
 
 						<div className='trait-grid'>
@@ -58,7 +58,6 @@ export const AboutMe = () => {
 										{ '--pill-delay': `${idx * 70}ms` } as CSSProperties
 									}
 								>
-									<span className='trait-pill-icon'>◆</span>
 									{trait}
 								</span>
 							))}

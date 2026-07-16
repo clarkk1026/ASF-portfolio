@@ -1,8 +1,17 @@
 {
   "votes": {
-    "support": 3,
+    "support": 4,
     "disagree": 0,
     "notCare": 0
   },
-  "replies": []
+  "replies": [],
+  "sessions": {
+    "35066a3b-18bd-4e8b-8455-0935a65fae5a": {
+      "sentiment": "support",
+      "voteActionCount": 1,
+      "noteActionCount": 0,
+      "replyId": null,
+      "displayName": ""
+    }
+  }
 }

@@ -95,33 +95,105 @@ export type TechGroup = {
 	items: TechItem[];
 };
 
+export type TeamMember = {
+	id: string;
+	name: string;
+	role: string;
+	location: string;
+	isLeader?: boolean;
+	summary: string;
+	focus: string[];
+};
+
+export const team = {
+	name: 'ASF',
+	fullName: 'ASF Studio',
+	tagline:
+		'We build web applications, commerce storefronts, and backend systems for clients who need working software in production. Five people, fully remote, across the US, Ireland, and Poland.',
+	heroGreeting: 'We are',
+	heroLead: 'A remote software studio founded by Ben Clark',
+	established: '2024',
+	model: 'Remote across the US, Ireland, and Poland',
+};
+
+export const teamMembers: TeamMember[] = [
+	{
+		id: 'ben-clark',
+		name: 'Ben Clark',
+		role: 'Founder and Technical Lead',
+		location: 'Sandpoint, Idaho, USA',
+		isLeader: true,
+		summary:
+			'Founded ASF after product engineering roles at Cloudsmith and Nearform. Leads client delivery, architecture decisions, and day-to-day engineering direction.',
+		focus: ['Architecture', 'Full stack', 'Client delivery', 'Shopify'],
+	},
+	{
+		id: 'yuki-mory',
+		name: 'Yuki Mory',
+		role: 'Senior Full Stack Developer',
+		location: 'Krakow, Poland',
+		summary:
+			'Originally from Japan, now based in Poland. Builds APIs, databases, and React features for B2B and product platforms.',
+		focus: ['React', 'Node.js', 'PostgreSQL', 'APIs'],
+	},
+	{
+		id: 'conner',
+		name: 'Conner',
+		role: 'Machine Learning Engineer',
+		location: 'Dublin, Ireland',
+		summary:
+			'Owns model integrations, data pipelines, and Python services that connect ML features to production products.',
+		focus: ['Python', 'ML APIs', 'Data pipelines'],
+	},
+	{
+		id: 'le-wei',
+		name: 'Le Wei',
+		role: 'Frontend Developer',
+		location: 'Galway, Ireland',
+		summary:
+			'Builds React interfaces and Shopify storefronts with a focus on speed, accessibility, and clean UI delivery.',
+		focus: ['React', 'Shopify', 'UI', 'Performance'],
+	},
+	{
+		id: 'amanda',
+		name: 'Amanda',
+		role: 'Senior Software Engineer',
+		location: 'Limerick, Ireland',
+		summary:
+			'Handles backend services, databases, deployments, and release reliability across client projects.',
+		focus: ['Backend', 'PostgreSQL', 'Docker', 'AWS'],
+	},
+];
+
 export const personal = {
-	name: 'BEN CLARK',
+	name: 'ASF',
+	heroName: 'ASF STUDIO',
 	fullName: 'Ben Clark',
 	originalName: 'Kai Wen Lim',
 	birthPlace: 'Singapore',
-	title: 'Full Stack Software Engineer · Python & AI · Front End',
-	tagline:
-		'Building web applications, backend services, APIs, and database-driven systems that solve real problems.',
+	title: 'Founder and Technical Lead',
+	tagline: team.tagline,
 	location: 'Sandpoint, Idaho, USA',
 	email: 'benclarkk1026@gmail.com',
 	whatsappNumber: '+1 (404) 786-3107',
 	discordUsername: 'benclark10261',
 	discordUserId: '',
 	telegramUsername: 'lunarben',
-	greeting: 'Hi, I am',
+	greeting: team.heroGreeting,
+	heroLead: team.heroLead,
 };
 
 export const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
 	personal.email,
-)}&su=${encodeURIComponent('Portfolio inquiry')}`;
+)}&su=${encodeURIComponent('ASF Studio inquiry')}`;
 
 export const whatsappUrl = 'https://wa.me/14047863107';
 
 export const navLinks: NavLink[] = [
 	{ label: 'About', href: '#about-me' },
+	{ label: 'Team', href: '#team' },
 	{ label: 'Expertise', href: '#expertise' },
-	{ label: 'Experience', href: '#experience' },
+	{ label: 'Path', href: '#experience' },
 	{ label: 'Projects', href: '#projects' },
 	{ label: 'Tech', href: '#tech-stack' },
 	{ label: 'Voices', href: '#visitor-voices' },
@@ -129,27 +201,27 @@ export const navLinks: NavLink[] = [
 ];
 
 export const highlights: Highlight[] = [
-	{ value: '5+', label: 'Years Building' },
-	{ value: '3', label: 'Core Domains' },
-	{ value: 'AI', label: 'Workflows Integrated' },
-	{ value: '100%', label: 'Product Mindset' },
-	{ value: '10+', label: 'Projects Delivered' },
+	{ value: '5', label: 'Team Members' },
+	{ value: '3', label: 'Countries' },
+	{ value: '2024', label: 'Founded' },
+	{ value: '100%', label: 'Remote' },
+	{ value: '10+', label: 'Client Projects' },
 ];
 
 export const traits: string[] = [
-	'Full Stack Development',
-	'Python & AI',
-	'Front End Engineering',
-	'Communication',
-	'Leadership',
-	'Product Mindset',
+	'Full stack delivery',
+	'Python and backend APIs',
+	'Shopify and commerce',
+	'Clear client communication',
+	'Remote collaboration',
+	'Production-first engineering',
 ];
 
 export const expertise: ExpertiseItem[] = [
 	{
-		title: 'AI & Python Development',
+		title: 'Python and Backend Development',
 		description:
-			'Build Python backends, data processing workflows, REST APIs, and practical AI integrations that ship to production — not slide decks.',
+			'Python services, REST APIs, data processing, and automation. We integrate model APIs where they solve a real problem, with logging and fallbacks built in from the start.',
 		icon: FaBrain,
 		iconColor: 'rgb(168, 130, 255)',
 		glowColor: 'rgba(168, 130, 255, 0.55)',
@@ -158,16 +230,16 @@ export const expertise: ExpertiseItem[] = [
 	{
 		title: 'Front End Development',
 		description:
-			'Build responsive, performant web interfaces with React, TypeScript, and modern CSS — plus Shopify storefronts for live commerce brands.',
+			'React and TypeScript interfaces, responsive layout, and performance work. We also build and maintain Shopify storefronts for live commerce brands.',
 		icon: FaReact,
 		iconColor: 'rgb(97, 219, 251)',
 		glowColor: 'rgba(97, 219, 251, 0.6)',
 		tags: ['React', 'TypeScript', 'HTML/CSS', 'Performance', 'Responsive UI'],
 	},
 	{
-		title: 'Shopify & E-Commerce',
+		title: 'Shopify and E-Commerce',
 		description:
-			'Build and optimize production Shopify storefronts for global brands — themes, Liquid, checkout flows, and conversion-focused UX. Selected Work shows live stores across fashion, beauty, lifestyle, and retail.',
+			'Theme development, Liquid customisation, checkout flows, and catalog UX for brands that sell online every day. See Selected Work for live examples.',
 		icon: FaShopify,
 		iconColor: 'rgb(150, 191, 72)',
 		glowColor: 'rgba(150, 191, 72, 0.55)',
@@ -176,7 +248,7 @@ export const expertise: ExpertiseItem[] = [
 	{
 		title: 'Full Stack Engineering',
 		description:
-			'Architect end-to-end products with React, TypeScript, Node.js, Python APIs, and database-driven backends — from UI to deployment.',
+			'End-to-end product work: React front ends, Node or Python APIs, PostgreSQL or MongoDB, and deployment pipelines. One team owns the path from design to production.',
 		icon: FaLayerGroup,
 		iconColor: 'rgb(31, 195, 255)',
 		glowColor: 'rgba(31, 195, 255, 0.55)',
@@ -270,10 +342,10 @@ export const projects: ProjectItem[] = [
 
 export const expertiseSection = {
 	section: {
-		title: 'Core',
-		subtitle: 'Skills',
+		title: 'What We',
+		subtitle: 'Build',
 		summary:
-			'Full stack, Python/AI, and front end skills aligned with how Ben works across web apps, APIs, and production systems',
+			'Full stack web applications, Python backends, and commerce work. These are the areas where the team spends most of its time.',
 	},
 };
 
@@ -282,7 +354,16 @@ export const projectsSection = {
 		title: 'Selected',
 		subtitle: 'Work',
 		summary:
-			'Live Shopify storefronts shipped for fashion, beauty, lifestyle, and retail brands across the US, Europe, and beyond',
+			'Storefronts and web products we have shipped for retail, lifestyle, and product brands',
+	},
+};
+
+export const teamSection = {
+	section: {
+		title: 'Our',
+		subtitle: 'Team',
+		summary:
+			'Five engineers working remotely from the US, Ireland, and Poland. Ben Clark founded the studio and still leads delivery.',
 	},
 };
 
@@ -291,11 +372,11 @@ export const contact = {
 		title: 'Get In',
 		subtitle: 'Touch',
 		summary:
-			'Open to collaborations freelance projects and full time opportunities reach out anytime',
+			'Open to new client work, collaborations, and longer-term engagements. Ben handles initial enquiries.',
 	},
-	headline: "Let's build something remarkable.",
+	headline: 'Tell us what you are building.',
 	subtext:
-		'Open to collaborations, freelance projects, and full-time opportunities. Reach out and I typically respond within 24 hours.',
+		'Send a short note about your project. We usually reply within one business day.',
 };
 
 export type VisitorNoteSentiment = 'support' | 'disagree' | 'not-care';
@@ -307,7 +388,7 @@ export const visitorNote = {
 		summary:
 			'Live interested, not convinced, and neutral totals plus optional visitor notes',
 	},
-	headline: 'Share your take with Ben.',
+	headline: 'Share your take with ASF.',
 	subtext:
 		'Pick a status or write a note (one is enough). Name is only required when you leave a note.',
 	supportLabel: 'Interested',
@@ -316,7 +397,7 @@ export const visitorNote = {
 	liveCountsLabel: 'Live visitor counts',
 	editResponseLabel: 'Edit my response',
 	namePlaceholder: 'Your name (required for notes)',
-	messagePlaceholder: 'Optional note for Ben',
+	messagePlaceholder: 'Optional note for the team',
 	submitLabel: 'Apply',
 	saveLabel: 'Save changes',
 	submittingLabel: 'Applying',
@@ -376,13 +457,13 @@ export const socialLinks: SocialLink[] = [
 export const about = {
 	section: {
 		title: 'About',
-		subtitle: 'ME',
+		subtitle: 'ASF',
 		summary:
-			'Full stack, Python/AI, and front end engineering shaped by study in Ireland, product experience, and years shipping real software',
+			'A remote software studio founded by Ben Clark in 2024, working across full stack engineering, commerce, and backend systems',
 	},
 	intro: [
-		'I am a Full Stack Software Engineer with experience across web applications, backend services, APIs, and database-driven systems. I was born and raised in Singapore, studied Computer Science and Information Systems at the University of Limerick in Ireland, and I am now based in Sandpoint, Idaho.',
-		'My path includes graduate software roles, several years at Nearform and Cloudsmith, and a small sock business with a classmate during university. I care about reliable code, real user problems, and building things that hold up in production.',
+		'ASF started when Ben Clark left product engineering roles at Cloudsmith and Nearform and began taking on client work with a small group of developers he trusted. The studio is fully remote: Ben works from Sandpoint, Idaho; most of the engineering team is based in Ireland; and Yuki, originally from Japan, works from Poland.',
+		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Yuki on full stack features, Conner on machine learning integration, Le Wei on front end and Shopify, and Amanda on backend infrastructure.',
 	],
 };
 
@@ -413,9 +494,9 @@ export const benStory = {
 		'The through-line is building step by step: learning, adapting, and creating a foundation over time.',
 	],
 	teamsLed: [
-		'Operations and product work with his classmate in the sock business.',
-		'Technical teams on software and AI projects.',
-		'Smaller cross-functional groups depending on project stage.',
+		'ASF Studio, five people across the US, Ireland, and Poland since 2024.',
+		'Operations and product work with a classmate at Threadline Co during university.',
+		'Technical delivery at Cloudsmith and Nearform before founding the studio.',
 	],
 	lessons: [
 		'An idea only matters when you turn it into something real that helps actual people.',
@@ -451,56 +532,50 @@ export const benPersonality = {
 
 export const experience = {
 	section: {
-		title: 'Work',
-		subtitle: 'Experience',
+		title: 'Studio',
+		subtitle: 'Path',
 		summary:
-			'From graduate developer in Ireland to full-stack, Python/AI, and front end work at Cloudsmith',
+			'How ASF grew from Ben Clark\'s engineering background into a remote delivery studio',
 	},
 	timeline: [
 		{
-			heading: 'Experience',
+			heading: 'Studio',
 			items: [
 				{
-					role: 'Full Stack Software Engineer',
+					role: 'ASF Studio founded',
+					org: 'Remote · US, Ireland, Poland',
+					period: '2024 to Present',
+					bullets: [
+						'Ben Clark founded ASF to deliver client software with a small, trusted engineering team.',
+						'Core focus: full stack web apps, Shopify commerce, Python backends, and ML integrations.',
+						'Current team: Ben, Yuki Mory, Conner, Le Wei, and Amanda.',
+					],
+				},
+				{
+					role: 'Product engineering foundation',
 					org: 'Cloudsmith',
-					period: '2023 to Feb 2026, Remote',
+					period: '2023 to Feb 2026',
 					bullets: [
-						'Developed full-stack web applications across frontend, backend, and database layers.',
-						'Built RESTful APIs, Python backend services, and AI-enabled workflows for practical business use.',
-						'Created reusable React and TypeScript components and integrated frontends with backend systems.',
-						'Improved application performance through code optimization, database improvements, and testing.',
-						'Managed Git workflows, debugging, deployment, and collaboration across distributed teams.',
+						'Ben led full stack delivery across React, TypeScript, Python APIs, and production systems.',
+						'Shaped the practical standards ASF still uses: clear scope, reliable releases, and maintainable code.',
 					],
 				},
 				{
-					role: 'Software Developer',
+					role: 'Web product delivery',
 					org: 'Nearform',
-					period: '2021 to 2023, Ireland / Remote',
+					period: '2021 to 2023',
 					bullets: [
-						'Developed web-based software with frontend components, backend logic, and database integrations.',
-						'Built Python APIs, automation scripts, and backend services connected to user-facing applications.',
-						'Collaborated on requirements, debugging, performance improvements, and feature delivery.',
-						'Balanced technical decisions with user and business needs in agile environments.',
+						'Client and product work across frontend, backend, and database layers for European teams.',
+						'Built the collaboration habits that later became ASF\'s remote delivery model.',
 					],
 				},
 				{
-					role: 'Graduate Software Developer',
-					org: 'Stelfox',
-					period: '2020 to 2021, Dublin, Ireland',
+					role: 'Early engineering and commerce',
+					org: 'Stelfox · Threadline Co',
+					period: '2019 to 2021',
 					bullets: [
-						'Built backend components, automation scripts, APIs, and database-backed features.',
-						'Developed software using Python and web technologies in a professional team setting.',
-						'Learned version control, documentation, code quality standards, and deployment practices.',
-					],
-				},
-				{
-					role: 'Graduate Business Developer',
-					org: 'Threadline Co',
-					period: '2019 to 2020, Limerick, Ireland',
-					bullets: [
-						'Started a small sock e-commerce business with a university classmate while studying.',
-						'Managed customer research, product decisions, supplier communication, pricing, and sales.',
-						'Learned how to validate ideas, understand customers, and operate with limited resources.',
+						'Graduate software work in Dublin, plus a small e-commerce business started during university in Limerick.',
+						'Combined engineering practice with real customer and operations experience.',
 					],
 				},
 			],
@@ -509,13 +584,12 @@ export const experience = {
 			heading: 'Education',
 			items: [
 				{
-					role: 'B.Sc. in Computer Science and Information Systems',
+					role: 'B.Sc. Computer Science and Information Systems',
 					org: 'University of Limerick',
-					period: '2016 to 2020, Limerick, Ireland',
+					period: '2016 to 2020',
 					bullets: [
-						'Graduated with GPA 3.9 / 4.0.',
-						'Studied after moving from Singapore to Ireland for university.',
-						'Foundation in software engineering, information systems, databases, and web technologies.',
+						'Ben graduated with GPA 3.9 / 4.0 after moving from Singapore to Ireland for university.',
+						'Foundation for the technical leadership that later started ASF.',
 					],
 				},
 			],
@@ -526,9 +600,9 @@ export const experience = {
 export const techStack = {
 	section: {
 		title: 'Tech',
-		subtitle: 'SET',
+		subtitle: 'Stack',
 		summary:
-			'A modern stack built for speed scale and shipping products people rely on every day',
+			'Tools and frameworks the team uses on client work day to day',
 	},
 	groups: [
 		{

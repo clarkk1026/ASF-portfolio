@@ -26,7 +26,7 @@ type EmitZone = {
 const MAX_PARTICLES = 18;
 
 export const HeroName3D = ({ text, className = '' }: HeroName3DProps) => {
-	const displayText = text.replace(/\s/g, '').toUpperCase();
+	const displayText = text.toUpperCase();
 	const containerRef = useRef<HTMLDivElement>(null);
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const letterRefs = useRef<(HTMLSpanElement | null)[]>([]);
@@ -213,19 +213,29 @@ export const HeroName3D = ({ text, className = '' }: HeroName3DProps) => {
 			aria-label={displayText}
 		>
 			<div className='hero-name-3d-letters'>
-				{displayText.split('').map((char, index) => (
-					<span
-						key={`${char}-${index}`}
-						ref={(el) => {
-							letterRefs.current[index] = el;
-						}}
-						className={`hero-letter${hoveredIndex === index ? ' is-hovered' : ''}`}
-						onMouseEnter={() => handleLetterEnter(index)}
-						onMouseLeave={handleLetterLeave}
-					>
-						{char}
-					</span>
-				))}
+				{displayText.split('').map((char, index) =>
+					char === ' ' ? (
+						<span
+							key={`space-${index}`}
+							className='hero-letter-space'
+							aria-hidden='true'
+						>
+							{' '}
+						</span>
+					) : (
+						<span
+							key={`${char}-${index}`}
+							ref={(el) => {
+								letterRefs.current[index] = el;
+							}}
+							className={`hero-letter${hoveredIndex === index ? ' is-hovered' : ''}`}
+							onMouseEnter={() => handleLetterEnter(index)}
+							onMouseLeave={handleLetterLeave}
+						>
+							{char}
+						</span>
+					),
+				)}
 			</div>
 			<canvas
 				ref={canvasRef}

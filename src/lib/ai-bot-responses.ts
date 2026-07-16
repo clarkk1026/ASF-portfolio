@@ -5,6 +5,7 @@ import {
 	experience,
 	highlights,
 	personal,
+	team,
 	traits,
 	whatsappUrl,
 } from '../data/portfolio.js';
@@ -262,6 +263,42 @@ const BEN_RELATED_TERMS = [
 	'sad',
 ];
 
+const isTeamMemberQuestion = (q: string, tokens: string[]) => {
+	if (matches(q, [/yuki|mory|conner|connor|le wei|amanda/])) return true;
+	if (hasWord(tokens, ['yuki', 'mory', 'conner', 'connor', 'amanda', 'wei'])) {
+		return true;
+	}
+	if (
+		matches(q, [
+			/who (is|are) (yuki|conner|connor|amanda|le wei)/,
+			/tell me about (yuki|conner|connor|amanda|le wei|the team)/,
+			/about (yuki|conner|connor|amanda|le wei)/,
+		])
+	) {
+		return true;
+	}
+	if (
+		hasWord(tokens, ['team']) &&
+		!q.includes('ben') &&
+		!q.includes('clark') &&
+		(matches(q, [/who is|who are|tell me about|members|colleagues/]) ||
+			hasWord(tokens, ['member', 'members', 'colleague', 'colleagues']))
+	) {
+		return true;
+	}
+	return false;
+};
+
+const teamMemberDeflect = (ctx: BotContext): BotReply => ({
+	text: pick([
+		`Good question. The **Team** section has short profiles for Yuki, Conner, Le Wei, and Amanda.\n\nI'm here for **Ben Clark** specifically. Ask about his experience, technical background, or contact details.\n\n[[mood:calm]]`,
+		`Team bios are on the site under **Our Team**. I focus on Ben since he leads ASF and handles client enquiries.\n\n[[mood:warm]]`,
+		`ASF has five people working remotely. I don't go deep on other members here, but the Team section does. Happy to talk about Ben's work.\n\n[[mood:thoughtful]]`,
+	]),
+	intent: 'team_deflect',
+	userName: ctx.userName,
+});
+
 const isImpolite = (q: string) => IMPOLITE_PATTERNS.some((p) => p.test(q));
 
 const scoreBenRelevance = (q: string, tokens: string[]) => {
@@ -351,7 +388,7 @@ const humanProjects = () =>
 const humanSkills = () =>
 	prefix([
 		`Ben's sweet spot spans **full stack**, **Python/AI**, and **front end**:\n\n**Full stack:** React, TypeScript, Node.js, REST APIs, PostgreSQL, MongoDB, Docker, Git\n\n**Python & AI:** Python backends, FastAPI, data processing, AI API integrations, automation\n\n**Front end:** HTML, CSS, JavaScript, React, responsive UI, performance optimization\n\n**Commerce:** Shopify, Liquid, live storefront builds (see Selected Work)\n\nHe picks tools based on what the product needs.`,
-		`Think of Ben as a **Full Stack Software Engineer** who can go deep on **Python backends**, **AI-enabled features**, or **front end** delivery. He's shipped production software at Cloudsmith and Nearform, plus live Shopify stores on this portfolio.`,
+		`Think of Ben as a **team lead and full stack engineer** who can go deep on **Python backends**, **AI-enabled features**, or **front end** delivery. He built ASF after years at Cloudsmith and Nearform, plus live Shopify stores on this site.`,
 	]);
 
 const humanTech = (mentioned?: string) => {
@@ -487,10 +524,10 @@ const handlers: IntentHandler[] = [
 			const name = ctx.userName;
 			return pick([
 				name
-					? `Hi ${name}, I'm **Bon** (AI BEN). I know Ben's work, but I'm also happy to just talk like a person. What's on your mind?\n\n[[mood:happy]]`
-					: `Hi, I'm **Bon** (AI BEN). Ben is a **Full Stack Software Engineer** in ${personal.location} — Python/AI, front end, APIs, and database-driven web apps. We can talk shop or just chat. What would you like?\n\n[[mood:happy]]`,
-				`Hello! I'm here for Ben's portfolio **and** normal conversation, skills, story, music, life stuff, whatever.`,
-				`Hey, nice of you to stop by. I'm Bon. Ask me anything about Ben, or just say what's up.`,
+					? `Hi ${name}, I'm **Bon** (AI BEN). I know Ben's work—he leads **${team.fullName}**—and I'm happy to just talk like a person. What's on your mind?\n\n[[mood:happy]]`
+					: `Hi, I'm **Bon**. Ben Clark founded **${team.fullName}** from Sandpoint, Idaho, with a remote team across Ireland and Poland. Ask about his work or how to reach him.\n\n[[mood:happy]]`,
+				`Hello! I'm here for Ben's background **and** normal conversation—skills, story, music, life stuff, whatever.`,
+				`Hey, nice of you to stop by. I'm Bon. Ask me about Ben's work, or just say what's up.`,
 			]);
 		},
 	},
@@ -544,8 +581,8 @@ const handlers: IntentHandler[] = [
 				return humanAbout();
 			}
 			return pick([
-				`I'm **Bon** (AI BEN), Ben's portfolio assistant. ${personal.fullName} is a ${personal.title} in ${personal.location}. ${personal.tagline}\n\n[[mood:calm]]`,
-				`I'm **Bon**. I help visitors learn about Ben's work in **AI** and **full-stack** development.\n\n[[mood:warm]]`,
+				`I'm **Bon** (AI BEN), Ben's portfolio assistant. ${personal.fullName} leads **${team.fullName}** as ${personal.title} in ${personal.location}. ${personal.tagline}\n\n[[mood:calm]]`,
+				`I'm **Bon**—Ben's voice on this site. He runs a small remote team at ASF; I'm best for his skills, story, and how to reach him.\n\n[[mood:warm]]`,
 			]);
 		},
 	},
@@ -906,7 +943,7 @@ const handlers: IntentHandler[] = [
 			return s;
 		},
 		reply: () =>
-			`You're on Ben's portfolio right now! Sections to explore:\n\n• **About:** his story\n• **Core Skills:** what he's great at\n• **Work Experience:** jobs & education\n• **Selected Work:** project previews\n• **Tech Stack:** tools he uses daily\n• **Contact:** how to reach him\n\nUse the nav up top or just scroll. What catches your eye?`,
+			`You're on the **ASF Studio** site right now. Sections to explore:\n\n• **About:** the studio\n• **Team:** who we are\n• **Expertise:** what we build\n• **Studio Path:** how ASF grew\n• **Selected Work:** project previews\n• **Tech Stack:** tools we use\n• **Contact:** how to reach Ben\n\nUse the nav up top or just scroll. What catches your eye?`,
 	},
 	{
 		id: 'pricing',
@@ -935,7 +972,7 @@ const handlers: IntentHandler[] = [
 		},
 		reply: (_q, _t, ctx) => {
 			const followups: Record<string, string> = {
-				experience: `Want me to zoom in on **Cloudsmith**, **Nearform**, **Stelfox**, or **Threadline**? Or his **education** at the University of Limerick?`,
+				experience: `Want me to zoom in on **ASF Studio**, **Cloudsmith**, **Nearform**, or Ben's **education** path?`,
 				projects: `I can dive deeper into **Happy Hydro**, **Labyrinth Style**, **Remedior Skincare**, or any store in Selected Work. Which one interests you?`,
 				skills: `Happy to go deeper on **full stack**, **Python/AI**, **front end**, or **Shopify** — or name a tech like React or Python and I'll tell you how he uses it.`,
 				contact: `Email **${personal.email}**, WhatsApp **${personal.whatsappNumber}**, Telegram **@${personal.telegramUsername}**, or Discord **${personal.discordUsername}**. I can suggest what to write in a first message if you want.\n\n[[mood:warm]]`,
@@ -985,6 +1022,10 @@ export const getBotResponse = (
 
 	if (isBlockedTopic(q)) {
 		return blockedTopicReply(ctx);
+	}
+
+	if (isTeamMemberQuestion(q, tokens)) {
+		return teamMemberDeflect(ctx);
 	}
 
 	if (isGibberish(q, tokens)) {

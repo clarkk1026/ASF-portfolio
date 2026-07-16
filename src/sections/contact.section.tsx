@@ -3,7 +3,7 @@ import { GlowLink } from '../components/glow-box-link';
 import { LayeredSectionTitle } from '../components/layered-section-title';
 import { Reveal } from '../components/reveal';
 import { useToast } from '../components/toast-provider';
-import { contact, gmailComposeUrl, personal, socialLinks } from '../data/portfolio';
+import { contact, gmailComposeUrl, personal, socialLinks, team } from '../data/portfolio';
 import { githubContactLocked, preventLockedGithubContact } from '../lib/contact-lock';
 import { discordContactHref, openDiscordContact } from '../lib/discord-contact';
 
@@ -97,8 +97,8 @@ export const Contact = () => {
 						<Reveal delay={240}>
 							<footer className='site-footer'>
 								<p>
-									© {new Date().getFullYear()} {personal.fullName}. Crafted with
-									React and TypeScript
+									© {new Date().getFullYear()} {team.fullName}. Led by{' '}
+									{personal.fullName}.
 								</p>
 							</footer>
 						</Reveal>

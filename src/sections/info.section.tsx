@@ -1,6 +1,6 @@
 import { HeroName3D } from '../components/hero-name-3d';
 import { Reveal } from '../components/reveal';
-import { highlights, personal } from '../data/portfolio';
+import { highlights, personal, team } from '../data/portfolio';
 
 export const InfoSection = () => {
 	return (
@@ -21,11 +21,15 @@ export const InfoSection = () => {
 
 				<Reveal delay={100}>
 					<div className='hero-title'>
-						<HeroName3D text={personal.name} />
+						<HeroName3D text={personal.heroName} />
 					</div>
 				</Reveal>
 
-				<Reveal delay={220}>
+				<Reveal delay={180}>
+					<p className='hero-lead'>{personal.heroLead}</p>
+				</Reveal>
+
+				<Reveal delay={260}>
 					<p className='hero-tagline'>{personal.tagline}</p>
 				</Reveal>
 
@@ -35,13 +39,13 @@ export const InfoSection = () => {
 							href='#projects'
 							className='comet-btn comet-btn-work comet-btn-lg'
 						>
-							View My Work
+							View Our Work
 						</a>
 						<a
-							href='#contact'
+							href='#team'
 							className='comet-btn comet-btn-contact comet-btn-lg'
 						>
-							Contact Me
+							Meet the Team
 						</a>
 					</div>
 				</Reveal>
@@ -58,6 +62,12 @@ export const InfoSection = () => {
 							</div>
 						))}
 					</div>
+				</Reveal>
+
+				<Reveal delay={540}>
+					<p className='hero-team-note'>
+						{team.model}
+					</p>
 				</Reveal>
 			</div>
 
