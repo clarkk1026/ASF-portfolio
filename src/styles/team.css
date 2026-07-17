@@ -77,12 +77,6 @@
 	flex-shrink: 0;
 }
 
-.team-card-badge-new {
-	color: rgba(160, 240, 210, 0.95);
-	background: rgba(60, 180, 140, 0.18);
-	border-color: rgba(100, 220, 180, 0.35);
-}
-
 .team-card-location {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 0.75rem;

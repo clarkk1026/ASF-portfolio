@@ -264,15 +264,15 @@ const BEN_RELATED_TERMS = [
 ];
 
 const isTeamMemberQuestion = (q: string, tokens: string[]) => {
-	if (matches(q, [/yuki|mory|conner|connor|le wei|amanda|nistha/])) return true;
-	if (hasWord(tokens, ['yuki', 'mory', 'conner', 'connor', 'amanda', 'wei', 'nistha'])) {
+	if (matches(q, [/yuki|mory|conner|connor|le wei|amanda/])) return true;
+	if (hasWord(tokens, ['yuki', 'mory', 'conner', 'connor', 'amanda', 'wei'])) {
 		return true;
 	}
 	if (
 		matches(q, [
-			/who (is|are) (yuki|conner|connor|amanda|le wei|nistha)/,
-			/tell me about (yuki|conner|connor|amanda|le wei|nistha|the team)/,
-			/about (yuki|conner|connor|amanda|le wei|nistha)/,
+			/who (is|are) (yuki|conner|connor|amanda|le wei)/,
+			/tell me about (yuki|conner|connor|amanda|le wei|the team)/,
+			/about (yuki|conner|connor|amanda|le wei)/,
 		])
 	) {
 		return true;
@@ -291,9 +291,9 @@ const isTeamMemberQuestion = (q: string, tokens: string[]) => {
 
 const teamMemberDeflect = (ctx: BotContext): BotReply => ({
 	text: pick([
-		`Good question. The **Team** section has short profiles for Yuki, Conner, Le Wei, Amanda, and Nistha.\n\nI'm here for **Ben Clark** specifically. Ask about his experience, technical background, or contact details.\n\n[[mood:calm]]`,
+		`Good question. The **Team** section has short profiles for Yuki, Conner, Le Wei, and Amanda.\n\nI'm here for **Ben Clark** specifically. Ask about his experience, technical background, or contact details.\n\n[[mood:calm]]`,
 		`Team bios are on the site under **Our Team**. I focus on Ben since he leads ASF and handles client enquiries.\n\n[[mood:warm]]`,
-		`ASF has six people working remotely. I don't go deep on other members here, but the Team section does. Happy to talk about Ben's work.\n\n[[mood:thoughtful]]`,
+		`ASF has five people working remotely. I don't go deep on other members here, but the Team section does. Happy to talk about Ben's work.\n\n[[mood:thoughtful]]`,
 	]),
 	intent: 'team_deflect',
 	userName: ctx.userName,
@@ -406,7 +406,7 @@ const humanTech = (mentioned?: string) => {
 const humanContact = () =>
 	prefix([
 		`Best ways to reach Ben:\n\n📧 **${personal.email}**\n📱 **WhatsApp:** [${personal.whatsappNumber}](${whatsappUrl})\n💬 **Telegram:** [@${personal.telegramUsername}](https://t.me/${personal.telegramUsername})\n🎮 **Discord:** ${personal.discordUsername}\n\n${contact.subtext}\n\n[[mood:warm]]`,
-		`Email **${personal.email}**, WhatsApp **${personal.whatsappNumber}**, Telegram @${personal.telegramUsername}, or Discord ${personal.discordUsername}. He is open to freelance, collaboration, and full-time roles.\n\n[[mood:calm]]`,
+		`Email **${personal.email}**, WhatsApp **${personal.whatsappNumber}**, Telegram @${personal.telegramUsername}, or Discord ${personal.discordUsername}. ASF is open to client work, collaborations, and longer-term engagements.\n\n[[mood:calm]]`,
 	]);
 
 const humanAbout = () =>
@@ -525,7 +525,7 @@ const handlers: IntentHandler[] = [
 			return pick([
 				name
 					? `Hi ${name}, I'm **Bon** (AI BEN). I know Ben's work—he leads **${team.fullName}**—and I'm happy to just talk like a person. What's on your mind?\n\n[[mood:happy]]`
-					: `Hi, I'm **Bon**. Ben Clark founded **${team.fullName}** from Sandpoint, Idaho, with a remote team across Ireland, Poland, and India. Ask about his work or how to reach him.\n\n[[mood:happy]]`,
+					: `Hi, I'm **Bon**. Ben Clark founded **${team.fullName}** from Sandpoint, Idaho, with a remote team across Ireland and Poland. Ask about his work or how to reach him.\n\n[[mood:happy]]`,
 				`Hello! I'm here for Ben's background **and** normal conversation—skills, story, music, life stuff, whatever.`,
 				`Hey, nice of you to stop by. I'm Bon. Ask me about Ben's work, or just say what's up.`,
 			]);
@@ -882,8 +882,8 @@ const handlers: IntentHandler[] = [
 		},
 		reply: () =>
 			prefix([
-				`Yes, Ben's **open to freelance, collaborations, and full-time roles**. Remote works great for him; he's done it across multiple jobs.\n\nDrop him a line at **${personal.email}**, he typically replies within **24 hours**.`,
-				`From what I know, he's actively open to new opportunities, freelance projects, collabs, or full-time. Remote-friendly and based in ${personal.location}. Email's the best first step: **${personal.email}**.`,
+				`Yes — ASF is **open to client projects, collaborations, and longer-term engagements**. Ben handles first contact.\n\nDrop him a line at **${personal.email}**, he typically replies within **24 hours**.`,
+				`From what I know, the studio is open to new client work and collaborations. Remote delivery is the default. Email's the best first step: **${personal.email}**.`,
 			]),
 	},
 	{
