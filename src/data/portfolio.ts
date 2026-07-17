@@ -101,6 +101,7 @@ export type TeamMember = {
 	role: string;
 	location: string;
 	isLeader?: boolean;
+	isNewMember?: boolean;
 	summary: string;
 	focus: string[];
 };
@@ -109,11 +110,11 @@ export const team = {
 	name: 'ASF',
 	fullName: 'ASF Studio',
 	tagline:
-		'We build web applications, commerce storefronts, and backend systems for clients who need working software in production. Five people, fully remote, across the US, Ireland, and Poland.',
+		'We build web applications, commerce storefronts, and backend systems for clients who need working software in production. Six people, fully remote, across the US, Ireland, Poland, and India.',
 	heroGreeting: 'We are',
 	heroLead: 'A remote software studio founded by Ben Clark',
 	established: '2024',
-	model: 'Remote across the US, Ireland, and Poland',
+	model: 'Remote across the US, Ireland, Poland, and India',
 };
 
 export const teamMembers: TeamMember[] = [
@@ -163,6 +164,16 @@ export const teamMembers: TeamMember[] = [
 			'Owns game systems, gameplay features, and interactive client work across Unity and web-based projects.',
 		focus: ['Unity', 'C#', 'Gameplay', 'Interactive'],
 	},
+	{
+		id: 'nistha',
+		name: 'Nistha',
+		role: 'Marketing and Customer Success',
+		location: 'Kolkata, India',
+		isNewMember: true,
+		summary:
+			'Marketing expert managing customer relationships and CSR. Handles outreach, client communication, and community programs for the studio.',
+		focus: ['Marketing', 'Customer success', 'CSR', 'Client relations'],
+	},
 ];
 
 export const personal = {
@@ -201,8 +212,8 @@ export const navLinks: NavLink[] = [
 ];
 
 export const highlights: Highlight[] = [
-	{ value: '5', label: 'Team Members' },
-	{ value: '3', label: 'Countries' },
+	{ value: '6', label: 'Team Members' },
+	{ value: '4', label: 'Countries' },
 	{ value: '2024', label: 'Founded' },
 	{ value: '100%', label: 'Remote' },
 	{ value: '10+', label: 'Client Projects' },
@@ -363,7 +374,7 @@ export const teamSection = {
 		title: 'Our',
 		subtitle: 'Team',
 		summary:
-			'Five engineers working remotely from the US, Ireland, and Poland. Ben Clark founded the studio and still leads delivery.',
+			'Six people working remotely from the US, Ireland, Poland, and India. Ben Clark founded the studio and still leads delivery.',
 	},
 };
 
@@ -462,8 +473,8 @@ export const about = {
 			'A remote software studio founded by Ben Clark in 2024, working across full stack engineering, commerce, and backend systems',
 	},
 	intro: [
-		'ASF started when Ben Clark left product engineering roles at Cloudsmith and Nearform and began taking on client work with a small group of developers he trusted. The studio is fully remote: Ben works from Sandpoint, Idaho; most of the engineering team is based in Ireland; Yuki, originally from Japan, works from Poland; and Le Wei, originally from Singapore, works from Galway.',
-		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Yuki on full stack features, Conner on machine learning integration, Le Wei on front end and Shopify, and Amanda on game development.',
+		'ASF started when Ben Clark left product engineering roles at Cloudsmith and Nearform and began taking on client work with a small group of developers he trusted. The studio is fully remote: Ben works from Sandpoint, Idaho; most of the engineering team is based in Ireland; Yuki, originally from Japan, works from Poland; Le Wei, originally from Singapore, works from Galway; and Nistha covers marketing and customer success from Kolkata, India.',
+		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Yuki on full stack features, Conner on machine learning integration, Le Wei on front end and Shopify, Amanda on game development, and Nistha on marketing, customers, and CSR.',
 	],
 };
 
@@ -494,7 +505,7 @@ export const benStory = {
 		'The through-line is building step by step: learning, adapting, and creating a foundation over time.',
 	],
 	teamsLed: [
-		'ASF Studio, five people across the US, Ireland, and Poland since 2024.',
+		'ASF Studio, six people across the US, Ireland, Poland, and India since 2024.',
 		'Operations and product work with a classmate at Threadline Co during university.',
 		'Technical delivery at Cloudsmith and Nearform before founding the studio.',
 	],
@@ -543,12 +554,12 @@ export const experience = {
 			items: [
 				{
 					role: 'ASF Studio founded',
-					org: 'Remote · US, Ireland, Poland',
+					org: 'Remote · US, Ireland, Poland, India',
 					period: '2024 to Present',
 					bullets: [
-						'Ben Clark founded ASF to deliver client software with a small, trusted engineering team.',
-						'Core focus: full stack web apps, Shopify commerce, Python backends, and ML integrations.',
-						'Current team: Ben, Yuki Mory, Conner, Le Wei, and Amanda.',
+						'Ben Clark founded ASF to deliver client software with a small, trusted team.',
+						'Core focus: full stack web apps, Shopify commerce, Python backends, ML integrations, and client marketing.',
+						'Current team: Ben, Yuki Mory, Conner, Le Wei, Amanda, and Nistha.',
 					],
 				},
 				{

@@ -264,15 +264,15 @@ const BEN_RELATED_TERMS = [
 ];
 
 const isTeamMemberQuestion = (q: string, tokens: string[]) => {
-	if (matches(q, [/yuki|mory|conner|connor|le wei|amanda/])) return true;
-	if (hasWord(tokens, ['yuki', 'mory', 'conner', 'connor', 'amanda', 'wei'])) {
+	if (matches(q, [/yuki|mory|conner|connor|le wei|amanda|nistha/])) return true;
+	if (hasWord(tokens, ['yuki', 'mory', 'conner', 'connor', 'amanda', 'wei', 'nistha'])) {
 		return true;
 	}
 	if (
 		matches(q, [
-			/who (is|are) (yuki|conner|connor|amanda|le wei)/,
-			/tell me about (yuki|conner|connor|amanda|le wei|the team)/,
-			/about (yuki|conner|connor|amanda|le wei)/,
+			/who (is|are) (yuki|conner|connor|amanda|le wei|nistha)/,
+			/tell me about (yuki|conner|connor|amanda|le wei|nistha|the team)/,
+			/about (yuki|conner|connor|amanda|le wei|nistha)/,
 		])
 	) {
 		return true;
@@ -291,9 +291,9 @@ const isTeamMemberQuestion = (q: string, tokens: string[]) => {
 
 const teamMemberDeflect = (ctx: BotContext): BotReply => ({
 	text: pick([
-		`Good question. The **Team** section has short profiles for Yuki, Conner, Le Wei, and Amanda.\n\nI'm here for **Ben Clark** specifically. Ask about his experience, technical background, or contact details.\n\n[[mood:calm]]`,
+		`Good question. The **Team** section has short profiles for Yuki, Conner, Le Wei, Amanda, and Nistha.\n\nI'm here for **Ben Clark** specifically. Ask about his experience, technical background, or contact details.\n\n[[mood:calm]]`,
 		`Team bios are on the site under **Our Team**. I focus on Ben since he leads ASF and handles client enquiries.\n\n[[mood:warm]]`,
-		`ASF has five people working remotely. I don't go deep on other members here, but the Team section does. Happy to talk about Ben's work.\n\n[[mood:thoughtful]]`,
+		`ASF has six people working remotely. I don't go deep on other members here, but the Team section does. Happy to talk about Ben's work.\n\n[[mood:thoughtful]]`,
 	]),
 	intent: 'team_deflect',
 	userName: ctx.userName,
@@ -525,7 +525,7 @@ const handlers: IntentHandler[] = [
 			return pick([
 				name
 					? `Hi ${name}, I'm **Bon** (AI BEN). I know Ben's work—he leads **${team.fullName}**—and I'm happy to just talk like a person. What's on your mind?\n\n[[mood:happy]]`
-					: `Hi, I'm **Bon**. Ben Clark founded **${team.fullName}** from Sandpoint, Idaho, with a remote team across Ireland and Poland. Ask about his work or how to reach him.\n\n[[mood:happy]]`,
+					: `Hi, I'm **Bon**. Ben Clark founded **${team.fullName}** from Sandpoint, Idaho, with a remote team across Ireland, Poland, and India. Ask about his work or how to reach him.\n\n[[mood:happy]]`,
 				`Hello! I'm here for Ben's background **and** normal conversation—skills, story, music, life stuff, whatever.`,
 				`Hey, nice of you to stop by. I'm Bon. Ask me about Ben's work, or just say what's up.`,
 			]);

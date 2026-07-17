@@ -35,6 +35,10 @@ export const Team = () => {
 									</div>
 									{member.isLeader ? (
 										<span className='team-card-badge'>Founder</span>
+									) : member.isNewMember ? (
+										<span className='team-card-badge team-card-badge-new'>
+											New Member
+										</span>
 									) : null}
 								</header>
 
