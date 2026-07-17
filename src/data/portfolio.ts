@@ -151,17 +151,17 @@ export const teamMembers: TeamMember[] = [
 		role: 'Frontend Developer',
 		location: 'Galway, Ireland',
 		summary:
-			'Builds React interfaces and Shopify storefronts with a focus on speed, accessibility, and clean UI delivery.',
+			'Originally from Singapore, now based in Ireland. Builds React interfaces and Shopify storefronts with a focus on speed, accessibility, and clean UI delivery.',
 		focus: ['React', 'Shopify', 'UI', 'Performance'],
 	},
 	{
 		id: 'amanda',
 		name: 'Amanda',
-		role: 'Senior Software Engineer',
+		role: 'Senior Game Developer',
 		location: 'Limerick, Ireland',
 		summary:
-			'Handles backend services, databases, deployments, and release reliability across client projects.',
-		focus: ['Backend', 'PostgreSQL', 'Docker', 'AWS'],
+			'Owns game systems, gameplay features, and interactive client work across Unity and web-based projects.',
+		focus: ['Unity', 'C#', 'Gameplay', 'Interactive'],
 	},
 ];
 
@@ -462,8 +462,8 @@ export const about = {
 			'A remote software studio founded by Ben Clark in 2024, working across full stack engineering, commerce, and backend systems',
 	},
 	intro: [
-		'ASF started when Ben Clark left product engineering roles at Cloudsmith and Nearform and began taking on client work with a small group of developers he trusted. The studio is fully remote: Ben works from Sandpoint, Idaho; most of the engineering team is based in Ireland; and Yuki, originally from Japan, works from Poland.',
-		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Yuki on full stack features, Conner on machine learning integration, Le Wei on front end and Shopify, and Amanda on backend infrastructure.',
+		'ASF started when Ben Clark left product engineering roles at Cloudsmith and Nearform and began taking on client work with a small group of developers he trusted. The studio is fully remote: Ben works from Sandpoint, Idaho; most of the engineering team is based in Ireland; Yuki, originally from Japan, works from Poland; and Le Wei, originally from Singapore, works from Galway.',
+		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Yuki on full stack features, Conner on machine learning integration, Le Wei on front end and Shopify, and Amanda on game development.',
 	],
 };
 
