@@ -217,41 +217,56 @@ export const HeroName3D = ({ text, lines, className = '' }: HeroName3DProps) => 
 			aria-label={displayText}
 		>
 			<div className='hero-name-3d-lines'>
-				{displayLines.map((line, lineIndex) => (
-					<div
-						key={`line-${lineIndex}`}
-						className={`hero-name-3d-line${lineIndex > 0 ? ' hero-name-3d-line--sub' : ''}`}
-					>
-						<div className='hero-name-3d-letters'>
-							{line.split('').map((char) => {
-								const index = letterIndex;
-								letterIndex += 1;
+				{displayLines.map((line, lineIndex) => {
+					const words = line.split(' ').filter(Boolean);
 
-								return char === ' ' ? (
+					return (
+						<div
+							key={`line-${lineIndex}`}
+							className='hero-name-3d-line'
+						>
+							<div className='hero-name-3d-letters'>
+								{words.map((word, wordIndex) => (
 									<span
-										key={`space-${index}`}
-										className='hero-letter-space'
-										aria-hidden='true'
+										key={`${word}-${wordIndex}`}
+										className={`hero-name-word${
+											wordIndex % 2 === 0
+												? ' hero-name-word--cyan'
+												: ' hero-name-word--purple'
+										}`}
 									>
-										{' '}
+										{wordIndex > 0 ? (
+											<span
+												className='hero-letter-space'
+												aria-hidden='true'
+											>
+												{' '}
+											</span>
+										) : null}
+										{word.split('').map((char) => {
+											const index = letterIndex;
+											letterIndex += 1;
+
+											return (
+												<span
+													key={`${char}-${index}`}
+													ref={(el) => {
+														letterRefs.current[index] = el;
+													}}
+													className={`hero-letter${hoveredIndex === index ? ' is-hovered' : ''}`}
+													onMouseEnter={() => handleLetterEnter(index)}
+													onMouseLeave={handleLetterLeave}
+												>
+													{char}
+												</span>
+											);
+										})}
 									</span>
-								) : (
-									<span
-										key={`${char}-${index}`}
-										ref={(el) => {
-											letterRefs.current[index] = el;
-										}}
-										className={`hero-letter${hoveredIndex === index ? ' is-hovered' : ''}`}
-										onMouseEnter={() => handleLetterEnter(index)}
-										onMouseLeave={handleLetterLeave}
-									>
-										{char}
-									</span>
-								);
-							})}
+								))}
+							</div>
 						</div>
-					</div>
-				))}
+					);
+				})}
 			</div>
 			<canvas
 				ref={canvasRef}

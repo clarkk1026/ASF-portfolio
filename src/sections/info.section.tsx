@@ -26,14 +26,34 @@ export const InfoSection = () => {
 				</Reveal>
 
 				<Reveal delay={180}>
+					<div className='hero-brand-meta'>
+						<p className='hero-badge'>{personal.heroBadge}</p>
+						<p className='hero-services'>
+							{personal.heroServices.map((service, index) => (
+								<span key={service}>
+									<span
+										className={`hero-service hero-service--${index % 2 === 0 ? 'cyan' : 'purple'}`}
+									>
+										{service}
+									</span>
+									{index < personal.heroServices.length - 1 ? (
+										<span className='hero-service-sep'>, </span>
+									) : null}
+								</span>
+							))}
+						</p>
+					</div>
+				</Reveal>
+
+				<Reveal delay={240}>
 					<p className='hero-lead'>{personal.heroLead}</p>
 				</Reveal>
 
-				<Reveal delay={260}>
+				<Reveal delay={300}>
 					<p className='hero-tagline'>{personal.tagline}</p>
 				</Reveal>
 
-				<Reveal delay={340}>
+				<Reveal delay={360}>
 					<div className='hero-actions'>
 						<a
 							href='#projects'

@@ -74,9 +74,71 @@
 	width: fit-content;
 	max-width: 100%;
 	position: relative;
-	margin-bottom: 0.5rem;
-	padding: 0.3em 0.45em 0.35em;
+	margin-bottom: 0.35rem;
+	padding: 0.25em 0.35em 0.3em;
 	overflow: visible;
+}
+
+.hero-brand-meta {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.7rem;
+	margin-top: 0.15rem;
+	width: 100%;
+	max-width: 34rem;
+}
+
+.hero-badge {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
+	width: 100%;
+	font-family: 'Orbitron', 'Open Sans', sans-serif;
+	font-size: clamp(0.68rem, 1.6vw, 0.82rem);
+	font-weight: 700;
+	letter-spacing: 0.22em;
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, 0.92);
+}
+
+.hero-badge::before,
+.hero-badge::after {
+	content: '';
+	flex: 1;
+	height: 1px;
+	max-width: 7rem;
+	background: linear-gradient(
+		90deg,
+		transparent,
+		rgba(180, 220, 255, 0.55),
+		transparent
+	);
+}
+
+.hero-services {
+	font-family: 'Orbitron', 'Open Sans', sans-serif;
+	font-size: clamp(0.58rem, 1.35vw, 0.72rem);
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	line-height: 1.5;
+}
+
+.hero-service--cyan {
+	color: #4aefff;
+	text-shadow: 0 0 12px rgba(31, 195, 255, 0.35);
+}
+
+.hero-service--purple {
+	color: #d97aff;
+	text-shadow: 0 0 12px rgba(180, 77, 255, 0.35);
+}
+
+.hero-service-sep {
+	color: rgba(255, 255, 255, 0.35);
 }
 
 .hero-tagline {
@@ -86,7 +148,7 @@
 	color: rgba(255, 255, 255, 0.68);
 	max-width: 38rem;
 	line-height: 1.7;
-	margin-top: 0.85rem;
+	margin-top: 0.95rem;
 }
 
 .hero-lead {
@@ -95,7 +157,7 @@
 	font-weight: 600;
 	letter-spacing: 0.06em;
 	color: rgba(255, 255, 255, 0.55);
-	margin-top: 0.35rem;
+	margin-top: 0.55rem;
 }
 
 .hero-team-note {

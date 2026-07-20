@@ -3,15 +3,15 @@
 	display: inline-block;
 	width: fit-content;
 	max-width: 100%;
-	padding: 0.4em 0.5em 0.45em;
+	padding: 0.35em 0.4em 0.4em;
 	overflow: visible;
 }
 
 .hero-name-3d-canvas {
 	position: absolute;
-	inset: -16% -8%;
-	width: 116%;
-	height: 132%;
+	inset: -18% -10%;
+	width: 120%;
+	height: 136%;
 	pointer-events: none;
 	z-index: 5;
 }
@@ -21,7 +21,6 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 0.08em;
 	z-index: 2;
 }
 
@@ -31,92 +30,103 @@
 	width: 100%;
 }
 
-.hero-name-3d-line--sub {
-	margin-top: 0.02em;
-}
-
-.hero-name-3d-line--sub .hero-letter {
-	font-size: clamp(1.35rem, 4.8vw, 3rem);
-	letter-spacing: 0.18em;
-	padding-left: 0.12em;
-	padding-right: 0.12em;
-}
-
-.hero-name-3d-line--sub .hero-letter:last-child {
-	padding-right: 0.28em;
-}
-
 .hero-name-3d-letters {
 	position: relative;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-wrap: nowrap;
-	gap: 0.025em;
 	overflow: visible;
 	z-index: 2;
 	isolation: isolate;
 }
 
+.hero-name-word {
+	display: inline-flex;
+	align-items: center;
+}
+
 .hero-letter-space {
 	display: inline-block;
-	width: 0.28em;
+	width: 0.32em;
 	flex-shrink: 0;
 }
 
 .hero-letter {
 	position: relative;
 	display: inline-block;
-	padding: 0.12em 0.04em 0.16em;
-	margin: 0 0.006em;
+	padding: 0.06em 0.01em 0.1em;
+	margin: 0;
 	overflow: visible;
 	cursor: default;
-	font-family: 'Fugaz One', sans-serif;
-	font-size: clamp(2.4rem, 8.5vw, 5.5rem);
-	font-weight: 400;
-	font-style: italic;
-	line-height: 1.18;
-	letter-spacing: 0.01em;
+	font-family: 'Orbitron', 'Open Sans', sans-serif;
+	font-size: clamp(2.1rem, 7.2vw, 4.6rem);
+	font-weight: 800;
+	font-style: normal;
+	line-height: 1;
+	letter-spacing: 0.04em;
 	text-transform: uppercase;
 	user-select: none;
-	color: #b8c4d0;
-	-webkit-font-smoothing: subpixel-antialiased;
-	-moz-osx-font-smoothing: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 	text-rendering: geometricPrecision;
 	transform: translate3d(0, 0, 0);
 	backface-visibility: hidden;
-	text-shadow:
-		1px 1px 0 #7a8a9a,
-		2px 2px 0 #626e7e,
-		3px 3px 0 #4e5868,
-		4px 4px 0 #3a4454,
-		5px 5px 0 #283040;
+	background-clip: text;
+	-webkit-background-clip: text;
+	color: transparent;
+	-webkit-text-fill-color: transparent;
 	transition:
 		transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-		color 0.35s ease,
-		text-shadow 0.35s ease;
+		filter 0.35s ease;
 }
 
-.hero-letter:last-child {
-	padding-right: 0.18em;
+/* ASF — cyan / teal */
+.hero-name-word--cyan .hero-letter {
+	background-image: linear-gradient(
+		180deg,
+		#b8fbff 0%,
+		#4aefff 30%,
+		#1fc3ff 62%,
+		#0a9ad4 100%
+	);
+	filter: drop-shadow(0 0 8px rgba(31, 195, 255, 0.55))
+		drop-shadow(0 0 18px rgba(31, 195, 255, 0.28));
 }
 
-.hero-letter.is-hovered {
-	transform: translate3d(0, -5px, 0);
-	color: #d4e2f0;
-	text-shadow:
-		1px 1px 0 #8898a8,
-		2px 2px 0 #6a7a8c,
-		3px 3px 0 #526070,
-		4px 4px 0 #3c4a58,
-		5px 5px 0 #283440,
-		0 0 20px rgba(80, 160, 255, 0.45),
-		0 0 8px rgba(140, 200, 255, 0.35);
+/* STUDIO — purple / magenta */
+.hero-name-word--purple .hero-letter {
+	background-image: linear-gradient(
+		180deg,
+		#f3c8ff 0%,
+		#d97aff 30%,
+		#b44dff 58%,
+		#8b2fd9 100%
+	);
+	filter: drop-shadow(0 0 8px rgba(180, 77, 255, 0.55))
+		drop-shadow(0 0 18px rgba(147, 51, 234, 0.28));
 }
 
-@media screen and (max-width: 300px) {
+.hero-name-word--cyan .hero-letter.is-hovered {
+	transform: translate3d(0, -4px, 0);
+	filter: drop-shadow(0 0 12px rgba(90, 220, 255, 0.8))
+		drop-shadow(0 0 24px rgba(31, 195, 255, 0.4));
+}
+
+.hero-name-word--purple .hero-letter.is-hovered {
+	transform: translate3d(0, -4px, 0);
+	filter: drop-shadow(0 0 12px rgba(210, 140, 255, 0.8))
+		drop-shadow(0 0 24px rgba(180, 77, 255, 0.4));
+}
+
+@media screen and (max-width: 480px) {
 	.hero-letter {
-		font-size: 2.75rem;
+		font-size: clamp(1.55rem, 11vw, 2.35rem);
+		letter-spacing: 0.02em;
+	}
+
+	.hero-letter-space {
+		width: 0.22em;
 	}
 }
 

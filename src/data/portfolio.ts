@@ -170,7 +170,9 @@ export const teamMembers: TeamMember[] = [
 export const personal = {
 	name: 'ASF',
 	heroName: 'ASF STUDIO',
-	heroNameLines: ['ASF', 'Studio'],
+	heroNameLines: ['ASF STUDIO'],
+	heroBadge: 'Remote Software Studio',
+	heroServices: ['Web Apps', 'Shopify', 'Python Backends'],
 	fullName: 'Ben Clark',
 	originalName: 'Kai Wen Lim',
 	birthPlace: 'Singapore',
