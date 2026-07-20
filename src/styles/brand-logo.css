@@ -1,45 +1,58 @@
 :root {
 	--brand-logo-height: 2.15rem;
-	--brand-letter-a: #c4b5fd;
-	--brand-letter-s: #96bf47;
-	--brand-letter-f: #fb923c;
+	--brand-asf: #3de8ff;
+	--brand-studio: #d97aff;
 }
 
 .brand-logo {
 	display: inline-flex;
-	align-items: center;
+	align-items: baseline;
+	gap: 0.38em;
 	color: inherit;
 	text-decoration: none;
+	line-height: 1;
 }
 
-.brand-logo-svg {
-	display: block;
-	height: var(--brand-logo-height);
-	width: auto;
-}
-
-.brand-letter {
-	display: inline-block;
-	font-family: 'Fugaz One', 'Open Sans', sans-serif;
+.brand-word {
+	font-family: 'Orbitron', 'Open Sans', sans-serif;
+	font-weight: 800;
+	font-style: normal;
 	text-transform: uppercase;
-	letter-spacing: 0.02em;
+	letter-spacing: 0.06em;
+	line-height: 1;
 }
 
-.brand-letter-a {
-	color: var(--brand-letter-a);
-	font-style: italic;
-	font-weight: 400;
-	transform: skewX(-6deg);
+.brand-word-asf {
+	font-size: calc(var(--brand-logo-height) * 0.92);
+	background: linear-gradient(180deg, #9ef7ff 0%, #3de8ff 45%, #1fc3ff 100%);
+	background-clip: text;
+	-webkit-background-clip: text;
+	color: transparent;
+	-webkit-text-fill-color: transparent;
+	filter: drop-shadow(0 0 6px rgba(31, 195, 255, 0.35));
 }
 
-.brand-letter-s {
-	color: var(--brand-letter-s);
-	font-style: normal;
-	font-weight: 400;
+.brand-word-studio {
+	font-size: calc(var(--brand-logo-height) * 0.72);
+	letter-spacing: 0.1em;
+	background: linear-gradient(180deg, #f0c0ff 0%, #d97aff 45%, #b44dff 100%);
+	background-clip: text;
+	-webkit-background-clip: text;
+	color: transparent;
+	-webkit-text-fill-color: transparent;
+	filter: drop-shadow(0 0 6px rgba(180, 77, 255, 0.35));
 }
 
-.brand-letter-f {
-	color: var(--brand-letter-f);
-	font-style: normal;
-	font-weight: 400;
+@media screen and (max-width: 720px) {
+	.brand-logo {
+		gap: 0.3em;
+	}
+
+	.brand-word-asf {
+		font-size: calc(var(--brand-logo-height) * 0.88);
+	}
+
+	.brand-word-studio {
+		font-size: calc(var(--brand-logo-height) * 0.66);
+	}
 }
