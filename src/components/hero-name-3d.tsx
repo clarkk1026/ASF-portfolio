@@ -13,7 +13,8 @@ import {
 } from '../lib/hero-name-fx';
 
 type HeroName3DProps = {
-	text: string;
+	text?: string;
+	lines?: string[];
 	className?: string;
 };
 
@@ -25,8 +26,9 @@ type EmitZone = {
 
 const MAX_PARTICLES = 18;
 
-export const HeroName3D = ({ text, className = '' }: HeroName3DProps) => {
-	const displayText = text.toUpperCase();
+export const HeroName3D = ({ text, lines, className = '' }: HeroName3DProps) => {
+	const displayLines = (lines ?? [text ?? '']).map((line) => line.toUpperCase());
+	const displayText = displayLines.join(' ');
 	const containerRef = useRef<HTMLDivElement>(null);
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const letterRefs = useRef<(HTMLSpanElement | null)[]>([]);
@@ -206,36 +208,50 @@ export const HeroName3D = ({ text, className = '' }: HeroName3DProps) => {
 		};
 	}, []);
 
+	let letterIndex = 0;
+
 	return (
 		<div
 			ref={containerRef}
 			className={`hero-name-3d ${className}`.trim()}
 			aria-label={displayText}
 		>
-			<div className='hero-name-3d-letters'>
-				{displayText.split('').map((char, index) =>
-					char === ' ' ? (
-						<span
-							key={`space-${index}`}
-							className='hero-letter-space'
-							aria-hidden='true'
-						>
-							{' '}
-						</span>
-					) : (
-						<span
-							key={`${char}-${index}`}
-							ref={(el) => {
-								letterRefs.current[index] = el;
-							}}
-							className={`hero-letter${hoveredIndex === index ? ' is-hovered' : ''}`}
-							onMouseEnter={() => handleLetterEnter(index)}
-							onMouseLeave={handleLetterLeave}
-						>
-							{char}
-						</span>
-					),
-				)}
+			<div className='hero-name-3d-lines'>
+				{displayLines.map((line, lineIndex) => (
+					<div
+						key={`line-${lineIndex}`}
+						className={`hero-name-3d-line${lineIndex > 0 ? ' hero-name-3d-line--sub' : ''}`}
+					>
+						<div className='hero-name-3d-letters'>
+							{line.split('').map((char) => {
+								const index = letterIndex;
+								letterIndex += 1;
+
+								return char === ' ' ? (
+									<span
+										key={`space-${index}`}
+										className='hero-letter-space'
+										aria-hidden='true'
+									>
+										{' '}
+									</span>
+								) : (
+									<span
+										key={`${char}-${index}`}
+										ref={(el) => {
+											letterRefs.current[index] = el;
+										}}
+										className={`hero-letter${hoveredIndex === index ? ' is-hovered' : ''}`}
+										onMouseEnter={() => handleLetterEnter(index)}
+										onMouseLeave={handleLetterLeave}
+									>
+										{char}
+									</span>
+								);
+							})}
+						</div>
+					</div>
+				))}
 			</div>
 			<canvas
 				ref={canvasRef}

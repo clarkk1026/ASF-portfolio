@@ -16,6 +16,36 @@
 	z-index: 5;
 }
 
+.hero-name-3d-lines {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.08em;
+	z-index: 2;
+}
+
+.hero-name-3d-line {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+.hero-name-3d-line--sub {
+	margin-top: 0.02em;
+}
+
+.hero-name-3d-line--sub .hero-letter {
+	font-size: clamp(1.35rem, 4.8vw, 3rem);
+	letter-spacing: 0.18em;
+	padding-left: 0.12em;
+	padding-right: 0.12em;
+}
+
+.hero-name-3d-line--sub .hero-letter:last-child {
+	padding-right: 0.28em;
+}
+
 .hero-name-3d-letters {
 	position: relative;
 	display: flex;

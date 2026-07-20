@@ -170,6 +170,7 @@ export const teamMembers: TeamMember[] = [
 export const personal = {
 	name: 'ASF',
 	heroName: 'ASF STUDIO',
+	heroNameLines: ['ASF', 'Studio'],
 	fullName: 'Ben Clark',
 	originalName: 'Kai Wen Lim',
 	birthPlace: 'Singapore',

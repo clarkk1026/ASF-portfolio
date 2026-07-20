@@ -21,7 +21,7 @@ export const InfoSection = () => {
 
 				<Reveal delay={100}>
 					<div className='hero-title'>
-						<HeroName3D text={personal.heroName} />
+						<HeroName3D lines={personal.heroNameLines} />
 					</div>
 				</Reveal>
 
