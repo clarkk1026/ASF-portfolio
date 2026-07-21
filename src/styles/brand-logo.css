@@ -5,93 +5,117 @@
 .brand-logo {
 	display: inline-flex;
 	align-items: center;
-	gap: 0.65rem;
 	color: inherit;
 	text-decoration: none;
 	line-height: 1;
 }
 
-.brand-emblem {
-	position: relative;
-	display: grid;
-	width: calc(var(--brand-logo-height) * 1.08);
-	height: calc(var(--brand-logo-height) * 1.08);
-	flex: 0 0 auto;
-	place-items: center;
-	filter: drop-shadow(0 0 9px rgba(31, 195, 255, 0.22));
+.brand-lockup {
+	display: flex;
+	align-items: center;
+	gap: 0.7rem;
+	height: var(--brand-logo-height);
 }
 
-.brand-emblem::before {
-	position: absolute;
-	inset: 14%;
-	border-radius: 50%;
-	background: rgba(31, 195, 255, 0.12);
-	content: '';
-	filter: blur(8px);
+.brand-emblem {
+	display: block;
+	width: var(--brand-logo-height);
+	height: var(--brand-logo-height);
+	flex: 0 0 auto;
 }
 
 .brand-emblem svg {
-	position: relative;
+	display: block;
 	width: 100%;
 	height: 100%;
-	overflow: visible;
 }
 
 .brand-emblem-frame {
-	fill: rgba(8, 18, 31, 0.88);
-	stroke: rgba(71, 224, 255, 0.72);
-	stroke-width: 1.4;
+	stroke: rgba(247, 250, 252, 0.48);
+	stroke-linecap: square;
+	stroke-width: 1.5;
 }
 
-.brand-emblem-mark {
-	fill: #f4fbff;
-	filter: drop-shadow(0 0 4px rgba(112, 231, 255, 0.48));
+.brand-emblem-a {
+	fill: #f7fafc;
 }
 
-.brand-emblem-cut {
-	stroke: #d97aff;
-	stroke-linecap: round;
-	stroke-width: 2.4;
+.brand-emblem-accent {
+	stroke: #3de8ff;
+	stroke-linecap: square;
+	stroke-width: 2;
 }
 
 .brand-wordmark {
 	display: flex;
 	flex-direction: column;
-	align-items: flex-start;
-	gap: 0.25rem;
+	justify-content: center;
+	gap: 0.3rem;
+	width: calc(var(--brand-logo-height) * 1.85);
 }
 
 .brand-wordmark-name {
-	font-family: 'Orbitron', 'Open Sans', sans-serif;
-	font-size: calc(var(--brand-logo-height) * 0.62);
+	font-family: 'Bricolage Grotesque', 'Arial Black', sans-serif;
+	font-size: calc(var(--brand-logo-height) * 0.72);
 	font-weight: 800;
-	letter-spacing: 0.18em;
-	line-height: 1;
-	background: linear-gradient(90deg, #f5fbff 0%, #a8ecff 62%, #d9b5ff 100%);
-	background-clip: text;
-	-webkit-background-clip: text;
-	color: transparent;
-	-webkit-text-fill-color: transparent;
+	font-variation-settings: 'opsz' 72;
+	letter-spacing: 0.14em;
+	line-height: 0.8;
+	color: #f7fafc;
 	text-transform: uppercase;
 }
 
-.brand-wordmark-subtitle {
-	font-family: 'Open Sans', sans-serif;
-	font-size: calc(var(--brand-logo-height) * 0.22);
-	font-weight: 700;
-	letter-spacing: 0.19em;
-	line-height: 1;
-	color: rgba(184, 211, 225, 0.7);
-	text-transform: uppercase;
-	white-space: nowrap;
+.brand-foundation {
+	display: grid;
+	grid-template-columns: 1.35fr repeat(4, 1fr);
+	gap: 0.14rem;
+	width: 100%;
+	height: 2px;
+}
+
+.brand-foundation span {
+	display: block;
+	background: rgba(247, 250, 252, 0.24);
+}
+
+.brand-foundation .brand-foundation-lead {
+	background: #3de8ff;
+}
+
+.brand-emblem-frame,
+.brand-emblem-a,
+.brand-emblem-accent,
+.brand-wordmark-name,
+.brand-foundation span {
+	transition:
+		fill 0.25s ease,
+		stroke 0.25s ease,
+		color 0.25s ease,
+		background-color 0.25s ease;
+}
+
+.navbar-brand:hover .brand-emblem-frame {
+	stroke: rgba(247, 250, 252, 0.75);
+}
+
+.navbar-brand:hover .brand-emblem-accent {
+	stroke: #8cefff;
+}
+
+.navbar-brand:hover .brand-foundation span {
+	background: rgba(247, 250, 252, 0.42);
+}
+
+.navbar-brand:hover .brand-foundation .brand-foundation-lead {
+	background: #3de8ff;
 }
 
 @media screen and (max-width: 720px) {
-	.brand-logo {
-		gap: 0.5rem;
+	.brand-lockup {
+		gap: 0.55rem;
 	}
 
-	.brand-wordmark-subtitle {
-		display: none;
+	.brand-wordmark {
+		width: calc(var(--brand-logo-height) * 1.7);
 	}
 }

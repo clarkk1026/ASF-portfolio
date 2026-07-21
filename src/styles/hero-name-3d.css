@@ -55,7 +55,7 @@
 .hero-letter {
 	position: relative;
 	display: inline-block;
-	padding: 0.06em 0.01em 0.1em;
+	padding: 0.06em 0.08em 0.18em 0.01em;
 	margin: 0;
 	overflow: visible;
 	cursor: default;
@@ -71,52 +71,89 @@
 	-moz-osx-font-smoothing: grayscale;
 	text-rendering: geometricPrecision;
 	transform: translate3d(0, 0, 0);
+	transform-style: preserve-3d;
 	backface-visibility: hidden;
 	background-clip: text;
 	-webkit-background-clip: text;
 	color: transparent;
 	-webkit-text-fill-color: transparent;
+	-webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.22);
 	transition:
 		transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-		filter 0.35s ease;
+		filter 0.35s ease,
+		text-shadow 0.35s ease;
 }
 
 /* ASF — cyan / teal */
 .hero-name-word--cyan .hero-letter {
 	background-image: linear-gradient(
 		180deg,
-		#b8fbff 0%,
-		#4aefff 30%,
-		#1fc3ff 62%,
-		#0a9ad4 100%
+		#ffffff 0%,
+		#c9fbff 22%,
+		#6cecff 60%,
+		#27bde7 100%
 	);
-	filter: drop-shadow(0 0 8px rgba(31, 195, 255, 0.55))
-		drop-shadow(0 0 18px rgba(31, 195, 255, 0.28));
+	text-shadow:
+		1px 1px 0 #50cce9,
+		2px 2px 0 #42bddc,
+		3px 3px 0 #35aecf,
+		4px 4px 0 #299fc1,
+		5px 5px 0 #208faf,
+		6px 6px 0 #187f9d,
+		7px 7px 0 #116f8b,
+		9px 11px 14px rgba(0, 15, 28, 0.54);
+	filter: drop-shadow(0 0 9px rgba(119, 235, 255, 0.5));
 }
 
 /* STUDIO — purple / magenta */
 .hero-name-word--purple .hero-letter {
 	background-image: linear-gradient(
 		180deg,
-		#f3c8ff 0%,
-		#d97aff 30%,
-		#b44dff 58%,
-		#8b2fd9 100%
+		#ffffff 0%,
+		#f1d4ff 22%,
+		#d795f5 60%,
+		#a653ce 100%
 	);
-	filter: drop-shadow(0 0 8px rgba(180, 77, 255, 0.55))
-		drop-shadow(0 0 18px rgba(147, 51, 234, 0.28));
+	text-shadow:
+		1px 1px 0 #c178dc,
+		2px 2px 0 #b56bce,
+		3px 3px 0 #a95fc1,
+		4px 4px 0 #9d53b3,
+		5px 5px 0 #9047a5,
+		6px 6px 0 #833b97,
+		7px 7px 0 #762f89,
+		9px 11px 14px rgba(20, 5, 30, 0.54);
+	filter: drop-shadow(0 0 9px rgba(222, 157, 255, 0.5));
 }
 
 .hero-name-word--cyan .hero-letter.is-hovered {
-	transform: translate3d(0, -4px, 0);
-	filter: drop-shadow(0 0 12px rgba(90, 220, 255, 0.8))
-		drop-shadow(0 0 24px rgba(31, 195, 255, 0.4));
+	transform: translate3d(-1px, -5px, 0);
+	text-shadow:
+		1px 1px 0 #67d9ef,
+		2px 2px 0 #59cbe3,
+		3px 3px 0 #4bbdd7,
+		4px 4px 0 #3eafca,
+		5px 5px 0 #31a1bd,
+		6px 6px 0 #2593b0,
+		7px 7px 0 #1a85a2,
+		8px 8px 0 #107694,
+		10px 13px 16px rgba(0, 12, 24, 0.62);
+	filter: drop-shadow(0 0 14px rgba(135, 239, 255, 0.72));
 }
 
 .hero-name-word--purple .hero-letter.is-hovered {
-	transform: translate3d(0, -4px, 0);
-	filter: drop-shadow(0 0 12px rgba(210, 140, 255, 0.8))
-		drop-shadow(0 0 24px rgba(180, 77, 255, 0.4));
+	transform: translate3d(-1px, -5px, 0);
+	text-shadow:
+		1px 1px 0 #d08ae7,
+		2px 2px 0 #c47ddd,
+		3px 3px 0 #b871d2,
+		4px 4px 0 #ac65c7,
+		5px 5px 0 #a059bc,
+		6px 6px 0 #944db1,
+		7px 7px 0 #8741a5,
+		8px 8px 0 #7a3599,
+		10px 13px 16px rgba(18, 4, 28, 0.62);
+	filter: drop-shadow(0 0 14px rgba(227, 174, 255, 0.72));
 }
 
 @media screen and (max-width: 480px) {

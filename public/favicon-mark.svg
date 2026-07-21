@@ -1,12 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ASF Studio">
-  <defs>
-    <linearGradient id="frame" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#47E0FF"/>
-      <stop offset="1" stop-color="#D97AFF"/>
-    </linearGradient>
-  </defs>
-  <rect width="64" height="64" rx="12" fill="#030810"/>
-  <path d="M19 7h26l12 12v26L45 57H19L7 45V19L19 7Z" fill="#08121F" stroke="url(#frame)" stroke-width="2"/>
-  <path d="m17 46 12-30h6l12 30h-7l-2.5-6.5H26.5L24 46h-7Zm13-13h6l-3-8.5L30 33Z" fill="#F4FBFF"/>
-  <path d="m43 15 7 7" stroke="#D97AFF" stroke-width="3" stroke-linecap="round"/>
+  <rect width="64" height="64" rx="11" fill="#05090E"/>
+  <path d="M24 10H10v14M40 54h14V40M54 24V10H40M10 40v14h14" fill="none" stroke="#F4F7F9" stroke-opacity=".55" stroke-width="2"/>
+  <path fill="#F4F7F9" fill-rule="evenodd" d="m17 47 12-31h6l12 31h-7l-2.4-7H26.4L24 47h-7Zm11.5-14h7L32 23l-3.5 10Z"/>
+  <path d="m45 14 6 6" stroke="#3DE8FF" stroke-width="3"/>
 </svg>
