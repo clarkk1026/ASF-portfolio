@@ -1,5 +1,6 @@
 :root {
 	--brand-logo-height: 2.15rem;
+	--brand-flow-duration: 3.6s;
 }
 
 .brand-logo {
@@ -10,112 +11,97 @@
 	line-height: 1;
 }
 
-.brand-lockup {
-	display: flex;
-	align-items: center;
-	gap: 0.7rem;
-	height: var(--brand-logo-height);
-}
-
 .brand-emblem {
-	display: block;
+	position: relative;
+	display: grid;
+	place-items: center;
 	width: var(--brand-logo-height);
 	height: var(--brand-logo-height);
 	flex: 0 0 auto;
 }
 
-.brand-emblem svg {
-	display: block;
+.brand-emblem-frame {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+.brand-emblem-frame path {
+	stroke: rgba(230, 238, 245, 0.55);
+	stroke-linecap: square;
+	stroke-width: 1.7;
+	fill: none;
+}
+
+.brand-emblem-frame .brand-emblem-accent {
+	stroke: #3de8ff;
+	stroke-width: 2.2;
+}
+
+.brand-flow {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	place-items: center;
 	width: 100%;
 	height: 100%;
 }
 
-.brand-emblem-frame {
-	stroke: rgba(247, 250, 252, 0.48);
-	stroke-linecap: square;
-	stroke-width: 1.5;
-}
-
-.brand-emblem-a {
-	fill: #f7fafc;
-}
-
-.brand-emblem-accent {
-	stroke: #3de8ff;
-	stroke-linecap: square;
-	stroke-width: 2;
-}
-
-.brand-wordmark {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	gap: 0.3rem;
-	width: calc(var(--brand-logo-height) * 1.85);
-}
-
-.brand-wordmark-name {
+.brand-flow-letter {
+	grid-area: 1 / 1;
 	font-family: 'Bricolage Grotesque', 'Arial Black', sans-serif;
 	font-size: calc(var(--brand-logo-height) * 0.72);
 	font-weight: 800;
 	font-variation-settings: 'opsz' 72;
-	letter-spacing: 0.14em;
-	line-height: 0.8;
-	color: #f7fafc;
+	letter-spacing: -0.04em;
+	line-height: 1;
+	color: #f4f8fb;
 	text-transform: uppercase;
+	opacity: 0;
+	transform: translateY(0.18em) scale(0.92);
+	animation: brand-letter-flow var(--brand-flow-duration) ease-in-out infinite;
+	animation-delay: calc(var(--i) * (var(--brand-flow-duration) / 3));
 }
 
-.brand-foundation {
-	display: grid;
-	grid-template-columns: 1.35fr repeat(4, 1fr);
-	gap: 0.14rem;
-	width: 100%;
-	height: 2px;
+@keyframes brand-letter-flow {
+	0%,
+	8% {
+		opacity: 0;
+		transform: translateY(0.18em) scale(0.92);
+		text-shadow: none;
+	}
+	16%,
+	28% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+		text-shadow: 0 0 12px rgba(61, 232, 255, 0.35);
+	}
+	36%,
+	100% {
+		opacity: 0;
+		transform: translateY(-0.16em) scale(0.94);
+		text-shadow: none;
+	}
 }
 
-.brand-foundation span {
-	display: block;
-	background: rgba(247, 250, 252, 0.24);
+.navbar-brand:hover .brand-emblem-frame path {
+	stroke: rgba(244, 248, 251, 0.78);
 }
 
-.brand-foundation .brand-foundation-lead {
-	background: #3de8ff;
-}
-
-.brand-emblem-frame,
-.brand-emblem-a,
-.brand-emblem-accent,
-.brand-wordmark-name,
-.brand-foundation span {
-	transition:
-		fill 0.25s ease,
-		stroke 0.25s ease,
-		color 0.25s ease,
-		background-color 0.25s ease;
-}
-
-.navbar-brand:hover .brand-emblem-frame {
-	stroke: rgba(247, 250, 252, 0.75);
-}
-
-.navbar-brand:hover .brand-emblem-accent {
+.navbar-brand:hover .brand-emblem-frame .brand-emblem-accent {
 	stroke: #8cefff;
 }
 
-.navbar-brand:hover .brand-foundation span {
-	background: rgba(247, 250, 252, 0.42);
-}
-
-.navbar-brand:hover .brand-foundation .brand-foundation-lead {
-	background: #3de8ff;
-}
-
-@media screen and (max-width: 720px) {
-	.brand-lockup {
-		gap: 0.55rem;
+@media (prefers-reduced-motion: reduce) {
+	.brand-flow-letter {
+		animation: none;
+		opacity: 0;
 	}
 
-	.brand-wordmark {
-		width: calc(var(--brand-logo-height) * 1.7);
+	.brand-flow-letter:first-child {
+		opacity: 1;
+		transform: none;
 	}
 }

@@ -4,7 +4,6 @@ import { DiMongodb } from 'react-icons/di';
 import {
     FaAws,
     FaBrain,
-    FaGamepad,
     FaGithub,
     FaLayerGroup,
     FaNodeJs,
@@ -28,10 +27,9 @@ import {
     SiRedis,
     SiTailwindcss,
     SiTensorflow,
-    SiUnity,
     SiVercel,
 } from 'react-icons/si';
-import { TbBrandCSharp, TbBrandNextjs } from 'react-icons/tb';
+import { TbBrandNextjs } from 'react-icons/tb';
 
 export type SocialLink = {
 	label: string;
@@ -111,7 +109,7 @@ export const team = {
 	name: 'ASF',
 	fullName: 'ASF Studio',
 	tagline:
-		'We build web applications, commerce storefronts, backend systems, and interactive experiences for clients who need working software in production. Five people, fully remote, across the US, Ireland, and Poland.',
+		'We build web applications, commerce storefronts, and backend systems for clients who need working software in production. Three people, fully remote, across the US, Ireland, and Poland.',
 	heroGreeting: 'We are',
 	heroLead: 'A remote software studio founded by Ben Clark',
 	established: '2024',
@@ -146,24 +144,6 @@ export const teamMembers: TeamMember[] = [
 		summary:
 			'Owns model integrations, data pipelines, and Python services that connect ML features to production products.',
 		focus: ['Python', 'ML APIs', 'Data pipelines'],
-	},
-	{
-		id: 'le-wei',
-		name: 'Le Wei',
-		role: 'Frontend Developer',
-		location: 'Galway, Ireland',
-		summary:
-			'Originally from Singapore, now based in Ireland. Builds React interfaces and Shopify storefronts with a focus on speed, accessibility, and clean UI delivery.',
-		focus: ['React', 'Shopify', 'UI', 'Performance'],
-	},
-	{
-		id: 'amanda',
-		name: 'Amanda',
-		role: 'Senior Game Developer',
-		location: 'Limerick, Ireland',
-		summary:
-			'Owns game systems, gameplay features, and interactive client work across Unity and web-based projects.',
-		focus: ['Unity', 'C#', 'Gameplay', 'Interactive'],
 	},
 ];
 
@@ -206,7 +186,7 @@ export const navLinks: NavLink[] = [
 ];
 
 export const highlights: Highlight[] = [
-	{ value: '5', label: 'Team Members' },
+	{ value: '3', label: 'Team Members' },
 	{ value: '3', label: 'Countries' },
 	{ value: '2024', label: 'Founded' },
 	{ value: '100%', label: 'Remote' },
@@ -217,7 +197,6 @@ export const traits: string[] = [
 	'Full stack delivery',
 	'Python and backend APIs',
 	'Shopify and commerce',
-	'Game and interactive work',
 	'Clear client communication',
 	'Remote collaboration',
 	'Production-first engineering',
@@ -259,15 +238,6 @@ export const expertise: ExpertiseItem[] = [
 		iconColor: 'rgb(31, 195, 255)',
 		glowColor: 'rgba(31, 195, 255, 0.55)',
 		tags: ['React', 'Node.js', 'PostgreSQL', 'REST APIs', 'Docker'],
-	},
-	{
-		title: 'Game and Interactive Development',
-		description:
-			'Unity gameplay systems, interactive client experiences, and web-based interactive features when products need more than a standard app UI.',
-		icon: FaGamepad,
-		iconColor: 'rgb(255, 170, 80)',
-		glowColor: 'rgba(255, 170, 80, 0.55)',
-		tags: ['Unity', 'C#', 'Gameplay', 'Interactive', 'Client experiences'],
 	},
 ];
 
@@ -360,7 +330,7 @@ export const expertiseSection = {
 		title: 'What We',
 		subtitle: 'Build',
 		summary:
-			'Full stack web applications, Python backends, commerce work, and game or interactive experiences. These are the areas where the team spends most of its time.',
+			'Full stack web applications, Python backends, and commerce work. These are the areas where the team spends most of its time.',
 	},
 };
 
@@ -378,7 +348,7 @@ export const teamSection = {
 		title: 'Our',
 		subtitle: 'Team',
 		summary:
-			'Five people working remotely from the US, Ireland, and Poland. Ben Clark founded the studio and still leads delivery.',
+			'Three people working remotely from the US, Ireland, and Poland. Ben Clark founded the studio and still leads delivery.',
 	},
 };
 
@@ -474,11 +444,11 @@ export const about = {
 		title: 'About',
 		subtitle: 'ASF',
 		summary:
-			'A remote software studio founded by Ben Clark in 2024, working across full stack engineering, commerce, backends, and game development',
+			'A remote software studio founded by Ben Clark in 2024, working across full stack engineering, commerce, and backend systems',
 	},
 	intro: [
-		'ASF started when Ben Clark left product engineering roles at Cloudsmith and Nearform and began taking on client work with a small group of developers he trusted. The studio is fully remote: Ben works from Sandpoint, Idaho; Conner, Le Wei, and Amanda are based in Ireland; and Yuki, originally from Japan, works from Poland. Le Wei is originally from Singapore.',
-		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Yuki on full stack features, Conner on machine learning integration, Le Wei on front end and Shopify, and Amanda on game development.',
+		'ASF started when Ben Clark left product engineering roles at Cloudsmith and Nearform and began taking on client work with a small group of developers he trusted. The studio is fully remote: Ben works from Sandpoint, Idaho; Conner is based in Dublin, Ireland; and Yuki, originally from Japan, works from Poland.',
+		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Yuki on full stack features, and Conner on machine learning integration.',
 	],
 };
 
@@ -509,7 +479,7 @@ export const benStory = {
 		'The through-line is building step by step: learning, adapting, and creating a foundation over time.',
 	],
 	teamsLed: [
-		'ASF Studio, five people across the US, Ireland, and Poland since 2024.',
+		'ASF Studio, three people across the US, Ireland, and Poland since 2024.',
 		'Operations and product work with a classmate at Threadline Co during university.',
 		'Technical delivery at Cloudsmith and Nearform before founding the studio.',
 	],
@@ -562,8 +532,8 @@ export const experience = {
 					period: '2024 to Present',
 					bullets: [
 						'Ben Clark founded ASF to deliver client software with a small, trusted team.',
-						'Core focus: full stack web apps, Shopify commerce, Python backends, ML integrations, and game or interactive work.',
-						'Current team: Ben, Yuki Mory, Conner, Le Wei, and Amanda.',
+						'Core focus: full stack web apps, Shopify commerce, Python backends, and ML integrations.',
+						'Current team: Ben, Yuki Mory, and Conner.',
 					],
 				},
 				{
@@ -751,23 +721,6 @@ export const techStack = {
 					icon: SiPytorch,
 					iconColor: 'rgb(238, 76, 44)',
 					glowColor: 'rgba(238, 76, 44, 0.6)',
-				},
-			],
-		},
-		{
-			heading: 'Game & Interactive',
-			items: [
-				{
-					label: 'Unity',
-					icon: SiUnity,
-					iconColor: 'rgb(255, 255, 255)',
-					glowColor: 'rgba(255, 255, 255, 0.45)',
-				},
-				{
-					label: 'C#',
-					icon: TbBrandCSharp,
-					iconColor: 'rgb(104, 33, 122)',
-					glowColor: 'rgba(160, 90, 200, 0.55)',
 				},
 			],
 		},

@@ -1,6 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ASF Studio">
-  <rect width="64" height="64" rx="11" fill="#05090E"/>
-  <path d="M24 10H10v14M40 54h14V40M54 24V10H40M10 40v14h14" fill="none" stroke="#F4F7F9" stroke-opacity=".55" stroke-width="2"/>
-  <path fill="#F4F7F9" fill-rule="evenodd" d="m17 47 12-31h6l12 31h-7l-2.4-7H26.4L24 47h-7Zm11.5-14h7L32 23l-3.5 10Z"/>
-  <path d="m45 14 6 6" stroke="#3DE8FF" stroke-width="3"/>
+  <rect width="64" height="64" rx="10" fill="#05090E"/>
+  <path d="M22 8H8v14" fill="none" stroke="#E6EEF5" stroke-opacity=".7" stroke-width="2.5"/>
+  <path d="M42 56h14V42" fill="none" stroke="#E6EEF5" stroke-opacity=".7" stroke-width="2.5"/>
+  <path d="M56 22V8H42" fill="none" stroke="#E6EEF5" stroke-opacity=".7" stroke-width="2.5"/>
+  <path d="M8 42v14h14" fill="none" stroke="#E6EEF5" stroke-opacity=".7" stroke-width="2.5"/>
+  <path d="m45 12 7 7" stroke="#3DE8FF" stroke-width="3"/>
+  <text x="32" y="42" text-anchor="middle" fill="#F4F8FB" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="28" font-weight="800">A</text>
 </svg>

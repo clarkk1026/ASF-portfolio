@@ -3,15 +3,15 @@
 	display: inline-block;
 	width: fit-content;
 	max-width: 100%;
-	padding: 0.35em 0.4em 0.4em;
+	padding: 0.45em 0.55em 0.55em;
 	overflow: visible;
 }
 
 .hero-name-3d-canvas {
 	position: absolute;
-	inset: -18% -10%;
-	width: 120%;
-	height: 136%;
+	inset: -20% -12%;
+	width: 124%;
+	height: 140%;
 	pointer-events: none;
 	z-index: 5;
 }
@@ -48,86 +48,71 @@
 
 .hero-letter-space {
 	display: inline-block;
-	width: 0.32em;
+	width: 0.3em;
 	flex-shrink: 0;
 }
 
 .hero-letter {
 	position: relative;
 	display: inline-block;
-	padding: 0.06em 0.08em 0.18em 0.01em;
-	margin: 0;
+	padding: 0.12em 0.05em 0.2em;
+	margin: 0 0.01em;
 	overflow: visible;
 	cursor: default;
-	font-family: 'Orbitron', 'Open Sans', sans-serif;
-	font-size: clamp(2.1rem, 7.2vw, 4.6rem);
-	font-weight: 800;
-	font-style: normal;
-	line-height: 1;
-	letter-spacing: 0.04em;
+	font-family: 'Fugaz One', 'Arial Black', sans-serif;
+	font-size: clamp(2.35rem, 8vw, 5.35rem);
+	font-weight: 400;
+	font-style: italic;
+	line-height: 1.12;
+	letter-spacing: 0.02em;
 	text-transform: uppercase;
 	user-select: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-rendering: geometricPrecision;
 	transform: translate3d(0, 0, 0);
-	transform-style: preserve-3d;
 	backface-visibility: hidden;
-	background-clip: text;
-	-webkit-background-clip: text;
-	color: transparent;
-	-webkit-text-fill-color: transparent;
-	-webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.22);
 	transition:
 		transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-		filter 0.35s ease,
+		color 0.35s ease,
 		text-shadow 0.35s ease;
 }
 
-/* ASF — cyan / teal */
+/* ASF — comet cyan */
 .hero-name-word--cyan .hero-letter {
-	background-image: linear-gradient(
-		180deg,
-		#ffffff 0%,
-		#c9fbff 22%,
-		#6cecff 60%,
-		#27bde7 100%
-	);
+	color: #dffbff;
 	text-shadow:
-		1px 1px 0 #50cce9,
-		2px 2px 0 #42bddc,
-		3px 3px 0 #35aecf,
-		4px 4px 0 #299fc1,
-		5px 5px 0 #208faf,
-		6px 6px 0 #187f9d,
-		7px 7px 0 #116f8b,
-		9px 11px 14px rgba(0, 15, 28, 0.54);
-	filter: drop-shadow(0 0 9px rgba(119, 235, 255, 0.5));
+		1px 1px 0 #4ec8e4,
+		2px 2px 0 #3eb8d6,
+		3px 3px 0 #32a8c7,
+		4px 4px 0 #2898b7,
+		5px 5px 0 #1f88a5,
+		6px 6px 0 #177893,
+		7px 7px 0 #106880,
+		0 0 14px rgba(90, 230, 255, 0.55),
+		0 0 28px rgba(40, 170, 230, 0.28),
+		10px 14px 18px rgba(0, 10, 24, 0.55);
 }
 
-/* STUDIO — purple / magenta */
+/* STUDIO — nebula purple */
 .hero-name-word--purple .hero-letter {
-	background-image: linear-gradient(
-		180deg,
-		#ffffff 0%,
-		#f1d4ff 22%,
-		#d795f5 60%,
-		#a653ce 100%
-	);
+	color: #f4e3ff;
 	text-shadow:
-		1px 1px 0 #c178dc,
-		2px 2px 0 #b56bce,
-		3px 3px 0 #a95fc1,
-		4px 4px 0 #9d53b3,
-		5px 5px 0 #9047a5,
-		6px 6px 0 #833b97,
-		7px 7px 0 #762f89,
-		9px 11px 14px rgba(20, 5, 30, 0.54);
-	filter: drop-shadow(0 0 9px rgba(222, 157, 255, 0.5));
+		1px 1px 0 #c27adf,
+		2px 2px 0 #b46dd0,
+		3px 3px 0 #a661c1,
+		4px 4px 0 #9855b2,
+		5px 5px 0 #8a49a3,
+		6px 6px 0 #7c3d94,
+		7px 7px 0 #6e3185,
+		0 0 14px rgba(210, 140, 255, 0.5),
+		0 0 28px rgba(160, 80, 230, 0.26),
+		10px 14px 18px rgba(12, 2, 24, 0.55);
 }
 
 .hero-name-word--cyan .hero-letter.is-hovered {
-	transform: translate3d(-1px, -5px, 0);
+	transform: translate3d(0, -6px, 0);
+	color: #ffffff;
 	text-shadow:
 		1px 1px 0 #67d9ef,
 		2px 2px 0 #59cbe3,
@@ -137,12 +122,14 @@
 		6px 6px 0 #2593b0,
 		7px 7px 0 #1a85a2,
 		8px 8px 0 #107694,
-		10px 13px 16px rgba(0, 12, 24, 0.62);
-	filter: drop-shadow(0 0 14px rgba(135, 239, 255, 0.72));
+		0 0 18px rgba(140, 240, 255, 0.75),
+		0 0 34px rgba(60, 200, 255, 0.4),
+		12px 16px 20px rgba(0, 10, 24, 0.6);
 }
 
 .hero-name-word--purple .hero-letter.is-hovered {
-	transform: translate3d(-1px, -5px, 0);
+	transform: translate3d(0, -6px, 0);
+	color: #ffffff;
 	text-shadow:
 		1px 1px 0 #d08ae7,
 		2px 2px 0 #c47ddd,
@@ -152,14 +139,15 @@
 		6px 6px 0 #944db1,
 		7px 7px 0 #8741a5,
 		8px 8px 0 #7a3599,
-		10px 13px 16px rgba(18, 4, 28, 0.62);
-	filter: drop-shadow(0 0 14px rgba(227, 174, 255, 0.72));
+		0 0 18px rgba(220, 160, 255, 0.7),
+		0 0 34px rgba(170, 90, 240, 0.38),
+		12px 16px 20px rgba(12, 2, 24, 0.6);
 }
 
 @media screen and (max-width: 480px) {
 	.hero-letter {
-		font-size: clamp(1.55rem, 11vw, 2.35rem);
-		letter-spacing: 0.02em;
+		font-size: clamp(1.7rem, 11.5vw, 2.55rem);
+		letter-spacing: 0.01em;
 	}
 
 	.hero-letter-space {
