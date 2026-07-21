@@ -1,23 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ASF Studio">
-  <rect width="64" height="64" rx="10" fill="#000000"/>
-  <text
-    x="32"
-    y="28"
-    text-anchor="middle"
-    fill="#3de8ff"
-    font-family="Arial Black, Arial, Helvetica, sans-serif"
-    font-size="16"
-    font-weight="800"
-    letter-spacing="1"
-  >ASF</text>
-  <text
-    x="32"
-    y="48"
-    text-anchor="middle"
-    fill="#d97aff"
-    font-family="Arial Black, Arial, Helvetica, sans-serif"
-    font-size="9"
-    font-weight="800"
-    letter-spacing="1.5"
-  >STUDIO</text>
+  <defs>
+    <linearGradient id="frame" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#47E0FF"/>
+      <stop offset="1" stop-color="#D97AFF"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="12" fill="#030810"/>
+  <path d="M19 7h26l12 12v26L45 57H19L7 45V19L19 7Z" fill="#08121F" stroke="url(#frame)" stroke-width="2"/>
+  <path d="m17 46 12-30h6l12 30h-7l-2.5-6.5H26.5L24 46h-7Zm13-13h6l-3-8.5L30 33Z" fill="#F4FBFF"/>
+  <path d="m43 15 7 7" stroke="#D97AFF" stroke-width="3" stroke-linecap="round"/>
 </svg>

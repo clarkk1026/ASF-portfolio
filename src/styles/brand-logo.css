@@ -1,58 +1,97 @@
 :root {
 	--brand-logo-height: 2.15rem;
-	--brand-asf: #3de8ff;
-	--brand-studio: #d97aff;
 }
 
 .brand-logo {
 	display: inline-flex;
-	align-items: baseline;
-	gap: 0.38em;
+	align-items: center;
+	gap: 0.65rem;
 	color: inherit;
 	text-decoration: none;
 	line-height: 1;
 }
 
-.brand-word {
+.brand-emblem {
+	position: relative;
+	display: grid;
+	width: calc(var(--brand-logo-height) * 1.08);
+	height: calc(var(--brand-logo-height) * 1.08);
+	flex: 0 0 auto;
+	place-items: center;
+	filter: drop-shadow(0 0 9px rgba(31, 195, 255, 0.22));
+}
+
+.brand-emblem::before {
+	position: absolute;
+	inset: 14%;
+	border-radius: 50%;
+	background: rgba(31, 195, 255, 0.12);
+	content: '';
+	filter: blur(8px);
+}
+
+.brand-emblem svg {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+.brand-emblem-frame {
+	fill: rgba(8, 18, 31, 0.88);
+	stroke: rgba(71, 224, 255, 0.72);
+	stroke-width: 1.4;
+}
+
+.brand-emblem-mark {
+	fill: #f4fbff;
+	filter: drop-shadow(0 0 4px rgba(112, 231, 255, 0.48));
+}
+
+.brand-emblem-cut {
+	stroke: #d97aff;
+	stroke-linecap: round;
+	stroke-width: 2.4;
+}
+
+.brand-wordmark {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 0.25rem;
+}
+
+.brand-wordmark-name {
 	font-family: 'Orbitron', 'Open Sans', sans-serif;
+	font-size: calc(var(--brand-logo-height) * 0.62);
 	font-weight: 800;
-	font-style: normal;
-	text-transform: uppercase;
-	letter-spacing: 0.06em;
+	letter-spacing: 0.18em;
 	line-height: 1;
-}
-
-.brand-word-asf {
-	font-size: calc(var(--brand-logo-height) * 0.92);
-	background: linear-gradient(180deg, #9ef7ff 0%, #3de8ff 45%, #1fc3ff 100%);
+	background: linear-gradient(90deg, #f5fbff 0%, #a8ecff 62%, #d9b5ff 100%);
 	background-clip: text;
 	-webkit-background-clip: text;
 	color: transparent;
 	-webkit-text-fill-color: transparent;
-	filter: drop-shadow(0 0 6px rgba(31, 195, 255, 0.35));
+	text-transform: uppercase;
 }
 
-.brand-word-studio {
-	font-size: calc(var(--brand-logo-height) * 0.72);
-	letter-spacing: 0.1em;
-	background: linear-gradient(180deg, #f0c0ff 0%, #d97aff 45%, #b44dff 100%);
-	background-clip: text;
-	-webkit-background-clip: text;
-	color: transparent;
-	-webkit-text-fill-color: transparent;
-	filter: drop-shadow(0 0 6px rgba(180, 77, 255, 0.35));
+.brand-wordmark-subtitle {
+	font-family: 'Open Sans', sans-serif;
+	font-size: calc(var(--brand-logo-height) * 0.22);
+	font-weight: 700;
+	letter-spacing: 0.19em;
+	line-height: 1;
+	color: rgba(184, 211, 225, 0.7);
+	text-transform: uppercase;
+	white-space: nowrap;
 }
 
 @media screen and (max-width: 720px) {
 	.brand-logo {
-		gap: 0.3em;
+		gap: 0.5rem;
 	}
 
-	.brand-word-asf {
-		font-size: calc(var(--brand-logo-height) * 0.88);
-	}
-
-	.brand-word-studio {
-		font-size: calc(var(--brand-logo-height) * 0.66);
+	.brand-wordmark-subtitle {
+		display: none;
 	}
 }
