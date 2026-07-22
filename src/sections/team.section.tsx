@@ -38,7 +38,10 @@ export const Team = () => {
 									) : null}
 								</header>
 
-								<p className='team-card-location'>{member.location}</p>
+								<p className='team-card-location'>
+									{member.location}
+									{member.age != null ? ` · ${member.age}` : ''}
+								</p>
 								<p className='team-card-summary'>{member.summary}</p>
 
 								<div className='team-card-focus'>
