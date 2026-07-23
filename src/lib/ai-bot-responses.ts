@@ -1,18 +1,18 @@
 import {
-	benPersonality,
-	benStory,
-	contact,
-	experience,
-	highlights,
-	personal,
-	team,
-	traits,
-	whatsappUrl,
+    benPersonality,
+    benStory,
+    contact,
+    experience,
+    highlights,
+    personal,
+    team,
+    traits,
+    whatsappUrl,
 } from '../data/portfolio.js';
 import { botGreeting, type BotMood } from './ai-bot-brand.js';
 import {
-	getGithubLockedBotReply,
-	isGithubQuestion,
+    getGithubLockedBotReply,
+    isGithubQuestion,
 } from './ai-bot-github-guard.js';
 
 export type BotMessage = {
@@ -264,15 +264,15 @@ const BEN_RELATED_TERMS = [
 ];
 
 const isTeamMemberQuestion = (q: string, tokens: string[]) => {
-	if (matches(q, [/yuki|mory|conner|connor|ahmed|achtatar/])) return true;
-	if (hasWord(tokens, ['yuki', 'mory', 'conner', 'connor', 'ahmed', 'achtatar'])) {
+	if (matches(q, [/yuki|mory|conner|connor|ahmed|achtatar|le wei/])) return true;
+	if (hasWord(tokens, ['yuki', 'mory', 'conner', 'connor', 'ahmed', 'achtatar', 'wei'])) {
 		return true;
 	}
 	if (
 		matches(q, [
-			/who (is|are) (yuki|conner|connor|ahmed)/,
-			/tell me about (yuki|conner|connor|ahmed|the team)/,
-			/about (yuki|conner|connor|ahmed)/,
+			/who (is|are) (yuki|conner|connor|ahmed|le wei)/,
+			/tell me about (yuki|conner|connor|ahmed|le wei|the team)/,
+			/about (yuki|conner|connor|ahmed|le wei)/,
 		])
 	) {
 		return true;
@@ -291,9 +291,9 @@ const isTeamMemberQuestion = (q: string, tokens: string[]) => {
 
 const teamMemberDeflect = (ctx: BotContext): BotReply => ({
 	text: pick([
-		`Good question. The **Team** section has short profiles for Yuki, Conner, and Ahmed.\n\nI'm here for **Ben Clark** specifically. Ask about his experience, technical background, or contact details.\n\n[[mood:calm]]`,
+		`Good question. The **Team** section has short profiles for Yuki, Conner, Le Wei, and Ahmed.\n\nI'm here for **Ben Clark** specifically. Ask about his experience, technical background, or contact details.\n\n[[mood:calm]]`,
 		`Team bios are on the site under **Our Team**. I focus on Ben since he leads ASF and handles client enquiries.\n\n[[mood:warm]]`,
-		`ASF has four people working remotely. I don't go deep on other members here, but the Team section does. Happy to talk about Ben's work.\n\n[[mood:thoughtful]]`,
+		`ASF has five people working remotely. I don't go deep on other members here, but the Team section does. Happy to talk about Ben's work.\n\n[[mood:thoughtful]]`,
 	]),
 	intent: 'team_deflect',
 	userName: ctx.userName,
