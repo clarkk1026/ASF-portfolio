@@ -139,10 +139,10 @@ export const teamMembers: TeamMember[] = [
 	{
 		id: 'facundo-carnevale',
 		name: 'Facundo Carnevale',
-		role: 'Full Stack Developer',
+		role: 'Senior Full Stack Developer',
 		location: 'Buenos Aires, Argentina',
 		summary:
-			'Software Developer based in Buenos Aires. Full stack with React Native, React, and TypeScript on the front; Java, Smalltalk, and PostgreSQL on the back. CS student and former OOP teaching assistant.',
+			'Senior software developer based in Buenos Aires. Delivers production full-stack systems with React Native, React, and TypeScript on the client side, and Java, Smalltalk, and PostgreSQL on the server side. Computer science background with prior experience as an OOP teaching assistant.',
 		focus: ['React Native', 'React', 'TypeScript', 'Java', 'PostgreSQL'],
 	},
 	{
@@ -466,7 +466,7 @@ export const about = {
 	},
 	intro: [
 		'ASF started when Ben Clark left product engineering roles at Cloudsmith and Nearform and began taking on client work with a small group of developers he trusted. The studio is fully remote: Ben works from Sandpoint, Idaho; Le Wei is based in Ireland; Yuki, originally from Japan, works from Poland; Ahmed Achtatar works from Morocco; and Facundo Carnevale works from Buenos Aires, Argentina. Le Wei is originally from Singapore.',
-		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Yuki on full stack features, Facundo on full stack and React Native delivery, Le Wei on game development, and Ahmed on AI and big data systems.',
+		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Yuki on full stack features, Facundo on senior full stack and React Native delivery, Le Wei on game development, and Ahmed on AI and big data systems.',
 	],
 };
 
