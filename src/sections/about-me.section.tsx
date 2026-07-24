@@ -37,7 +37,7 @@ export const AboutMe = () => {
 
 						<footer className='about-story-footer'>
 							<span>Remote studio</span>
-							<span>US, Ireland, Poland, Morocco</span>
+							<span>US, Ireland, Poland, Morocco, Argentina</span>
 						</footer>
 					</article>
 				</Reveal>

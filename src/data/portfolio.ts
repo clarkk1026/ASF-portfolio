@@ -100,7 +100,6 @@ export type TeamMember = {
 	name: string;
 	role: string;
 	location: string;
-	age?: number;
 	isLeader?: boolean;
 	summary: string;
 	focus: string[];
@@ -110,11 +109,11 @@ export const team = {
 	name: 'ASF',
 	fullName: 'ASF Studio',
 	tagline:
-		'We build web applications, commerce storefronts, and backend systems for clients who need working software in production. Five people, fully remote, across the US, Ireland, Poland, and Morocco.',
+		'We build web applications, commerce storefronts, and backend systems for clients who need working software in production. Five people, fully remote, across the US, Ireland, Poland, Morocco, and Argentina.',
 	heroGreeting: 'We are',
 	heroLead: 'A remote software studio founded by Ben Clark',
 	established: '2024',
-	model: 'Remote across the US, Ireland, Poland, and Morocco',
+	model: 'Remote across the US, Ireland, Poland, Morocco, and Argentina',
 };
 
 export const teamMembers: TeamMember[] = [
@@ -133,20 +132,18 @@ export const teamMembers: TeamMember[] = [
 		name: 'Yuki Mory',
 		role: 'Senior Full Stack Developer',
 		location: 'Krakow, Poland',
-		age: 28,
 		summary:
 			'Originally from Japan, now based in Poland. Builds APIs, databases, and React features for B2B and product platforms.',
 		focus: ['React', 'Node.js', 'PostgreSQL', 'APIs'],
 	},
 	{
-		id: 'conner',
-		name: 'Conner',
-		role: 'ML and Mobile Engineer',
-		location: 'Dublin, Ireland',
-		age: 26,
+		id: 'facundo-carnevale',
+		name: 'Facundo Carnevale',
+		role: 'Full Stack Developer',
+		location: 'Buenos Aires, Argentina',
 		summary:
-			'Owns model integrations, data pipelines, and Python services, plus Android and mobile app delivery that connects ML features to production products.',
-		focus: ['Python', 'ML APIs', 'Android', 'Mobile'],
+			'Software Developer based in Buenos Aires. Full stack with React Native, React, and TypeScript on the front; Java, Smalltalk, and PostgreSQL on the back. CS student and former OOP teaching assistant.',
+		focus: ['React Native', 'React', 'TypeScript', 'Java', 'PostgreSQL'],
 	},
 	{
 		id: 'le-wei',
@@ -162,7 +159,6 @@ export const teamMembers: TeamMember[] = [
 		name: 'Ahmed Achtatar',
 		role: 'AI and Big Data Engineer',
 		location: 'Morocco',
-		age: 25,
 		summary:
 			'AI and Big Data Engineer with hands-on experience across web development, AI-enabled tools, data systems, and software delivery.',
 		focus: ['AI', 'Big Data', 'Web development', 'Data systems'],
@@ -209,7 +205,7 @@ export const navLinks: NavLink[] = [
 
 export const highlights: Highlight[] = [
 	{ value: '5', label: 'Team Members' },
-	{ value: '4', label: 'Countries' },
+	{ value: '5', label: 'Countries' },
 	{ value: '2024', label: 'Founded' },
 	{ value: '100%', label: 'Remote' },
 	{ value: '10+', label: 'Client Projects' },
@@ -370,7 +366,7 @@ export const teamSection = {
 		title: 'Our',
 		subtitle: 'Team',
 		summary:
-			'Five people working remotely from the US, Ireland, Poland, and Morocco. Ben Clark founded the studio and still leads delivery.',
+			'Five people working remotely from the US, Ireland, Poland, Morocco, and Argentina. Ben Clark founded the studio and still leads delivery.',
 	},
 };
 
@@ -469,8 +465,8 @@ export const about = {
 			'A remote software studio founded by Ben Clark in 2024, working across full stack engineering, commerce, and backend systems',
 	},
 	intro: [
-		'ASF started when Ben Clark left product engineering roles at Cloudsmith and Nearform and began taking on client work with a small group of developers he trusted. The studio is fully remote: Ben works from Sandpoint, Idaho; Conner and Le Wei are based in Ireland; Yuki, originally from Japan, works from Poland; and Ahmed Achtatar works from Morocco. Le Wei is originally from Singapore.',
-		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Yuki on full stack features, Conner on machine learning and mobile/Android delivery, Le Wei on game development, and Ahmed on AI and big data systems.',
+		'ASF started when Ben Clark left product engineering roles at Cloudsmith and Nearform and began taking on client work with a small group of developers he trusted. The studio is fully remote: Ben works from Sandpoint, Idaho; Le Wei is based in Ireland; Yuki, originally from Japan, works from Poland; Ahmed Achtatar works from Morocco; and Facundo Carnevale works from Buenos Aires, Argentina. Le Wei is originally from Singapore.',
+		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Yuki on full stack features, Facundo on full stack and React Native delivery, Le Wei on game development, and Ahmed on AI and big data systems.',
 	],
 };
 
@@ -501,7 +497,7 @@ export const benStory = {
 		'The through-line is building step by step: learning, adapting, and creating a foundation over time.',
 	],
 	teamsLed: [
-		'ASF Studio, five people across the US, Ireland, Poland, and Morocco since 2024.',
+		'ASF Studio, five people across the US, Ireland, Poland, Morocco, and Argentina since 2024.',
 		'Operations and product work with a classmate at Threadline Co during university.',
 		'Technical delivery at Cloudsmith and Nearform before founding the studio.',
 	],
@@ -550,12 +546,12 @@ export const experience = {
 			items: [
 				{
 					role: 'ASF Studio founded',
-					org: 'Remote · US, Ireland, Poland, Morocco',
+					org: 'Remote · US, Ireland, Poland, Morocco, Argentina',
 					period: '2024 to Present',
 					bullets: [
 						'Ben Clark founded ASF to deliver client software with a small, trusted team.',
 						'Core focus: full stack web apps, Shopify commerce, Python backends, and ML integrations.',
-						'Current team: Ben, Yuki Mory, Conner, Le Wei, and Ahmed Achtatar.',
+						'Current team: Ben, Yuki Mory, Facundo Carnevale, Le Wei, and Ahmed Achtatar.',
 					],
 				},
 				{

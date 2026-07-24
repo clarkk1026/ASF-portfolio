@@ -264,15 +264,15 @@ const BEN_RELATED_TERMS = [
 ];
 
 const isTeamMemberQuestion = (q: string, tokens: string[]) => {
-	if (matches(q, [/yuki|mory|conner|connor|ahmed|achtatar|le wei/])) return true;
-	if (hasWord(tokens, ['yuki', 'mory', 'conner', 'connor', 'ahmed', 'achtatar', 'wei'])) {
+	if (matches(q, [/yuki|mory|facundo|carnevale|ahmed|achtatar|le wei/])) return true;
+	if (hasWord(tokens, ['yuki', 'mory', 'facundo', 'carnevale', 'ahmed', 'achtatar', 'wei'])) {
 		return true;
 	}
 	if (
 		matches(q, [
-			/who (is|are) (yuki|conner|connor|ahmed|le wei)/,
-			/tell me about (yuki|conner|connor|ahmed|le wei|the team)/,
-			/about (yuki|conner|connor|ahmed|le wei)/,
+			/who (is|are) (yuki|facundo|ahmed|le wei)/,
+			/tell me about (yuki|facundo|ahmed|le wei|the team)/,
+			/about (yuki|facundo|ahmed|le wei)/,
 		])
 	) {
 		return true;
@@ -291,7 +291,7 @@ const isTeamMemberQuestion = (q: string, tokens: string[]) => {
 
 const teamMemberDeflect = (ctx: BotContext): BotReply => ({
 	text: pick([
-		`Good question. The **Team** section has short profiles for Yuki, Conner, Le Wei, and Ahmed.\n\nI'm here for **Ben Clark** specifically. Ask about his experience, technical background, or contact details.\n\n[[mood:calm]]`,
+		`Good question. The **Team** section has short profiles for Yuki, Facundo, Le Wei, and Ahmed.\n\nI'm here for **Ben Clark** specifically. Ask about his experience, technical background, or contact details.\n\n[[mood:calm]]`,
 		`Team bios are on the site under **Our Team**. I focus on Ben since he leads ASF and handles client enquiries.\n\n[[mood:warm]]`,
 		`ASF has five people working remotely. I don't go deep on other members here, but the Team section does. Happy to talk about Ben's work.\n\n[[mood:thoughtful]]`,
 	]),
@@ -525,7 +525,7 @@ const handlers: IntentHandler[] = [
 			return pick([
 				name
 					? `Hi ${name}, I'm **Bon** (AI BEN). I know Ben's work—he leads **${team.fullName}**—and I'm happy to just talk like a person. What's on your mind?\n\n[[mood:happy]]`
-					: `Hi, I'm **Bon**. Ben Clark founded **${team.fullName}** from Sandpoint, Idaho, with a remote team across Ireland, Poland, and Morocco. Ask about his work or how to reach him.\n\n[[mood:happy]]`,
+					: `Hi, I'm **Bon**. Ben Clark founded **${team.fullName}** from Sandpoint, Idaho, with a remote team across Ireland, Poland, Morocco, and Argentina. Ask about his work or how to reach him.\n\n[[mood:happy]]`,
 				`Hello! I'm here for Ben's background **and** normal conversation—skills, story, music, life stuff, whatever.`,
 				`Hey, nice of you to stop by. I'm Bon. Ask me about Ben's work, or just say what's up.`,
 			]);
