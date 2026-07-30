@@ -177,9 +177,9 @@ export const personal = {
 	tagline: team.tagline,
 	location: 'Sandpoint, Idaho, USA',
 	email: 'benclarkk1026@gmail.com',
-	whatsappNumber: '+1 (713) 425-9464',
+	whatsappNumber: '+1 (404) 786-3107',
 	discordUsername: 'benclark10261',
-	discordUserId: 'benclark10261',
+	discordUserId: '',
 	greeting: team.heroGreeting,
 	heroLead: team.heroLead,
 };
@@ -188,7 +188,7 @@ export const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${
 	personal.email,
 )}&su=${encodeURIComponent('ASF Studio inquiry')}`;
 
-export const whatsappUrl = 'https://wa.me/17134259464';
+export const whatsappUrl = 'https://wa.me/14047863107';
 
 export const navLinks: NavLink[] = [
 	{ label: 'About', href: '#about-me' },

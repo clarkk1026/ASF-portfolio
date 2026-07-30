@@ -1,18 +1,18 @@
 import {
-    benPersonality,
-    benStory,
-    contact,
-    experience,
-    highlights,
-    personal,
-    team,
-    traits,
-    whatsappUrl,
+	benPersonality,
+	benStory,
+	contact,
+	experience,
+	highlights,
+	personal,
+	team,
+	traits,
+	whatsappUrl,
 } from '../data/portfolio.js';
 import { botGreeting, type BotMood } from './ai-bot-brand.js';
 import {
-    getGithubLockedBotReply,
-    isGithubQuestion,
+	getGithubLockedBotReply,
+	isGithubQuestion,
 } from './ai-bot-github-guard.js';
 
 export type BotMessage = {
@@ -405,8 +405,8 @@ const humanTech = (mentioned?: string) => {
 
 const humanContact = () =>
 	prefix([
-		`Best ways to reach Ben:\n\n📧 **${personal.email}**\n📱 **WhatsApp:** [${personal.whatsappNumber}](${whatsappUrl})\n💬 **Telegram:** [@${personal.telegramUsername}](https://t.me/${personal.telegramUsername})\n🎮 **Discord:** ${personal.discordUsername}\n\n${contact.subtext}\n\n[[mood:warm]]`,
-		`Email **${personal.email}**, WhatsApp **${personal.whatsappNumber}**, Telegram @${personal.telegramUsername}, or Discord ${personal.discordUsername}. ASF is open to client work, collaborations, and longer-term engagements.\n\n[[mood:calm]]`,
+		`Best ways to reach Ben:\n\n📧 **${personal.email}**\n📱 **WhatsApp:** [${personal.whatsappNumber}](${whatsappUrl})\n🎮 **Discord:** ${personal.discordUsername}\n\n${contact.subtext}\n\n[[mood:warm]]`,
+		`Email **${personal.email}**, WhatsApp **${personal.whatsappNumber}**, or Discord ${personal.discordUsername}. ASF is open to client work, collaborations, and longer-term engagements.\n\n[[mood:calm]]`,
 	]);
 
 const humanAbout = () =>
@@ -975,7 +975,7 @@ const handlers: IntentHandler[] = [
 				experience: `Want me to zoom in on **ASF Studio**, **Cloudsmith**, **Nearform**, or Ben's **education** path?`,
 				projects: `I can dive deeper into **Happy Hydro**, **Labyrinth Style**, **Remedior Skincare**, or any store in Selected Work. Which one interests you?`,
 				skills: `Happy to go deeper on **full stack**, **Python/AI**, **front end**, or **Shopify** — or name a tech like React or Python and I'll tell you how he uses it.`,
-				contact: `Email **${personal.email}**, WhatsApp **${personal.whatsappNumber}**, Telegram **@${personal.telegramUsername}**, or Discord **${personal.discordUsername}**. I can suggest what to write in a first message if you want.\n\n[[mood:warm]]`,
+				contact: `Email **${personal.email}**, WhatsApp **${personal.whatsappNumber}**, or Discord **${personal.discordUsername}**. I can suggest what to write in a first message if you want.\n\n[[mood:warm]]`,
 				tech: `Name any tool or language, React, Docker, Postgres, whatever, and I'll tell you how it fits Ben's work.`,
 				about: `I can also share more about his **personal journey**, **projects**, or **how to contact him**. What would you like next?\n\n[[mood:warm]]`,
 			};
