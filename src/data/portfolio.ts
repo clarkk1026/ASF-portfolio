@@ -2,32 +2,31 @@ import type { IconType } from 'react-icons';
 import { BiLogoTypescript } from 'react-icons/bi';
 import { DiMongodb } from 'react-icons/di';
 import {
-    FaAws,
-    FaBrain,
-    FaGithub,
-    FaLayerGroup,
-    FaNodeJs,
-    FaPython,
-    FaReact,
-    FaShopify,
-    FaTelegramPlane,
-    FaWhatsapp,
+	FaAws,
+	FaBrain,
+	FaGithub,
+	FaLayerGroup,
+	FaNodeJs,
+	FaPython,
+	FaReact,
+	FaShopify,
+	FaWhatsapp,
 } from 'react-icons/fa';
 import { IoMailOutline } from 'react-icons/io5';
 import {
-    SiDiscord,
-    SiDocker,
-    SiExpress,
-    SiFirebase,
-    SiMysql,
-    SiNestjs,
-    SiPostgresql,
-    SiPrisma,
-    SiPytorch,
-    SiRedis,
-    SiTailwindcss,
-    SiTensorflow,
-    SiVercel,
+	SiDiscord,
+	SiDocker,
+	SiExpress,
+	SiFirebase,
+	SiMysql,
+	SiNestjs,
+	SiPostgresql,
+	SiPrisma,
+	SiPytorch,
+	SiRedis,
+	SiTailwindcss,
+	SiTensorflow,
+	SiVercel,
 } from 'react-icons/si';
 import { TbBrandNextjs } from 'react-icons/tb';
 
@@ -178,10 +177,9 @@ export const personal = {
 	tagline: team.tagline,
 	location: 'Sandpoint, Idaho, USA',
 	email: 'benclarkk1026@gmail.com',
-	whatsappNumber: '+1 (404) 786-3107',
+	whatsappNumber: '+1 (713) 425-9464',
 	discordUsername: 'benclark10261',
-	discordUserId: '',
-	telegramUsername: 'lunarben',
+	discordUserId: 'benclark10261',
 	greeting: team.heroGreeting,
 	heroLead: team.heroLead,
 };
@@ -190,7 +188,7 @@ export const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${
 	personal.email,
 )}&su=${encodeURIComponent('ASF Studio inquiry')}`;
 
-export const whatsappUrl = 'https://wa.me/14047863107';
+export const whatsappUrl = 'https://wa.me/17134259464';
 
 export const navLinks: NavLink[] = [
 	{ label: 'About', href: '#about-me' },
@@ -432,13 +430,6 @@ export const socialLinks: SocialLink[] = [
 		icon: FaWhatsapp,
 		iconColor: 'rgb(37, 211, 102)',
 		glowColor: 'rgba(37, 211, 102, 0.55)',
-	},
-	{
-		label: 'Telegram',
-		href: `https://t.me/${personal.telegramUsername}`,
-		icon: FaTelegramPlane,
-		iconColor: 'rgb(0, 160, 220)',
-		glowColor: 'rgba(0, 160, 220, 0.6)',
 	},
 	{
 		label: 'Discord',
