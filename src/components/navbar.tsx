@@ -50,7 +50,7 @@ export const Navbar = () => {
 
 				<Link
 					to='/contact'
-					className='comet-btn comet-btn-talk navbar-cta'
+					className='navbar-cta'
 					onClick={() => setMenuOpen(false)}
 				>
 					Let&apos;s Talk
