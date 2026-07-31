@@ -1,8 +1,8 @@
 .team {
-	padding: 5rem 4rem;
+	padding: 2rem 4rem 2.5rem;
 	display: flex;
-	gap: 3.5rem;
-	align-items: flex-start;
+	gap: 2.75rem;
+	align-items: center;
 	overflow: visible;
 }
 
@@ -118,7 +118,7 @@
 
 @media screen and (max-width: 900px) {
 	.team {
-		padding: 4rem 1.5rem;
+		padding: 1.5rem 1.5rem 2rem;
 		flex-direction: column;
 		gap: 1.5rem;
 	}

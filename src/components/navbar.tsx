@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
 import { navLinks } from '../data/portfolio';
 import { BrandLogo } from './brand-logo';
 
@@ -22,35 +23,38 @@ export const Navbar = () => {
 	return (
 		<header className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`}>
 			<nav className='navbar-inner container'>
-				<a
-					href='#home'
+				<Link
+					to='/'
 					className='navbar-brand'
 					onClick={() => setMenuOpen(false)}
 					aria-label='ASF Studio — home'
 				>
 					<BrandLogo />
-				</a>
+				</Link>
 
 				<ul className={`navbar-links ${menuOpen ? 'navbar-links-open' : ''}`}>
 					{navLinks.map((link) => (
 						<li key={link.href}>
-							<a
-								href={link.href}
+							<NavLink
+								to={link.href}
+								className={({ isActive }) =>
+									isActive ? 'navbar-link-active' : undefined
+								}
 								onClick={() => setMenuOpen(false)}
 							>
 								{link.label}
-							</a>
+							</NavLink>
 						</li>
 					))}
 				</ul>
 
-				<a
-					href='#contact'
+				<Link
+					to='/contact'
 					className='comet-btn comet-btn-talk navbar-cta'
 					onClick={() => setMenuOpen(false)}
 				>
 					Let&apos;s Talk
-				</a>
+				</Link>
 
 				<button
 					type='button'

@@ -1,9 +1,9 @@
 .projects {
-	padding: 3rem 4rem 4.5rem;
+	padding: 2rem 4rem 2.5rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 1.5rem;
+	gap: 1.35rem;
 	overflow-x: clip;
 }
 
@@ -11,6 +11,14 @@
 	width: 100%;
 	display: flex;
 	justify-content: center;
+	align-items: center;
+	min-height: clamp(9rem, 18vh, 12.5rem);
+	padding: 0.25rem 0 0.15rem;
+}
+
+.projects-header .layered-title {
+	width: min(100%, 42rem);
+	margin-inline: auto;
 }
 
 .projects-gallery-wrap {
@@ -266,8 +274,12 @@
 
 @media screen and (max-width: 900px) {
 	.projects {
-		padding: 2.5rem 1.5rem 3.5rem;
-		gap: 1.25rem;
+		padding: 1.5rem 1.5rem 2rem;
+		gap: 1rem;
+	}
+
+	.projects-header {
+		min-height: clamp(7.5rem, 16vh, 10rem);
 	}
 
 	.projects-gallery-item {

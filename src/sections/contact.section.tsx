@@ -3,7 +3,14 @@ import { GlowLink } from '../components/glow-box-link';
 import { LayeredSectionTitle } from '../components/layered-section-title';
 import { Reveal } from '../components/reveal';
 import { useToast } from '../components/toast-provider';
-import { contact, gmailComposeUrl, personal, socialLinks, team } from '../data/portfolio';
+import {
+	contact,
+	gmailComposeUrl,
+	personal,
+	socialLinks,
+	team,
+	whatsappUrl,
+} from '../data/portfolio';
 import { githubContactLocked, preventLockedGithubContact } from '../lib/contact-lock';
 import { discordContactHref, openDiscordContact } from '../lib/discord-contact';
 
@@ -16,7 +23,7 @@ const socialLinkProps = (
 ) => {
 	if (link.label === 'GitHub' && githubContactLocked && options?.onGithubLockedClick) {
 		return {
-			href: '#contact',
+			href: '/contact',
 			onClick: options.onGithubLockedClick,
 		};
 	}
@@ -57,7 +64,7 @@ export const Contact = () => {
 					</div>
 
 					<div className='contact-body'>
-						<Reveal delay={120}>
+						<Reveal delay={100}>
 							<div className='contact-card glass-card'>
 								<h2>{contact.headline}</h2>
 								<p>{contact.subtext}</p>
@@ -70,6 +77,14 @@ export const Contact = () => {
 										rel='noopener noreferrer'
 									>
 										Send Email
+									</a>
+									<a
+										href={whatsappUrl}
+										className='comet-btn comet-btn-contact comet-btn-lg'
+										target='_blank'
+										rel='noopener noreferrer'
+									>
+										WhatsApp
 									</a>
 								</div>
 
@@ -94,14 +109,12 @@ export const Contact = () => {
 							</div>
 						</Reveal>
 
-						<Reveal delay={240}>
-							<footer className='site-footer'>
-								<p>
-									© {new Date().getFullYear()} {team.fullName}. Led by{' '}
-									{personal.fullName}.
-								</p>
-							</footer>
-						</Reveal>
+						<footer className='site-footer'>
+							<p>
+								© {new Date().getFullYear()} {team.fullName}. Led by{' '}
+								{personal.fullName}.
+							</p>
+						</footer>
 					</div>
 				</div>
 			</div>

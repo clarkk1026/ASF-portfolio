@@ -1,12 +1,12 @@
 .tech-stack {
-	min-height: 100vh;
-	padding: 5rem 4rem;
+	min-height: auto;
+	padding: 2rem 4rem 2.5rem;
 }
 
 .tech-stack-inner {
 	display: flex;
-	gap: 3.5rem;
-	align-items: flex-start;
+	gap: 2.75rem;
+	align-items: center;
 }
 
 .tech-grid {
@@ -45,7 +45,7 @@
 
 @media screen and (max-width: 900px) {
 	.tech-stack {
-		padding: 4rem 1.5rem;
+		padding: 1.5rem 1.5rem 2rem;
 	}
 
 	.tech-stack-inner {

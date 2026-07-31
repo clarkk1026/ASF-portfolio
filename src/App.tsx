@@ -1,19 +1,22 @@
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import { AiBot } from './components/ai-bot';
-import { ToastProvider } from './components/toast-provider';
 import { HexBg } from './components/hex-bg';
 import { MouseTrail } from './components/mouse-trail';
 import { Navbar } from './components/navbar';
+import { PageKeyNav } from './components/page-key-nav';
 import { ScrollBar } from './components/scroll-bar';
+import { ScrollToTop } from './components/scroll-to-top';
 import { FallingStarsLayer, StarfieldBg } from './components/starfield-bg';
-import { Team } from './sections/team.section';
-import { AboutMe } from './sections/about-me.section';
-import { Contact } from './sections/contact.section';
-import { WorkExperience } from './sections/experience.section';
-import { Expertise } from './sections/expertise.section';
-import { InfoSection } from './sections/info.section';
-import { Projects } from './sections/projects.section';
-import { VisitorNote } from './sections/visitor-note.section';
-import { TechStack } from './sections/tech-stack.section';
+import { ToastProvider } from './components/toast-provider';
+import { AboutPage } from './pages/about-page';
+import { ContactPage } from './pages/contact-page';
+import { ExpertisePage } from './pages/expertise-page';
+import { HomePage } from './pages/home-page';
+import { PathPage } from './pages/path-page';
+import { ProjectsPage } from './pages/projects-page';
+import { TeamPage } from './pages/team-page';
+import { TechPage } from './pages/tech-page';
+import { VoicesPage } from './pages/voices-page';
 import './styles/about-me.css';
 import './styles/ai-bot.css';
 import './styles/brand-logo.css';
@@ -28,6 +31,7 @@ import './styles/info-section.css';
 import './styles/layered-title.css';
 import './styles/mouse-trail.css';
 import './styles/navbar.css';
+import './styles/page-shell.css';
 import './styles/projects.css';
 import './styles/reveal.css';
 import './styles/scroll-bar.css';
@@ -36,25 +40,75 @@ import './styles/team.css';
 import './styles/tech-stack.css';
 import './styles/visitor-note.css';
 
+const SiteShell = () => (
+	<>
+		<ScrollToTop />
+		<PageKeyNav />
+		<StarfieldBg />
+		<HexBg />
+		<ScrollBar />
+		<MouseTrail />
+		<Navbar />
+		<Outlet />
+		<FallingStarsLayer />
+		<AiBot />
+	</>
+);
+
 function App() {
 	return (
 		<ToastProvider>
-			<StarfieldBg />
-			<HexBg />
-			<ScrollBar />
-			<MouseTrail />
-			<Navbar />
-			<InfoSection />
-			<AboutMe />
-			<Team />
-			<Expertise />
-			<WorkExperience />
-			<Projects />
-			<TechStack />
-			<VisitorNote />
-			<Contact />
-			<FallingStarsLayer />
-			<AiBot />
+			<Routes>
+				<Route
+					element={<SiteShell />}
+				>
+					<Route
+						index
+						element={<HomePage />}
+					/>
+					<Route
+						path='about'
+						element={<AboutPage />}
+					/>
+					<Route
+						path='team'
+						element={<TeamPage />}
+					/>
+					<Route
+						path='expertise'
+						element={<ExpertisePage />}
+					/>
+					<Route
+						path='path'
+						element={<PathPage />}
+					/>
+					<Route
+						path='projects'
+						element={<ProjectsPage />}
+					/>
+					<Route
+						path='tech'
+						element={<TechPage />}
+					/>
+					<Route
+						path='voices'
+						element={<VoicesPage />}
+					/>
+					<Route
+						path='contact'
+						element={<ContactPage />}
+					/>
+					<Route
+						path='*'
+						element={
+							<Navigate
+								to='/'
+								replace
+							/>
+						}
+					/>
+				</Route>
+			</Routes>
 		</ToastProvider>
 	);
 }

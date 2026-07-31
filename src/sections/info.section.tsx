@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { HeroName3D } from '../components/hero-name-3d';
 import { Reveal } from '../components/reveal';
 import { highlights, personal, team } from '../data/portfolio';
@@ -55,18 +56,18 @@ export const InfoSection = () => {
 
 				<Reveal delay={360}>
 					<div className='hero-actions'>
-						<a
-							href='#projects'
+						<Link
+							to='/projects'
 							className='comet-btn comet-btn-work comet-btn-lg'
 						>
 							View Our Work
-						</a>
-						<a
-							href='#team'
+						</Link>
+						<Link
+							to='/team'
 							className='comet-btn comet-btn-contact comet-btn-lg'
 						>
 							Meet the Team
-						</a>
+						</Link>
 					</div>
 				</Reveal>
 

@@ -2,31 +2,31 @@ import type { IconType } from 'react-icons';
 import { BiLogoTypescript } from 'react-icons/bi';
 import { DiMongodb } from 'react-icons/di';
 import {
-	FaAws,
-	FaBrain,
-	FaGithub,
-	FaLayerGroup,
-	FaNodeJs,
-	FaPython,
-	FaReact,
-	FaShopify,
-	FaWhatsapp,
+    FaAws,
+    FaBrain,
+    FaGithub,
+    FaLayerGroup,
+    FaNodeJs,
+    FaPython,
+    FaReact,
+    FaShopify,
+    FaWhatsapp,
 } from 'react-icons/fa';
 import { IoMailOutline } from 'react-icons/io5';
 import {
-	SiDiscord,
-	SiDocker,
-	SiExpress,
-	SiFirebase,
-	SiMysql,
-	SiNestjs,
-	SiPostgresql,
-	SiPrisma,
-	SiPytorch,
-	SiRedis,
-	SiTailwindcss,
-	SiTensorflow,
-	SiVercel,
+    SiDiscord,
+    SiDocker,
+    SiExpress,
+    SiFirebase,
+    SiMysql,
+    SiNestjs,
+    SiPostgresql,
+    SiPrisma,
+    SiPytorch,
+    SiRedis,
+    SiTailwindcss,
+    SiTensorflow,
+    SiVercel,
 } from 'react-icons/si';
 import { TbBrandNextjs } from 'react-icons/tb';
 
@@ -191,14 +191,14 @@ export const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${
 export const whatsappUrl = 'https://wa.me/14047863107';
 
 export const navLinks: NavLink[] = [
-	{ label: 'About', href: '#about-me' },
-	{ label: 'Team', href: '#team' },
-	{ label: 'Expertise', href: '#expertise' },
-	{ label: 'Path', href: '#experience' },
-	{ label: 'Projects', href: '#projects' },
-	{ label: 'Tech', href: '#tech-stack' },
-	{ label: 'Voices', href: '#visitor-voices' },
-	{ label: 'Contact', href: '#contact' },
+	{ label: 'Team', href: '/team' },
+	{ label: 'Expertise', href: '/expertise' },
+	{ label: 'Path', href: '/path' },
+	{ label: 'Projects', href: '/projects' },
+	{ label: 'Tech', href: '/tech' },
+	{ label: 'Voices', href: '/voices' },
+	{ label: 'About Us', href: '/about' },
+	{ label: 'Contact', href: '/contact' },
 ];
 
 export const highlights: Highlight[] = [
@@ -451,7 +451,7 @@ export const socialLinks: SocialLink[] = [
 export const about = {
 	section: {
 		title: 'About',
-		subtitle: 'ASF',
+		subtitle: 'Us',
 		summary:
 			'A remote software studio founded by Ben Clark in 2024, working across full stack engineering, commerce, and backend systems',
 	},

@@ -37,11 +37,11 @@
 }
 
 .about-me {
-	min-height: 100vh;
+	min-height: auto;
 	display: flex;
-	padding: 6rem 4rem 4rem;
-	gap: 3.5rem;
-	align-items: flex-start;
+	padding: 2rem 4rem 2.5rem;
+	gap: 2.75rem;
+	align-items: center;
 }
 
 .about-me-title {
@@ -51,10 +51,10 @@
 .about-me-content {
 	flex: 1;
 	min-width: 0;
-	padding: 1rem;
+	padding: 0.25rem 0;
 	display: flex;
 	flex-direction: column;
-	gap: 1.75rem;
+	gap: 1.35rem;
 }
 
 /* ── Story card ── */
@@ -353,7 +353,7 @@
 
 @media screen and (max-width: 900px) {
 	.about-me {
-		padding: 5rem 1.5rem 3rem;
+		padding: 1.5rem 1.5rem 2rem;
 		flex-direction: column;
 		align-items: center;
 		gap: 1rem;
