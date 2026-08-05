@@ -112,34 +112,7 @@
 
 .navbar-cta {
 	flex-shrink: 0;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	font-family: 'Open Sans', sans-serif;
-	font-size: 0.72rem;
-	font-weight: 700;
-	letter-spacing: 0.1em;
-	text-transform: uppercase;
-	text-decoration: none;
-	color: #071018;
-	background: rgb(232, 240, 248);
-	border: 1px solid rgba(255, 255, 255, 0.2);
-	border-radius: 2px;
-	padding: 0.62rem 1.15rem;
-	box-shadow: none;
-	transition:
-		background 0.2s ease,
-		color 0.2s ease,
-		border-color 0.2s ease;
-}
-
-.navbar-cta:hover {
-	background: var(--nav-accent);
-	border-color: rgba(31, 195, 255, 0.5);
-	color: #041018;
-	filter: none;
-	transform: none;
-	box-shadow: none;
+	padding: 0.65rem 1.25rem;
 }
 
 .navbar-toggle {
