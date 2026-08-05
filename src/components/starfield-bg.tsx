@@ -18,6 +18,10 @@ type Star = {
 	baseOpacity: number;
 	twinkleSpeed: number;
 	twinkleOffset: number;
+	shimmerSpeed: number;
+	shimmerOffset: number;
+	driftX: number;
+	driftY: number;
 	depth: number;
 	warmth: number;
 };
@@ -40,16 +44,41 @@ const createStars = (width: number, height: number): Star[] =>
 			baseOpacity: random(0.35, 0.95) * (0.5 + depth * 0.5),
 			twinkleSpeed: random(0.3, 1.2) * depth,
 			twinkleOffset: random(0, Math.PI * 2),
+			shimmerSpeed: random(0.08, 0.24),
+			shimmerOffset: random(0, Math.PI * 2),
+			driftX: random(-0.55, 0.55) * depth,
+			driftY: random(-0.3, 0.3) * depth,
 			depth,
 			warmth: random(0, 1),
 		};
-	});
+	}).sort((a, b) => a.depth - b.depth);
 
 const starColor = (warmth: number, alpha: number) => {
 	const r = Math.round(235 + warmth * 20);
 	const g = Math.round(242 + warmth * 8);
 	const b = 255;
 	return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+};
+
+const GLOW_SPRITE_SIZE = 64;
+
+const createGlowSprite = () => {
+	const sprite = document.createElement('canvas');
+	sprite.width = GLOW_SPRITE_SIZE;
+	sprite.height = GLOW_SPRITE_SIZE;
+
+	const ctx = sprite.getContext('2d');
+	if (!ctx) return sprite;
+
+	const mid = GLOW_SPRITE_SIZE / 2;
+	const grad = ctx.createRadialGradient(mid, mid, 0, mid, mid, mid);
+	grad.addColorStop(0, 'rgba(245, 249, 255, 0.35)');
+	grad.addColorStop(0.45, 'rgba(100, 170, 255, 0.12)');
+	grad.addColorStop(1, 'rgba(31, 120, 220, 0)');
+	ctx.fillStyle = grad;
+	ctx.fillRect(0, 0, GLOW_SPRITE_SIZE, GLOW_SPRITE_SIZE);
+
+	return sprite;
 };
 
 export const FallingStarsLayer = () => {
@@ -163,28 +192,27 @@ export const StarfieldBg = () => {
 		let stars: Star[] = createStars(width, height);
 		let skyAnimId = 0;
 
-		const resize = () => {
-			width = window.innerWidth;
-			height = window.innerHeight;
-			const dpr = Math.min(window.devicePixelRatio || 1, 2);
+		const glowSprite = createGlowSprite();
+		const backdrop = document.createElement('canvas');
+		const backdropCtx = backdrop.getContext('2d');
 
-			skyCanvas.width = width * dpr;
-			skyCanvas.height = height * dpr;
-			skyCanvas.style.width = `${width}px`;
-			skyCanvas.style.height = `${height}px`;
-			skyCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-			stars = createStars(width, height);
-		};
+		// The sky gradient and nebulae never change, so they are rasterised once
+		// per resize and blitted each frame instead of being rebuilt.
+		const buildBackdrop = (dpr: number) => {
+			if (!backdropCtx) return;
 
-		const drawSky = () => {
-			const grad = skyCtx.createLinearGradient(0, 0, 0, height);
+			backdrop.width = Math.round(width * dpr);
+			backdrop.height = Math.round(height * dpr);
+			backdropCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+			const grad = backdropCtx.createLinearGradient(0, 0, 0, height);
 			grad.addColorStop(0, SKY_TOP);
 			grad.addColorStop(0.42, SKY_MID);
 			grad.addColorStop(1, SKY_BOTTOM);
-			skyCtx.fillStyle = grad;
-			skyCtx.fillRect(0, 0, width, height);
+			backdropCtx.fillStyle = grad;
+			backdropCtx.fillRect(0, 0, width, height);
 
-			const nebulaA = skyCtx.createRadialGradient(
+			const nebulaA = backdropCtx.createRadialGradient(
 				width * 0.18,
 				height * 0.08,
 				0,
@@ -196,7 +224,7 @@ export const StarfieldBg = () => {
 			nebulaA.addColorStop(0.55, 'rgba(40, 50, 110, 0.025)');
 			nebulaA.addColorStop(1, 'transparent');
 
-			const nebulaB = skyCtx.createRadialGradient(
+			const nebulaB = backdropCtx.createRadialGradient(
 				width * 0.78,
 				height * 0.15,
 				0,
@@ -208,64 +236,93 @@ export const StarfieldBg = () => {
 			nebulaB.addColorStop(0.5, 'rgba(30, 80, 140, 0.02)');
 			nebulaB.addColorStop(1, 'transparent');
 
-			skyCtx.fillStyle = nebulaA;
-			skyCtx.fillRect(0, 0, width, height);
-			skyCtx.fillStyle = nebulaB;
-			skyCtx.fillRect(0, 0, width, height);
+			backdropCtx.fillStyle = nebulaA;
+			backdropCtx.fillRect(0, 0, width, height);
+			backdropCtx.fillStyle = nebulaB;
+			backdropCtx.fillRect(0, 0, width, height);
 		};
 
-		const drawStarPoint = (star: Star, alpha: number) => {
+		const resize = () => {
+			width = window.innerWidth;
+			height = window.innerHeight;
+			const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+			skyCanvas.width = width * dpr;
+			skyCanvas.height = height * dpr;
+			skyCanvas.style.width = `${width}px`;
+			skyCanvas.style.height = `${height}px`;
+			skyCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+			stars = createStars(width, height);
+			buildBackdrop(dpr);
+		};
+
+		const drawSky = () => {
+			skyCtx.drawImage(backdrop, 0, 0, width, height);
+		};
+
+		const drawStarPoint = (star: Star, x: number, y: number, alpha: number) => {
 			skyCtx.beginPath();
-			skyCtx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+			skyCtx.arc(x, y, star.size, 0, Math.PI * 2);
 			skyCtx.fillStyle = starColor(star.warmth, alpha);
 			skyCtx.fill();
 		};
 
-		const drawStarGlow = (star: Star, alpha: number) => {
+		const drawStarGlow = (
+			star: Star,
+			x: number,
+			y: number,
+			alpha: number,
+		) => {
 			if (star.size < 0.85 || alpha < 0.3) return;
 
-			const glow = skyCtx.createRadialGradient(
-				star.x,
-				star.y,
-				0,
-				star.x,
-				star.y,
-				star.size * 3.2,
+			const radius = star.size * 3.2;
+			skyCtx.globalAlpha = alpha;
+			skyCtx.drawImage(
+				glowSprite,
+				x - radius,
+				y - radius,
+				radius * 2,
+				radius * 2,
 			);
-			glow.addColorStop(0, starColor(star.warmth, alpha * 0.35));
-			glow.addColorStop(0.45, `rgba(100, 170, 255, ${alpha * 0.12})`);
-			glow.addColorStop(1, 'rgba(31, 120, 220, 0)');
-
-			skyCtx.fillStyle = glow;
-			skyCtx.beginPath();
-			skyCtx.arc(star.x, star.y, star.size * 3.2, 0, Math.PI * 2);
-			skyCtx.fill();
+			skyCtx.globalAlpha = 1;
 		};
 
 		const drawStaticStars = (t: number) => {
-			const sorted = [...stars].sort((a, b) => a.depth - b.depth);
+			const elapsed = t * 0.001;
 
-			for (const star of sorted) {
+			for (const star of stars) {
+				const x = ((star.x + elapsed * star.driftX) % width + width) % width;
+				const y = ((star.y + elapsed * star.driftY) % height + height) % height;
 				const twinkle =
 					0.58 +
 					0.42 * Math.sin(t * star.twinkleSpeed * 0.001 + star.twinkleOffset);
-				const alpha = Math.min(star.baseOpacity * twinkle, 1);
+				const shimmer = Math.pow(
+					Math.max(
+						0,
+						Math.sin(
+							t * star.shimmerSpeed * 0.001 + star.shimmerOffset,
+						),
+					),
+					18,
+				);
+				const alpha = Math.min(
+					star.baseOpacity * twinkle + shimmer * 0.55,
+					1,
+				);
 
-				drawStarGlow(star, alpha);
-				drawStarPoint(star, alpha);
+				drawStarGlow(star, x, y, alpha);
+				drawStarPoint(star, x, y, alpha);
 
 				if (star.size > 1.25 && alpha > 0.55) {
-					skyCtx.save();
+					const spike = star.size * (2.8 + shimmer * 1.8);
 					skyCtx.strokeStyle = `rgba(200, 230, 255, ${alpha * 0.22})`;
 					skyCtx.lineWidth = 0.5;
-					const spike = star.size * 2.8;
 					skyCtx.beginPath();
-					skyCtx.moveTo(star.x - spike, star.y);
-					skyCtx.lineTo(star.x + spike, star.y);
-					skyCtx.moveTo(star.x, star.y - spike);
-					skyCtx.lineTo(star.x, star.y + spike);
+					skyCtx.moveTo(x - spike, y);
+					skyCtx.lineTo(x + spike, y);
+					skyCtx.moveTo(x, y - spike);
+					skyCtx.lineTo(x, y + spike);
 					skyCtx.stroke();
-					skyCtx.restore();
 				}
 			}
 		};

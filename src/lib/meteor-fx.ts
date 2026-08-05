@@ -27,13 +27,6 @@ export const spawnMeteor = (width: number, height: number): Meteor => {
 	};
 };
 
-const tailColor = (warmth: number, alpha: number) => {
-	const r = Math.round(200 + warmth * 55);
-	const g = Math.round(220 + warmth * 20);
-	const b = 255;
-	return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-};
-
 export const drawMeteor = (ctx: CanvasRenderingContext2D, meteor: Meteor) => {
 	const speed = Math.hypot(meteor.vx, meteor.vy) || 1;
 	const dirX = meteor.vx / speed;
@@ -41,7 +34,8 @@ export const drawMeteor = (ctx: CanvasRenderingContext2D, meteor: Meteor) => {
 	const headX = meteor.x;
 	const headY = meteor.y;
 	const tailLen = meteor.length;
-	const segments = 28;
+	const tailRed = Math.round(200 + meteor.warmth * 55);
+	const tailGreen = Math.round(220 + meteor.warmth * 20);
 
 	ctx.save();
 	ctx.globalCompositeOperation = 'lighter';
@@ -66,33 +60,33 @@ export const drawMeteor = (ctx: CanvasRenderingContext2D, meteor: Meteor) => {
 	ctx.lineTo(headX, headY);
 	ctx.stroke();
 
-	// Tapered core tail — exponential brightness toward the head
-	for (let i = 0; i < segments; i++) {
-		const t0 = i / segments;
-		const t1 = (i + 1) / segments;
-		const fade0 = Math.pow(t0, 3.2);
-		const fade1 = Math.pow(t1, 3.2);
-		const alpha0 = fade0 * meteor.brightness * 0.62;
-		const alpha1 = fade1 * meteor.brightness * 0.85;
-		const width0 = 0.12 + fade0 * fade0 * meteor.coreWidth;
-		const width1 = 0.12 + fade1 * fade1 * meteor.coreWidth;
-
-		const x0 = headX - dirX * tailLen * (1 - t0);
-		const y0 = headY - dirY * tailLen * (1 - t0);
-		const x1 = headX - dirX * tailLen * (1 - t1);
-		const y1 = headY - dirY * tailLen * (1 - t1);
-
-		const segmentGrad = ctx.createLinearGradient(x0, y0, x1, y1);
-		segmentGrad.addColorStop(0, tailColor(meteor.warmth, alpha0));
-		segmentGrad.addColorStop(1, tailColor(meteor.warmth, alpha1));
-
-		ctx.strokeStyle = segmentGrad;
-		ctx.lineWidth = (width0 + width1) * 0.5;
-		ctx.beginPath();
-		ctx.moveTo(x0, y0);
-		ctx.lineTo(x1, y1);
-		ctx.stroke();
-	}
+	// One continuous core replaces the old 28 per-frame gradient segments.
+	// The visual fade remains, while meteor motion no longer starves the cursor.
+	const coreGrad = ctx.createLinearGradient(
+		headX - dirX * tailLen,
+		headY - dirY * tailLen,
+		headX,
+		headY,
+	);
+	coreGrad.addColorStop(0, `rgba(${tailRed}, ${tailGreen}, 255, 0)`);
+	coreGrad.addColorStop(
+		0.58,
+		`rgba(${tailRed}, ${tailGreen}, 255, ${0.08 * meteor.brightness})`,
+	);
+	coreGrad.addColorStop(
+		0.86,
+		`rgba(${tailRed}, ${tailGreen}, 255, ${0.46 * meteor.brightness})`,
+	);
+	coreGrad.addColorStop(
+		1,
+		`rgba(${tailRed}, ${tailGreen}, 255, ${0.85 * meteor.brightness})`,
+	);
+	ctx.strokeStyle = coreGrad;
+	ctx.lineWidth = meteor.coreWidth;
+	ctx.beginPath();
+	ctx.moveTo(headX - dirX * tailLen, headY - dirY * tailLen);
+	ctx.lineTo(headX, headY);
+	ctx.stroke();
 
 	// Hot inner streak — only the last ~18% of the tail
 	const hotLen = tailLen * 0.18;

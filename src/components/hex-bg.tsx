@@ -8,6 +8,7 @@ interface Hex {
 	cx: number;
 	cy: number;
 	glow: number;
+	corners: [number, number][];
 }
 
 function hexCorners(cx: number, cy: number, r: number): [number, number][] {
@@ -44,7 +45,12 @@ export const HexBg = () => {
 				for (let col = -1; col < cols; col++) {
 					const cx = col * colW + (row % 2 !== 0 ? colW / 2 : 0);
 					const cy = row * rowH;
-					hexes.push({ cx, cy, glow: 0 });
+					hexes.push({
+						cx,
+						cy,
+						glow: 0,
+						corners: hexCorners(cx, cy, HEX_SIZE - 1.5),
+					});
 				}
 			}
 		};
@@ -55,9 +61,10 @@ export const HexBg = () => {
 			for (const hex of hexes) {
 				const dx = hex.cx - mouse.x;
 				const dy = hex.cy - mouse.y;
-				const dist = Math.sqrt(dx * dx + dy * dy);
+				const distanceSquared = dx * dx + dy * dy;
 
-				if (dist < GLOW_RADIUS) {
+				if (distanceSquared < GLOW_RADIUS * GLOW_RADIUS) {
+					const dist = Math.sqrt(distanceSquared);
 					const strength = (1 - dist / GLOW_RADIUS) ** 1.6;
 					hex.glow = Math.max(hex.glow, strength);
 				}
@@ -65,10 +72,11 @@ export const HexBg = () => {
 
 				if (hex.glow < 0.004) continue;
 
-				const pts = hexCorners(hex.cx, hex.cy, HEX_SIZE - 1.5);
 				ctx.beginPath();
-				ctx.moveTo(pts[0][0], pts[0][1]);
-				for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+				ctx.moveTo(hex.corners[0][0], hex.corners[0][1]);
+				for (let i = 1; i < hex.corners.length; i++) {
+					ctx.lineTo(hex.corners[i][0], hex.corners[i][1]);
+				}
 				ctx.closePath();
 
 				ctx.fillStyle = `rgba(31,195,255,${hex.glow * 0.11})`;
@@ -94,8 +102,10 @@ export const HexBg = () => {
 					grad.addColorStop(0.5, `rgba(31,195,255,${(hex.glow - 0.4) * 0.18})`);
 					grad.addColorStop(1, 'rgba(31,195,255,0)');
 					ctx.beginPath();
-					ctx.moveTo(pts[0][0], pts[0][1]);
-					for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+					ctx.moveTo(hex.corners[0][0], hex.corners[0][1]);
+					for (let i = 1; i < hex.corners.length; i++) {
+						ctx.lineTo(hex.corners[i][0], hex.corners[i][1]);
+					}
 					ctx.closePath();
 					ctx.fillStyle = grad;
 					ctx.fill();
@@ -119,13 +129,13 @@ export const HexBg = () => {
 		frame();
 
 		window.addEventListener('resize', buildGrid);
-		window.addEventListener('mousemove', onMouseMove);
+		window.addEventListener('pointermove', onMouseMove, { passive: true });
 		document.addEventListener('mouseleave', onMouseLeave);
 
 		return () => {
 			cancelAnimationFrame(animId);
 			window.removeEventListener('resize', buildGrid);
-			window.removeEventListener('mousemove', onMouseMove);
+			window.removeEventListener('pointermove', onMouseMove);
 			document.removeEventListener('mouseleave', onMouseLeave);
 		};
 	}, []);

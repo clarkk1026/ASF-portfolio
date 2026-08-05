@@ -43,12 +43,14 @@ export const ScrollBar = () => {
 
 		const width = CANVAS_W;
 		let height = window.innerHeight;
+		let canvasLeft = window.innerWidth - width;
 		let rafId = 0;
 		let lastScrollY = window.scrollY;
 		let lastFrameTime = performance.now();
 
 		const resize = () => {
 			height = window.innerHeight;
+			canvasLeft = window.innerWidth - width;
 			const dpr = Math.min(window.devicePixelRatio || 1, 2);
 			canvas.width = width * dpr;
 			canvas.height = height * dpr;
@@ -219,10 +221,9 @@ export const ScrollBar = () => {
 			);
 			drawSparks(ctx, sparksRef.current);
 
-			const rect = canvas.getBoundingClientRect();
 			updateScrollCometPointer({
-				x: rect.left + headX,
-				y: rect.top + headY,
+				x: canvasLeft + headX,
+				y: headY,
 				visible: true,
 			});
 

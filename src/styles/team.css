@@ -1,4 +1,128 @@
+.team-night-sky {
+	position: fixed;
+	inset: 0;
+	z-index: 1;
+	overflow: hidden;
+	pointer-events: none;
+	background: #01040a;
+}
+
+.team-night-sky > span {
+	position: absolute;
+	inset: -3%;
+	pointer-events: none;
+	will-change: transform, opacity;
+}
+
+.team-night-sky-image {
+	z-index: 0;
+	background-image: url('/team-night-sky-vivid-4k.webp');
+	background-position: left center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	image-rendering: auto;
+	transform: scale(1.02);
+	animation:
+		team-sky-arrive 1s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both,
+		team-sky-drift 8s ease-in-out 1.08s infinite alternate;
+}
+
+.team-night-sky-nebula-light {
+	z-index: 1;
+	inset: 0;
+	background:
+		radial-gradient(
+			ellipse 34% 20% at 70% 46%,
+			rgba(120, 168, 238, 0.1) 0%,
+			rgba(72, 118, 196, 0.04) 48%,
+			transparent 76%
+		),
+		linear-gradient(
+			142deg,
+			transparent 40%,
+			rgba(110, 150, 220, 0.03) 52%,
+			rgba(96, 136, 210, 0.055) 58%,
+			transparent 74%
+		);
+	mix-blend-mode: screen;
+	transform: translate3d(-0.7%, 0.5%, 0) scale(1.02);
+	animation:
+		team-nebula-light-arrive 1.05s ease-out 0.18s both,
+		team-nebula-light-live 4s ease-in-out 1.23s infinite alternate;
+}
+
+.team-sky-effects {
+	position: fixed;
+	inset: 0;
+	z-index: 100000;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	opacity: 0.94;
+	mix-blend-mode: normal;
+}
+
+.team-night-sky-moonlight {
+	inset: 0;
+	z-index: 3;
+	transform-origin: 13% 20%;
+	background: radial-gradient(
+		circle at 13% 20%,
+		rgba(236, 248, 255, 0.22) 0%,
+		rgba(170, 220, 252, 0.1) 7%,
+		rgba(88, 164, 224, 0.03) 18%,
+		transparent 30%
+	);
+	mix-blend-mode: screen;
+	animation:
+		team-moonlight-arrive 0.95s ease-out 0.12s both,
+		team-moonlight-live 2.8s ease-in-out 1.07s infinite;
+}
+
+.team-night-sky-vignette {
+	inset: 0;
+	z-index: 4;
+	background:
+		linear-gradient(
+			90deg,
+			rgba(0, 4, 12, 0.12) 0%,
+			rgba(0, 4, 12, 0.03) 38%,
+			rgba(0, 3, 10, 0.16) 100%
+		),
+		linear-gradient(
+			180deg,
+			rgba(0, 3, 10, 0.12) 0%,
+			transparent 24%,
+			transparent 72%,
+			rgba(0, 2, 8, 0.24) 100%
+		);
+}
+
+body:has(.team-night-sky) .hex-canvas {
+	opacity: 0.35;
+	z-index: 2;
+}
+
+.page-shell-inner:has(.team-night-sky) > .page-shell-content {
+	animation: none;
+	transform: none;
+}
+
+body:has(.team-night-sky) .navbar:not(.navbar-scrolled) {
+	background: transparent;
+	backdrop-filter: none;
+	border-bottom-color: transparent;
+	box-shadow: none;
+}
+
+body:has(.team-night-sky) .navbar.navbar-scrolled {
+	background: rgba(3, 8, 16, 0.96);
+	backdrop-filter: none;
+}
+
 .team {
+	position: relative;
+	z-index: 3;
 	padding: 2rem 4rem 2.5rem;
 	display: flex;
 	gap: 2.75rem;
@@ -16,9 +140,10 @@
 	font-family: 'Open Sans', sans-serif;
 	font-size: 0.92rem;
 	line-height: 1.65;
-	color: rgba(255, 255, 255, 0.62);
+	color: rgba(232, 245, 255, 0.78);
 	margin-bottom: 1.5rem;
 	max-width: 52rem;
+	text-shadow: 0 1px 12px rgba(0, 0, 0, 0.9);
 }
 
 .team-grid {
@@ -33,6 +158,13 @@
 	flex-direction: column;
 	gap: 0.9rem;
 	height: 100%;
+	background: linear-gradient(
+		145deg,
+		rgba(4, 13, 26, 0.82),
+		rgba(3, 8, 18, 0.7)
+	);
+	border-color: rgba(167, 218, 255, 0.15);
+	backdrop-filter: none;
 }
 
 .team-card-leader {
@@ -110,6 +242,74 @@
 	color: rgba(255, 255, 255, 0.62);
 }
 
+@keyframes team-sky-arrive {
+	0% {
+		opacity: 0.18;
+		transform: scale(1.07) translate3d(0.5%, 0.3%, 0);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1.02) translate3d(0, 0, 0);
+	}
+}
+
+@keyframes team-sky-drift {
+	0% {
+		transform: scale(1.02) translate3d(0, 0, 0);
+	}
+	100% {
+		transform: scale(1.05) translate3d(-0.45%, -0.2%, 0);
+	}
+}
+
+@keyframes team-nebula-light-arrive {
+	0% {
+		opacity: 0;
+		transform: translate3d(-2%, 1.2%, 0) scale(0.94);
+	}
+	100% {
+		opacity: 0.72;
+		transform: translate3d(-0.7%, 0.5%, 0) scale(1.02);
+	}
+}
+
+@keyframes team-nebula-light-live {
+	0% {
+		opacity: 0.48;
+		transform: translate3d(-0.7%, 0.5%, 0) scale(1.02);
+	}
+	55% {
+		opacity: 0.8;
+	}
+	100% {
+		opacity: 0.58;
+		transform: translate3d(0.9%, -0.65%, 0) scale(1.08);
+	}
+}
+
+@keyframes team-moonlight-arrive {
+	0% {
+		opacity: 0;
+		transform: scale(0.78);
+	}
+	100% {
+		opacity: 0.72;
+		transform: scale(1);
+	}
+}
+
+@keyframes team-moonlight-live {
+	0%,
+	100% {
+		opacity: 0.44;
+		transform: scale(0.975);
+	}
+	50% {
+		opacity: 0.8;
+		transform: scale(1.04);
+	}
+}
+
 @media screen and (max-width: 1100px) {
 	.team-grid {
 		grid-template-columns: 1fr;
@@ -126,5 +326,13 @@
 	.team-content {
 		width: 100%;
 		padding: 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.team-night-sky-image,
+	.team-night-sky-nebula-light,
+	.team-night-sky-moonlight {
+		animation: none;
 	}
 }

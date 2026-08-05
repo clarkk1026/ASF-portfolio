@@ -8,7 +8,9 @@ import { drawMeteorBursts, updateMeteorBursts } from '../lib/meteor-fx';
 
 type Point = { x: number; y: number };
 
-const TRAIL_POINTS = 22;
+const TRAIL_POINTS = 10;
+const TEAM_TRAIL_POINTS = 22;
+const MAX_SAMPLES = 8;
 
 const buildSmoothPath = (
 	ctx: CanvasRenderingContext2D,
@@ -87,74 +89,68 @@ const drawFlowingTail = (
 	ctx.restore();
 };
 
-const drawCometHead = (
+const drawTeamCometTail = (
 	ctx: CanvasRenderingContext2D,
-	x: number,
-	y: number,
-	time: number,
-	impactPulse: number,
+	trail: Point[],
+	speed: number,
 ) => {
-	const pulse = 0.92 + 0.08 * Math.sin(time * 0.0018);
-	const hitBoost = 1 + impactPulse * 0.55;
+	if (trail.length < 2 || speed < 0.15) return;
+
+	const motion = Math.min(speed / 18, 1);
 
 	ctx.save();
 	ctx.globalCompositeOperation = 'lighter';
+	ctx.lineCap = 'round';
+	ctx.lineJoin = 'round';
 
-	if (impactPulse > 0.02) {
-		const shock = ctx.createRadialGradient(x, y, 0, x, y, 22 + impactPulse * 18);
-		shock.addColorStop(0, `rgba(255, 255, 255, ${0.7 * impactPulse})`);
-		shock.addColorStop(0.35, `rgba(180, 225, 255, ${0.35 * impactPulse})`);
-		shock.addColorStop(1, 'rgba(31, 120, 220, 0)');
-		ctx.fillStyle = shock;
+	for (let i = trail.length - 2; i >= 0; i--) {
+		const strength = 1 - i / (trail.length - 1);
+		const from = trail[i + 1];
+		const to = trail[i];
+
+		ctx.strokeStyle = `rgba(30, 105, 225, ${0.025 + strength * (0.12 + motion * 0.08)})`;
+		ctx.lineWidth = 0.3 + strength * (7 + motion * 4);
 		ctx.beginPath();
-		ctx.arc(x, y, 22 + impactPulse * 18, 0, Math.PI * 2);
-		ctx.fill();
+		ctx.moveTo(from.x, from.y);
+		ctx.lineTo(to.x, to.y);
+		ctx.stroke();
+
+		ctx.strokeStyle = `rgba(75, 170, 255, ${0.08 + strength * (0.3 + motion * 0.22)})`;
+		ctx.lineWidth = 0.2 + strength * (2.6 + motion * 1.8);
+		ctx.beginPath();
+		ctx.moveTo(from.x, from.y);
+		ctx.lineTo(to.x, to.y);
+		ctx.stroke();
 	}
 
-	const halo = ctx.createRadialGradient(x, y, 0, x, y, 11 * hitBoost);
-	halo.addColorStop(0, `rgba(255, 255, 255, ${0.16 * pulse * hitBoost})`);
-	halo.addColorStop(0.4, `rgba(140, 195, 255, ${0.07 * pulse * hitBoost})`);
-	halo.addColorStop(1, 'rgba(31, 120, 220, 0)');
-	ctx.fillStyle = halo;
+	const head = trail[0];
+	const tail = trail[trail.length - 1];
+	const core = ctx.createLinearGradient(tail.x, tail.y, head.x, head.y);
+	core.addColorStop(0, 'rgba(100, 185, 255, 0)');
+	core.addColorStop(0.55, 'rgba(145, 210, 255, 0.25)');
+	core.addColorStop(0.86, 'rgba(225, 244, 255, 0.8)');
+	core.addColorStop(1, 'rgba(255, 255, 255, 1)');
+	ctx.strokeStyle = core;
+	ctx.lineWidth = 0.75 + motion * 1.1;
 	ctx.beginPath();
-	ctx.arc(x, y, 11 * hitBoost, 0, Math.PI * 2);
-	ctx.fill();
-
-	const bloom = ctx.createRadialGradient(x, y, 0, x, y, 6.5 * hitBoost);
-	bloom.addColorStop(0, 'rgba(255, 255, 255, 1)');
-	bloom.addColorStop(0.32, `rgba(225, 242, 255, ${0.78 * pulse})`);
-	bloom.addColorStop(0.6, `rgba(110, 185, 255, ${0.28 * pulse})`);
-	bloom.addColorStop(1, 'rgba(31, 120, 220, 0)');
-	ctx.fillStyle = bloom;
-	ctx.beginPath();
-	ctx.arc(x, y, 6.5 * hitBoost, 0, Math.PI * 2);
-	ctx.fill();
-
-	const ray = 4.8 * pulse * hitBoost;
-	ctx.strokeStyle = `rgba(215, 238, 255, ${0.22 * pulse * hitBoost})`;
-	ctx.lineWidth = 0.55;
-	ctx.lineCap = 'round';
-	ctx.beginPath();
-	ctx.moveTo(x - ray, y);
-	ctx.lineTo(x + ray, y);
-	ctx.moveTo(x, y - ray);
-	ctx.lineTo(x, y + ray);
+	buildSmoothPath(ctx, trail);
 	ctx.stroke();
-
-	ctx.fillStyle = '#ffffff';
-	ctx.beginPath();
-	ctx.arc(x, y, 2 + impactPulse * 0.8, 0, Math.PI * 2);
-	ctx.fill();
 
 	ctx.restore();
 };
 
-export const MouseTrail = () => {
+type MouseTrailProps = {
+	team?: boolean;
+};
+
+export const MouseTrail = ({ team = false }: MouseTrailProps) => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
+	const cursorRef = useRef<HTMLSpanElement>(null);
 
 	useEffect(() => {
 		const canvas = canvasRef.current;
-		if (!canvas) return;
+		const cursor = cursorRef.current;
+		if (!canvas || !cursor) return;
 
 		const ctx = canvas.getContext('2d');
 		if (!ctx) return;
@@ -170,8 +166,14 @@ export const MouseTrail = () => {
 		let prevPointerX = -100;
 		let prevPointerY = -100;
 		let speed = 0;
+		let lastFrameTime = performance.now();
+		let cursorVisible = false;
+		let lastImpact = -1;
 
-		const trail: Point[] = Array.from({ length: TRAIL_POINTS }, () => ({
+		const samples: Point[] = [];
+
+		const trailPointCount = team ? TEAM_TRAIL_POINTS : TRAIL_POINTS;
+		const trail: Point[] = Array.from({ length: trailPointCount }, () => ({
 			x: -100,
 			y: -100,
 		}));
@@ -181,6 +183,7 @@ export const MouseTrail = () => {
 				point.x = x;
 				point.y = y;
 			}
+			samples.length = 0;
 			prevPointerX = x;
 			prevPointerY = y;
 		};
@@ -197,18 +200,41 @@ export const MouseTrail = () => {
 		};
 
 		const syncPointer = (e: MouseEvent | PointerEvent) => {
+			if (!active) {
+				resetTrail(e.clientX, e.clientY);
+				pointerX = e.clientX;
+				pointerY = e.clientY;
+			}
 			active = true;
 			const target = e.target as Element | null;
 			overAiBot = Boolean(
 				target?.closest('.ai-bot-interactive') ||
 					target?.closest('.visitor-note-interactive'),
 			);
+
+			const coalesced =
+				'getCoalescedEvents' in e ? e.getCoalescedEvents() : [];
+
+			if (coalesced.length > 1) {
+				for (const point of coalesced) {
+					samples.push({ x: point.clientX, y: point.clientY });
+				}
+			} else {
+				samples.push({ x: e.clientX, y: e.clientY });
+			}
+
+			if (samples.length > MAX_SAMPLES) {
+				samples.splice(0, samples.length - MAX_SAMPLES);
+			}
+
 			pointerX = e.clientX;
 			pointerY = e.clientY;
+			cursor.style.transform = `translate3d(${pointerX}px, ${pointerY}px, 0)`;
 		};
 
 		const handleMouseLeave = () => {
 			active = false;
+			cursor.style.opacity = '0';
 		};
 
 		const handleMouseEnter = (e: MouseEvent) => {
@@ -216,36 +242,77 @@ export const MouseTrail = () => {
 			resetTrail(e.clientX, e.clientY);
 			pointerX = e.clientX;
 			pointerY = e.clientY;
+			cursor.style.transform = `translate3d(${pointerX}px, ${pointerY}px, 0)`;
+			cursor.style.opacity = '1';
 		};
 
-		const updateTrail = () => {
-			trail[0].x = pointerX;
-			trail[0].y = pointerY;
-
-			const moveSpeed = Math.hypot(
-				pointerX - prevPointerX,
-				pointerY - prevPointerY,
-			);
-			prevPointerX = pointerX;
-			prevPointerY = pointerY;
-			speed += (moveSpeed - speed) * 0.22;
-
-			const speedBoost = Math.min(moveSpeed * 0.02, 0.08);
-
+		const advanceTrail = (step: number, speedBoost: number) => {
 			for (let i = 1; i < trail.length; i++) {
 				const ratio = i / (trail.length - 1);
-				const follow = 0.4 - ratio * 0.28 + speedBoost;
+				const base = Math.min(0.82 - ratio * 0.3 + speedBoost, 0.96);
+				const follow = 1 - Math.pow(1 - base, step);
 				trail[i].x += (trail[i - 1].x - trail[i].x) * follow;
 				trail[i].y += (trail[i - 1].y - trail[i].y) * follow;
 			}
 		};
 
+		const updateTrail = (
+			frameStep: number,
+			headX: number,
+			headY: number,
+		) => {
+			const speedBoost = Math.min(speed * 0.012, 0.09);
+
+			if (samples.length === 0) {
+				trail[0].x = pointerX;
+				trail[0].y = pointerY;
+				advanceTrail(frameStep, speedBoost);
+			} else {
+				const stepSize = frameStep / samples.length;
+				for (const sample of samples) {
+					trail[0].x = sample.x;
+					trail[0].y = sample.y;
+					advanceTrail(stepSize, speedBoost);
+				}
+				samples.length = 0;
+			}
+
+			trail[0].x = headX;
+			trail[0].y = headY;
+		};
+
 		const render = (time: number) => {
+			const frameStep = Math.min(
+				Math.max((time - lastFrameTime) / 16.67, 0.2),
+				3,
+			);
+			lastFrameTime = time;
+
 			ctx.clearRect(0, 0, width, height);
 
 			const hideTrail =
 				overAiBot ||
 				document.body.classList.contains('scroll-comet-dragging');
+
+			const deltaX = pointerX - prevPointerX;
+			const deltaY = pointerY - prevPointerY;
+			prevPointerX = pointerX;
+			prevPointerY = pointerY;
+
+			const smoothing = 1 - Math.pow(0.25, frameStep);
+			speed += (Math.hypot(deltaX, deltaY) / frameStep - speed) * smoothing;
+
+			const visible = active && !hideTrail;
+			if (visible !== cursorVisible) {
+				cursorVisible = visible;
+				cursor.style.opacity = visible ? '1' : '0';
+			}
+
+			const impact = getCometImpactPulse();
+			if (impact !== lastImpact) {
+				lastImpact = impact;
+				cursor.style.setProperty('--comet-impact', impact.toFixed(3));
+			}
 
 			updateCometPointer({
 				x: pointerX,
@@ -254,27 +321,33 @@ export const MouseTrail = () => {
 				hidden: hideTrail,
 			});
 
-			updateMeteorBursts(1);
-			decayCometImpactPulse(0.06);
+			updateMeteorBursts(frameStep);
+			decayCometImpactPulse(0.06 * frameStep);
 
 			if (active && !hideTrail) {
-				updateTrail();
-				drawFlowingTail(ctx, trail, speed);
+				updateTrail(frameStep, pointerX, pointerY);
+				if (team) {
+					drawTeamCometTail(ctx, trail, speed);
+				} else {
+					drawFlowingTail(ctx, trail, speed);
+				}
 				drawMeteorBursts(ctx);
-				drawCometHead(ctx, pointerX, pointerY, time, getCometImpactPulse());
 			} else {
+				samples.length = 0;
 				drawMeteorBursts(ctx);
-				speed *= 0.75;
+				speed *= Math.pow(0.75, frameStep);
 				if (speed < 0.02) speed = 0;
 			}
 
 			rafId = requestAnimationFrame(render);
 		};
 
+		const moveEvent =
+			typeof window.PointerEvent === 'function' ? 'pointermove' : 'mousemove';
+
 		resize();
 		window.addEventListener('resize', resize);
-		document.addEventListener('mousemove', syncPointer, { passive: true });
-		document.addEventListener('pointermove', syncPointer, { passive: true });
+		document.addEventListener(moveEvent, syncPointer, { passive: true });
 		document.addEventListener('pointerdown', syncPointer, { passive: true });
 		document.addEventListener('mouseleave', handleMouseLeave);
 		document.addEventListener('mouseenter', handleMouseEnter);
@@ -283,19 +356,25 @@ export const MouseTrail = () => {
 		return () => {
 			cancelAnimationFrame(rafId);
 			window.removeEventListener('resize', resize);
-			document.removeEventListener('mousemove', syncPointer);
-			document.removeEventListener('pointermove', syncPointer);
+			document.removeEventListener(moveEvent, syncPointer);
 			document.removeEventListener('pointerdown', syncPointer);
 			document.removeEventListener('mouseleave', handleMouseLeave);
 			document.removeEventListener('mouseenter', handleMouseEnter);
 		};
-	}, []);
+	}, [team]);
 
 	return (
-		<canvas
-			ref={canvasRef}
-			className='mouse-comet-canvas'
-			aria-hidden='true'
-		/>
+		<>
+			<canvas
+				ref={canvasRef}
+				className='mouse-comet-canvas'
+				aria-hidden='true'
+			/>
+			<span
+				ref={cursorRef}
+				className='mouse-comet-head'
+				aria-hidden='true'
+			/>
+		</>
 	);
 };

@@ -1,4 +1,10 @@
-import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import {
+	Navigate,
+	Outlet,
+	Route,
+	Routes,
+	useLocation,
+} from 'react-router-dom';
 import { AiBot } from './components/ai-bot';
 import { HexBg } from './components/hex-bg';
 import { MouseTrail } from './components/mouse-trail';
@@ -40,20 +46,25 @@ import './styles/team.css';
 import './styles/tech-stack.css';
 import './styles/visitor-note.css';
 
-const SiteShell = () => (
-	<>
-		<ScrollToTop />
-		<PageKeyNav />
-		<StarfieldBg />
-		<HexBg />
-		<ScrollBar />
-		<MouseTrail />
-		<Navbar />
-		<Outlet />
-		<FallingStarsLayer />
-		<AiBot />
-	</>
-);
+const SiteShell = () => {
+	const { pathname } = useLocation();
+	const hasTeamSky = pathname === '/team';
+
+	return (
+		<>
+			<ScrollToTop />
+			<PageKeyNav />
+			{!hasTeamSky && <StarfieldBg />}
+			<HexBg />
+			<ScrollBar />
+			<MouseTrail team={hasTeamSky} />
+			<Navbar />
+			<Outlet />
+			<FallingStarsLayer />
+			<AiBot />
+		</>
+	);
+};
 
 function App() {
 	return (

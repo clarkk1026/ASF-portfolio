@@ -12,10 +12,10 @@
 	isolation: isolate;
 	padding: 1rem 0;
 	transition:
-		background 0.3s ease,
-		border-color 0.3s ease,
-		padding 0.3s ease,
-		backdrop-filter 0.3s ease;
+		background 0.16s ease,
+		border-color 0.16s ease,
+		padding 0.16s ease,
+		backdrop-filter 0.16s ease;
 }
 
 .navbar-scrolled {
@@ -38,7 +38,7 @@
 .navbar-brand {
 	flex-shrink: 0;
 	min-width: 0;
-	transition: opacity 0.2s ease;
+	transition: opacity 0.12s ease;
 	--brand-logo-height: 2rem;
 }
 
@@ -58,6 +58,8 @@
 
 .navbar-links a {
 	position: relative;
+	display: inline-block;
+	overflow: visible;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 0.72rem;
 	font-weight: 600;
@@ -66,48 +68,90 @@
 	color: var(--nav-muted);
 	text-decoration: none;
 	padding: 0.45rem 0.7rem;
+	border: 1px solid transparent;
 	border-radius: 0;
 	background: transparent;
 	box-shadow: none;
 	text-shadow: none;
-	transition: color 0.2s ease;
+	transition:
+		color 0.12s ease,
+		letter-spacing 0.16s cubic-bezier(0.22, 1, 0.36, 1),
+		text-shadow 0.16s ease,
+		filter 0.16s ease;
+}
+
+.navbar-links a::before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 0.12rem;
+	width: 5px;
+	height: 1px;
+	pointer-events: none;
+	background: rgb(160, 235, 255);
+	box-shadow:
+		0 0 5px rgba(31, 195, 255, 0.9),
+		0 0 11px rgba(31, 195, 255, 0.55);
+	opacity: 0;
+	transform: translate(-7px, -50%) rotate(-35deg) scaleX(0.25);
+	transition:
+		opacity 0.12s ease,
+		transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .navbar-links a::after {
 	content: '';
 	position: absolute;
-	left: 0.7rem;
-	right: 0.7rem;
-	bottom: 0.2rem;
+	top: 50%;
+	right: 0.12rem;
+	width: 5px;
 	height: 1px;
-	background: var(--nav-accent);
-	transform: scaleX(0);
-	transform-origin: left center;
-	transition: transform 0.25s ease;
-	opacity: 0.9;
+	pointer-events: none;
+	background: rgb(172, 152, 255);
+	box-shadow:
+		0 0 5px rgba(120, 100, 255, 0.9),
+		0 0 11px rgba(120, 100, 255, 0.55);
+	opacity: 0;
+	transform: translate(7px, -50%) rotate(-35deg) scaleX(0.25);
+	transition:
+		opacity 0.12s ease,
+		transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .navbar-links a:hover {
-	color: var(--nav-ink);
+	color: rgb(238, 251, 255);
 	background: transparent;
-	text-shadow: none;
+	border-color: transparent;
+	letter-spacing: 0.145em;
+	text-shadow:
+		-1px 0 9px rgba(31, 195, 255, 0.5),
+		1px 0 9px rgba(120, 100, 255, 0.42);
 	box-shadow: none;
-	transform: none;
+	filter: brightness(1.08);
+}
+
+.navbar-links a:hover::before {
+	opacity: 1;
+	transform: translate(0, -50%) rotate(-35deg) scaleX(1);
 }
 
 .navbar-links a:hover::after {
-	transform: scaleX(1);
+	opacity: 1;
+	transform: translate(0, -50%) rotate(-35deg) scaleX(1);
 }
 
 .navbar-links a.navbar-link-active {
-	color: var(--nav-ink);
+	color: rgb(205, 239, 250);
 	background: transparent;
-	text-shadow: none;
+	border-color: transparent;
+	text-shadow: 0 0 9px rgba(31, 195, 255, 0.24);
 	box-shadow: none;
 }
 
+.navbar-links a.navbar-link-active::before,
 .navbar-links a.navbar-link-active::after {
-	transform: scaleX(1);
+	opacity: 0.72;
+	transform: translate(0, -50%) rotate(-35deg) scaleX(0.65);
 }
 
 .navbar-cta {
@@ -156,11 +200,6 @@
 		padding: 0.4rem 0.5rem;
 		letter-spacing: 0.08em;
 		font-size: 0.68rem;
-	}
-
-	.navbar-links a::after {
-		left: 0.5rem;
-		right: 0.5rem;
 	}
 
 	.navbar-inner {
@@ -213,9 +252,7 @@
 	}
 
 	.navbar-links a::after {
-		left: 1rem;
-		right: 1rem;
-		bottom: 0.55rem;
+		right: 0.55rem;
 	}
 
 	.navbar-cta {

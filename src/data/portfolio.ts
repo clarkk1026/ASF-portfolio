@@ -147,11 +147,11 @@ export const teamMembers: TeamMember[] = [
 	{
 		id: 'le-wei',
 		name: 'Le Wei',
-		role: 'Game Developer',
+		role: 'Web Developer',
 		location: 'Galway, Ireland',
 		summary:
-			'Originally from Singapore, now based in Ireland. Builds game systems, gameplay features, and interactive client experiences across Unity and related tools.',
-		focus: ['Unity', 'Gameplay', 'Interactive', 'C#'],
+			'Originally from Singapore, now based in Ireland. Builds responsive web interfaces, polished user experiences, and dependable client-facing features.',
+		focus: ['Web development', 'Frontend', 'Responsive UI', 'User experience'],
 	},
 	{
 		id: 'ahmed-achtatar',
@@ -457,7 +457,7 @@ export const about = {
 	},
 	intro: [
 		'ASF started when Ben Clark left product engineering roles at Cloudsmith and Nearform and began taking on client work with a small group of developers he trusted. The studio is fully remote: Ben works from Sandpoint, Idaho; Le Wei is based in Ireland; Yuki, originally from Japan, works from Poland; Ahmed Achtatar works from Morocco; and Facundo Carnevale works from Buenos Aires, Argentina. Le Wei is originally from Singapore.',
-		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Yuki on full stack features, Facundo on senior full stack and React Native delivery, Le Wei on game development, and Ahmed on AI and big data systems.',
+		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Yuki on full stack features, Facundo on senior full stack and React Native delivery, Le Wei on web development, and Ahmed on AI and big data systems.',
 	],
 };
 

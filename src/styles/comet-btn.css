@@ -17,11 +17,11 @@
 	cursor: pointer;
 	padding: 0.7rem 1.35rem;
 	transition:
-		transform 0.25s ease,
-		box-shadow 0.25s ease,
-		filter 0.25s ease,
-		background 0.25s ease,
-		border-color 0.25s ease;
+		transform 0.14s ease,
+		box-shadow 0.14s ease,
+		filter 0.14s ease,
+		background 0.14s ease,
+		border-color 0.14s ease;
 }
 
 .comet-btn::before {
@@ -35,7 +35,7 @@
 		transparent 70%
 	);
 	transform: translateX(-120%);
-	transition: transform 0.55s ease;
+	transition: transform 0.3s ease;
 	pointer-events: none;
 }
 

@@ -8,7 +8,15 @@ export const Navbar = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
 
 	useEffect(() => {
-		const onScroll = () => setScrolled(window.scrollY > 48);
+		let lastScrolled = window.scrollY > 48;
+		setScrolled(lastScrolled);
+
+		const onScroll = () => {
+			const nextScrolled = window.scrollY > 48;
+			if (nextScrolled === lastScrolled) return;
+			lastScrolled = nextScrolled;
+			setScrolled(nextScrolled);
+		};
 		window.addEventListener('scroll', onScroll, { passive: true });
 		return () => window.removeEventListener('scroll', onScroll);
 	}, []);
