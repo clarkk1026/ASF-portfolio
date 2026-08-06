@@ -8,7 +8,6 @@ const FOCUS_VIEWPORT_RATIO = 0.42;
 type TimelineMetrics = {
 	railTop: number;
 	railHeight: number;
-	progress: number;
 	activeIndex: number;
 };
 
@@ -22,12 +21,18 @@ const getAnchorY = (item: HTMLElement, timelineTop: number) => {
 const emptyMetrics: TimelineMetrics = {
 	railTop: 0,
 	railHeight: 0,
-	progress: 0,
 	activeIndex: 0,
+};
+
+const splitPeriod = (period: string) => {
+	const [start, end] = period.split(/\s+to\s+/i);
+	return { start, end: end ? `to ${end}` : '' };
 };
 
 export const WorkExperience = () => {
 	const timelineRef = useRef<HTMLDivElement>(null);
+	const railFillRef = useRef<HTMLDivElement>(null);
+	const dotRef = useRef<HTMLDivElement>(null);
 	const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
 	const [metrics, setMetrics] = useState<TimelineMetrics>(emptyMetrics);
 
@@ -37,6 +42,7 @@ export const WorkExperience = () => {
 				section.items.map((item, index) => ({
 					...item,
 					sectionHeading: index === 0 ? section.heading : null,
+					periodParts: splitPeriod(item.period),
 				})),
 			),
 		[],
@@ -65,6 +71,16 @@ export const WorkExperience = () => {
 			const rawProgress =
 				(focusY - railStartDoc) / Math.max(railEndDoc - railStartDoc, 1);
 			const progress = Math.min(1, Math.max(0, rawProgress));
+			const dotOffset = railHeight * progress;
+
+			if (railFillRef.current) {
+				railFillRef.current.style.transform =
+					`translateX(-50%) scaleY(${progress})`;
+			}
+			if (dotRef.current) {
+				dotRef.current.style.transform =
+					`translate(-50%, -50%) translateY(${dotOffset}px)`;
+			}
 
 			const focusViewportY = window.innerHeight * FOCUS_VIEWPORT_RATIO;
 			let activeIndex = 0;
@@ -79,7 +95,15 @@ export const WorkExperience = () => {
 				}
 			});
 
-			setMetrics({ railTop, railHeight, progress, activeIndex });
+			setMetrics((current) => {
+				const geometryChanged =
+					Math.abs(current.railTop - railTop) > 0.5 ||
+					Math.abs(current.railHeight - railHeight) > 0.5;
+				if (!geometryChanged && current.activeIndex === activeIndex) {
+					return current;
+				}
+				return { railTop, railHeight, activeIndex };
+			});
 		};
 
 		const onScroll = () => {
@@ -107,8 +131,6 @@ export const WorkExperience = () => {
 		};
 	}, [allItems.length]);
 
-	const dotOffset = metrics.railHeight * metrics.progress;
-
 	return (
 		<section
 			className='experience container'
@@ -128,29 +150,28 @@ export const WorkExperience = () => {
 					className='timeline'
 					ref={timelineRef}
 				>
-					{metrics.railHeight > 0 && (
+					<div
+						className='timeline-rail'
+						aria-hidden='true'
+						style={{
+							top: `${metrics.railTop}px`,
+							height: `${metrics.railHeight}px`,
+							opacity: metrics.railHeight > 0 ? 1 : 0,
+						}}
+					>
+						<div className='timeline-rail-track' />
 						<div
-							className='timeline-rail'
-							aria-hidden='true'
-							style={{
-								top: `${metrics.railTop}px`,
-								height: `${metrics.railHeight}px`,
-							}}
-						>
-							<div className='timeline-rail-track' />
-							<div
-								className='timeline-rail-fill'
-								style={{ height: `${dotOffset}px` }}
-							/>
-							<div
-								className='timeline-dot'
-								style={{ top: `${dotOffset}px` }}
-							/>
-						</div>
-					)}
+							ref={railFillRef}
+							className='timeline-rail-fill'
+						/>
+						<div
+							ref={dotRef}
+							className='timeline-dot'
+						/>
+					</div>
 
 					{allItems.map(
-						({ sectionHeading, role, org, period, bullets }, itemIdx) => (
+						({ sectionHeading, role, org, periodParts, bullets }, itemIdx) => (
 						<Reveal
 							key={`${role}-${org}`}
 							delay={80 + itemIdx * 80}
@@ -165,21 +186,25 @@ export const WorkExperience = () => {
 									<h3 className='timeline-group-heading'>{sectionHeading}</h3>
 								) : null}
 								<div className='timeline-item glass-card'>
-									<div className='timeline-meta'>
-										<p className='designation'>{role}</p>
-										<p className='place'>
-											{org}, {period}
-										</p>
+									<div className='timeline-period'>
+										<strong>{periodParts.start}</strong>
+										<span>{periodParts.end}</span>
 									</div>
-									{bullets.length > 0 && (
-										<div className='timeline-description'>
-											<ul>
-												{bullets.map((bullet) => (
-													<li key={bullet}>{bullet}</li>
-												))}
-											</ul>
+									<div className='timeline-body'>
+										<div className='timeline-meta'>
+											<p className='designation'>{role}</p>
+											<p className='place'>{org}</p>
 										</div>
-									)}
+										{bullets.length > 0 && (
+											<div className='timeline-description'>
+												<ul>
+													{bullets.map((bullet) => (
+														<li key={bullet}>{bullet}</li>
+													))}
+												</ul>
+											</div>
+										)}
+									</div>
 								</div>
 							</div>
 						</Reveal>

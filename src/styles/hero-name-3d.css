@@ -160,3 +160,65 @@
 		display: none;
 	}
 }
+
+/* Keep original hero-name colors; only soft sunlight sparkle */
+html.weather-sunny .hero-letter {
+	animation: hero-letter-sun-sparkle 3.2s ease-in-out infinite;
+}
+
+html.weather-sunny .hero-name-word--cyan .hero-letter:nth-child(2n),
+html.weather-sunny .hero-name-word--purple .hero-letter:nth-child(3n) {
+	animation-delay: 0.5s;
+}
+
+html.weather-sunny .hero-letter::after {
+	content: '';
+	position: absolute;
+	inset: 14% 20% 30% 20%;
+	pointer-events: none;
+	border-radius: 50%;
+	background:
+		radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.9) 0 1px, transparent 2px),
+		radial-gradient(circle at 68% 42%, rgba(220, 245, 255, 0.75) 0 0.8px, transparent 1.7px);
+	opacity: 0;
+	mix-blend-mode: screen;
+	animation: hero-letter-glint 3.8s ease-in-out infinite;
+}
+
+html.weather-sunny .hero-letter:nth-child(odd)::after {
+	animation-delay: 0.8s;
+}
+
+@keyframes hero-letter-sun-sparkle {
+	0%,
+	100% {
+		filter: brightness(1);
+	}
+	50% {
+		filter: brightness(1.08);
+	}
+}
+
+@keyframes hero-letter-glint {
+	0%,
+	100%,
+	45% {
+		opacity: 0;
+		transform: translate3d(-2%, 4%, 0) scale(0.85);
+	}
+	52% {
+		opacity: 0.75;
+		transform: translate3d(1%, -1%, 0) scale(1);
+	}
+	65% {
+		opacity: 0;
+		transform: translate3d(6%, -6%, 0) scale(1.1);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html.weather-sunny .hero-letter,
+	html.weather-sunny .hero-letter::after {
+		animation: none;
+	}
+}

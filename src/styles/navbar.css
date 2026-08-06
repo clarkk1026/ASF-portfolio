@@ -73,71 +73,78 @@
 	background: transparent;
 	box-shadow: none;
 	text-shadow: none;
+	isolation: isolate;
 	transition:
-		color 0.12s ease,
-		letter-spacing 0.16s cubic-bezier(0.22, 1, 0.36, 1),
-		text-shadow 0.16s ease,
-		filter 0.16s ease;
+		color 0.42s ease,
+		text-shadow 0.46s ease,
+		filter 0.46s ease;
 }
 
 .navbar-links a::before {
 	content: '';
 	position: absolute;
-	top: 50%;
-	left: 0.12rem;
-	width: 5px;
-	height: 1px;
+	z-index: -2;
+	inset: -0.65rem -0.8rem;
 	pointer-events: none;
-	background: rgb(160, 235, 255);
-	box-shadow:
-		0 0 5px rgba(31, 195, 255, 0.9),
-		0 0 11px rgba(31, 195, 255, 0.55);
+	border-radius: 50%;
+	background: radial-gradient(
+		ellipse at 50% 42%,
+		rgba(235, 249, 255, 0.32) 0%,
+		rgba(156, 215, 248, 0.14) 34%,
+		rgba(83, 155, 218, 0.045) 58%,
+		transparent 76%
+	);
+	filter: blur(7px);
 	opacity: 0;
-	transform: translate(-7px, -50%) rotate(-35deg) scaleX(0.25);
+	transform: scale(0.68);
 	transition:
-		opacity 0.12s ease,
-		transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+		opacity 0.5s ease,
+		transform 0.58s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .navbar-links a::after {
 	content: '';
 	position: absolute;
-	top: 50%;
-	right: 0.12rem;
-	width: 5px;
-	height: 1px;
+	z-index: -1;
+	inset: 0.08rem 0.1rem;
 	pointer-events: none;
-	background: rgb(172, 152, 255);
+	border: 1px solid rgba(214, 241, 255, 0.18);
+	border-radius: 5px;
+	background:
+		linear-gradient(
+			180deg,
+			rgba(232, 248, 255, 0.075),
+			rgba(115, 180, 224, 0.025)
+		);
 	box-shadow:
-		0 0 5px rgba(120, 100, 255, 0.9),
-		0 0 11px rgba(120, 100, 255, 0.55);
+		inset 0 1px 0 rgba(255, 255, 255, 0.09),
+		0 5px 18px rgba(83, 155, 218, 0.055);
 	opacity: 0;
-	transform: translate(7px, -50%) rotate(-35deg) scaleX(0.25);
+	transform: scale(0.88);
 	transition:
-		opacity 0.12s ease,
-		transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+		opacity 0.46s ease 0.05s,
+		transform 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.03s;
 }
 
 .navbar-links a:hover {
 	color: rgb(238, 251, 255);
 	background: transparent;
 	border-color: transparent;
-	letter-spacing: 0.145em;
 	text-shadow:
-		-1px 0 9px rgba(31, 195, 255, 0.5),
-		1px 0 9px rgba(120, 100, 255, 0.42);
+		0 0 8px rgba(226, 247, 255, 0.46),
+		0 0 18px rgba(112, 190, 236, 0.2);
 	box-shadow: none;
-	filter: brightness(1.08);
+	filter: brightness(1.12);
 }
 
 .navbar-links a:hover::before {
 	opacity: 1;
-	transform: translate(0, -50%) rotate(-35deg) scaleX(1);
+	transform: scale(1);
 }
 
 .navbar-links a:hover::after {
 	opacity: 1;
-	transform: translate(0, -50%) rotate(-35deg) scaleX(1);
+	transform: scale(1);
 }
 
 .navbar-links a.navbar-link-active {
@@ -148,15 +155,47 @@
 	box-shadow: none;
 }
 
-.navbar-links a.navbar-link-active::before,
-.navbar-links a.navbar-link-active::after {
-	opacity: 0.72;
-	transform: translate(0, -50%) rotate(-35deg) scaleX(0.65);
+.navbar-links a.navbar-link-active:not(:hover)::before,
+.navbar-links a.navbar-link-active:not(:hover)::after {
+	opacity: 0.22;
+	transform: scale(0.94);
 }
 
 .navbar-cta {
 	flex-shrink: 0;
 	padding: 0.65rem 1.25rem;
+	transition:
+		transform 0.42s ease,
+		box-shadow 0.52s ease,
+		filter 0.52s ease,
+		background 0.52s ease,
+		border-color 0.52s ease;
+}
+
+.navbar-cta::before {
+	inset: -70% -20%;
+	background: radial-gradient(
+		circle at 50% 58%,
+		rgba(255, 255, 255, 0.72) 0%,
+		rgba(208, 241, 255, 0.3) 28%,
+		rgba(126, 201, 240, 0.08) 52%,
+		transparent 72%
+	);
+	opacity: 0;
+	transform: scale(0.55);
+	transition:
+		opacity 0.5s ease,
+		transform 0.62s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.navbar-cta:hover {
+	transform: translateY(-1px);
+	filter: brightness(1.08) saturate(1.02);
+}
+
+.navbar-cta:hover::before {
+	opacity: 0.75;
+	transform: scale(1.15);
 }
 
 .navbar-toggle {
@@ -251,11 +290,54 @@
 		color: var(--nav-muted);
 	}
 
-	.navbar-links a::after {
-		right: 0.55rem;
-	}
-
 	.navbar-cta {
 		display: none;
 	}
+}
+
+/* Sunny weather: natural warm shine on header letters */
+html.weather-sunny .navbar {
+	--nav-ink: rgba(255, 244, 220, 0.95);
+	--nav-muted: rgba(255, 228, 186, 0.78);
+	--nav-line: rgba(255, 210, 150, 0.14);
+	--nav-accent: rgb(255, 186, 92);
+}
+
+html.weather-sunny .navbar-links a {
+	color: rgba(255, 232, 196, 0.78);
+	text-shadow: 0 0 10px rgba(255, 200, 120, 0.12);
+	transition:
+		color 1.2s ease,
+		text-shadow 1.3s ease,
+		filter 1.2s ease;
+}
+
+html.weather-sunny .navbar-links a:hover {
+	color: #fff6e4;
+	text-shadow:
+		0 0 8px rgba(255, 230, 170, 0.55),
+		0 0 18px rgba(255, 190, 100, 0.28);
+	filter: brightness(1.08);
+}
+
+html.weather-sunny .navbar-links a.navbar-link-active {
+	color: #ffe7b8;
+	text-shadow:
+		0 0 8px rgba(255, 210, 130, 0.4),
+		0 0 16px rgba(255, 180, 80, 0.22);
+}
+
+html.weather-sunny .navbar-links a::before {
+	background: radial-gradient(
+		ellipse at 50% 42%,
+		rgba(255, 244, 210, 0.28) 0%,
+		rgba(255, 200, 120, 0.12) 36%,
+		rgba(255, 170, 70, 0.04) 58%,
+		transparent 76%
+	);
+}
+
+html.weather-sunny .navbar-scrolled {
+	background: rgba(28, 18, 8, 0.72);
+	border-bottom-color: rgba(255, 200, 130, 0.14);
 }

@@ -5,10 +5,16 @@ import { useDocumentTitle } from '../hooks/use-document-title';
 type PageShellProps = {
 	title: string;
 	children: ReactNode;
+	backdrop?: ReactNode;
 	home?: boolean;
 };
 
-export const PageShell = ({ title, children, home = false }: PageShellProps) => {
+export const PageShell = ({
+	title,
+	children,
+	backdrop,
+	home = false,
+}: PageShellProps) => {
 	const { pathname } = useLocation();
 	useDocumentTitle(title);
 
@@ -17,6 +23,7 @@ export const PageShell = ({ title, children, home = false }: PageShellProps) => 
 			key={pathname}
 			className={`page-shell${home ? ' page-shell-home' : ' page-shell-inner'}`}
 		>
+			{backdrop}
 			<div
 				className='page-transition'
 				aria-hidden='true'

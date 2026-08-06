@@ -33,6 +33,7 @@ import './styles/expertise.css';
 import './styles/glow-box.css';
 import './styles/hex-bg.css';
 import './styles/hero-name-3d.css';
+import './styles/home-storm.css';
 import './styles/info-section.css';
 import './styles/layered-title.css';
 import './styles/mouse-trail.css';
@@ -48,19 +49,22 @@ import './styles/visitor-note.css';
 
 const SiteShell = () => {
 	const { pathname } = useLocation();
+	const hasHomeStorm = pathname === '/';
 	const hasTeamSky = pathname === '/team';
+	const hasPathSky = pathname === '/path';
+	const hasCustomSky = hasHomeStorm || hasTeamSky || hasPathSky;
 
 	return (
 		<>
 			<ScrollToTop />
 			<PageKeyNav />
-			{!hasTeamSky && <StarfieldBg />}
+			{!hasCustomSky && <StarfieldBg />}
 			<HexBg />
 			<ScrollBar />
 			<MouseTrail team={hasTeamSky} />
 			<Navbar />
 			<Outlet />
-			<FallingStarsLayer />
+			{!hasHomeStorm && <FallingStarsLayer />}
 			<AiBot />
 		</>
 	);

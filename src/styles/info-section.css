@@ -67,6 +67,7 @@
 	letter-spacing: 0.14rem;
 	text-transform: uppercase;
 	font-family: 'Fugaz One', sans-serif;
+	transition: color 1.4s ease, text-shadow 1.4s ease;
 }
 
 .hero-title {
@@ -178,6 +179,7 @@
 }
 
 .hero-stats {
+	position: relative;
 	display: grid;
 	grid-template-columns: repeat(5, minmax(0, 1fr));
 	gap: 1.15rem;
@@ -188,37 +190,153 @@
 }
 
 .hero-stat {
+	position: relative;
+	overflow: hidden;
+	isolation: isolate;
 	padding: 1.35rem 0.85rem;
 	border-radius: 14px;
-	border: 1px solid rgba(255, 255, 255, 0.08);
-	background: rgba(255, 255, 255, 0.03);
-	backdrop-filter: blur(8px);
+	border: 1px solid rgba(185, 215, 230, 0.16);
+	background:
+		linear-gradient(
+			180deg,
+			rgba(205, 230, 242, 0.09) 0%,
+			rgba(255, 255, 255, 0.03) 42%,
+			rgba(6, 12, 18, 0.22) 100%
+		),
+		rgba(255, 255, 255, 0.028);
+	backdrop-filter: blur(11px) saturate(1.05);
+	box-shadow:
+		inset 0 1px 0 rgba(235, 248, 255, 0.22),
+		inset 0 -1px 0 rgba(120, 160, 185, 0.08),
+		inset 0 -22px 30px rgba(100, 150, 175, 0.04);
 	transition:
 		transform 0.3s ease,
-		border-color 0.3s ease;
+		border-color 0.8s ease,
+		box-shadow 0.8s ease,
+		background 1.2s ease;
+}
+
+html.weather-sunny .hero-stat {
+	border-color: rgba(255, 210, 140, 0.32);
+	background:
+		linear-gradient(
+			180deg,
+			rgba(255, 236, 200, 0.22) 0%,
+			rgba(255, 255, 255, 0.06) 42%,
+			rgba(50, 30, 12, 0.16) 100%
+		),
+		rgba(255, 255, 255, 0.04);
+	box-shadow:
+		inset 0 1px 0 rgba(255, 248, 230, 0.4),
+		inset 0 -1px 0 rgba(200, 150, 80, 0.12),
+		0 0 24px rgba(255, 190, 100, 0.1);
+}
+
+html.weather-sunny .hero-stat-value {
+	color: #fff4dc;
+	text-shadow:
+		0 1px 0 rgba(255, 210, 140, 0.55),
+		0 0 14px rgba(255, 190, 90, 0.4);
+	animation: hero-stat-sun-sparkle 2.8s ease-in-out infinite;
+}
+
+html.weather-sunny .hero-stat-label {
+	color: rgba(255, 228, 180, 0.78);
+	text-shadow: 0 1px 0 rgba(255, 210, 140, 0.25);
+}
+
+html.weather-sunny .hero-greeting {
+	color: #ffe9c2;
+	text-shadow:
+		0 1px 0 rgba(255, 200, 120, 0.4),
+		0 0 16px rgba(255, 180, 80, 0.28);
+}
+
+html.weather-sunny .hero-badge {
+	color: rgba(255, 236, 200, 0.9);
+}
+
+html.weather-sunny .hero-service--cyan {
+	color: #ffd48a;
+	text-shadow: 0 0 12px rgba(255, 190, 80, 0.4);
+}
+
+html.weather-sunny .hero-service--purple {
+	color: #ffc878;
+	text-shadow: 0 0 12px rgba(255, 170, 70, 0.35);
+}
+
+html.weather-sunny .hero-tagline,
+html.weather-sunny .hero-lead,
+html.weather-sunny .hero-team-note {
+	color: rgba(255, 232, 196, 0.78);
+}
+
+html.weather-sunny .hero-stat:hover {
+	border-color: rgba(255, 200, 120, 0.45);
+}
+
+html.weather-sunny .hero-stat:nth-child(2n) .hero-stat-value {
+	animation-delay: 0.4s;
+}
+
+html.weather-sunny .hero-stat:nth-child(3n) .hero-stat-value {
+	animation-delay: 0.85s;
+}
+
+@keyframes hero-stat-sun-sparkle {
+	0%,
+	100% {
+		filter: brightness(1);
+	}
+	50% {
+		filter: brightness(1.18);
+	}
 }
 
 .hero-stat:hover {
 	transform: translateY(-4px);
-	border-color: rgba(31, 195, 255, 0.28);
+	border-color: rgba(180, 220, 240, 0.34);
+	box-shadow:
+		inset 0 1px 0 rgba(235, 248, 255, 0.3),
+		inset 0 -1px 0 rgba(120, 160, 185, 0.1),
+		inset 0 -22px 30px rgba(120, 175, 200, 0.06),
+		0 10px 28px rgba(0, 0, 0, 0.28);
+}
+
+.hero-stat-value,
+.hero-stat-label {
+	position: relative;
+	z-index: 2;
 }
 
 .hero-stat-value {
 	display: block;
 	font-family: 'Fugaz One', sans-serif;
 	font-size: clamp(1.15rem, 2vw, 1.45rem);
-	color: white;
+	color: rgba(255, 255, 255, 0.96);
 	margin-bottom: 0.55rem;
 	white-space: nowrap;
+	text-shadow:
+		0 1px 0 rgba(180, 215, 230, 0.22),
+		0 0 12px rgba(200, 230, 245, 0.12);
+	transition: color 1.4s ease, text-shadow 1.4s ease;
 }
 
 .hero-stat-label {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 0.65rem;
 	line-height: 1.5;
-	color: rgba(255, 255, 255, 0.58);
+	color: rgba(220, 235, 245, 0.62);
 	text-transform: uppercase;
 	letter-spacing: 0.07em;
+	transition: color 1.4s ease, text-shadow 1.4s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html.weather-sunny .hero-stat-value {
+		animation: none;
+	}
 }
 
 .blur {
