@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { HeroName3D } from '../components/hero-name-3d';
 import { Reveal } from '../components/reveal';
-import { highlights, personal, team } from '../data/portfolio';
+import { highlights, personal } from '../data/portfolio';
 
 export const InfoSection = () => {
 	return (
@@ -83,12 +83,6 @@ export const InfoSection = () => {
 							</div>
 						))}
 					</div>
-				</Reveal>
-
-				<Reveal delay={540}>
-					<p className='hero-team-note'>
-						{team.model}
-					</p>
 				</Reveal>
 			</div>
 

@@ -25,29 +25,6 @@
 	animation: path-sky-breathe 26s ease-in-out 0.25s infinite alternate;
 }
 
-.path-night-sky-milky-light {
-	z-index: 1;
-	inset: -10% -6%;
-	background:
-		linear-gradient(
-			112deg,
-			transparent 8%,
-			rgba(96, 178, 245, 0.12) 15%,
-			rgba(178, 228, 255, 0.42) 21%,
-			rgba(104, 190, 250, 0.2) 26%,
-			transparent 35%
-		),
-		radial-gradient(
-			ellipse 16% 70% at 22% 23%,
-			rgba(190, 234, 255, 0.4),
-			rgba(88, 172, 240, 0.14) 46%,
-			transparent 76%
-		);
-	mix-blend-mode: screen;
-	transform-origin: 22% 25%;
-	animation: path-milky-light-live 9s ease-in-out infinite alternate;
-}
-
 .path-night-sky-clouds {
 	z-index: 2;
 	inset: -8%;
@@ -74,19 +51,36 @@
 	animation: path-clouds-drift 22s ease-in-out infinite alternate;
 }
 
+/* Stars only in the sky band — never over mountains / ground */
 .path-night-sky-stars {
 	z-index: 3;
+	inset: 0 0 auto;
+	height: 52%;
 	background-repeat: repeat;
-	background-size: 420px 320px;
+	background-size: 420px 280px;
 	background-image:
-		radial-gradient(circle at 12% 18%, rgba(233, 248, 255, 0.95) 0 1px, transparent 1.9px),
+		radial-gradient(circle at 12% 14%, rgba(233, 248, 255, 0.95) 0 1px, transparent 1.9px),
 		radial-gradient(circle at 34% 8%, rgba(178, 224, 255, 0.8) 0 0.9px, transparent 1.8px),
-		radial-gradient(circle at 58% 26%, rgba(240, 251, 255, 0.9) 0 1px, transparent 1.9px),
-		radial-gradient(circle at 79% 12%, rgba(186, 228, 255, 0.78) 0 0.85px, transparent 1.7px),
-		radial-gradient(circle at 24% 52%, rgba(226, 245, 255, 0.7) 0 0.8px, transparent 1.6px),
-		radial-gradient(circle at 67% 61%, rgba(196, 232, 255, 0.68) 0 0.8px, transparent 1.6px),
-		radial-gradient(circle at 90% 44%, rgba(236, 249, 255, 0.72) 0 0.9px, transparent 1.7px),
-		radial-gradient(circle at 45% 82%, rgba(184, 226, 255, 0.5) 0 0.7px, transparent 1.5px);
+		radial-gradient(circle at 58% 22%, rgba(240, 251, 255, 0.9) 0 1px, transparent 1.9px),
+		radial-gradient(circle at 79% 11%, rgba(186, 228, 255, 0.78) 0 0.85px, transparent 1.7px),
+		radial-gradient(circle at 22% 36%, rgba(226, 245, 255, 0.65) 0 0.75px, transparent 1.55px),
+		radial-gradient(circle at 68% 30%, rgba(196, 232, 255, 0.6) 0 0.75px, transparent 1.55px),
+		radial-gradient(circle at 90% 28%, rgba(236, 249, 255, 0.7) 0 0.85px, transparent 1.65px),
+		radial-gradient(circle at 46% 40%, rgba(184, 226, 255, 0.45) 0 0.65px, transparent 1.4px);
+	-webkit-mask-image: linear-gradient(
+		180deg,
+		#000 0%,
+		#000 58%,
+		rgba(0, 0, 0, 0.45) 78%,
+		transparent 100%
+	);
+	mask-image: linear-gradient(
+		180deg,
+		#000 0%,
+		#000 58%,
+		rgba(0, 0, 0, 0.45) 78%,
+		transparent 100%
+	);
 	animation: path-stars-shimmer 3.6s ease-in-out infinite alternate;
 }
 
@@ -95,28 +89,14 @@
 	position: absolute;
 	inset: 0;
 	background-repeat: repeat;
-	background-size: 300px 240px;
-	background-position: 90px 60px;
+	background-size: 300px 220px;
+	background-position: 90px 40px;
 	background-image:
-		radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.9) 0 0.9px, transparent 1.7px),
-		radial-gradient(circle at 72% 18%, rgba(206, 238, 255, 0.75) 0 0.8px, transparent 1.6px),
-		radial-gradient(circle at 48% 66%, rgba(240, 251, 255, 0.7) 0 0.8px, transparent 1.6px),
-		radial-gradient(circle at 86% 74%, rgba(190, 230, 255, 0.6) 0 0.7px, transparent 1.5px);
+		radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.9) 0 0.9px, transparent 1.7px),
+		radial-gradient(circle at 72% 12%, rgba(206, 238, 255, 0.75) 0 0.8px, transparent 1.6px),
+		radial-gradient(circle at 48% 34%, rgba(240, 251, 255, 0.65) 0 0.75px, transparent 1.5px),
+		radial-gradient(circle at 86% 26%, rgba(190, 230, 255, 0.55) 0 0.7px, transparent 1.45px);
 	animation: path-stars-shimmer-alt 5.4s ease-in-out infinite alternate;
-}
-
-.path-night-sky-moonlight {
-	z-index: 4;
-	background: radial-gradient(
-		circle at 7% 22%,
-		rgba(226, 246, 255, 0.34) 0%,
-		rgba(140, 205, 250, 0.15) 9%,
-		rgba(78, 160, 220, 0.06) 18%,
-		transparent 32%
-	);
-	mix-blend-mode: screen;
-	transform-origin: 7% 22%;
-	animation: path-moonlight-live 5.5s ease-in-out infinite;
 }
 
 .path-night-sky-shade {
@@ -158,6 +138,21 @@ body:has(.path-night-sky) .hex-canvas {
 body:has(.path-night-sky) .falling-stars-canvas {
 	z-index: 4;
 	opacity: 1;
+	/* Keep falling stars in the sky only */
+	-webkit-mask-image: linear-gradient(
+		180deg,
+		#000 0%,
+		#000 42%,
+		rgba(0, 0, 0, 0.35) 55%,
+		transparent 68%
+	);
+	mask-image: linear-gradient(
+		180deg,
+		#000 0%,
+		#000 42%,
+		rgba(0, 0, 0, 0.35) 55%,
+		transparent 68%
+	);
 }
 
 body:has(.path-night-sky) .mouse-comet-canvas,
@@ -425,20 +420,6 @@ body:has(.path-night-sky) .mouse-comet-head {
 	}
 }
 
-@keyframes path-milky-light-live {
-	0% {
-		opacity: 0.25;
-		transform: scale(0.96) translate3d(-1.2%, 0.6%, 0);
-	}
-	55% {
-		opacity: 1;
-	}
-	100% {
-		opacity: 0.45;
-		transform: scale(1.07) translate3d(1.4%, -0.9%, 0);
-	}
-}
-
 @keyframes path-clouds-drift {
 	0% {
 		opacity: 0.3;
@@ -471,18 +452,6 @@ body:has(.path-night-sky) .mouse-comet-head {
 	}
 	100% {
 		opacity: 0.7;
-	}
-}
-
-@keyframes path-moonlight-live {
-	0%,
-	100% {
-		opacity: 0.4;
-		transform: scale(0.94);
-	}
-	50% {
-		opacity: 1;
-		transform: scale(1.08);
 	}
 }
 
@@ -535,15 +504,17 @@ body:has(.path-night-sky) .mouse-comet-head {
 		background-size: cover;
 		background-position: left center;
 	}
+
+	.path-night-sky-stars {
+		height: 46%;
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
 	.path-night-sky-image,
-	.path-night-sky-milky-light,
 	.path-night-sky-clouds,
 	.path-night-sky-stars,
 	.path-night-sky-stars::after,
-	.path-night-sky-moonlight,
 	.timeline-dot::after {
 		animation: none;
 	}

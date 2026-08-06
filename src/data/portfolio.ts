@@ -108,11 +108,11 @@ export const team = {
 	name: 'ASF',
 	fullName: 'ASF Studio',
 	tagline:
-		'We build web applications, commerce storefronts, and backend systems for clients who need working software in production. Five people, fully remote, across the US, Ireland, Poland, Morocco, and Argentina.',
+		'We build web applications, commerce storefronts, and backend systems for clients who need working software in production. A small remote team focused on shipping.',
 	heroGreeting: 'We are',
 	heroLead: 'A remote software studio founded by Ben Clark',
 	established: '2024',
-	model: 'Remote across the US, Ireland, Poland, Morocco, and Argentina',
+	model: 'Fully remote software studio',
 };
 
 export const teamMembers: TeamMember[] = [
@@ -203,10 +203,10 @@ export const navLinks: NavLink[] = [
 
 export const highlights: Highlight[] = [
 	{ value: '5', label: 'Team Members' },
-	{ value: '5', label: 'Countries' },
 	{ value: '2024', label: 'Founded' },
 	{ value: '100%', label: 'Remote' },
 	{ value: '10+', label: 'Client Projects' },
+	{ value: 'Full stack', label: 'Delivery' },
 ];
 
 export const traits: string[] = [
@@ -364,7 +364,7 @@ export const teamSection = {
 		title: 'Our',
 		subtitle: 'Team',
 		summary:
-			'Five people working remotely from the US, Ireland, Poland, Morocco, and Argentina. Ben Clark founded the studio and still leads delivery.',
+			'A small remote studio. Ben Clark founded ASF and still leads delivery.',
 	},
 };
 
@@ -456,7 +456,7 @@ export const about = {
 			'A remote software studio founded by Ben Clark in 2024, working across full stack engineering, commerce, and backend systems',
 	},
 	intro: [
-		'ASF started when Ben Clark left product engineering roles at Cloudsmith and Nearform and began taking on client work with a small group of developers he trusted. The studio is fully remote: Ben works from Sandpoint, Idaho; Le Wei is based in Ireland; Yuki, originally from Japan, works from Poland; Ahmed Achtatar works from Morocco; and Facundo Carnevale works from Buenos Aires, Argentina. Le Wei is originally from Singapore.',
+		'ASF started when Ben Clark left product engineering roles at Cloudsmith and Nearform and began taking on client work with a small group of developers he trusted. The studio is fully remote and keeps a tight team so Ben can stay close to architecture, delivery, and clients.',
 		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Yuki on full stack features, Facundo on senior full stack and React Native delivery, Le Wei on web development, and Ahmed on AI and big data systems.',
 	],
 };
@@ -488,7 +488,7 @@ export const benStory = {
 		'The through-line is building step by step: learning, adapting, and creating a foundation over time.',
 	],
 	teamsLed: [
-		'ASF Studio, five people across the US, Ireland, Poland, Morocco, and Argentina since 2024.',
+		'ASF Studio, a small remote delivery team since 2024.',
 		'Operations and product work with a classmate at Threadline Co during university.',
 		'Technical delivery at Cloudsmith and Nearform before founding the studio.',
 	],
@@ -537,7 +537,7 @@ export const experience = {
 			items: [
 				{
 					role: 'ASF Studio founded',
-					org: 'Remote · US, Ireland, Poland, Morocco, Argentina',
+					org: 'Remote software studio',
 					period: '2024 to Present',
 					bullets: [
 						'Ben Clark founded ASF to deliver client software with a small, trusted team.',

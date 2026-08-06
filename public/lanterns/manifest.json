@@ -1,0 +1,82 @@
+[
+  {
+    "src": "/lanterns/lantern-0.webp",
+    "w": 267,
+    "h": 339,
+    "cx": 0.8729166666666667,
+    "cy": 0.2175925925925926,
+    "isAi": false
+  },
+  {
+    "src": "/lanterns/lantern-1.webp",
+    "w": 219,
+    "h": 290,
+    "cx": 0.528125,
+    "cy": 0.8662037037037037,
+    "isAi": false
+  },
+  {
+    "src": "/lanterns/lantern-2.webp",
+    "w": 220,
+    "h": 290,
+    "cx": 0.18307291666666667,
+    "cy": 0.7384259259259259,
+    "isAi": false
+  },
+  {
+    "src": "/lanterns/lantern-3.webp",
+    "w": 231,
+    "h": 249,
+    "cx": 0.7848958333333333,
+    "cy": 0.8898148148148148,
+    "isAi": false
+  },
+  {
+    "src": "/lanterns/lantern-4.webp",
+    "w": 215,
+    "h": 275,
+    "cx": 0.5578125,
+    "cy": 0.12129629629629629,
+    "isAi": true
+  },
+  {
+    "src": "/lanterns/lantern-5.webp",
+    "w": 212,
+    "h": 277,
+    "cx": 0.37057291666666664,
+    "cy": 0.24444444444444444,
+    "isAi": false
+  },
+  {
+    "src": "/lanterns/lantern-6.webp",
+    "w": 182,
+    "h": 242,
+    "cx": 0.31640625,
+    "cy": 0.8856481481481482,
+    "isAi": false
+  },
+  {
+    "src": "/lanterns/lantern-7.webp",
+    "w": 181,
+    "h": 236,
+    "cx": 0.884375,
+    "cy": 0.6282407407407408,
+    "isAi": false
+  },
+  {
+    "src": "/lanterns/lantern-8.webp",
+    "w": 194,
+    "h": 206,
+    "cx": 0.17213541666666668,
+    "cy": 0.08935185185185185,
+    "isAi": false
+  },
+  {
+    "src": "/lanterns/lantern-9.webp",
+    "w": 179,
+    "h": 232,
+    "cx": 0.5588541666666667,
+    "cy": 0.4847222222222222,
+    "isAi": false
+  }
+]

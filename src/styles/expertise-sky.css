@@ -1,0 +1,66 @@
+.expertise-sky {
+	position: fixed;
+	inset: 0;
+	z-index: 0;
+	overflow: hidden;
+	pointer-events: none;
+	/* Smooth, clear, modern night — no busy sky photo */
+	background: linear-gradient(
+		180deg,
+		#020711 0%,
+		#06101c 38%,
+		#0a1524 70%,
+		#07111c 100%
+	);
+}
+
+.expertise-sky-lanterns,
+.expertise-sky-veil {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+
+.expertise-sky-lanterns {
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+}
+
+.expertise-sky-veil {
+	z-index: 2;
+	background: linear-gradient(
+		180deg,
+		rgba(2, 6, 14, 0.06) 0%,
+		transparent 16%,
+		transparent 80%,
+		rgba(2, 6, 14, 0.18) 100%
+	);
+}
+
+body:has(.expertise-sky) .navbar:not(.navbar-scrolled) {
+	background: transparent;
+	backdrop-filter: none;
+	border-bottom-color: transparent;
+	box-shadow: none;
+}
+
+body:has(.expertise-sky) .navbar.navbar-scrolled {
+	background: rgba(3, 8, 16, 0.96);
+	backdrop-filter: none;
+}
+
+body:has(.expertise-sky) .hex-canvas {
+	z-index: 3;
+	opacity: 0.02;
+}
+
+body:has(.expertise-sky) .falling-stars-canvas {
+	z-index: 4;
+	opacity: 1;
+}
+
+body:has(.expertise-sky) .mouse-comet-canvas,
+body:has(.expertise-sky) .mouse-comet-head {
+	z-index: 100000150;
+}

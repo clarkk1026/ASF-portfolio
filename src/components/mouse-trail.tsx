@@ -152,7 +152,10 @@ export const MouseTrail = ({ team = false }: MouseTrailProps) => {
 		const cursor = cursorRef.current;
 		if (!canvas || !cursor) return;
 
-		const ctx = canvas.getContext('2d');
+		const ctx = canvas.getContext('2d', {
+			alpha: true,
+			desynchronized: true,
+		});
 		if (!ctx) return;
 
 		let width = window.innerWidth;

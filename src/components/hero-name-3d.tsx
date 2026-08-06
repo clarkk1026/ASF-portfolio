@@ -11,6 +11,7 @@ import {
 	type LetterRect,
 	type LightningBolt,
 } from '../lib/hero-name-fx';
+import { stormState } from '../lib/storm-state';
 
 type HeroName3DProps = {
 	text?: string;
@@ -125,6 +126,17 @@ export const HeroName3D = ({ text, lines, className = '' }: HeroName3DProps) => 
 			if (letterCacheTimer <= 0) {
 				letterCache = getLetterRects();
 				letterCacheTimer = 24;
+			}
+
+			const sunnyMode = stormState.sunny || stormState.clear > 0.55;
+
+			if (sunnyMode) {
+				bolts = [];
+				pulses = [];
+				particles = [];
+				ctx.clearRect(0, 0, width, height);
+				frameId = window.requestAnimationFrame(tick);
+				return;
 			}
 
 			boltCooldown -= dt;
@@ -257,7 +269,25 @@ export const HeroName3D = ({ text, lines, className = '' }: HeroName3DProps) => 
 													onMouseEnter={() => handleLetterEnter(index)}
 													onMouseLeave={handleLetterLeave}
 												>
-													{char}
+													<span
+														className='hero-letter-depth'
+														aria-hidden='true'
+													>
+														{char}
+													</span>
+													<span className='hero-letter-face'>{char}</span>
+													<span
+														className='hero-letter-rim'
+														aria-hidden='true'
+													>
+														{char}
+													</span>
+													<span
+														className='hero-letter-spec'
+														aria-hidden='true'
+													>
+														{char}
+													</span>
 												</span>
 											);
 										})}

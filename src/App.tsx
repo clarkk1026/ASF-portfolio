@@ -30,15 +30,17 @@ import './styles/comet-btn.css';
 import './styles/contact.css';
 import './styles/experience.css';
 import './styles/expertise.css';
+import './styles/expertise-sky.css';
 import './styles/glow-box.css';
 import './styles/hex-bg.css';
 import './styles/hero-name-3d.css';
-import './styles/home-storm.css';
+import './styles/home-aurora.css';
 import './styles/info-section.css';
 import './styles/layered-title.css';
 import './styles/mouse-trail.css';
 import './styles/navbar.css';
 import './styles/page-shell.css';
+import './styles/page-sky.css';
 import './styles/projects.css';
 import './styles/reveal.css';
 import './styles/scroll-bar.css';
@@ -47,24 +49,35 @@ import './styles/team.css';
 import './styles/tech-stack.css';
 import './styles/visitor-note.css';
 
+const PAGE_SKY_ROUTES = new Set([
+	'/about',
+	'/expertise',
+	'/projects',
+	'/tech',
+	'/voices',
+]);
+
 const SiteShell = () => {
 	const { pathname } = useLocation();
-	const hasHomeStorm = pathname === '/';
+	const hasHomeAurora = pathname === '/';
 	const hasTeamSky = pathname === '/team';
 	const hasPathSky = pathname === '/path';
-	const hasCustomSky = hasHomeStorm || hasTeamSky || hasPathSky;
+	const hasPageSky = PAGE_SKY_ROUTES.has(pathname);
+	const hasLanternSky = pathname === '/expertise';
+	const hasCustomSky =
+		hasHomeAurora || hasTeamSky || hasPathSky || hasPageSky;
 
 	return (
 		<>
 			<ScrollToTop />
 			<PageKeyNav />
 			{!hasCustomSky && <StarfieldBg />}
-			<HexBg />
+			{!hasLanternSky && <HexBg />}
 			<ScrollBar />
 			<MouseTrail team={hasTeamSky} />
 			<Navbar />
 			<Outlet />
-			{!hasHomeStorm && <FallingStarsLayer />}
+			{!hasHomeAurora && <FallingStarsLayer />}
 			<AiBot />
 		</>
 	);

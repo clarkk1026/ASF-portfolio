@@ -161,14 +161,6 @@
 	margin-top: 0.55rem;
 }
 
-.hero-team-note {
-	font-family: 'Open Sans', sans-serif;
-	font-size: 0.75rem;
-	font-weight: 500;
-	color: rgba(255, 255, 255, 0.4);
-	margin-top: 1.35rem;
-}
-
 .hero-actions {
 	display: flex;
 	flex-wrap: wrap;
@@ -267,8 +259,7 @@ html.weather-sunny .hero-service--purple {
 }
 
 html.weather-sunny .hero-tagline,
-html.weather-sunny .hero-lead,
-html.weather-sunny .hero-team-note {
+html.weather-sunny .hero-lead {
 	color: rgba(255, 232, 196, 0.78);
 }
 
