@@ -82,10 +82,32 @@ const loadImage = (src: string) =>
 	new Promise<HTMLImageElement>((resolve, reject) => {
 		const img = new Image();
 		img.decoding = 'async';
-		img.onload = () => resolve(img);
+		img.onload = () => {
+			if (img.decode) {
+				img.decode()
+					.then(() => resolve(img))
+					.catch(() => resolve(img));
+			} else {
+				resolve(img);
+			}
+		};
 		img.onerror = reject;
 		img.src = src;
 	});
+
+/** Warm the lantern body as soon as this module loads (before route click). */
+let cachedBodyImg: HTMLImageElement | null = null;
+const bodyImgReady = loadImage('/lanterns/lantern-body.webp')
+	.then((img) => {
+		cachedBodyImg = img;
+		return img;
+	})
+	.catch(() => null);
+
+void bodyImgReady;
+if (typeof document !== 'undefined' && document.fonts?.load) {
+	void document.fonts.load(`700 32px ${LABEL_FONT}`);
+}
 
 const preferredFontSize = (label: string, view: number, isAi: boolean) => {
 	const len = label.length;
@@ -427,11 +449,10 @@ export const ExpertiseSkyBg = () => {
 		};
 
 		const paint = (time: number) => {
-			if (!ready) return;
-
-			/* Transparent over clear night sky */
 			ctx.clearRect(0, 0, width, height);
 			drawSkyStars(ctx, stars, time);
+
+			if (!bodyImg || !lanterns.length) return;
 
 			const frameBoost = reducedMotion ? 0 : 1;
 
@@ -508,20 +529,35 @@ export const ExpertiseSkyBg = () => {
 		};
 
 		let cancelled = false;
+
+		/* Paint sky immediately; lanterns join as soon as the body is ready */
+		resize();
+		ready = true;
+		paint(performance.now());
+		animationId = requestAnimationFrame(render);
+
 		const start = async () => {
 			try {
-				if (document.fonts?.load) {
-					await document.fonts.load(`700 32px ${LABEL_FONT}`);
-				}
-				const body = await loadImage('/lanterns/lantern-body.webp');
-				if (cancelled) return;
+				const body = cachedBodyImg ?? (await bodyImgReady);
+				if (cancelled || !body) return;
 				bodyImg = body;
-				ready = true;
-				resize();
 				spawn();
-				animationId = requestAnimationFrame(render);
+				lastPaint = 0;
+				paint(performance.now());
+
+				if (document.fonts?.load) {
+					void document.fonts
+						.load(`700 32px ${LABEL_FONT}`)
+						.then(() => {
+							if (cancelled || !bodyImg || !lanterns.length) {
+								return;
+							}
+							rebuildSprites();
+							paint(performance.now());
+						});
+				}
 			} catch {
-				ready = true;
+				/* sky still runs without lanterns */
 			}
 		};
 		void start();
