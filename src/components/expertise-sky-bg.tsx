@@ -8,6 +8,7 @@ type SkyStar = {
 	speed: number;
 	phase: number;
 	temperature: number;
+	spike: boolean;
 };
 
 type FlyingLantern = {
@@ -73,8 +74,8 @@ const LANTERN_DEFS = [
 
 const LABEL_FONT = '"Cinzel", "Times New Roman", serif';
 const LABEL_FIT = 0.68;
-const STAR_COUNT = 45;
-const PAINT_MS = 1000 / 24;
+const STAR_COUNT = 60;
+const PAINT_MS = 1000 / 30;
 
 const rand = (min: number, max: number) => min + Math.random() * (max - min);
 
@@ -117,17 +118,40 @@ const preferredFontSize = (label: string, view: number, isAi: boolean) => {
 	return Math.max(10, Math.min(16, base * 0.85));
 };
 
-/** Sparse, calm stars — clear sky, not busy. */
+const createGlowSprite = () => {
+	const sprite = document.createElement('canvas');
+	sprite.width = 48;
+	sprite.height = 48;
+	const gctx = sprite.getContext('2d');
+	if (gctx) {
+		const glow = gctx.createRadialGradient(24, 24, 0, 24, 24, 24);
+		glow.addColorStop(0, 'rgba(245, 250, 255, 1)');
+		glow.addColorStop(0.28, 'rgba(180, 220, 255, 0.45)');
+		glow.addColorStop(0.6, 'rgba(100, 170, 255, 0.12)');
+		glow.addColorStop(1, 'rgba(80, 150, 255, 0)');
+		gctx.fillStyle = glow;
+		gctx.fillRect(0, 0, 48, 48);
+	}
+	return sprite;
+};
+
+const starGlowSprite = createGlowSprite();
+
+/** Sparse stars with realistic shine / twinkle. */
 const createStars = (width: number, height: number): SkyStar[] =>
-	Array.from({ length: STAR_COUNT }, () => ({
-		x: Math.random() * width,
-		y: Math.random() * height * 0.88,
-		r: rand(0.35, 0.95),
-		base: rand(0.28, 0.58),
-		speed: rand(0.35, 0.9),
-		phase: rand(0, Math.PI * 2),
-		temperature: rand(0.15, 0.55),
-	}));
+	Array.from({ length: STAR_COUNT }, () => {
+		const bright = Math.random() > 0.78;
+		return {
+			x: Math.random() * width,
+			y: Math.random() * height * 0.9,
+			r: bright ? rand(0.75, 1.35) : rand(0.3, 0.85),
+			base: bright ? rand(0.55, 0.92) : rand(0.28, 0.58),
+			speed: rand(0.7, 2.4),
+			phase: rand(0, Math.PI * 2),
+			temperature: rand(0.1, 0.85),
+			spike: bright,
+		};
+	});
 
 const drawSkyStars = (
 	ctx: CanvasRenderingContext2D,
@@ -135,19 +159,78 @@ const drawSkyStars = (
 	time: number,
 ) => {
 	ctx.save();
-	ctx.globalCompositeOperation = 'source-over';
+	ctx.globalCompositeOperation = 'lighter';
+
 	for (const star of stars) {
+		const t = time * 0.001;
 		const wave =
-			0.5 + 0.5 * Math.sin(time * 0.00035 * star.speed + star.phase);
-		const alpha = star.base * (0.82 + wave * 0.18);
-		const red = Math.round(230 + star.temperature * 20);
-		const green = Math.round(238 + star.temperature * 12);
+			0.5 +
+			0.5 *
+				Math.sin(t * star.speed + star.phase) *
+				(0.65 + 0.35 * Math.sin(t * star.speed * 1.7 + star.phase * 0.6));
+		const shimmer = Math.pow(wave, 6);
+		const pulse = Math.pow(wave, 2.2);
+		const alpha = Math.min(
+			1,
+			star.base * (0.45 + pulse * 0.55) + shimmer * 0.55,
+		);
+		const red = Math.round(220 + star.temperature * 35);
+		const green = Math.round(232 + star.temperature * 18);
+		const coreR = star.r * (0.85 + shimmer * 0.45);
+
+		/* Soft atmospheric bloom */
+		const glowR = coreR * (3.2 + shimmer * 3.5);
+		ctx.globalAlpha = alpha * (0.22 + shimmer * 0.35);
+		ctx.drawImage(
+			starGlowSprite,
+			star.x - glowR,
+			star.y - glowR,
+			glowR * 2,
+			glowR * 2,
+		);
+
+		/* Bright core */
 		ctx.globalAlpha = alpha;
 		ctx.fillStyle = `rgba(${red}, ${green}, 255, 1)`;
 		ctx.beginPath();
-		ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+		ctx.arc(star.x, star.y, coreR, 0, Math.PI * 2);
 		ctx.fill();
+
+		/* Hot white center on bright stars */
+		if (star.spike || shimmer > 0.55) {
+			ctx.globalAlpha = alpha * (0.55 + shimmer * 0.4);
+			ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+			ctx.beginPath();
+			ctx.arc(star.x, star.y, coreR * 0.4, 0, Math.PI * 2);
+			ctx.fill();
+		}
+
+		/* Diffraction spikes when shining */
+		if (star.spike && shimmer > 0.35) {
+			const arm = coreR * (2.8 + shimmer * 4.2);
+			ctx.globalAlpha = alpha * (0.25 + shimmer * 0.45);
+			ctx.strokeStyle = `rgba(${red}, ${green}, 255, 1)`;
+			ctx.lineWidth = 0.55 + shimmer * 0.55;
+			ctx.beginPath();
+			ctx.moveTo(star.x - arm, star.y);
+			ctx.lineTo(star.x + arm, star.y);
+			ctx.moveTo(star.x, star.y - arm);
+			ctx.lineTo(star.x, star.y + arm);
+			ctx.stroke();
+
+			if (shimmer > 0.7) {
+				const diag = arm * 0.55;
+				ctx.globalAlpha = alpha * 0.2 * shimmer;
+				ctx.beginPath();
+				ctx.moveTo(star.x - diag, star.y - diag);
+				ctx.lineTo(star.x + diag, star.y + diag);
+				ctx.moveTo(star.x - diag, star.y + diag);
+				ctx.lineTo(star.x + diag, star.y - diag);
+				ctx.stroke();
+			}
+		}
 	}
+
 	ctx.restore();
 };
 
