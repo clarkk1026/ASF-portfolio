@@ -23,7 +23,14 @@ export const PageShell = ({
 			key={pathname}
 			className={`page-shell${home ? ' page-shell-home' : ' page-shell-inner'}`}
 		>
-			{backdrop}
+			{backdrop ? (
+				<div
+					className='page-shell-backdrop'
+					aria-hidden='true'
+				>
+					{backdrop}
+				</div>
+			) : null}
 			<div
 				className='page-transition'
 				aria-hidden='true'
