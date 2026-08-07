@@ -221,11 +221,9 @@ const BEN_RELATED_TERMS = [
 	'japanese',
 	'singapore',
 	'singaporean',
-	'kai',
-	'wen',
-	'lim',
-	'idaho',
-	'sandpoint',
+	'australia',
+	'australian',
+	'waller',
 	'ireland',
 	'original',
 	'birth',
@@ -411,14 +409,14 @@ const humanContact = () =>
 
 const humanAbout = () =>
 	prefix([
-		`Ben is from **Singapore**, now based in **${personal.location}**. Real name **${personal.originalName}**; professional name **${personal.fullName}**.\n\nHe studied at the **University of Limerick**, lost both parents young, worked through university, ran a **sock business** with a classmate, then built his career from **Stelfox** through **Nearform** to **Cloudsmith**.\n\n${benStory.lessons[0]}\n\n[[mood:thoughtful]]`,
+		`Ben is originally from **${personal.birthPlace}**, now based in **${personal.location}**. His real name is **${personal.fullName}**.\n\nHe studied at the **University of Limerick**, worked through university, ran a **sock business** with a classmate, then built his career from **Stelfox** through **Nearform** to **Cloudsmith**.\n\n${benStory.lessons[0]}\n\n[[mood:thoughtful]]`,
 		`${benStory.summary}\n\nToday he works across **full stack engineering**, **Python/AI**, and **front end** development — plus live **Shopify** builds on this portfolio.\n\n[[mood:warm]]`,
 	]);
 
 const humanStory = () =>
 	prefix([
 		`Here is the honest version of Ben's path:\n\n**Early life:** ${benStory.earlyLife.join(' ')}\n\n**Entrepreneurship:** ${benStory.entrepreneurship.join(' ')}\n\n**Technical work:** ${benStory.technicalLeadership.join(' ')}\n\n**Teams led:**\n${benStory.teamsLed.map((line) => `• ${line}`).join('\n')}\n\n**What he learned:** ${benStory.lessons.join(' ')}\n\n**Life today:** ${benStory.lifeAndValues.join(' ')}\n\n[[mood:thoughtful]]`,
-		`${benStory.summary}\n\nIf you want, I can go deeper on his **sock business**, **move to Ireland**, **why he uses Ben Clark**, or **team leadership in tech**.\n\n[[mood:calm]]`,
+		`${benStory.summary}\n\nIf you want, I can go deeper on his **sock business**, **move to Ireland**, or **team leadership in tech**.\n\n[[mood:calm]]`,
 	]);
 
 const humanCasualChat = (input: string, ctx: BotContext): BotReply => {
@@ -525,7 +523,7 @@ const handlers: IntentHandler[] = [
 			return pick([
 				name
 					? `Hi ${name}, I'm **Bon** (AI BEN). I know Ben's work—he leads **${team.fullName}**—and I'm happy to just talk like a person. What's on your mind?\n\n[[mood:happy]]`
-					: `Hi, I'm **Bon**. Ben Clark founded **${team.fullName}** from Sandpoint, Idaho, with a remote team across Ireland, Poland, and Argentina. Ask about his work or how to reach him.\n\n[[mood:happy]]`,
+					: `Hi, I'm **Bon**. Ben Clark founded **${team.fullName}** from Waller, Texas, USA, with a remote team across Ireland, Poland, and Argentina. Ask about his work or how to reach him.\n\n[[mood:happy]]`,
 				`Hello! I'm here for Ben's background **and** normal conversation—skills, story, music, life stuff, whatever.`,
 				`Hey, nice of you to stop by. I'm Bon. Ask me about Ben's work, or just say what's up.`,
 			]);
@@ -562,7 +560,7 @@ const handlers: IntentHandler[] = [
 			return s;
 		},
 		reply: () =>
-			`I'm **Bon**. Think of me as someone who knows Ben well and actually likes talking to people.\n\nYou can ask about:\n• His **experience**, **skills**, and **projects**\n• His **personal story** (Singapore, Ireland, entrepreneurship, leadership)\n• **Health & balance**, **music**, or random life chat\n• How to **contact** him\n\nNo need to be formal. I'll meet you where you are.`,
+			`I'm **Bon**. Think of me as someone who knows Ben well and actually likes talking to people.\n\nYou can ask about:\n• His **experience**, **skills**, and **projects**\n• His **personal story** (Australia, Ireland, entrepreneurship, leadership)\n• **Health & balance**, **music**, or random life chat\n• How to **contact** him\n\nNo need to be formal. I'll meet you where you are.`,
 	},
 	{
 		id: 'identity',
@@ -714,7 +712,7 @@ const handlers: IntentHandler[] = [
 		},
 		reply: () =>
 			prefix([
-				`Ben studied at the **University of Limerick** (2016–2020), **B.Sc. in Computer Science and Information Systems**, GPA **3.9/4.0**.\n\nHe moved from Singapore to Ireland for university, which shaped his independence and how he works with international teams.\n\nDuring university he also co-founded a small sock business (**Threadline Co**) with a classmate, practical product and customer experience alongside the degree.`,
+				`Ben studied at the **University of Limerick** (2016–2020), **B.Sc. in Computer Science and Information Systems**, GPA **3.9/4.0**.\n\nHe moved from Australia to Ireland for university, which shaped his independence and how he works with international teams.\n\nDuring university he also co-founded a small sock business (**Threadline Co**) with a classmate, practical product and customer experience alongside the degree.`,
 			]),
 	},
 	{
@@ -797,28 +795,23 @@ const handlers: IntentHandler[] = [
 					/early life/,
 					/grow up/,
 					/childhood/,
-					/from singapore/,
-					/why (ben clark|the name)/,
-					/original name|birth name|real name|kai wen|lim wei/,
+					/from australia/,
+					/real name|birth name|original name/,
 				])
 			) {
 				s += 11;
 			}
 			if (
 				hasWord(tokens, [
-					'singapore',
-					'singaporean',
-					'mother',
-					'father',
-					'family',
+					'australia',
+					'australian',
 					'sock',
 					'classmate',
 					'partner',
 					'lesson',
 					'teams',
 					'ireland',
-					'idaho',
-					'sandpoint',
+					'waller',
 				])
 			) {
 				s += 6;
@@ -826,10 +819,16 @@ const handlers: IntentHandler[] = [
 			return s;
 		},
 		reply: (q) => {
-			if (matches(q, [/original name|birth name|real name|kai wen|why ben clark|why the name/])) {
+			if (matches(q, [/original name|birth name|real name|kai wen|why ben clark|why the name|other name/])) {
 				return pick([
-					`Real name **${personal.originalName}**, from **${personal.birthPlace}**. Professional name **${personal.fullName}** — practical choice after moving to Ireland, not a reinvention.\n\n[[mood:calm]]`,
-					`Real name: **${personal.originalName}**. Professional name: **${personal.fullName}**. The switch wasn't dramatic — studying in Ireland, his name kept getting mangled on forms and calls, so Ben stuck from a roommate and Clark made emails and CVs easier abroad.\n\n[[mood:calm]]`,
+					`His real name is **${personal.fullName}**. That is the only name he uses. Originally from **${personal.birthPlace}**, now in **${personal.location}**.\n\n[[mood:calm]]`,
+					`**${personal.fullName}** — that is his real name. No other names.\n\n[[mood:calm]]`,
+				]);
+			}
+			if (matches(q, [/mother|father|parents|family/])) {
+				return pick([
+					`He keeps family details private. Happy to talk about his **work**, **story**, or **projects** instead.\n\n[[mood:calm]]`,
+					`Family is not something he shares much about publicly. Ask about his path or ASF anytime.\n\n[[mood:thoughtful]]`,
 				]);
 			}
 			return humanStory();
@@ -890,8 +889,8 @@ const handlers: IntentHandler[] = [
 		id: 'location',
 		score: (q, tokens) => {
 			let s = 0;
-			if (matches(q, [/where (is|are|does)|based in|located|live|timezone|sandpoint|idaho/])) s += 10;
-			if (hasWord(tokens, ['dublin', 'ireland', 'location', 'remote', 'sandpoint', 'idaho'])) s += 5;
+			if (matches(q, [/where (is|are|does)|based in|located|live|timezone|waller/])) s += 10;
+			if (hasWord(tokens, ['dublin', 'ireland', 'location', 'remote', 'waller', 'australia'])) s += 5;
 			return s;
 		},
 		reply: () =>

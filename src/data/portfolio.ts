@@ -120,7 +120,7 @@ export const teamMembers: TeamMember[] = [
 		id: 'ben-clark',
 		name: 'Ben Clark',
 		role: 'Founder and Technical Lead',
-		location: 'Sandpoint, Idaho, USA',
+		location: 'Waller, Texas, USA',
 		isLeader: true,
 		summary:
 			'Founded ASF after product engineering roles at Cloudsmith and Nearform. Leads client delivery, architecture decisions, and day-to-day engineering direction.',
@@ -171,11 +171,11 @@ export const personal = {
 	heroBadge: 'Remote Software Studio',
 	heroServices: ['Web Apps', 'Shopify', 'Python Backends'],
 	fullName: 'Ben Clark',
-	originalName: 'Kai Wen Lim',
-	birthPlace: 'Singapore',
+	originalName: 'Ben Clark',
+	birthPlace: 'Australia',
 	title: 'Founder and Technical Lead',
 	tagline: team.tagline,
-	location: 'Sandpoint, Idaho, USA',
+	location: 'Waller, Texas, USA',
 	email: 'benclarkk1026@gmail.com',
 	whatsappNumber: '+1 (404) 786-3107',
 	discordUsername: 'benclark10261',
@@ -463,12 +463,11 @@ export const about = {
 
 export const benStory = {
 	summary:
-		'Kai Wen Lim was born and raised in Singapore. He studied Computer Science and Information Systems at the University of Limerick in Ireland, lost both parents when he was young, and built his career from graduate roles at Stelfox through Nearform to full-stack and Python/AI work at Cloudsmith. He now lives in Sandpoint, Idaho, USA. He uses Ben Clark professionally; Kai Wen Lim is his real name.',
+		'Ben Clark is originally from Australia. He studied Computer Science and Information Systems at the University of Limerick in Ireland, lost both parents when he was young, and built his career from graduate roles at Stelfox through Nearform to full-stack and Python/AI work at Cloudsmith. He now lives in Waller, Texas, USA. His real name is Ben Clark.',
 	earlyLife: [
-		'Born and raised in Singapore. Real name: Kai Wen Lim.',
+		'Originally from Australia. Real name: Ben Clark.',
 		'Lost his father young and his mother later. He did not become stronger overnight, but he learned to handle responsibility earlier than many peers — making decisions alone, adapting when life changed, and building trust with people around him.',
 		'Moved to Ireland for university at the University of Limerick (B.Sc. Computer Science and Information Systems, GPA 3.9/4.0). A new culture and education system taught independence, problem-solving, and working with people from different backgrounds.',
-		'He goes by Ben Clark professionally. In Ireland, Kai Wen was often mispronounced or misspelled; a roommate nicknamed him Ben and Clark worked better on CVs and international client work. Practical, not a reinvention — Kai Wen Lim is his real name.',
 	],
 	entrepreneurship: [
 		'During university he worked while studying and spent long hours in libraries learning from business stories and people who built from nothing.',
@@ -484,7 +483,7 @@ export const benStory = {
 		'Loss taught responsibility. Moving countries taught adaptability. The sock business taught execution. Software taught him how to turn ideas into working systems.',
 		'He does not see his journey as a perfect success story — there were uncertain moments, mistakes, and hard lessons.',
 		'Today he values consistency, honesty, and building with real purpose.',
-		'He is based in Sandpoint, Idaho, USA — a quieter place to focus deeply on technology and live with more balance, not constant noise or attention.',
+		'He is based in Waller, Texas, USA — a quieter place to focus deeply on technology and live with more balance, not constant noise or attention.',
 		'The through-line is building step by step: learning, adapting, and creating a foundation over time.',
 	],
 	teamsLed: [
@@ -582,7 +581,7 @@ export const experience = {
 					org: 'University of Limerick',
 					period: '2016 to 2020',
 					bullets: [
-						'Ben graduated with GPA 3.9 / 4.0 after moving from Singapore to Ireland for university.',
+						'Ben graduated with GPA 3.9 / 4.0 after moving from Australia to Ireland for university.',
 						'Foundation for the technical leadership that later started ASF.',
 					],
 				},
