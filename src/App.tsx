@@ -52,11 +52,8 @@ import './styles/tech-stack.css';
 import './styles/visitor-note.css';
 
 const PAGE_SKY_ROUTES = new Set([
-	'/about',
 	'/expertise',
 	'/projects',
-	'/tech',
-	'/voices',
 ]);
 
 const SiteShell = () => {
