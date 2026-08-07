@@ -1,3 +1,5 @@
+import { SkyTwinkles } from './sky-twinkles';
+
 const PAGE_SKY_SRC = {
 	about: '/about-night-sky-4k.webp',
 	expertise: '/expertise-night-sky-4k.webp',
@@ -22,6 +24,10 @@ export const PageSkyBg = ({ variant }: PageSkyBgProps) => (
 			src={PAGE_SKY_SRC[variant]}
 			alt=''
 			decoding='async'
+		/>
+		<SkyTwinkles
+			density={100}
+			skyBand={0.7}
 		/>
 		<span className='page-sky-veil' />
 		<span className='page-sky-shade' />

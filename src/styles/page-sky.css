@@ -9,7 +9,8 @@
 
 .page-sky-image,
 .page-sky-veil,
-.page-sky-shade {
+.page-sky-shade,
+.sky-twinkles-canvas {
 	position: absolute;
 	inset: 0;
 	pointer-events: none;
@@ -45,31 +46,31 @@
 }
 
 .page-sky-veil {
-	z-index: 1;
+	z-index: 3;
 	background:
 		linear-gradient(
 			180deg,
-			rgba(2, 6, 14, 0.22) 0%,
-			transparent 28%,
-			transparent 58%,
-			rgba(1, 4, 10, 0.42) 100%
+			rgba(2, 6, 14, 0.12) 0%,
+			transparent 22%,
+			transparent 62%,
+			rgba(1, 4, 10, 0.32) 100%
 		);
 }
 
 .page-sky-shade {
-	z-index: 2;
+	z-index: 4;
 	background:
 		linear-gradient(
 			90deg,
-			rgba(0, 4, 12, 0.28) 0%,
-			rgba(0, 4, 12, 0.08) 28%,
+			rgba(0, 4, 12, 0.18) 0%,
+			rgba(0, 4, 12, 0.05) 28%,
 			transparent 48%,
 			transparent 72%,
-			rgba(0, 4, 12, 0.22) 100%
+			rgba(0, 4, 12, 0.14) 100%
 		),
 		radial-gradient(
 			ellipse 70% 55% at 50% 42%,
-			rgba(0, 3, 10, 0.18) 0%,
+			rgba(0, 3, 10, 0.1) 0%,
 			transparent 70%
 		);
 }

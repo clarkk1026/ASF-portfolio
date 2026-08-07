@@ -42,9 +42,11 @@ import './styles/navbar.css';
 import './styles/page-shell.css';
 import './styles/page-sky.css';
 import './styles/projects.css';
+import './styles/projects-sky.css';
 import './styles/reveal.css';
 import './styles/scroll-bar.css';
 import './styles/starfield-bg.css';
+import './styles/sky-twinkles.css';
 import './styles/team.css';
 import './styles/tech-stack.css';
 import './styles/visitor-note.css';
@@ -74,7 +76,7 @@ const SiteShell = () => {
 			{!hasCustomSky && <StarfieldBg />}
 			{!hasLanternSky && <HexBg />}
 			<ScrollBar />
-			<MouseTrail team={hasTeamSky} />
+			<MouseTrail />
 			<Navbar />
 			<Outlet />
 			{!hasHomeAurora && <FallingStarsLayer />}

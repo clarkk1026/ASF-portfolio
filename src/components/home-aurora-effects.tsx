@@ -49,14 +49,17 @@ const uvToScreen = (cover: Cover, ux: number, uy: number) => ({
 });
 
 const createStars = (): Star[] =>
-	Array.from({ length: 140 }, () => ({
-		ux: Math.random() * STAR_UV.right,
-		uy: Math.random() ** 1.4 * STAR_UV.bottom,
-		r: rand(0.4, 1.05),
-		base: rand(0.4, 0.9),
-		speed: rand(0.6, 1.9),
-		phase: rand(0, Math.PI * 2),
-	}));
+	Array.from({ length: 220 }, () => {
+		const bright = Math.random() > 0.86;
+		return {
+			ux: Math.random() * STAR_UV.right,
+			uy: Math.random() ** 1.25 * STAR_UV.bottom,
+			r: bright ? rand(0.7, 1.25) : rand(0.28, 0.9),
+			base: bright ? rand(0.55, 0.95) : rand(0.32, 0.72),
+			speed: bright ? rand(2.4, 5.0) : rand(1.5, 3.8),
+			phase: rand(0, Math.PI * 2),
+		};
+	});
 
 /** Crisp star twinkles in dark sky only — no image redraw (avoids seams). */
 const drawStars = (
@@ -72,15 +75,25 @@ const drawStars = (
 	ctx.beginPath();
 	ctx.rect(cover.x, cover.y, skyRight - cover.x, skyBottom - cover.y);
 	ctx.clip();
+	ctx.globalCompositeOperation = 'lighter';
 
 	for (const star of stars) {
 		const { x, y } = uvToScreen(cover, star.ux, star.uy);
 		if (y > skyBottom || x > skyRight) continue;
 
-		const wave = 0.5 + 0.5 * Math.sin(time * 0.001 * star.speed + star.phase);
-		const spark = Math.pow(wave, 14);
-		const alpha = clamp(star.base * (0.6 + wave * 0.3) + spark * 0.5, 0.15, 1);
-		const r = star.r * (0.92 + spark * 0.2);
+		const t = time * 0.001;
+		const wave =
+			0.5 +
+			0.5 *
+				Math.sin(t * star.speed + star.phase) *
+				(0.7 + 0.3 * Math.sin(t * star.speed * 1.7 + star.phase * 0.5));
+		const spark = Math.pow(Math.max(0, wave), 3.1);
+		const alpha = clamp(
+			star.base * (0.36 + wave * 0.64) + spark * 0.78,
+			0.16,
+			1,
+		);
+		const r = star.r * (0.88 + spark * 0.36);
 
 		ctx.globalAlpha = alpha;
 		ctx.fillStyle = '#f2f7ff';
@@ -88,10 +101,10 @@ const drawStars = (
 		ctx.arc(x, y, r, 0, Math.PI * 2);
 		ctx.fill();
 
-		if (spark > 0.78 && star.r > 0.8) {
-			ctx.globalAlpha = alpha * 0.5;
-			ctx.fillRect(x - r * 2, y - 0.35, r * 4, 0.7);
-			ctx.fillRect(x - 0.35, y - r * 2, 0.7, r * 4);
+		if (spark > 0.4 && star.r > 0.55) {
+			ctx.globalAlpha = alpha * (0.42 + spark * 0.35);
+			ctx.fillRect(x - r * 2.4, y - 0.35, r * 4.8, 0.7);
+			ctx.fillRect(x - 0.35, y - r * 2.4, 0.7, r * 4.8);
 		}
 	}
 

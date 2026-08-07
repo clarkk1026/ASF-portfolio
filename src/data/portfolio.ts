@@ -154,12 +154,12 @@ export const teamMembers: TeamMember[] = [
 		focus: ['Web development', 'Frontend', 'Responsive UI', 'User experience'],
 	},
 	{
-		id: 'ahmed-achtatar',
-		name: 'Ahmed Achtatar',
+		id: 'amanda',
+		name: 'Amanda',
 		role: 'AI and Big Data Engineer',
-		location: 'Morocco',
+		location: 'Poland',
 		summary:
-			'AI and Big Data Engineer with hands-on experience across web development, AI-enabled tools, data systems, and software delivery.',
+			'AI and Big Data Engineer based in Poland, with hands-on experience across web development, AI-enabled tools, data systems, and software delivery.',
 		focus: ['AI', 'Big Data', 'Web development', 'Data systems'],
 	},
 ];
@@ -457,7 +457,7 @@ export const about = {
 	},
 	intro: [
 		'ASF started when Ben Clark left product engineering roles at Cloudsmith and Nearform and began taking on client work with a small group of developers he trusted. The studio is fully remote and keeps a tight team so Ben can stay close to architecture, delivery, and clients.',
-		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Yuki on full stack features, Facundo on senior full stack and React Native delivery, Le Wei on web development, and Ahmed on AI and big data systems.',
+		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Yuki on full stack features, Facundo on senior full stack and React Native delivery, Le Wei on web development, and Amanda on AI and big data systems.',
 	],
 };
 
@@ -542,7 +542,7 @@ export const experience = {
 					bullets: [
 						'Ben Clark founded ASF to deliver client software with a small, trusted team.',
 						'Core focus: full stack web apps, Shopify commerce, Python backends, and ML integrations.',
-						'Current team: Ben, Yuki Mory, Facundo Carnevale, Le Wei, and Ahmed Achtatar.',
+						'Current team: Ben, Yuki Mory, Facundo Carnevale, Le Wei, and Amanda.',
 					],
 				},
 				{

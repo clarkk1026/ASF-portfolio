@@ -8,22 +8,37 @@ type SkyStar = {
 	twinkleSpeed: number;
 	phase: number;
 	temperature: number;
+	spike: boolean;
 };
 
 const random = (min: number, max: number) => min + Math.random() * (max - min);
 
 const createStars = (width: number, height: number): SkyStar[] => {
-	const count = Math.min(220, Math.max(130, Math.round((width * height) / 11000)));
+	const count = Math.min(140, Math.max(85, Math.round((width * height) / 16000)));
+	const skyH = height * 0.68;
 
-	return Array.from({ length: count }, () => ({
-		x: Math.random() * width,
-		y: Math.random() * height,
-		radius: random(0.3, 1.05),
-		opacity: random(0.16, 0.62),
-		twinkleSpeed: random(1.3, 3.2),
-		phase: random(0, Math.PI * 2),
-		temperature: random(0, 1),
-	}));
+	return Array.from({ length: count }, () => {
+		const bright = Math.random() > 0.84;
+		const mid = !bright && Math.random() > 0.5;
+		return {
+			x: Math.random() * width,
+			y: Math.random() ** 1.12 * skyH,
+			radius: bright
+				? random(0.75, 1.3)
+				: mid
+					? random(0.42, 0.8)
+					: random(0.2, 0.48),
+			opacity: bright
+				? random(0.48, 0.82)
+				: mid
+					? random(0.3, 0.55)
+					: random(0.18, 0.4),
+			twinkleSpeed: bright ? random(2.4, 5.0) : random(1.5, 3.8),
+			phase: random(0, Math.PI * 2),
+			temperature: random(0.05, 0.7),
+			spike: bright,
+		};
+	});
 };
 
 const drawStars = (
@@ -35,35 +50,53 @@ const drawStars = (
 	ctx.save();
 	ctx.globalCompositeOperation = 'lighter';
 
+	const t = time * 0.001;
 	for (const star of stars) {
-		const wave = 0.5 + 0.5 * Math.sin(time * 0.001 * star.twinkleSpeed + star.phase);
-		const shimmer = Math.pow(wave, 8);
-		const alpha = Math.min(star.opacity * (0.58 + wave * 0.42) + shimmer * 0.5, 1);
-		const red = Math.round(218 + star.temperature * 37);
-		const green = Math.round(232 + star.temperature * 18);
+		const primary = Math.sin(t * star.twinkleSpeed + star.phase);
+		const secondary = Math.sin(
+			t * star.twinkleSpeed * 1.73 + star.phase * 0.61,
+		);
+		const wave = 0.5 + 0.5 * primary * (0.68 + 0.32 * secondary);
+		const shimmer = Math.pow(Math.max(0, wave), 3.1);
+		const alpha = Math.min(
+			1,
+			star.opacity * (0.38 + wave * 0.62) + shimmer * 0.78,
+		);
+		const red = Math.round(218 + star.temperature * 35);
+		const green = Math.round(232 + star.temperature * 16);
+		const coreR = star.radius * (0.88 + shimmer * 0.38);
 
-		if (shimmer > 0.42) {
-			const glowRadius = star.radius * (4.5 + shimmer * 3);
-			ctx.globalAlpha = alpha * 0.45;
+		if (shimmer > 0.22) {
+			const glowR = coreR * (3.6 + shimmer * 3.4);
+			ctx.globalAlpha = alpha * (0.2 + shimmer * 0.42);
 			ctx.drawImage(
 				glowSprite,
-				star.x - glowRadius,
-				star.y - glowRadius,
-				glowRadius * 2,
-				glowRadius * 2,
+				star.x - glowR,
+				star.y - glowR,
+				glowR * 2,
+				glowR * 2,
 			);
-			ctx.globalAlpha = 1;
 		}
 
-		ctx.fillStyle = `rgba(${red}, ${green}, 255, ${alpha})`;
+		ctx.globalAlpha = alpha;
+		ctx.fillStyle = `rgba(${red}, ${green}, 255, 1)`;
 		ctx.beginPath();
-		ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+		ctx.arc(star.x, star.y, coreR, 0, Math.PI * 2);
 		ctx.fill();
 
-		if (star.radius > 0.82 && shimmer > 0.66) {
-			const spike = star.radius * (2.8 + shimmer * 2.4);
-			ctx.strokeStyle = `rgba(210, 238, 255, ${alpha * 0.4})`;
-			ctx.lineWidth = 0.45;
+		if (shimmer > 0.45) {
+			ctx.globalAlpha = alpha * (0.5 + shimmer * 0.4);
+			ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+			ctx.beginPath();
+			ctx.arc(star.x, star.y, coreR * 0.38, 0, Math.PI * 2);
+			ctx.fill();
+		}
+
+		if (star.spike && shimmer > 0.32) {
+			const spike = coreR * (2.6 + shimmer * 3.4);
+			ctx.globalAlpha = alpha * (0.22 + shimmer * 0.38);
+			ctx.strokeStyle = `rgba(210, 238, 255, 1)`;
+			ctx.lineWidth = 0.45 + shimmer * 0.4;
 			ctx.beginPath();
 			ctx.moveTo(star.x - spike, star.y);
 			ctx.lineTo(star.x + spike, star.y);
@@ -93,7 +126,7 @@ export const TeamSkyEffects = () => {
 		if (glowCtx) {
 			const glow = glowCtx.createRadialGradient(24, 24, 0, 24, 24, 24);
 			glow.addColorStop(0, 'rgba(225, 243, 255, 1)');
-			glow.addColorStop(0.35, 'rgba(120, 190, 255, 0.3)');
+			glow.addColorStop(0.35, 'rgba(120, 190, 255, 0.35)');
 			glow.addColorStop(1, 'rgba(80, 150, 255, 0)');
 			glowCtx.fillStyle = glow;
 			glowCtx.fillRect(0, 0, 48, 48);
@@ -121,7 +154,7 @@ export const TeamSkyEffects = () => {
 		};
 
 		const render = (time: number) => {
-			if (time - lastDraw >= 1000 / 30) {
+			if (time - lastDraw >= 1000 / 36) {
 				lastDraw = time;
 				ctx.clearRect(0, 0, width, height);
 				drawStars(ctx, stars, time, glowSprite);
@@ -137,8 +170,8 @@ export const TeamSkyEffects = () => {
 		animationId = requestAnimationFrame(render);
 
 		return () => {
-			window.removeEventListener('resize', resize);
 			cancelAnimationFrame(animationId);
+			window.removeEventListener('resize', resize);
 		};
 	}, []);
 

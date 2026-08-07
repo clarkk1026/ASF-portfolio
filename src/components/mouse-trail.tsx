@@ -8,8 +8,7 @@ import { drawMeteorBursts, updateMeteorBursts } from '../lib/meteor-fx';
 
 type Point = { x: number; y: number };
 
-const TRAIL_POINTS = 10;
-const TEAM_TRAIL_POINTS = 22;
+const TRAIL_POINTS = 22;
 const MAX_SAMPLES = 8;
 
 const buildSmoothPath = (
@@ -30,66 +29,8 @@ const buildSmoothPath = (
 	ctx.lineTo(points[0].x, points[0].y);
 };
 
-const drawFlowingTail = (
-	ctx: CanvasRenderingContext2D,
-	trail: Point[],
-	speed: number,
-) => {
-	if (trail.length < 2 || speed < 0.15) return;
-
-	const head = trail[0];
-	const tail = trail[trail.length - 1];
-	const motion = Math.min(speed / 18, 1);
-
-	ctx.save();
-	ctx.lineCap = 'round';
-	ctx.lineJoin = 'round';
-	ctx.globalCompositeOperation = 'lighter';
-
-	const wakeGrad = ctx.createLinearGradient(tail.x, tail.y, head.x, head.y);
-	wakeGrad.addColorStop(0, 'rgba(25, 70, 140, 0)');
-	wakeGrad.addColorStop(0.35, `rgba(50, 110, 200, ${0.04 + motion * 0.05})`);
-	wakeGrad.addColorStop(0.7, `rgba(90, 170, 255, ${0.1 + motion * 0.12})`);
-	wakeGrad.addColorStop(1, `rgba(215, 238, 255, ${0.2 + motion * 0.18})`);
-
-	ctx.strokeStyle = wakeGrad;
-	ctx.lineWidth = 3.5 + motion * 4;
-	ctx.beginPath();
-	buildSmoothPath(ctx, trail);
-	ctx.stroke();
-
-	const coreGrad = ctx.createLinearGradient(tail.x, tail.y, head.x, head.y);
-	coreGrad.addColorStop(0, 'rgba(120, 175, 255, 0)');
-	coreGrad.addColorStop(0.45, `rgba(160, 205, 255, ${0.12 + motion * 0.18})`);
-	coreGrad.addColorStop(0.82, `rgba(230, 245, 255, ${0.45 + motion * 0.35})`);
-	coreGrad.addColorStop(1, 'rgba(255, 255, 255, 0.92)');
-
-	ctx.strokeStyle = coreGrad;
-	ctx.lineWidth = 0.8 + motion * 1.6;
-	ctx.beginPath();
-	buildSmoothPath(ctx, trail);
-	ctx.stroke();
-
-	const hotLen = Math.min(6, trail.length - 1);
-	if (hotLen > 1) {
-		const hotSlice = trail.slice(0, hotLen + 1);
-		const hotStart = hotSlice[hotSlice.length - 1];
-		const hotGrad = ctx.createLinearGradient(hotStart.x, hotStart.y, head.x, head.y);
-		hotGrad.addColorStop(0, `rgba(190, 225, 255, ${0.35 + motion * 0.2})`);
-		hotGrad.addColorStop(0.55, 'rgba(245, 250, 255, 0.9)');
-		hotGrad.addColorStop(1, 'rgba(255, 255, 255, 1)');
-
-		ctx.strokeStyle = hotGrad;
-		ctx.lineWidth = 1.3 + motion * 0.7;
-		ctx.beginPath();
-		buildSmoothPath(ctx, hotSlice);
-		ctx.stroke();
-	}
-
-	ctx.restore();
-};
-
-const drawTeamCometTail = (
+/** Team-page comet trail — used site-wide. */
+const drawCometTail = (
 	ctx: CanvasRenderingContext2D,
 	trail: Point[],
 	speed: number,
@@ -139,11 +80,7 @@ const drawTeamCometTail = (
 	ctx.restore();
 };
 
-type MouseTrailProps = {
-	team?: boolean;
-};
-
-export const MouseTrail = ({ team = false }: MouseTrailProps) => {
+export const MouseTrail = () => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const cursorRef = useRef<HTMLSpanElement>(null);
 
@@ -175,8 +112,7 @@ export const MouseTrail = ({ team = false }: MouseTrailProps) => {
 
 		const samples: Point[] = [];
 
-		const trailPointCount = team ? TEAM_TRAIL_POINTS : TRAIL_POINTS;
-		const trail: Point[] = Array.from({ length: trailPointCount }, () => ({
+		const trail: Point[] = Array.from({ length: TRAIL_POINTS }, () => ({
 			x: -100,
 			y: -100,
 		}));
@@ -329,11 +265,7 @@ export const MouseTrail = ({ team = false }: MouseTrailProps) => {
 
 			if (active && !hideTrail) {
 				updateTrail(frameStep, pointerX, pointerY);
-				if (team) {
-					drawTeamCometTail(ctx, trail, speed);
-				} else {
-					drawFlowingTail(ctx, trail, speed);
-				}
+				drawCometTail(ctx, trail, speed);
 				drawMeteorBursts(ctx);
 			} else {
 				samples.length = 0;
@@ -364,7 +296,7 @@ export const MouseTrail = ({ team = false }: MouseTrailProps) => {
 			document.removeEventListener('mouseleave', handleMouseLeave);
 			document.removeEventListener('mouseenter', handleMouseEnter);
 		};
-	}, [team]);
+	}, []);
 
 	return (
 		<>

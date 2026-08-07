@@ -1,11 +1,11 @@
 import { PageShell } from '../components/page-shell';
-import { PageSkyBg } from '../components/page-sky-bg';
+import { ProjectsSkyBg } from '../components/projects-sky-bg';
 import { Projects } from '../sections/projects.section';
 
 export const ProjectsPage = () => (
 	<PageShell
 		title='Projects · ASF Studio'
-		backdrop={<PageSkyBg variant='projects' />}
+		backdrop={<ProjectsSkyBg />}
 	>
 		<Projects />
 	</PageShell>

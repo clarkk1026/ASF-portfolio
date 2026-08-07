@@ -16,7 +16,7 @@
 
 .path-night-sky-image {
 	z-index: 0;
-	background-image: url('/path-night-landscape-vivid-4k.webp');
+	background-image: url('/path-night-landscape-vivid-4k.webp?v=crisp');
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -502,7 +502,7 @@ body:has(.path-night-sky) .mouse-comet-head {
 
 	.path-night-sky-image {
 		background-size: cover;
-		background-position: left center;
+		background-position: center center;
 	}
 
 	.path-night-sky-stars {

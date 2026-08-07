@@ -57,10 +57,14 @@ body:has(.expertise-sky) .hex-canvas {
 
 body:has(.expertise-sky) .falling-stars-canvas {
 	z-index: 4;
-	opacity: 1;
+	opacity: 0.28;
 }
 
-body:has(.expertise-sky) .mouse-comet-canvas,
-body:has(.expertise-sky) .mouse-comet-head {
+body:has(.expertise-sky) .mouse-comet-canvas {
 	z-index: 100000150;
+	opacity: 0.55;
+}
+
+body:has(.expertise-sky) .mouse-comet-head {
+	z-index: 100000151;
 }

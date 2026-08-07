@@ -26,7 +26,7 @@ type Star = {
 	warmth: number;
 };
 
-const STAR_COUNT = 220;
+const STAR_COUNT = 320;
 const MAX_METEORS = 10;
 const SKY_TOP = '#04060c';
 const SKY_MID = '#020308';
@@ -42,9 +42,9 @@ const createStars = (width: number, height: number): Star[] =>
 			y: Math.random() * height,
 			size: random(0.35, 1.8) * depth + random(0, 0.4),
 			baseOpacity: random(0.35, 0.95) * (0.5 + depth * 0.5),
-			twinkleSpeed: random(0.3, 1.2) * depth,
+			twinkleSpeed: random(1.6, 3.8) * depth,
 			twinkleOffset: random(0, Math.PI * 2),
-			shimmerSpeed: random(0.08, 0.24),
+			shimmerSpeed: random(0.35, 0.95),
 			shimmerOffset: random(0, Math.PI * 2),
 			driftX: random(-0.55, 0.55) * depth,
 			driftY: random(-0.3, 0.3) * depth,
@@ -294,8 +294,8 @@ export const StarfieldBg = () => {
 				const x = ((star.x + elapsed * star.driftX) % width + width) % width;
 				const y = ((star.y + elapsed * star.driftY) % height + height) % height;
 				const twinkle =
-					0.58 +
-					0.42 * Math.sin(t * star.twinkleSpeed * 0.001 + star.twinkleOffset);
+					0.52 +
+					0.48 * Math.sin(t * star.twinkleSpeed * 0.001 + star.twinkleOffset);
 				const shimmer = Math.pow(
 					Math.max(
 						0,
@@ -303,19 +303,19 @@ export const StarfieldBg = () => {
 							t * star.shimmerSpeed * 0.001 + star.shimmerOffset,
 						),
 					),
-					18,
+					5.5,
 				);
 				const alpha = Math.min(
-					star.baseOpacity * twinkle + shimmer * 0.55,
+					star.baseOpacity * twinkle + shimmer * 0.7,
 					1,
 				);
 
 				drawStarGlow(star, x, y, alpha);
 				drawStarPoint(star, x, y, alpha);
 
-				if (star.size > 1.25 && alpha > 0.55) {
-					const spike = star.size * (2.8 + shimmer * 1.8);
-					skyCtx.strokeStyle = `rgba(200, 230, 255, ${alpha * 0.22})`;
+				if (star.size > 1.15 && (alpha > 0.5 || shimmer > 0.35)) {
+					const spike = star.size * (2.6 + shimmer * 2.2);
+					skyCtx.strokeStyle = `rgba(200, 230, 255, ${alpha * (0.18 + shimmer * 0.2)})`;
 					skyCtx.lineWidth = 0.5;
 					skyCtx.beginPath();
 					skyCtx.moveTo(x - spike, y);
