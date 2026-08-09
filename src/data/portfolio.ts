@@ -150,7 +150,7 @@ export const teamMembers: TeamMember[] = [
 		role: 'Web Developer',
 		location: 'Galway, Ireland',
 		summary:
-			'Originally from Singapore, now based in Ireland. Builds responsive web interfaces, polished user experiences, and dependable client-facing features.',
+			'Originally from Hong Kong, now based in Ireland. Builds responsive web interfaces, polished user experiences, and dependable client-facing features.',
 		focus: ['Web development', 'Frontend', 'Responsive UI', 'User experience'],
 	},
 	{
