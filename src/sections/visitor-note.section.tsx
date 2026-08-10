@@ -3,6 +3,7 @@ import { FaMinus, FaThumbsDown, FaThumbsUp } from 'react-icons/fa6';
 import { LayeredSectionTitle } from '../components/layered-section-title';
 import { Reveal } from '../components/reveal';
 import { useToast } from '../components/toast-provider';
+import { VisitorContactModal } from '../components/visitor-contact-modal';
 import {
 	visitorNote,
 	type VisitorNoteSentiment,
@@ -102,10 +103,13 @@ export const VisitorNote = () => {
 	const [disagreeCount, setDisagreeCount] = useState(bootCounts?.disagree ?? 0);
 	const [notCareCount, setNotCareCount] = useState(bootCounts?.notCare ?? 0);
 	const [replies, setReplies] = useState<VisitorReply[]>([]);
+	const [contactOpen, setContactOpen] = useState(false);
 	const snapshotRef = useRef<VisitorNotesSnapshot | null>(null);
 	const skipRemoteNotifyUntilRef = useRef(0);
 	const appliedVoteRef = useRef<VisitorNoteSentiment | null>(null);
 	const editingRef = useRef(false);
+	const contactOpenRef = useRef(false);
+	const submittingRef = useRef(false);
 
 	const liveCounts = {
 		support: supportCount,
@@ -126,7 +130,22 @@ export const VisitorNote = () => {
 		setDisagreeCount(counts.disagree);
 		setNotCareCount(counts.notCare);
 		writeSessionCounts(counts);
-		setReplies(data.replies);
+		setReplies((prev) => {
+			const next = data.replies;
+			if (
+				prev.length === next.length &&
+				prev.every(
+					(item, index) =>
+						item.id === next[index]?.id &&
+						item.message === next[index]?.message &&
+						item.name === next[index]?.name &&
+						item.sentiment === next[index]?.sentiment,
+				)
+			) {
+				return prev;
+			}
+			return next;
+		});
 		setHasApplied(data.hasApplied ?? Boolean(data.yourVote));
 		setYourReplyId(data.yourReplyId ?? null);
 		setCanChangeVote(data.canChangeVote ?? true);
@@ -163,6 +182,14 @@ export const VisitorNote = () => {
 	}, [editing]);
 
 	useEffect(() => {
+		contactOpenRef.current = contactOpen;
+	}, [contactOpen]);
+
+	useEffect(() => {
+		submittingRef.current = submitting;
+	}, [submitting]);
+
+	useEffect(() => {
 		localStorage.removeItem('portfolio-visitor-note-submitted');
 		localStorage.removeItem('portfolio-visitor-vote');
 		localStorage.removeItem('portfolio-visitor-counts-cache');
@@ -174,7 +201,14 @@ export const VisitorNote = () => {
 		if (!ready) return;
 
 		const poll = async () => {
-			if (document.hidden || submitting || editingRef.current) return;
+			if (
+				document.hidden ||
+				submittingRef.current ||
+				editingRef.current ||
+				contactOpenRef.current
+			) {
+				return;
+			}
 
 			try {
 				const data = await fetchVisitorNotes();
@@ -200,7 +234,7 @@ export const VisitorNote = () => {
 		}, POLL_INTERVAL_MS);
 
 		return () => window.clearInterval(intervalId);
-	}, [ready, pushToast, submitting]);
+	}, [ready, pushToast]);
 
 	const onPickSentiment = (choice: VisitorNoteSentiment) => {
 		if (submitting) return;
@@ -342,13 +376,22 @@ export const VisitorNote = () => {
 					<p className='visitor-note-thanks glass-card'>
 						{visitorNote.thanksMessage}
 					</p>
-					<button
-						type='button'
-						className='visitor-note-edit-response'
-						onClick={startEditing}
-					>
-						{visitorNote.editResponseLabel}
-					</button>
+					<div className='visitor-note-form-actions'>
+						<button
+							type='button'
+							className='visitor-note-edit-response'
+							onClick={startEditing}
+						>
+							{visitorNote.editResponseLabel}
+						</button>
+						<button
+							type='button'
+							className='comet-btn comet-btn-talk visitor-contact-beside-apply'
+							onClick={() => setContactOpen(true)}
+						>
+							{visitorNote.leaveContactLabel}
+						</button>
+					</div>
 				</div>
 			);
 		}
@@ -432,6 +475,14 @@ export const VisitorNote = () => {
 									: editing
 										? visitorNote.saveLabel
 										: visitorNote.submitLabel}
+							</button>
+							<button
+								type='button'
+								className='comet-btn comet-btn-talk comet-btn-lg visitor-contact-beside-apply'
+								onClick={() => setContactOpen(true)}
+								disabled={submitting}
+							>
+								{visitorNote.leaveContactLabel}
 							</button>
 							{editing ? (
 								<button
@@ -554,6 +605,11 @@ export const VisitorNote = () => {
 
 				<div className='visitor-note-action-area'>{renderActionArea()}</div>
 			</div>
+
+			<VisitorContactModal
+				open={contactOpen}
+				onClose={() => setContactOpen(false)}
+			/>
 		</section>
 	);
 };

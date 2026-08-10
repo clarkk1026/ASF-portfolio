@@ -23,11 +23,25 @@ import {
 	type VisitorVoteChangePayload,
 	type VisitorVotePayload,
 } from './src/lib/visitor-notes-types';
+import {
+	emptyContactStore,
+	isVisitorContactChannel,
+	normalizeContactName,
+	normalizeContactNote,
+	normalizeContactStore,
+	normalizeContactValue,
+	type VisitorContactPayload,
+} from './src/lib/visitor-contact-types';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_FILE = path.resolve(__dirname, 'dev-data/visitor-notes.json');
+const CONTACT_DATA_FILE = path.resolve(
+	__dirname,
+	'dev-data/visitor-contacts.json',
+);
 const MAX_REPLIES = 200;
 const MAX_MESSAGE = 600;
+const MAX_CONTACTS = 500;
 const readStore = () => {
 	try {
 		const raw = fs.readFileSync(DATA_FILE, 'utf8');
@@ -289,6 +303,112 @@ const chatDevApi = (geminiApiKey?: string, groqApiKey?: string) => ({
 	},
 });
 
+const readContactStore = () => {
+	try {
+		const raw = fs.readFileSync(CONTACT_DATA_FILE, 'utf8');
+		return normalizeContactStore(JSON.parse(raw));
+	} catch {
+		return emptyContactStore();
+	}
+};
+
+const writeContactStore = (store: ReturnType<typeof readContactStore>) => {
+	fs.mkdirSync(path.dirname(CONTACT_DATA_FILE), { recursive: true });
+	fs.writeFileSync(
+		CONTACT_DATA_FILE,
+		JSON.stringify(normalizeContactStore(store), null, 2),
+		'utf8',
+	);
+};
+
+const isContactPayload = (body: unknown): body is VisitorContactPayload => {
+	if (!body || typeof body !== 'object') return false;
+	const payload = body as VisitorContactPayload;
+	if (!isValidVisitorId(payload.visitorId)) return false;
+	if (!normalizeContactName(payload.name || '')) return false;
+	if (!isVisitorContactChannel(payload.channel)) return false;
+	if (!normalizeContactValue(payload.value || '')) return false;
+	if (payload.note != null && typeof payload.note !== 'string') return false;
+	if (typeof payload.note === 'string' && payload.note.length > 400) return false;
+	return true;
+};
+
+const visitorContactsDevApi = () => ({
+	name: 'visitor-contacts-dev-api',
+	configureServer(server: import('vite').ViteDevServer) {
+		server.middlewares.use('/api/visitor-contacts', async (req, res) => {
+			res.setHeader('Access-Control-Allow-Origin', '*');
+			res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+			res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+			res.setHeader('Cache-Control', 'no-store');
+
+			if (req.method === 'OPTIONS') {
+				res.statusCode = 204;
+				res.end();
+				return;
+			}
+
+			if (req.method !== 'POST') {
+				res.statusCode = 405;
+				res.setHeader('Content-Type', 'application/json');
+				res.end(JSON.stringify({ error: 'Method not allowed' }));
+				return;
+			}
+
+			try {
+				const body = await readBody(req);
+				if (!isContactPayload(body)) {
+					res.statusCode = 400;
+					res.setHeader('Content-Type', 'application/json');
+					res.end(
+						JSON.stringify({
+							error:
+								'Please provide your name, contact type, and contact details.',
+						}),
+					);
+					return;
+				}
+
+				const store = readContactStore();
+				const existing = store.contacts.find(
+					(item) => item.visitorId === body.visitorId,
+				);
+				const entry = {
+					id: existing?.id ?? randomUUID(),
+					visitorId: body.visitorId,
+					name: normalizeContactName(body.name),
+					channel: body.channel,
+					value: normalizeContactValue(body.value),
+					note: normalizeContactNote(body.note ?? ''),
+					createdAt: existing?.createdAt ?? new Date().toISOString(),
+				};
+
+				store.contacts = [
+					entry,
+					...store.contacts.filter((item) => item.visitorId !== body.visitorId),
+				].slice(0, MAX_CONTACTS);
+				writeContactStore(store);
+
+				res.statusCode = 201;
+				res.setHeader('Content-Type', 'application/json');
+				res.end(
+					JSON.stringify({
+						ok: true,
+						updated: Boolean(existing),
+						message: existing
+							? 'Your contact info was updated.'
+							: 'Thanks! Your contact info was saved.',
+					}),
+				);
+			} catch {
+				res.statusCode = 500;
+				res.setHeader('Content-Type', 'application/json');
+				res.end(JSON.stringify({ error: 'Could not save contact info.' }));
+			}
+		});
+	},
+});
+
 export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), '');
 
@@ -296,6 +416,7 @@ export default defineConfig(({ mode }) => {
 		plugins: [
 			react(),
 			visitorNotesDevApi(),
+			visitorContactsDevApi(),
 			chatDevApi(env.GEMINI_API_KEY, env.GROQ_API_KEY),
 		],
 		server: {

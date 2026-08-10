@@ -111,28 +111,29 @@ const callPrimaryModel = async (
 	const modelHistory = toModelHistory(history);
 	const systemPrompt = buildSystemPrompt(context);
 
-	if (geminiApiKey) {
+	// Prefer Groq when available — typically faster and avoids Gemini region blocks.
+	if (groqApiKey) {
 		try {
-			const text = await callGeminiChat(
-				geminiApiKey,
+			const text = await callGroqChat(
+				groqApiKey,
 				message,
 				modelHistory,
-				context,
+				systemPrompt,
 			);
-			return { text, source: 'gemini' };
+			return { text, source: 'groq' };
 		} catch (error) {
-			console.error('[bon-chat] Gemini failed:', error);
+			console.error('[bon-chat] Groq failed:', error);
 		}
 	}
 
-	if (groqApiKey) {
-		const text = await callGroqChat(
-			groqApiKey,
+	if (geminiApiKey) {
+		const text = await callGeminiChat(
+			geminiApiKey,
 			message,
 			modelHistory,
-			systemPrompt,
+			context,
 		);
-		return { text, source: 'groq' };
+		return { text, source: 'gemini' };
 	}
 
 	throw new Error('No AI provider available');

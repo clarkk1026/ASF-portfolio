@@ -1124,10 +1124,10 @@ export const simulateTypingDelay = (
 	source: 'gemini' | 'groq' | 'local' = 'local',
 ) => {
 	if (source === 'gemini' || source === 'groq') {
-		const base = 100 + text.length * 1.5;
-		return Math.min(280, Math.max(120, base));
+		const base = 40 + text.length * 0.35;
+		return Math.min(110, Math.max(35, base));
 	}
 
-	const base = 160 + text.length * 3;
-	return Math.min(420, Math.max(180, base));
+	const base = 60 + text.length * 0.8;
+	return Math.min(160, Math.max(50, base));
 };

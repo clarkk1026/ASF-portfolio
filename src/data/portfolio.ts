@@ -416,6 +416,20 @@ export const visitorNote = {
 	notifyApplied: 'Your response was applied.',
 	notifyUpdated: 'Your response was updated.',
 	notifyNewReply: 'New note from {name}.',
+	leaveContactLabel: 'Leave your contact',
+	leaveContactHint:
+		'Want Ben to reach you later? Share any contact method you prefer.',
+	contactModalTitle: 'Leave your contact',
+	contactModalSubtext:
+		'Share WhatsApp, Telegram, email, Discord, phone, or any other way to reach you.',
+	contactNamePlaceholder: 'Your name',
+	contactChannelLabel: 'Contact type',
+	contactValuePlaceholder: 'Your contact (number, @handle, email…)',
+	contactNotePlaceholder: 'Optional short note',
+	contactSubmitLabel: 'Send contact',
+	contactSubmittingLabel: 'Sending…',
+	contactCancelLabel: 'Cancel',
+	contactThanks: 'Thanks! Your contact info was saved.',
 };
 
 export const socialLinks: SocialLink[] = [

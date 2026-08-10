@@ -12,6 +12,11 @@ const FALLBACK_MODELS = ['gemini-2.5-flash-lite', 'gemini-flash-latest'] as cons
 const MAX_TOKENS = 768;
 const TEMPERATURE = 0.7;
 
+const isNonRetryableGeminiError = (error: Error) =>
+	/FAILED_PRECONDITION|not supported for the API|location|401|403|API_KEY/i.test(
+		error.message,
+	);
+
 const toGeminiRole = (role: 'user' | 'assistant'): 'user' | 'model' =>
 	role === 'assistant' ? 'model' : 'user';
 
@@ -92,6 +97,8 @@ export const callGeminiChat = async (
 			return await requestGemini(apiKey, candidate, systemPrompt, contents);
 		} catch (error) {
 			lastError = error instanceof Error ? error : new Error(String(error));
+			// Region / auth failures won't recover on another Gemini model — fail fast.
+			if (isNonRetryableGeminiError(lastError)) break;
 		}
 	}
 

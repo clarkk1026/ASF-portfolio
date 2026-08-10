@@ -68,3 +68,14 @@ body:has(.expertise-sky) .mouse-comet-canvas {
 body:has(.expertise-sky) .mouse-comet-head {
 	z-index: 100000151;
 }
+
+body.lantern-grab,
+body.lantern-grab * {
+	cursor: grab !important;
+}
+
+body.lantern-grabbing,
+body.lantern-grabbing * {
+	cursor: grabbing !important;
+	user-select: none !important;
+}

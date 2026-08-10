@@ -30,6 +30,28 @@ type FlyingLantern = {
 	sprite: HTMLCanvasElement;
 };
 
+type LanternDrag = {
+	lantern: FlyingLantern;
+	offsetX: number;
+	offsetY: number;
+	pointerId: number;
+	lastX: number;
+	lastY: number;
+	lastT: number;
+	velX: number;
+	velY: number;
+	targetX: number;
+	targetY: number;
+};
+
+const INTERACTIVE_LANTERN_BLOCK =
+	'a,button,input,textarea,select,label,summary,[role="button"],[role="link"],.navbar,.comet-btn,.ai-bot,.visitor-contact-modal-root';
+
+const isLanternBlockedTarget = (target: EventTarget | null) => {
+	if (!(target instanceof Element)) return true;
+	return Boolean(target.closest(INTERACTIVE_LANTERN_BLOCK));
+};
+
 /**
  * One lantern per What We Build area — unique name, tint, and scale.
  * No duplicates.
@@ -624,8 +646,42 @@ export const ExpertiseSkyBg = () => {
 		let animationId = 0;
 		let lastPaint = 0;
 		let ready = false;
+		let drag: LanternDrag | null = null;
+		let hoverLantern: FlyingLantern | null = null;
 
 		const measureCtx = document.createElement('canvas').getContext('2d');
+
+		const visualCenter = (lantern: FlyingLantern, time: number) => {
+			const bob =
+				Math.sin(time * 0.0016 + lantern.phase) * lantern.drawH * 0.012;
+			return { x: lantern.x, y: lantern.y + bob };
+		};
+
+		const hitLanternAt = (x: number, y: number, time: number) => {
+			for (let i = lanterns.length - 1; i >= 0; i -= 1) {
+				const lantern = lanterns[i];
+				const center = visualCenter(lantern, time);
+				const halfW = lantern.drawW * 0.32;
+				const halfH = lantern.drawH * 0.38;
+				if (
+					x >= center.x - halfW &&
+					x <= center.x + halfW &&
+					y >= center.y - halfH &&
+					y <= center.y + halfH
+				) {
+					return lantern;
+				}
+			}
+			return null;
+		};
+
+		const setGrabCursor = (mode: 'none' | 'grab' | 'grabbing') => {
+			document.body.classList.toggle('lantern-grab', mode === 'grab');
+			document.body.classList.toggle(
+				'lantern-grabbing',
+				mode === 'grabbing',
+			);
+		};
 
 		const sizeFor = (
 			label: string,
@@ -761,11 +817,28 @@ export const ExpertiseSkyBg = () => {
 			}
 
 			const frameBoost = reducedMotion ? 0 : 1;
+			const dragged = drag?.lantern ?? null;
 
-			for (const lantern of lanterns) {
+			if (drag && dragged) {
+				const ease = 0.22;
+				dragged.x += (drag.targetX - dragged.x) * ease;
+				dragged.y += (drag.targetY - dragged.y) * ease;
+				dragged.phase += 0.008;
+			}
+
+			const drawOrder =
+				dragged && lanterns.includes(dragged)
+					? [
+							...lanterns.filter((item) => item !== dragged),
+							dragged,
+						]
+					: lanterns;
+
+			for (const lantern of drawOrder) {
 				const { drawW, drawH, sprite } = lantern;
+				const isDragged = dragged === lantern;
 
-				if (!reducedMotion) {
+				if (!reducedMotion && !isDragged) {
 					lantern.phase += 0.014;
 					const pathX =
 						Math.sin(time * lantern.driftFreq + lantern.phase) *
@@ -799,11 +872,24 @@ export const ExpertiseSkyBg = () => {
 					}
 				}
 
-				const bob =
-					Math.sin(time * 0.0016 + lantern.phase) * drawH * 0.012;
+				if (isDragged) {
+					const pad = Math.max(drawW, drawH) * 0.2;
+					lantern.x = Math.max(
+						-pad,
+						Math.min(width + pad, lantern.x),
+					);
+					lantern.y = Math.max(
+						-pad,
+						Math.min(height + pad, lantern.y),
+					);
+				}
+
+				const bob = isDragged
+					? Math.sin(time * 0.0012 + lantern.phase) * drawH * 0.006
+					: Math.sin(time * 0.0016 + lantern.phase) * drawH * 0.012;
 				const sway =
 					Math.sin(time * 0.001 + lantern.phase * 1.25) *
-					lantern.swayAmp;
+					(isDragged ? lantern.swayAmp * 0.45 : lantern.swayAmp);
 				const cx = lantern.x;
 				const cy = lantern.y + bob;
 
@@ -820,11 +906,109 @@ export const ExpertiseSkyBg = () => {
 		};
 
 		const render = (time: number) => {
-			if (ready && time - lastPaint >= PAINT_MS) {
+			const interval = drag ? 1000 / 60 : PAINT_MS;
+			if (ready && time - lastPaint >= interval) {
 				lastPaint = time;
 				paint(time);
 			}
 			animationId = requestAnimationFrame(render);
+		};
+
+		const onPointerDown = (event: PointerEvent) => {
+			if (event.button !== 0 || reducedMotion) return;
+			if (isLanternBlockedTarget(event.target)) return;
+			if (!lanterns.length) return;
+
+			const hit = hitLanternAt(
+				event.clientX,
+				event.clientY,
+				performance.now(),
+			);
+			if (!hit) return;
+
+			event.preventDefault();
+			drag = {
+				lantern: hit,
+				offsetX: event.clientX - hit.x,
+				offsetY: event.clientY - hit.y,
+				pointerId: event.pointerId,
+				lastX: event.clientX,
+				lastY: event.clientY,
+				lastT: performance.now(),
+				velX: 0,
+				velY: 0,
+				targetX: hit.x,
+				targetY: hit.y,
+			};
+			hoverLantern = hit;
+			setGrabCursor('grabbing');
+			lastPaint = 0;
+		};
+
+		const onPointerMove = (event: PointerEvent) => {
+			if (drag && event.pointerId === drag.pointerId) {
+				event.preventDefault();
+				const now = performance.now();
+				const dt = Math.max(1, now - drag.lastT);
+				const rawVx = ((event.clientX - drag.lastX) / dt) * 16.67;
+				const rawVy = ((event.clientY - drag.lastY) / dt) * 16.67;
+				drag.velX = drag.velX * 0.65 + rawVx * 0.35;
+				drag.velY = drag.velY * 0.65 + rawVy * 0.35;
+				drag.lastX = event.clientX;
+				drag.lastY = event.clientY;
+				drag.lastT = now;
+				drag.targetX = event.clientX - drag.offsetX;
+				drag.targetY = event.clientY - drag.offsetY;
+				return;
+			}
+
+			if (reducedMotion || !lanterns.length) {
+				if (hoverLantern) {
+					hoverLantern = null;
+					setGrabCursor('none');
+				}
+				return;
+			}
+
+			if (isLanternBlockedTarget(event.target)) {
+				if (hoverLantern) {
+					hoverLantern = null;
+					setGrabCursor('none');
+				}
+				return;
+			}
+
+			const hit = hitLanternAt(
+				event.clientX,
+				event.clientY,
+				performance.now(),
+			);
+			if (hit !== hoverLantern) {
+				hoverLantern = hit;
+				setGrabCursor(hit ? 'grab' : 'none');
+			}
+		};
+
+		const endDrag = (event: PointerEvent) => {
+			if (!drag || event.pointerId !== drag.pointerId) return;
+			const lantern = drag.lantern;
+			const tossX = Math.max(-0.45, Math.min(0.45, drag.velX * 0.045));
+			const tossY = Math.max(-0.45, Math.min(0.2, drag.velY * 0.045));
+			lantern.vx = Math.max(
+				0.08,
+				Math.min(0.38, lantern.vx * 0.35 + Math.abs(tossX) * 0.55 + 0.1),
+			);
+			lantern.vy = Math.max(
+				-0.36,
+				Math.min(-0.08, lantern.vy * 0.4 + tossY - 0.06),
+			);
+			drag = null;
+			const stillOver =
+				!isLanternBlockedTarget(event.target) &&
+				hitLanternAt(event.clientX, event.clientY, performance.now()) ===
+					lantern;
+			hoverLantern = stillOver ? lantern : null;
+			setGrabCursor(stillOver ? 'grab' : 'none');
 		};
 
 		let cancelled = false;
@@ -862,10 +1046,24 @@ export const ExpertiseSkyBg = () => {
 		void start();
 
 		window.addEventListener('resize', resize);
+		window.addEventListener('pointerdown', onPointerDown, {
+			capture: true,
+		});
+		window.addEventListener('pointermove', onPointerMove, {
+			capture: true,
+			passive: false,
+		});
+		window.addEventListener('pointerup', endDrag, { capture: true });
+		window.addEventListener('pointercancel', endDrag, { capture: true });
 
 		return () => {
 			cancelled = true;
 			window.removeEventListener('resize', resize);
+			window.removeEventListener('pointerdown', onPointerDown, true);
+			window.removeEventListener('pointermove', onPointerMove, true);
+			window.removeEventListener('pointerup', endDrag, true);
+			window.removeEventListener('pointercancel', endDrag, true);
+			setGrabCursor('none');
 			cancelAnimationFrame(animationId);
 		};
 	}, []);

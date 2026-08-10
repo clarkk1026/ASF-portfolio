@@ -51,6 +51,7 @@ import './styles/sky-twinkles.css';
 import './styles/team.css';
 import './styles/tech-stack.css';
 import './styles/visitor-note.css';
+import './styles/visitor-contact.css';
 
 const PAGE_SKY_ROUTES = new Set([
 	'/expertise',
