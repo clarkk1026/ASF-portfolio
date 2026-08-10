@@ -560,7 +560,7 @@ const handlers: IntentHandler[] = [
 			return s;
 		},
 		reply: () =>
-			`I'm **Bon**. Think of me as someone who knows Ben well and actually likes talking to people.\n\nYou can ask about:\n• His **experience**, **skills**, and **projects**\n• His **personal story** (Australia, Ireland, entrepreneurship, leadership)\n• **Health & balance**, **music**, or random life chat\n• How to **contact** him\n\nNo need to be formal. I'll meet you where you are.`,
+			`I'm **Bon**. Think of me as someone who knows Ben well and actually likes talking to people.\n\nYou can ask about:\n• His **experience**, **skills**, and **projects**\n• His **personal story** (Newcastle, Australia → Ireland, entrepreneurship, leadership)\n• **Health & balance**, **music**, or random life chat\n• How to **contact** him\n\nNo need to be formal. I'll meet you where you are.`,
 	},
 	{
 		id: 'identity',
@@ -712,7 +712,7 @@ const handlers: IntentHandler[] = [
 		},
 		reply: () =>
 			prefix([
-				`Ben studied at the **University of Limerick** (2016–2020), **B.Sc. in Computer Science and Information Systems**, GPA **3.9/4.0**.\n\nHe moved from Australia to Ireland for university, which shaped his independence and how he works with international teams.\n\nDuring university he also co-founded a small sock business (**Threadline Co**) with a classmate, practical product and customer experience alongside the degree.`,
+				`Ben studied at the **University of Limerick** (2016–2020), **B.Sc. in Computer Science and Information Systems**, GPA **3.9/4.0**.\n\nHe moved from **Newcastle, Australia** to Ireland for university, which shaped his independence and how he works with international teams.\n\nDuring university he also co-founded a small sock business (**Threadline Co**) with a classmate, practical product and customer experience alongside the degree.`,
 			]),
 	},
 	{
@@ -930,13 +930,13 @@ const handlers: IntentHandler[] = [
 		score: (q, tokens) => {
 			let s = 0;
 			if (matches(q, [/where (is|are|does)|based in|located|live|timezone|waller/])) s += 10;
-			if (hasWord(tokens, ['dublin', 'ireland', 'location', 'remote', 'waller', 'australia'])) s += 5;
+			if (hasWord(tokens, ['dublin', 'ireland', 'location', 'remote', 'waller', 'australia', 'newcastle'])) s += 5;
 			return s;
 		},
 		reply: () =>
 			prefix([
-				`Ben's based in **${personal.location}**. He's worked remotely for years and is totally comfortable with distributed teams worldwide.`,
-				`He's in **${personal.location}**, but location hasn't stopped him. Most of his recent roles have been remote anyway.`,
+				`Ben is originally from **${personal.birthPlace}**, and now based in **${personal.location}**. He's worked remotely for years and is totally comfortable with distributed teams worldwide.`,
+				`Originally **${personal.birthPlace}** — these days he's in **${personal.location}**, but location hasn't stopped him. Most of his recent roles have been remote anyway.`,
 			]),
 	},
 	{

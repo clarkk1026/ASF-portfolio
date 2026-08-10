@@ -172,7 +172,7 @@ export const personal = {
 	heroServices: ['Web Apps', 'Shopify', 'Python Backends'],
 	fullName: 'Ben Clark',
 	originalName: 'Ben Clark',
-	birthPlace: 'Australia',
+	birthPlace: 'Newcastle, Australia',
 	/** Ask-only: do not volunteer unless the visitor asks about looks / ethnicity. */
 	appearance: 'Asian',
 	title: 'Founder and Technical Lead',
@@ -479,11 +479,11 @@ export const about = {
 
 export const benStory = {
 	summary:
-		'Ben Clark is originally from Australia. He studied Computer Science and Information Systems at the University of Limerick in Ireland, lost both parents when he was young, and built his career from graduate roles at Stelfox through Nearform to full-stack and Python/AI work at Cloudsmith. He now lives in Waller, Texas, USA. His real name is Ben Clark.',
+		'Ben Clark is originally from Newcastle, Australia. He studied Computer Science and Information Systems at the University of Limerick in Ireland, lost both parents when he was young, and built his career from graduate roles at Stelfox through Nearform to full-stack and Python/AI work at Cloudsmith. He now lives in Waller, Texas, USA. His real name is Ben Clark.',
 	earlyLife: [
-		'Originally from Australia. Real name: Ben Clark.',
+		'Originally from Newcastle, Australia. Real name: Ben Clark.',
 		'Lost his father young and his mother later. He did not become stronger overnight, but he learned to handle responsibility earlier than many peers — making decisions alone, adapting when life changed, and building trust with people around him.',
-		'Moved to Ireland for university at the University of Limerick (B.Sc. Computer Science and Information Systems, GPA 3.9/4.0). A new culture and education system taught independence, problem-solving, and working with people from different backgrounds.',
+		'Moved from Newcastle, Australia to Ireland for university at the University of Limerick (B.Sc. Computer Science and Information Systems, GPA 3.9/4.0). A new culture and education system taught independence, problem-solving, and working with people from different backgrounds.',
 	],
 	entrepreneurship: [
 		'During university he worked while studying and spent long hours in libraries learning from business stories and people who built from nothing.',
@@ -597,7 +597,7 @@ export const experience = {
 					org: 'University of Limerick',
 					period: '2016 to 2020',
 					bullets: [
-						'Ben graduated with GPA 3.9 / 4.0 after moving from Australia to Ireland for university.',
+						'Ben graduated with GPA 3.9 / 4.0 after moving from Newcastle, Australia to Ireland for university.',
 						'Foundation for the technical leadership that later started ASF.',
 					],
 				},
