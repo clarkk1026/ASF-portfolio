@@ -173,6 +173,8 @@ export const personal = {
 	fullName: 'Ben Clark',
 	originalName: 'Ben Clark',
 	birthPlace: 'Australia',
+	/** Ask-only: do not volunteer unless the visitor asks about looks / ethnicity. */
+	appearance: 'Asian',
 	title: 'Founder and Technical Lead',
 	tagline: team.tagline,
 	location: 'Waller, Texas, USA',

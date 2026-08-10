@@ -1,0 +1,223 @@
+.earth-fab-globe {
+	--earth-size: 100%;
+	position: relative;
+	display: block;
+	width: var(--earth-size);
+	height: var(--earth-size);
+	border-radius: 50%;
+	isolation: isolate;
+}
+
+.earth-fab-globe-sphere,
+.earth-fab-globe-map,
+.earth-fab-globe-clouds,
+.earth-fab-globe-comms,
+.earth-fab-globe-shade,
+.earth-fab-globe-rim,
+.earth-fab-globe-specular {
+	position: absolute;
+	inset: 0;
+	border-radius: 50%;
+	pointer-events: none;
+}
+
+.earth-fab-globe-sphere {
+	overflow: hidden;
+	transform: rotateX(12deg) rotateZ(-10deg);
+	background: #041528;
+	box-shadow:
+		inset -0.45rem -0.12rem 0.7rem rgba(0, 6, 22, 0.88),
+		inset 0.28rem 0.18rem 0.4rem rgba(170, 230, 255, 0.18);
+}
+
+.earth-fab-globe-map,
+.earth-fab-globe-clouds {
+	inset: 0 auto 0 0;
+	width: 200%;
+	height: 100%;
+	border-radius: 0;
+	background-repeat: repeat-x;
+	background-position: 0 center;
+	background-size: 50% 100%;
+	will-change: transform;
+}
+
+.earth-fab-globe-map {
+	background-image: url('/earth-globe-texture.webp?v=marble');
+	filter: saturate(1.32) contrast(1.12) brightness(1.1);
+	animation: earth-fab-spin 36s linear infinite;
+}
+
+.earth-fab-globe-clouds {
+	background-image: url('/earth-clouds-texture.webp?v=1');
+	opacity: 0.48;
+	mix-blend-mode: screen;
+	filter: brightness(1.3);
+	animation: earth-fab-clouds 52s linear infinite;
+}
+
+.earth-fab-globe-comms {
+	z-index: 2;
+	overflow: hidden;
+	opacity: 0.72;
+	mix-blend-mode: screen;
+}
+
+.earth-fab-globe-comms-svg {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.earth-fab-globe-arc {
+	fill: none;
+	stroke-linecap: round;
+	stroke-width: 0.55;
+	opacity: 0.55;
+	stroke-dasharray: 4 48;
+	filter: drop-shadow(0 0 1.2px rgba(140, 220, 255, 0.55));
+}
+
+.earth-fab-globe-arc-a {
+	stroke: rgba(120, 220, 255, 0.85);
+	animation: earth-fab-signal 5.8s linear infinite;
+}
+
+.earth-fab-globe-arc-b {
+	stroke: rgba(180, 160, 255, 0.75);
+	animation: earth-fab-signal 7.2s linear infinite reverse;
+	animation-delay: -1.4s;
+}
+
+.earth-fab-globe-arc-c {
+	stroke: rgba(90, 210, 255, 0.7);
+	animation: earth-fab-signal 6.5s linear infinite;
+	animation-delay: -2.6s;
+}
+
+.earth-fab-globe-arc-d {
+	stroke: rgba(200, 180, 255, 0.65);
+	animation: earth-fab-signal 8s linear infinite reverse;
+	animation-delay: -0.8s;
+}
+
+.earth-fab-globe-node {
+	fill: rgba(210, 240, 255, 0.9);
+	opacity: 0.35;
+	transform-box: fill-box;
+	transform-origin: center;
+	filter: drop-shadow(0 0 1.4px rgba(120, 210, 255, 0.7));
+	animation: earth-fab-node 3.8s ease-in-out infinite;
+}
+
+.earth-fab-globe-shade {
+	z-index: 3;
+	background:
+		radial-gradient(
+			circle at 28% 26%,
+			rgba(255, 255, 255, 0.24) 0%,
+			rgba(255, 255, 255, 0.05) 20%,
+			transparent 38%
+		),
+		radial-gradient(
+			circle at 78% 55%,
+			transparent 16%,
+			rgba(0, 10, 28, 0.4) 50%,
+			rgba(0, 4, 16, 0.82) 80%,
+			rgba(0, 2, 10, 0.94) 100%
+		);
+}
+
+.earth-fab-globe-rim {
+	z-index: 4;
+	box-shadow: inset 0 0 0 1px rgba(150, 210, 255, 0.28);
+	background: radial-gradient(
+		circle at 50% 50%,
+		transparent 66%,
+		rgba(120, 190, 255, 0.16) 82%,
+		transparent 90%
+	);
+}
+
+.earth-fab-globe-specular {
+	z-index: 5;
+	background: radial-gradient(
+		circle at 30% 22%,
+		rgba(255, 255, 255, 0.62) 0%,
+		rgba(220, 245, 255, 0.16) 14%,
+		transparent 34%
+	);
+	animation: earth-fab-gleam 10s ease-in-out infinite;
+}
+
+@keyframes earth-fab-spin {
+	from {
+		transform: translate3d(0, 0, 0);
+	}
+	to {
+		transform: translate3d(-50%, 0, 0);
+	}
+}
+
+@keyframes earth-fab-clouds {
+	from {
+		transform: translate3d(0, 0, 0);
+	}
+	to {
+		transform: translate3d(-50%, 0, 0);
+	}
+}
+
+@keyframes earth-fab-gleam {
+	0%,
+	100% {
+		opacity: 0.65;
+	}
+	50% {
+		opacity: 1;
+	}
+}
+
+@keyframes earth-fab-signal {
+	from {
+		stroke-dashoffset: 0;
+	}
+	to {
+		stroke-dashoffset: -52;
+	}
+}
+
+@keyframes earth-fab-node {
+	0%,
+	100% {
+		opacity: 0.22;
+		transform: scale(0.85);
+	}
+	50% {
+		opacity: 0.68;
+		transform: scale(1.25);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.earth-fab-globe-map,
+	.earth-fab-globe-clouds,
+	.earth-fab-globe-specular,
+	.earth-fab-globe-arc,
+	.earth-fab-globe-node {
+		animation: none;
+	}
+
+	.earth-fab-globe-map {
+		transform: translate3d(-18%, 0, 0);
+	}
+
+	.earth-fab-globe-clouds {
+		transform: translate3d(-10%, 0, 0);
+		opacity: 0.35;
+	}
+
+	.earth-fab-globe-comms {
+		opacity: 0.35;
+	}
+}

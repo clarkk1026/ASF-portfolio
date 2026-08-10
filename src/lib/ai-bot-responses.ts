@@ -1,18 +1,18 @@
 import {
-	benPersonality,
-	benStory,
-	contact,
-	experience,
-	highlights,
-	personal,
-	team,
-	traits,
-	whatsappUrl,
+    benPersonality,
+    benStory,
+    contact,
+    experience,
+    highlights,
+    personal,
+    team,
+    traits,
+    whatsappUrl,
 } from '../data/portfolio.js';
 import { botGreeting, type BotMood } from './ai-bot-brand.js';
 import {
-	getGithubLockedBotReply,
-	isGithubQuestion,
+    getGithubLockedBotReply,
+    isGithubQuestion,
 } from './ai-bot-github-guard.js';
 
 export type BotMessage = {
@@ -831,8 +831,48 @@ const handlers: IntentHandler[] = [
 					`Family is not something he shares much about publicly. Ask about his path or ASF anytime.\n\n[[mood:thoughtful]]`,
 				]);
 			}
+			if (
+				matches(q, [
+					/look(s| like)? asian/,
+					/is (he|ben) asian/,
+					/asian (look|appearance|face)/,
+					/(appearance|ethnicity|race|heritage)/,
+					/how does (he|ben) look/,
+					/what does (he|ben) look like/,
+				])
+			) {
+				return pick([
+					`Yes — Ben has an **Asian** appearance. Beyond that he keeps the focus on his work. Want his **story**, **skills**, or **contact**?\n\n[[mood:calm]]`,
+					`He looks **Asian**. If you came for the portfolio side, I can cover his **experience** or how to reach him.\n\n[[mood:warm]]`,
+				]);
+			}
 			return humanStory();
 		},
+	},
+	{
+		id: 'appearance',
+		score: (q, tokens) => {
+			let s = 0;
+			if (
+				matches(q, [
+					/look(s| like)? asian/,
+					/is (he|ben) asian/,
+					/asian/,
+					/(appearance|ethnicity|race|heritage)/,
+					/how does (he|ben) look/,
+					/what does (he|ben) look like/,
+				])
+			) {
+				s += 12;
+			}
+			if (hasWord(tokens, ['asian', 'appearance', 'ethnicity', 'looks', 'look'])) s += 5;
+			return s;
+		},
+		reply: () =>
+			pick([
+				`Yes — Ben has an **Asian** appearance. Beyond that he keeps the focus on his work. Want his **story**, **skills**, or **contact**?\n\n[[mood:calm]]`,
+				`He looks **Asian**. If you came for the portfolio side, I can cover his **experience** or how to reach him.\n\n[[mood:warm]]`,
+			]),
 	},
 	{
 		id: 'about',

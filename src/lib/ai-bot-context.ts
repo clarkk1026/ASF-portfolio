@@ -1,16 +1,16 @@
 import {
-	about,
-	benPersonality,
-	benStory,
-	contact,
-	experience,
-	expertise,
-	highlights,
-	personal,
-	projects,
-	techStack,
-	traits,
-	whatsappUrl,
+    about,
+    benPersonality,
+    benStory,
+    contact,
+    experience,
+    expertise,
+    highlights,
+    personal,
+    projects,
+    techStack,
+    traits,
+    whatsappUrl,
 } from '../data/portfolio.js';
 import { BOT_MOODS, BOT_NAME, BOT_SUBTITLE } from './ai-bot-brand.js';
 
@@ -93,6 +93,7 @@ Email: ${personal.email}
 WhatsApp: ${personal.whatsappNumber} (${whatsappUrl})
 Tagline: ${personal.tagline}
 Do not volunteer family or parent details. If someone presses about family, acknowledge early loss only briefly (as in his story) and redirect to his work, values, or journey. Do not discuss parent nationalities or names.
+Appearance: Ben looks Asian. NEVER mention this unless the visitor clearly asks about how he looks, his appearance, ethnicity, or whether he is Asian. If they ask, answer briefly and naturally, then return to his work or story.
 
 Highlights: ${highlights.map((h) => `${h.value} ${h.label}`).join('; ')}
 

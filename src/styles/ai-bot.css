@@ -17,8 +17,8 @@
 	cursor: text !important;
 }
 
-/* ── Floating chat launcher (icon-only, larger) ── */
-	button.comet-btn.ai-bot-fab {
+/* ── Floating chat launcher — globe + Bon mark only ── */
+button.ai-bot-fab {
 	position: fixed;
 	bottom: 1.5rem;
 	right: 1.5rem;
@@ -26,11 +26,73 @@
 	z-index: 100000120;
 	display: grid;
 	place-items: center;
-	width: 3.85rem;
-	height: 3.85rem;
+	width: 3.9rem;
+	height: 3.9rem;
 	min-height: 0;
 	padding: 0;
+	border: 0;
 	border-radius: 50%;
+	background: transparent;
+	box-shadow: none;
+	overflow: visible;
+	appearance: none;
+	-webkit-appearance: none;
+}
+
+button.ai-bot-fab:hover,
+button.ai-bot-fab:focus-visible {
+	filter: none;
+	outline: none;
+}
+
+button.ai-bot-fab:hover .ai-bot-fab-globe,
+button.ai-bot-fab:focus-visible .ai-bot-fab-globe {
+	transform: scale(1.04);
+}
+
+button.ai-bot-fab:hover .ai-bot-fab-mark,
+button.ai-bot-fab:focus-visible .ai-bot-fab-mark {
+	transform: scale(1.06);
+}
+
+.ai-bot-fab-globe {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	transition: transform 0.25s ease;
+	box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+}
+
+.ai-bot-fab-mark {
+	position: absolute;
+	right: -0.1rem;
+	bottom: -0.05rem;
+	z-index: 2;
+	display: grid;
+	place-items: center;
+	width: 1.55rem;
+	height: 1.55rem;
+	border-radius: 50%;
+	color: #f8fcff;
+	background: linear-gradient(
+		145deg,
+		rgba(31, 195, 255, 0.95) 0%,
+		rgba(90, 120, 255, 0.92) 100%
+	);
+	border: 1.5px solid rgba(255, 255, 255, 0.55);
+	box-shadow: 0 4px 12px rgba(0, 20, 40, 0.4);
+	transition: transform 0.25s ease;
+}
+
+.ai-bot-fab-mark .bon-icon {
+	width: 1rem;
+	height: 1rem;
+}
+
+.ai-bot-fab-mark .bon-icon-eye,
+.ai-bot-fab-mark .bon-icon-mouth {
+	fill: #0a2238;
 }
 
 .ai-bot-avatar .bon-icon {
@@ -499,12 +561,22 @@
 		width: auto;
 	}
 
-	button.comet-btn.ai-bot-fab {
+	button.ai-bot-fab {
 		bottom: 1rem;
 		right: 1rem;
 		left: auto;
-		width: 3.35rem;
-		height: 3.35rem;
+		width: 3.45rem;
+		height: 3.45rem;
+	}
+
+	.ai-bot-fab-mark {
+		width: 1.35rem;
+		height: 1.35rem;
+	}
+
+	.ai-bot-fab-mark .bon-icon {
+		width: 0.88rem;
+		height: 0.88rem;
 	}
 }
 
@@ -513,7 +585,7 @@
 		right: 0.75rem;
 	}
 
-	button.comet-btn.ai-bot-fab {
+	button.ai-bot-fab {
 		right: 1rem;
 	}
 }

@@ -25,6 +25,7 @@ import { TechPage } from './pages/tech-page';
 import { VoicesPage } from './pages/voices-page';
 import './styles/about-me.css';
 import './styles/ai-bot.css';
+import './styles/earth-fab-globe.css';
 import './styles/brand-logo.css';
 import './styles/comet-btn.css';
 import './styles/contact.css';
