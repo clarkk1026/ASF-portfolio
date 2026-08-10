@@ -4,14 +4,30 @@
 	z-index: 0;
 	overflow: hidden;
 	pointer-events: none;
-	/* Smooth, clear, modern night — no busy sky photo */
-	background: linear-gradient(
-		180deg,
-		#020711 0%,
-		#06101c 38%,
-		#0a1524 70%,
-		#07111c 100%
-	);
+	/* Soft cloudy night — deep blue with muted haze */
+	background:
+		radial-gradient(
+			ellipse 90% 55% at 18% 22%,
+			rgba(48, 68, 98, 0.28),
+			transparent 62%
+		),
+		radial-gradient(
+			ellipse 80% 50% at 78% 18%,
+			rgba(36, 54, 82, 0.22),
+			transparent 58%
+		),
+		radial-gradient(
+			ellipse 70% 40% at 50% 70%,
+			rgba(28, 42, 64, 0.2),
+			transparent 65%
+		),
+		linear-gradient(
+			180deg,
+			#020711 0%,
+			#07111f 32%,
+			#0a1626 62%,
+			#08131f 100%
+		);
 }
 
 .expertise-sky-lanterns,
@@ -29,13 +45,19 @@
 
 .expertise-sky-veil {
 	z-index: 2;
-	background: linear-gradient(
-		180deg,
-		rgba(2, 6, 14, 0.06) 0%,
-		transparent 16%,
-		transparent 80%,
-		rgba(2, 6, 14, 0.18) 100%
-	);
+	background:
+		radial-gradient(
+			ellipse 100% 70% at 50% -10%,
+			rgba(90, 120, 160, 0.08),
+			transparent 55%
+		),
+		linear-gradient(
+			180deg,
+			rgba(2, 6, 14, 0.04) 0%,
+			transparent 18%,
+			transparent 72%,
+			rgba(2, 6, 14, 0.22) 100%
+		);
 }
 
 body:has(.expertise-sky) .navbar:not(.navbar-scrolled) {

@@ -27,6 +27,9 @@ type FlyingLantern = {
 	driftFreq: number;
 	swayAmp: number;
 	z: number;
+	windPhase: number;
+	windFreq: number;
+	liftPhase: number;
 	sprite: HTMLCanvasElement;
 };
 
@@ -96,8 +99,11 @@ const LANTERN_DEFS = [
 
 const LABEL_FONT = '"Cinzel", "Times New Roman", serif';
 const LABEL_FIT = 0.72;
-const STAR_COUNT = 36;
-const PAINT_MS = 1000 / 36;
+const STAR_COUNT = 148;
+const FAR_STAR_COUNT = 90;
+const PAINT_MS = 1000 / 48;
+const FIREFLIES_PER_LANTERN = 14;
+const AMBIENT_FIREFLY_COUNT = 28;
 
 const rand = (min: number, max: number) => min + Math.random() * (max - min);
 
@@ -160,29 +166,43 @@ const createGlowSprite = () => {
 const starGlowSprite = createGlowSprite();
 
 /** Realistic starfield with frequent natural shine / twinkle. */
-const createStars = (width: number, height: number): SkyStar[] =>
-	Array.from({ length: STAR_COUNT }, () => {
-		const bright = Math.random() > 0.82;
-		const mid = !bright && Math.random() > 0.5;
+const createStars = (width: number, height: number): SkyStar[] => {
+	const near = Array.from({ length: STAR_COUNT }, () => {
+		const bright = Math.random() > 0.86;
+		const mid = !bright && Math.random() > 0.45;
 		return {
 			x: Math.random() * width,
-			y: Math.random() ** 1.12 * height * 0.78,
+			y: Math.random() ** 1.05 * height * 0.92,
 			r: bright
-				? rand(0.7, 1.25)
+				? rand(0.75, 1.35)
 				: mid
-					? rand(0.4, 0.75)
-					: rand(0.2, 0.48),
+					? rand(0.42, 0.8)
+					: rand(0.22, 0.5),
 			base: bright
-				? rand(0.48, 0.8)
+				? rand(0.52, 0.88)
 				: mid
-					? rand(0.3, 0.55)
-					: rand(0.18, 0.4),
-			speed: bright ? rand(2.4, 5.0) : rand(1.5, 3.8),
+					? rand(0.32, 0.58)
+					: rand(0.2, 0.42),
+			speed: bright ? rand(2.2, 4.8) : rand(1.3, 3.6),
 			phase: rand(0, Math.PI * 2),
-			temperature: rand(0.08, 0.65),
+			temperature: rand(0.08, 0.7),
 			spike: bright,
 		};
 	});
+
+	const far = Array.from({ length: FAR_STAR_COUNT }, () => ({
+		x: Math.random() * width,
+		y: Math.random() * height * 0.95,
+		r: rand(0.12, 0.32),
+		base: rand(0.12, 0.28),
+		speed: rand(0.6, 1.8),
+		phase: rand(0, Math.PI * 2),
+		temperature: rand(0.2, 0.55),
+		spike: false,
+	}));
+
+	return [...far, ...near];
+};
 
 const drawSkyStars = (
 	ctx: CanvasRenderingContext2D,
@@ -488,63 +508,214 @@ const bakeLanternSprite = (
 	return sprite;
 };
 
+type NightCloud = {
+	x: number;
+	y: number;
+	w: number;
+	h: number;
+	alpha: number;
+	speed: number;
+	phase: number;
+	puffs: { ox: number; oy: number; rx: number; ry: number }[];
+};
+
 type Firefly = {
+	lanternIndex: number;
+	orbitR: number;
+	orbitPhase: number;
+	orbitSpeed: number;
+	bobPhase: number;
+	bobSpeed: number;
+	r: number;
+	blinkPhase: number;
+	blinkSpeed: number;
+	warmth: number;
+	homeOffsetX: number;
+	homeOffsetY: number;
+	ambient: boolean;
 	x: number;
 	y: number;
 	homeX: number;
 	homeY: number;
-	r: number;
-	phase: number;
-	blinkPhase: number;
-	blinkSpeed: number;
-	driftSpeed: number;
 	ampX: number;
 	ampY: number;
-	warmth: number;
+	driftSpeed: number;
+	phase: number;
 };
 
-const FIREFLY_COUNT = 64;
+const createNightClouds = (width: number, height: number): NightCloud[] =>
+	Array.from({ length: 8 }, (_, i) => {
+		const w = rand(width * 0.32, width * 0.62);
+		const h = rand(height * 0.1, height * 0.2);
+		const puffCount = 5 + Math.floor(Math.random() * 4);
+		return {
+			x: rand(-w * 0.2, width * 0.85),
+			y: height * (0.06 + i * 0.09) + rand(-height * 0.03, height * 0.03),
+			w,
+			h,
+			alpha: rand(0.055, 0.12),
+			speed: rand(0.01, 0.032) * (Math.random() > 0.5 ? 1 : -1),
+			phase: rand(0, Math.PI * 2),
+			puffs: Array.from({ length: puffCount }, () => ({
+				ox: rand(-0.38, 0.38),
+				oy: rand(-0.38, 0.38),
+				rx: rand(0.24, 0.44),
+				ry: rand(0.3, 0.58),
+			})),
+		};
+	});
+
+const drawNightClouds = (
+	ctx: CanvasRenderingContext2D,
+	clouds: NightCloud[],
+	time: number,
+	width: number,
+	reducedMotion: boolean,
+) => {
+	const t = time * 0.001;
+	ctx.save();
+
+	for (const cloud of clouds) {
+		if (!reducedMotion) {
+			cloud.x += cloud.speed;
+			if (cloud.x > width + cloud.w * 0.35) cloud.x = -cloud.w * 0.4;
+			if (cloud.x < -cloud.w * 0.45) cloud.x = width + cloud.w * 0.25;
+		}
+
+		const breathe = 1 + Math.sin(t * 0.12 + cloud.phase) * 0.04;
+		const cx = cloud.x + cloud.w * 0.5;
+		const cy = cloud.y + Math.sin(t * 0.08 + cloud.phase) * 4;
+
+		for (const puff of cloud.puffs) {
+			const px = cx + puff.ox * cloud.w;
+			const py = cy + puff.oy * cloud.h;
+			const rx = puff.rx * cloud.w * breathe;
+			const ry = puff.ry * cloud.h * breathe;
+
+			/* Soft dark veil that gently mutes stars behind it */
+			ctx.globalCompositeOperation = 'source-over';
+			ctx.globalAlpha = cloud.alpha * 1.35;
+			const shade = ctx.createRadialGradient(
+				px,
+				py,
+				0,
+				px,
+				py,
+				Math.max(rx, ry),
+			);
+			shade.addColorStop(0, 'rgba(8, 14, 26, 0.55)');
+			shade.addColorStop(0.5, 'rgba(10, 18, 32, 0.22)');
+			shade.addColorStop(1, 'rgba(6, 10, 20, 0)');
+			ctx.fillStyle = shade;
+			ctx.beginPath();
+			ctx.ellipse(px, py, rx, ry, 0, 0, Math.PI * 2);
+			ctx.fill();
+
+			/* Cool moonlight kiss on the cloud rim */
+			ctx.globalCompositeOperation = 'screen';
+			ctx.globalAlpha = cloud.alpha * 0.9;
+			const lit = ctx.createRadialGradient(
+				px - rx * 0.15,
+				py - ry * 0.2,
+				0,
+				px,
+				py,
+				Math.max(rx, ry),
+			);
+			lit.addColorStop(0, 'rgba(150, 175, 210, 0.28)');
+			lit.addColorStop(0.4, 'rgba(90, 120, 160, 0.1)');
+			lit.addColorStop(1, 'rgba(40, 60, 90, 0)');
+			ctx.fillStyle = lit;
+			ctx.beginPath();
+			ctx.ellipse(px, py, rx * 0.95, ry * 0.95, 0, 0, Math.PI * 2);
+			ctx.fill();
+		}
+	}
+
+	ctx.restore();
+};
 
 const createFireflyGlow = () => {
 	const sprite = document.createElement('canvas');
-	sprite.width = 48;
-	sprite.height = 48;
+	sprite.width = 64;
+	sprite.height = 64;
 	const gctx = sprite.getContext('2d');
 	if (gctx) {
-		const glow = gctx.createRadialGradient(24, 24, 0, 24, 24, 24);
-		glow.addColorStop(0, 'rgba(255, 255, 230, 1)');
-		glow.addColorStop(0.2, 'rgba(255, 240, 150, 0.75)');
-		glow.addColorStop(0.45, 'rgba(190, 255, 120, 0.28)');
-		glow.addColorStop(0.72, 'rgba(120, 220, 90, 0.06)');
+		const glow = gctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+		glow.addColorStop(0, 'rgba(255, 255, 220, 1)');
+		glow.addColorStop(0.18, 'rgba(255, 245, 150, 0.95)');
+		glow.addColorStop(0.4, 'rgba(210, 255, 110, 0.45)');
+		glow.addColorStop(0.68, 'rgba(140, 230, 90, 0.12)');
 		glow.addColorStop(1, 'rgba(80, 180, 60, 0)');
 		gctx.fillStyle = glow;
-		gctx.fillRect(0, 0, 48, 48);
+		gctx.fillRect(0, 0, 64, 64);
 	}
 	return sprite;
 };
 
-const createFireflies = (width: number, height: number): Firefly[] =>
-	Array.from({ length: FIREFLY_COUNT }, () => {
+const createAmbientFireflies = (width: number, height: number): Firefly[] =>
+	Array.from({ length: AMBIENT_FIREFLY_COUNT }, () => {
 		const homeX = rand(width * 0.04, width * 0.96);
-		const homeY = rand(height * 0.1, height * 0.9);
+		const homeY = rand(height * 0.12, height * 0.88);
 		return {
+			lanternIndex: -1,
+			orbitR: 0,
+			orbitPhase: 0,
+			orbitSpeed: 0,
+			bobPhase: rand(0, Math.PI * 2),
+			bobSpeed: rand(0.4, 1.1),
+			r: rand(0.55, 1.25),
+			blinkPhase: rand(0, Math.PI * 2),
+			blinkSpeed: rand(0.7, 1.6),
+			warmth: rand(0.2, 0.9),
+			homeOffsetX: 0,
+			homeOffsetY: 0,
+			ambient: true,
 			x: homeX,
 			y: homeY,
 			homeX,
 			homeY,
-			r: rand(0.45, 1.15),
+			ampX: rand(18, 48),
+			ampY: rand(12, 36),
+			driftSpeed: rand(0.18, 0.42),
 			phase: rand(0, Math.PI * 2),
-			blinkPhase: rand(0, Math.PI * 2),
-			blinkSpeed: rand(0.55, 1.45),
-			driftSpeed: rand(0.2, 0.5),
-			ampX: rand(14, 42),
-			ampY: rand(10, 32),
-			warmth: rand(0.15, 0.85),
 		};
 	});
 
+const createLanternFireflies = (lanternCount: number): Firefly[] => {
+	const flies: Firefly[] = [];
+	for (let i = 0; i < lanternCount; i += 1) {
+		for (let n = 0; n < FIREFLIES_PER_LANTERN; n += 1) {
+			flies.push({
+				lanternIndex: i,
+				orbitR: rand(18, 78),
+				orbitPhase: rand(0, Math.PI * 2),
+				orbitSpeed: rand(0.35, 0.95) * (Math.random() > 0.5 ? 1 : -1),
+				bobPhase: rand(0, Math.PI * 2),
+				bobSpeed: rand(0.55, 1.4),
+				r: rand(0.7, 1.55),
+				blinkPhase: rand(0, Math.PI * 2),
+				blinkSpeed: rand(0.85, 1.9),
+				warmth: rand(0.25, 1),
+				homeOffsetX: rand(-12, 12),
+				homeOffsetY: rand(-8, 22),
+				ambient: false,
+				x: 0,
+				y: 0,
+				homeX: 0,
+				homeY: 0,
+				ampX: 0,
+				ampY: 0,
+				driftSpeed: 0,
+				phase: rand(0, Math.PI * 2),
+			});
+		}
+	}
+	return flies;
+};
+
 /**
- * Natural fireflies — tiny cute lime-gold blink, lazy wandering flight.
+ * Natural fireflies — brighter lime-gold blink, lazy flight around lanterns.
  */
 const drawFireflies = (
 	ctx: CanvasRenderingContext2D,
@@ -552,42 +723,69 @@ const drawFireflies = (
 	glow: HTMLCanvasElement,
 	time: number,
 	reducedMotion: boolean,
+	lanterns: FlyingLantern[],
 ) => {
 	const t = time * 0.001;
 	ctx.save();
-	ctx.globalCompositeOperation = 'screen';
+	ctx.globalCompositeOperation = 'lighter';
 
 	for (const fly of flies) {
-		if (!reducedMotion) {
+		if (fly.ambient) {
+			if (!reducedMotion) {
+				fly.x =
+					fly.homeX +
+					Math.sin(t * fly.driftSpeed + fly.phase) * fly.ampX +
+					Math.sin(t * fly.driftSpeed * 0.37 + fly.phase * 1.7) *
+						fly.ampX *
+						0.28;
+				fly.y =
+					fly.homeY +
+					Math.cos(t * fly.driftSpeed * 0.82 + fly.phase) * fly.ampY +
+					Math.sin(t * fly.driftSpeed * 1.1 + fly.phase * 0.6) *
+						fly.ampY *
+						0.22;
+			}
+		} else {
+			const lantern = lanterns[fly.lanternIndex];
+			if (!lantern) continue;
+			const bob =
+				Math.sin(time * 0.0016 + lantern.phase) * lantern.drawH * 0.012;
+			const cx = lantern.x + fly.homeOffsetX;
+			const cy = lantern.y + bob + fly.homeOffsetY;
+			if (!reducedMotion) {
+				fly.orbitPhase += fly.orbitSpeed * 0.012;
+			}
+			const wobble =
+				Math.sin(t * fly.bobSpeed + fly.bobPhase) * fly.orbitR * 0.18;
 			fly.x =
-				fly.homeX +
-				Math.sin(t * fly.driftSpeed + fly.phase) * fly.ampX +
-				Math.sin(t * fly.driftSpeed * 0.37 + fly.phase * 1.7) *
-					fly.ampX *
-					0.28;
+				cx +
+				Math.cos(fly.orbitPhase) * (fly.orbitR + wobble) *
+					0.85;
 			fly.y =
-				fly.homeY +
-				Math.cos(t * fly.driftSpeed * 0.82 + fly.phase) * fly.ampY +
-				Math.sin(t * fly.driftSpeed * 1.1 + fly.phase * 0.6) *
-					fly.ampY *
-					0.22;
+				cy +
+				Math.sin(fly.orbitPhase * 0.92 + fly.phase) *
+					(fly.orbitR * 0.55 + wobble * 0.4) -
+				Math.sin(t * fly.bobSpeed + fly.bobPhase) * 6;
 		}
 
-		const pulse = 0.5 + 0.5 * Math.sin(t * fly.blinkSpeed + fly.blinkPhase);
-		const glowOn = Math.pow(pulse, 3.2);
-		const alpha = 0.06 + glowOn * 0.9;
-		if (alpha < 0.1) continue;
+		const pulse =
+			0.5 + 0.5 * Math.sin(t * fly.blinkSpeed + fly.blinkPhase);
+		const glowOn = Math.pow(Math.max(0, pulse), 2.4);
+		const alpha = fly.ambient
+			? 0.12 + glowOn * 0.72
+			: 0.22 + glowOn * 0.95;
+		if (alpha < 0.14) continue;
 
 		const warm = fly.warmth;
-		const size = fly.r * (1.15 + glowOn * 1.35);
+		const size = fly.r * (1.35 + glowOn * (fly.ambient ? 1.5 : 2.1));
 
-		ctx.globalAlpha = alpha * 0.4;
+		ctx.globalAlpha = alpha * (fly.ambient ? 0.45 : 0.7);
 		ctx.drawImage(
 			glow,
-			fly.x - size * 1.6,
-			fly.y - size * 1.6,
-			size * 3.2,
-			size * 3.2,
+			fly.x - size * 2.2,
+			fly.y - size * 2.2,
+			size * 4.4,
+			size * 4.4,
 		);
 
 		ctx.globalAlpha = alpha;
@@ -601,15 +799,15 @@ const drawFireflies = (
 		);
 		core.addColorStop(
 			0,
-			`rgba(255, 255, ${Math.round(210 + warm * 40)}, 1)`,
+			`rgba(255, 255, ${Math.round(220 + warm * 30)}, 1)`,
 		);
 		core.addColorStop(
-			0.4,
-			`rgba(${Math.round(220 + warm * 30)}, ${Math.round(255 - warm * 40)}, ${Math.round(110 + warm * 40)}, 0.8)`,
+			0.35,
+			`rgba(${Math.round(230 + warm * 25)}, ${Math.round(255 - warm * 30)}, ${Math.round(120 + warm * 40)}, 0.95)`,
 		);
 		core.addColorStop(
 			1,
-			`rgba(${Math.round(140 + warm * 40)}, 220, 80, 0)`,
+			`rgba(${Math.round(150 + warm * 40)}, 230, 90, 0)`,
 		);
 		ctx.fillStyle = core;
 		ctx.beginPath();
@@ -641,10 +839,13 @@ export const ExpertiseSkyBg = () => {
 		let bodyImg: HTMLImageElement | null = null;
 		let lanterns: FlyingLantern[] = [];
 		let stars = createStars(width, height);
-		let fireflies = createFireflies(width, height);
+		let clouds = createNightClouds(width, height);
+		let ambientFireflies = createAmbientFireflies(width, height);
+		let lanternFireflies: Firefly[] = [];
 		const fireflyGlow = createFireflyGlow();
 		let animationId = 0;
 		let lastPaint = 0;
+		let lastFrameTime = performance.now();
 		let ready = false;
 		let drag: LanternDrag | null = null;
 		let hoverLantern: FlyingLantern | null = null;
@@ -768,16 +969,19 @@ export const ExpertiseSkyBg = () => {
 					y: def.isAi
 						? height * 0.4
 						: height * (0.22 + index * 0.14) + rand(-30, 40),
-					vx: rand(0.1, 0.22) + index * 0.015,
-					vy: rand(-0.26, -0.12) - index * 0.01,
+					vx: rand(0.06, 0.14) + index * 0.008,
+					vy: rand(-0.16, -0.07) - index * 0.006,
 					drawW: size.drawW,
 					drawH: size.drawH,
 					sizeBias,
 					phase: rand(0, Math.PI * 2) + index,
-					driftAmp: 0.35 + index * 0.1,
-					driftFreq: 0.00032 + index * 0.00005,
-					swayAmp: 0.01 + index * 0.0025,
+					driftAmp: 0.55 + index * 0.12,
+					driftFreq: 0.00018 + index * 0.00003,
+					swayAmp: 0.012 + index * 0.002,
 					z,
+					windPhase: rand(0, Math.PI * 2),
+					windFreq: 0.00012 + index * 0.00002,
+					liftPhase: rand(0, Math.PI * 2),
 					sprite: bakeLanternSprite(
 						bodyImg!,
 						def.label,
@@ -788,6 +992,7 @@ export const ExpertiseSkyBg = () => {
 				};
 			});
 			lanterns.sort((a, b) => a.z - b.z);
+			lanternFireflies = createLanternFireflies(lanterns.length);
 		};
 
 		const resize = () => {
@@ -800,30 +1005,43 @@ export const ExpertiseSkyBg = () => {
 			canvas.style.height = `${height}px`;
 			ctx.setTransform(1, 0, 0, 1, 0, 0);
 			stars = createStars(width, height);
-			fireflies = createFireflies(width, height);
+			clouds = createNightClouds(width, height);
+			ambientFireflies = createAmbientFireflies(width, height);
 			if (ready && bodyImg && lanterns.length) {
 				rebuildSprites();
+				lanternFireflies = createLanternFireflies(lanterns.length);
 			}
 		};
 
 		const paint = (time: number) => {
+			const dt = Math.min(2.2, (time - lastFrameTime) / (1000 / 60));
+			lastFrameTime = time;
+
 			ctx.clearRect(0, 0, width, height);
 			drawSkyStars(ctx, stars, time);
+			drawNightClouds(ctx, clouds, time, width, reducedMotion);
 
 			if (!bodyImg || !lanterns.length) {
-				drawFireflies(ctx, fireflies, fireflyGlow, time, reducedMotion);
+				drawFireflies(
+					ctx,
+					ambientFireflies,
+					fireflyGlow,
+					time,
+					reducedMotion,
+					lanterns,
+				);
 				ctx.globalAlpha = 1;
 				return;
 			}
 
-			const frameBoost = reducedMotion ? 0 : 1;
+			const frameBoost = reducedMotion ? 0 : dt;
 			const dragged = drag?.lantern ?? null;
 
 			if (drag && dragged) {
-				const ease = 0.22;
+				const ease = 1 - Math.pow(0.78, dt);
 				dragged.x += (drag.targetX - dragged.x) * ease;
 				dragged.y += (drag.targetY - dragged.y) * ease;
-				dragged.phase += 0.008;
+				dragged.phase += 0.006 * dt;
 			}
 
 			const drawOrder =
@@ -839,32 +1057,53 @@ export const ExpertiseSkyBg = () => {
 				const isDragged = dragged === lantern;
 
 				if (!reducedMotion && !isDragged) {
-					lantern.phase += 0.014;
+					lantern.phase += 0.008 * dt;
+					lantern.windPhase += lantern.windFreq * 60 * dt;
+					lantern.liftPhase += lantern.driftFreq * 48 * dt;
+
+					const wind =
+						Math.sin(lantern.windPhase) * 0.45 +
+						Math.sin(lantern.windPhase * 0.37 + lantern.phase) *
+							0.25;
+					const lift =
+						Math.sin(lantern.liftPhase + lantern.phase) * 0.35 +
+						Math.cos(lantern.liftPhase * 0.7) * 0.2;
 					const pathX =
 						Math.sin(time * lantern.driftFreq + lantern.phase) *
-						lantern.driftAmp *
-						0.55;
+						lantern.driftAmp;
 					const pathY =
 						Math.cos(
-							time * lantern.driftFreq * 0.85 + lantern.phase,
-						) * 0.1;
-					lantern.x += (lantern.vx + pathX * 0.08) * frameBoost;
-					lantern.y += (lantern.vy + pathY) * frameBoost;
+							time * lantern.driftFreq * 0.78 + lantern.phase,
+						) * 0.55;
 
-					if (Math.random() < 0.01) {
-						lantern.vx += rand(-0.03, 0.04);
-						lantern.vy += rand(-0.025, 0.02);
-					}
-					lantern.vx = Math.max(0.08, Math.min(0.38, lantern.vx * 0.9988));
-					lantern.vy = Math.max(-0.36, Math.min(-0.08, lantern.vy * 0.9992));
+					lantern.vx +=
+						(0.1 + wind * 0.05 + pathX * 0.012 - lantern.vx) *
+						0.02 *
+						dt;
+					lantern.vy +=
+						(-0.12 + lift * 0.04 + pathY * 0.02 - lantern.vy) *
+						0.02 *
+						dt;
+
+					lantern.vx = Math.max(
+						0.04,
+						Math.min(0.22, lantern.vx),
+					);
+					lantern.vy = Math.max(
+						-0.22,
+						Math.min(-0.04, lantern.vy),
+					);
+
+					lantern.x += lantern.vx * frameBoost;
+					lantern.y += lantern.vy * frameBoost;
 
 					if (lantern.y < -drawH) {
 						lantern.y = height + drawH * 0.35;
 						lantern.x = lantern.isAi
 							? width * 0.18 + rand(0, width * 0.25)
 							: rand(-drawW * 0.2, width * 0.45);
-						lantern.vx = rand(0.12, 0.28);
-						lantern.vy = rand(-0.28, -0.12);
+						lantern.vx = rand(0.07, 0.16);
+						lantern.vy = rand(-0.16, -0.07);
 					}
 					if (lantern.x > width + drawW) {
 						lantern.x = -drawW * 0.3;
@@ -885,13 +1124,48 @@ export const ExpertiseSkyBg = () => {
 				}
 
 				const bob = isDragged
-					? Math.sin(time * 0.0012 + lantern.phase) * drawH * 0.006
-					: Math.sin(time * 0.0016 + lantern.phase) * drawH * 0.012;
+					? Math.sin(time * 0.001 + lantern.phase) * drawH * 0.005
+					: Math.sin(time * 0.0011 + lantern.phase) * drawH * 0.016 +
+						Math.sin(time * 0.00055 + lantern.liftPhase) *
+							drawH *
+							0.008;
 				const sway =
-					Math.sin(time * 0.001 + lantern.phase * 1.25) *
-					(isDragged ? lantern.swayAmp * 0.45 : lantern.swayAmp);
+					(Math.sin(time * 0.00075 + lantern.phase * 1.1) *
+						lantern.swayAmp +
+						Math.sin(time * 0.0004 + lantern.windPhase) *
+							lantern.swayAmp *
+							0.45) *
+					(isDragged ? 0.4 : 1);
 				const cx = lantern.x;
 				const cy = lantern.y + bob;
+
+				/* Soft warm halo so each lantern reads in the night */
+				ctx.save();
+				ctx.globalCompositeOperation = 'screen';
+				const halo = ctx.createRadialGradient(
+					cx,
+					cy + drawH * 0.08,
+					drawW * 0.08,
+					cx,
+					cy + drawH * 0.05,
+					drawW * 0.72,
+				);
+				halo.addColorStop(0, 'rgba(255, 210, 130, 0.22)');
+				halo.addColorStop(0.45, 'rgba(255, 160, 80, 0.08)');
+				halo.addColorStop(1, 'rgba(255, 100, 40, 0)');
+				ctx.fillStyle = halo;
+				ctx.beginPath();
+				ctx.ellipse(
+					cx,
+					cy + drawH * 0.05,
+					drawW * 0.7,
+					drawH * 0.55,
+					0,
+					0,
+					Math.PI * 2,
+				);
+				ctx.fill();
+				ctx.restore();
 
 				ctx.save();
 				ctx.translate(cx, cy);
@@ -901,7 +1175,22 @@ export const ExpertiseSkyBg = () => {
 				ctx.restore();
 			}
 
-			drawFireflies(ctx, fireflies, fireflyGlow, time, reducedMotion);
+			drawFireflies(
+				ctx,
+				lanternFireflies,
+				fireflyGlow,
+				time,
+				reducedMotion,
+				lanterns,
+			);
+			drawFireflies(
+				ctx,
+				ambientFireflies,
+				fireflyGlow,
+				time,
+				reducedMotion,
+				lanterns,
+			);
 			ctx.globalAlpha = 1;
 		};
 
@@ -995,12 +1284,12 @@ export const ExpertiseSkyBg = () => {
 			const tossX = Math.max(-0.45, Math.min(0.45, drag.velX * 0.045));
 			const tossY = Math.max(-0.45, Math.min(0.2, drag.velY * 0.045));
 			lantern.vx = Math.max(
-				0.08,
-				Math.min(0.38, lantern.vx * 0.35 + Math.abs(tossX) * 0.55 + 0.1),
+				0.04,
+				Math.min(0.22, lantern.vx * 0.35 + Math.abs(tossX) * 0.4 + 0.06),
 			);
 			lantern.vy = Math.max(
-				-0.36,
-				Math.min(-0.08, lantern.vy * 0.4 + tossY - 0.06),
+				-0.22,
+				Math.min(-0.04, lantern.vy * 0.4 + tossY - 0.04),
 			);
 			drag = null;
 			const stillOver =
