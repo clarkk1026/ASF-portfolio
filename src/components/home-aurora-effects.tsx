@@ -18,8 +18,8 @@ type Star = {
 
 /** Match CSS: object-fit cover + object-position center bottom */
 const POS = { x: 0.5, y: 1 };
-/** Stars only in the clear dark sky (left). */
-const STAR_UV = { bottom: 0.4, right: 0.55 };
+/** Stars in the clear dark night sky band above the team. */
+const STAR_UV = { bottom: 0.52, right: 0.72 };
 
 const rand = (min: number, max: number) => min + Math.random() * (max - min);
 const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
@@ -79,7 +79,7 @@ const drawStars = (
 
 	for (const star of stars) {
 		const { x, y } = uvToScreen(cover, star.ux, star.uy);
-		if (y > skyBottom || x > skyRight) continue;
+		if (y > skyBottom || x > skyRight || x < cover.x) continue;
 
 		const t = time * 0.001;
 		const wave =
@@ -122,7 +122,7 @@ export const HomeAuroraEffects = () => {
 
 		const img = new Image();
 		img.decoding = 'async';
-		img.src = '/home-aurora-team-4k.webp';
+		img.src = '/home-aurora-team-4k.webp?v=original';
 
 		const reducedMotion = window.matchMedia(
 			'(prefers-reduced-motion: reduce)',

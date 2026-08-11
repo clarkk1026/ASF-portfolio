@@ -20,7 +20,7 @@
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	/* Pin bottom so team silhouettes stay in the first viewport */
+	/* Pin team in first viewport without over-zoom */
 	object-position: center bottom;
 	display: block;
 }
@@ -30,10 +30,10 @@
 	background:
 		linear-gradient(
 			180deg,
-			rgba(2, 6, 14, 0.14) 0%,
-			transparent 22%,
-			transparent 68%,
-			rgba(1, 4, 10, 0.28) 100%
+			rgba(2, 6, 14, 0.06) 0%,
+			transparent 18%,
+			transparent 72%,
+			rgba(1, 4, 10, 0.16) 100%
 		);
 }
 
@@ -48,18 +48,17 @@
 	background:
 		linear-gradient(
 			90deg,
-			rgba(0, 4, 12, 0.14) 0%,
-			rgba(0, 4, 12, 0.03) 30%,
-			transparent 50%,
+			rgba(0, 4, 12, 0.06) 0%,
+			transparent 26%,
 			transparent 74%,
-			rgba(0, 4, 12, 0.12) 100%
+			rgba(0, 4, 12, 0.08) 100%
 		),
 		linear-gradient(
 			180deg,
-			rgba(0, 3, 10, 0.12),
-			transparent 18%,
-			transparent 72%,
-			rgba(0, 2, 8, 0.22)
+			rgba(0, 3, 10, 0.05),
+			transparent 14%,
+			transparent 80%,
+			rgba(0, 2, 8, 0.14)
 		);
 }
 
