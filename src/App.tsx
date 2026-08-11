@@ -31,7 +31,6 @@ import './styles/comet-btn.css';
 import './styles/contact.css';
 import './styles/experience.css';
 import './styles/expertise.css';
-import './styles/expertise-sky.css';
 import './styles/glow-box.css';
 import './styles/hex-bg.css';
 import './styles/hero-name-3d.css';
@@ -41,44 +40,33 @@ import './styles/layered-title.css';
 import './styles/mouse-trail.css';
 import './styles/navbar.css';
 import './styles/page-shell.css';
-import './styles/page-sky.css';
 import './styles/projects.css';
-import './styles/projects-sky.css';
 import './styles/reveal.css';
 import './styles/scroll-bar.css';
 import './styles/starfield-bg.css';
-import './styles/sky-twinkles.css';
 import './styles/team.css';
 import './styles/tech-stack.css';
 import './styles/visitor-note.css';
 import './styles/visitor-contact.css';
 
-const PAGE_SKY_ROUTES = new Set([
-	'/expertise',
-	'/projects',
-]);
-
 const SiteShell = () => {
 	const { pathname } = useLocation();
-	const hasHomeAurora = pathname === '/';
-	const hasTeamSky = pathname === '/team';
-	const hasPathSky = pathname === '/path';
-	const hasPageSky = PAGE_SKY_ROUTES.has(pathname);
-	const hasLanternSky = pathname === '/expertise';
-	const hasCustomSky =
-		hasHomeAurora || hasTeamSky || hasPathSky || hasPageSky;
+	const isHome = pathname === '/';
 
 	return (
 		<>
 			<ScrollToTop />
 			<PageKeyNav />
-			{!hasCustomSky && <StarfieldBg />}
-			{!hasLanternSky && <HexBg />}
+			{/* Contact-style starfield everywhere except home */}
+			{!isHome && <StarfieldBg />}
+			<HexBg />
 			<ScrollBar />
+			{/* Stylish custom cursor kept on all pages */}
 			<MouseTrail />
 			<Navbar />
 			<Outlet />
-			{!hasHomeAurora && <FallingStarsLayer />}
+			{/* Falling stars kept on all non-home pages */}
+			{!isHome && <FallingStarsLayer />}
 			<AiBot />
 		</>
 	);
@@ -88,9 +76,7 @@ function App() {
 	return (
 		<ToastProvider>
 			<Routes>
-				<Route
-					element={<SiteShell />}
-				>
+				<Route element={<SiteShell />}>
 					<Route
 						index
 						element={<HomePage />}
