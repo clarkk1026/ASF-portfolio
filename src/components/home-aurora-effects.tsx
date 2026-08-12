@@ -49,7 +49,7 @@ const uvToScreen = (cover: Cover, ux: number, uy: number) => ({
 });
 
 const createStars = (): Star[] =>
-	Array.from({ length: 220 }, () => {
+	Array.from({ length: 48 }, () => {
 		const bright = Math.random() > 0.86;
 		return {
 			ux: Math.random() * STAR_UV.right,
