@@ -223,13 +223,11 @@ const BEN_RELATED_TERMS = [
 	'singaporean',
 	'australia',
 	'australian',
-	'newcastle',
-	'nsw',
+	'waller',
+	'ireland',
 	'original',
 	'birth',
-	'mudbath',
-	'anditi',
-	'4tel',
+	'sock',
 	'university',
 	'childhood',
 	'leader',
@@ -374,8 +372,8 @@ const humanExperience = () => {
 		.join('\n');
 
 	return prefix([
-		`Ben has **5+ years** of professional software experience across full-stack and product-focused delivery.\n\n${lines}\n\nMost recent engineering role before focusing fully on **ASF Studio**: **Mudbath Digital** (Newcastle, NSW). Ask about any employer if you want detail.`,
-		`Career path in short:\n\n${lines}\n\nHe graduated from **The University of Newcastle** in 2020 (**Bachelor of Software Engineering (Honours)**) and built his career in Newcastle, Australia.`,
+		`Ben has **5+ years** of professional software experience across full-stack and product engineering work in Newcastle, Australia.\n\n${lines}\n\nMost recent company role: **Software Engineer at Mudbath Digital** (May 2024–Feb 2026), building modern digital products and customer-facing applications. Ask about any employer if you want detail.`,
+		`Career path in short:\n\n${lines}\n\nHe graduated from **The University of Newcastle** in 2020 (**Bachelor of Software Engineering (Honours)**) and built his career in Newcastle before founding ASF Studio.`,
 	]);
 };
 
@@ -411,14 +409,14 @@ const humanContact = () =>
 
 const humanAbout = () =>
 	prefix([
-		`Ben is from **${personal.birthPlace}**, and based in **${personal.location}**. His real name is **${personal.fullName}**.\n\nHe studied **Bachelor of Software Engineering (Honours)** at **The University of Newcastle** (2016–2020), then worked at **4Tel**, **Anditi**, and **Mudbath Digital** before founding ASF Studio.\n\n${benStory.lessons[0]}\n\n[[mood:thoughtful]]`,
+		`Ben is from **${personal.birthPlace}** and still based there. His real name is **${personal.fullName}**.\n\nHe studied **Software Engineering (Honours)** at **The University of Newcastle** (2016–2020), then built his career at **4Tel**, **Anditi**, and **Mudbath Digital** before founding **ASF Studio**.\n\n${benStory.lessons[0]}\n\n[[mood:thoughtful]]`,
 		`${benStory.summary}\n\nToday he works across **full stack engineering**, **Python/AI**, and **front end** development — plus live **Shopify** builds on this portfolio.\n\n[[mood:warm]]`,
 	]);
 
 const humanStory = () =>
 	prefix([
-		`Here is the honest version of Ben's path:\n\n**Background:** ${benStory.earlyLife.join(' ')}\n\n**Product & business mindset:** ${benStory.entrepreneurship.join(' ')}\n\n**Technical work:** ${benStory.technicalLeadership.join(' ')}\n\n**Teams led:**\n${benStory.teamsLed.map((line) => `• ${line}`).join('\n')}\n\n**What he learned:** ${benStory.lessons.join(' ')}\n\n**Life today:** ${benStory.lifeAndValues.join(' ')}\n\n[[mood:thoughtful]]`,
-		`${benStory.summary}\n\nIf you want, I can go deeper on his **education**, **employment history**, or **team leadership** at ASF.\n\n[[mood:calm]]`,
+		`Here is the honest version of Ben's path:\n\n**Early life:** ${benStory.earlyLife.join(' ')}\n\n**Product & business mindset:** ${benStory.entrepreneurship.join(' ')}\n\n**Technical work:** ${benStory.technicalLeadership.join(' ')}\n\n**Teams led:**\n${benStory.teamsLed.map((line) => `• ${line}`).join('\n')}\n\n**What he learned:** ${benStory.lessons.join(' ')}\n\n**Life today:** ${benStory.lifeAndValues.join(' ')}\n\n[[mood:thoughtful]]`,
+		`${benStory.summary}\n\nIf you want, I can go deeper on his **university path**, **Newcastle career**, or **ASF Studio**.\n\n[[mood:calm]]`,
 	]);
 
 const humanCasualChat = (input: string, ctx: BotContext): BotReply => {
@@ -562,7 +560,7 @@ const handlers: IntentHandler[] = [
 			return s;
 		},
 		reply: () =>
-			`I'm **Bon**. Think of me as someone who knows Ben well and actually likes talking to people.\n\nYou can ask about:\n• His **experience**, **skills**, and **projects**\n• His **personal story** (Newcastle, Australia, education, career path, leadership)\n• **Health & balance**, **music**, or random life chat\n• How to **contact** him\n\nNo need to be formal. I'll meet you where you are.`,
+			`I'm **Bon**. Think of me as someone who knows Ben well and actually likes talking to people.\n\nYou can ask about:\n• His **experience**, **skills**, and **projects**\n• His **personal story** (Newcastle, Australia, university, career path, ASF Studio)\n• **Health & balance**, **music**, or random life chat\n• How to **contact** him\n\nNo need to be formal. I'll meet you where you are.`,
 	},
 	{
 		id: 'identity',
@@ -707,12 +705,12 @@ const handlers: IntentHandler[] = [
 			let s = 0;
 			if (matches(q, [/education|university|college|degree|graduate|graduated|studied|school/])) s += 10;
 			if (hasWord(tokens, ['newcastle', 'uon'])) s += 9;
-			if (hasWord(tokens, ['software', 'engineering', 'honours', 'honors'])) s += 4;
+			if (hasWord(tokens, ['honours', 'honors', 'software'])) s += 4;
 			return s;
 		},
 		reply: () =>
 			prefix([
-				`Ben studied at **The University of Newcastle, Australia** (2016–2020), **Bachelor of Software Engineering (Honours)**.\n\nHe built a strong foundation in software engineering while working on practical projects and learning how technology solves real-world problems — the base for his later career in Newcastle and for founding ASF Studio.`,
+				`Ben studied at **The University of Newcastle, Australia** (2016–2020), **Bachelor of Software Engineering (Honours)**.\n\nHe built a strong foundation in software engineering through coursework and practical projects, learning how technology solves real-world problems — then started his professional career in Newcastle.`,
 			]),
 	},
 	{
@@ -763,8 +761,8 @@ const handlers: IntentHandler[] = [
 		},
 		reply: () =>
 			prefix([
-				`Shopify's a big part of Ben's portfolio work. He's built **live storefronts** for real brands — themes, Liquid, checkout flows, and conversion-focused UX (see Selected Work).\n\nHis product-minded background also helps: he understands customer needs and business priorities, not just templates and APIs.`,
-				`Yeah, e-commerce is core for Ben. He builds on **Shopify** and custom stacks, always thinking about performance and conversion — shaped by real product and customer-facing work across his career.`,
+				`Shopify's a big part of Ben's portfolio work. He's built **live storefronts** for real brands — themes, Liquid, checkout flows, and conversion-focused UX (see Selected Work).\n\nHis product-focused background also helps him think about customer needs, not just templates and APIs.`,
+				`Yeah, e-commerce is core for Ben. He builds on **Shopify** and custom stacks, always thinking about performance, conversion, and real business outcomes.`,
 			]),
 	},
 	{
@@ -781,8 +779,8 @@ const handlers: IntentHandler[] = [
 		},
 		reply: () =>
 			prefix([
-				`AI is practical work for Ben, not slide-deck hype. Across his engineering roles and ASF Studio work he has used Python backends, data processing, REST APIs, and AI tooling where it helps real products.\n\nThe goal is always **reliable features** that improve real processes — not slide-deck demos.`,
-				`Ben's Python/AI work covers backend APIs, data collection and transformation, error handling, logging, and shipping AI-enabled features to production when the product needs them.`,
+				`AI is practical work for Ben, not slide-deck hype. Across his Newcastle roles and ASF client work he has used Python backends, data processing, REST APIs, and external AI API integrations where they solve a real problem.\n\nHe uses modern AI tooling in daily development, but the goal is always **reliable features** that improve real processes.`,
+				`Ben's Python/AI work covers backend APIs, data collection and transformation, error handling, logging, and shipping AI-enabled features to production when they create clear user or business value.`,
 			]),
 	},
 	{
@@ -806,13 +804,10 @@ const handlers: IntentHandler[] = [
 					'australia',
 					'australian',
 					'newcastle',
-					'nsw',
 					'mudbath',
 					'anditi',
-					'partner',
 					'lesson',
 					'teams',
-					'product',
 				])
 			) {
 				s += 6;
@@ -936,33 +931,51 @@ const handlers: IntentHandler[] = [
 		},
 		reply: () =>
 			prefix([
-				`Ben is originally from **${personal.birthPlace}**, and now based in **${personal.location}**. He's worked remotely for years and is totally comfortable with distributed teams worldwide.`,
-				`Originally **${personal.birthPlace}** — these days he's in **${personal.location}**, but location hasn't stopped him. Most of his recent roles have been remote anyway.`,
+				`Ben is based in **${personal.location}** (originally from **${personal.birthPlace}**). He's comfortable with remote and async teams worldwide.`,
+				`These days he's in **${personal.location}**. Location hasn't stopped him — ASF is fully remote, and he's used to distributed collaboration.`,
 			]),
 	},
 	{
 		id: 'mudbath',
 		score: (q) => (/mudbath/.test(q) ? 12 : 0),
 		reply: () =>
-			`**Mudbath Digital** (May 2024 – February 2026, Newcastle, NSW) — Ben worked on modern digital products and customer-facing applications. This strengthened his ability to work in product-focused environments, understand user needs, collaborate with stakeholders, and contribute throughout the full software delivery process.`,
+			`**Mudbath Digital** (May 2024–February 2026, Newcastle, NSW) — Ben worked on modern digital products and customer-facing applications. This strengthened his product-focused delivery, stakeholder collaboration, and ownership across the full software delivery process.`,
 	},
 	{
 		id: 'anditi',
 		score: (q) => (/anditi/.test(q) ? 12 : 0),
 		reply: () =>
-			`**Anditi** (July 2021 – April 2024, Newcastle, NSW) — Ben continued developing as a software engineer on business-focused solutions, gaining broader experience across different applications and customer requirements. He collaborated with teams and delivered solutions that support business needs.`,
+			`**Anditi** (July 2021–April 2024, Newcastle, NSW) — Ben continued developing as a software engineer on business-focused solutions across different application types and customer requirements. It deepened his collaboration skills and experience delivering software that supports real business needs.`,
 	},
 	{
 		id: 'fortel',
 		score: (q) => (/4tel|fortel/.test(q) ? 12 : 0),
 		reply: () =>
-			`**4Tel** (September 2020 – June 2021, Newcastle, NSW) — Ben's first professional software engineering role after graduating. He gained experience in a structured engineering environment and contributed to software projects as part of a professional development team.`,
+			`**4Tel** (September 2020–June 2021, Newcastle, NSW) — Ben's first professional software role after university. He gained experience in a structured engineering environment and contributed to software projects as part of a professional development team.`,
 	},
 	{
-		id: 'product_mindset',
-		score: (q) => (/product.?mind|business.?orient|customer needs|entrepreneur/.test(q) ? 10 : 0),
+		id: 'cloudsmith',
+		score: (q) => (/cloudsmith/.test(q) ? 8 : 0),
 		reply: () =>
-			`Ben has experience beyond traditional software engineering through product-focused and business-oriented projects. That helped him understand customer needs, product decisions, business priorities, user experience, and how technology connects to business outcomes — the same mindset he brings to ASF Studio.`,
+			`Ben's published career path on this site is **4Tel → Anditi → Mudbath Digital**, then **ASF Studio**. If you're thinking of an older employer name, ask about those Newcastle roles instead.`,
+	},
+	{
+		id: 'nearform',
+		score: (q) => (/nearform|near form/.test(q) ? 8 : 0),
+		reply: () =>
+			`Ben's published career path on this site is **4Tel → Anditi → Mudbath Digital**, then **ASF Studio**. I can walk through any of those roles if you want detail.`,
+	},
+	{
+		id: 'stelfox',
+		score: (q) => (/stelfox/.test(q) ? 8 : 0),
+		reply: () =>
+			`Ben's first professional role on this site is **4Tel** in Newcastle (2020–2021), not Stelfox. Happy to cover 4Tel, Anditi, or Mudbath.`,
+	},
+	{
+		id: 'threadline',
+		score: (q) => (/threadline|sock/.test(q) ? 8 : 0),
+		reply: () =>
+			`This portfolio focuses on Ben's Newcastle engineering path and **ASF Studio**. For product mindset, he draws on product-focused and business-oriented project experience rather than a Threadline story.`,
 	},
 	{
 		id: 'shopify_stores',
@@ -999,7 +1012,7 @@ const handlers: IntentHandler[] = [
 		id: 'compare',
 		score: (q) => (/better than|vs |versus|compare|difference between/.test(q) ? 8 : 0),
 		reply: () =>
-			`Ha, I'm flattered you're thinking deeply! I can't really compare Ben to others since I only know his story well. What I can say: he brings **full stack engineering**, **Python/AI**, and **front end** delivery together with product-minded experience and live Shopify work. If you tell me what you're looking for, I can say whether that fits his background.`,
+			`Ha, I'm flattered you're thinking deeply! I can't really compare Ben to others since I only know his story well. What I can say: he brings **full stack engineering**, **Python/AI**, and **front end** delivery together with product-minded experience from Newcastle roles and live Shopify work. If you tell me what you're looking for, I can say whether that fits his background.`,
 	},
 	{
 		id: 'followup',
@@ -1103,7 +1116,7 @@ export const getBotResponse = (
 		if (matches(q, [/contact|email|telegram|whatsapp|hire/])) {
 			return { text: humanContact(), intent: 'contact', userName: ctx.userName };
 		}
-		if (matches(q, [/experience|mudbath|anditi|4tel|career|resume|cv/])) {
+		if (matches(q, [/experience|mudbath|anditi|4tel|career|resume/])) {
 			return { text: humanExperience(), intent: 'experience', userName: ctx.userName };
 		}
 		if (matches(q, [/project|portfolio|built/])) {

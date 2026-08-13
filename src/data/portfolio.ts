@@ -472,44 +472,44 @@ export const about = {
 			'A remote software studio founded by Ben Clark in 2024, working across full stack engineering, commerce, and backend systems',
 	},
 	intro: [
-		'ASF started when Ben Clark began taking on client work with a small group of developers he trusted after years of software engineering in Newcastle, Australia. The studio is fully remote and keeps a tight team so Ben can stay close to architecture, delivery, and clients.',
+		'ASF started when Ben Clark began taking on client work with a small group of developers he trusted, building on years of software engineering in Newcastle, Australia — from 4Tel and Anditi through Mudbath Digital. The studio is fully remote and keeps a tight team so Ben can stay close to architecture, delivery, and clients.',
 		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Yuki on full stack features, Facundo on senior full stack and React Native delivery, Le Wei on web development, and Amanda on AI and big data systems.',
 	],
 };
 
 export const benStory = {
 	summary:
-		'Ben Clark is from Newcastle, NSW, Australia. He earned a Bachelor of Software Engineering (Honours) from The University of Newcastle (2016–2020), then built his career at 4Tel, Anditi, and Mudbath Digital before founding ASF Studio. His real name is Ben Clark.',
+		'Ben Clark is based in Newcastle, NSW, Australia. He earned a Bachelor of Software Engineering (Honours) from The University of Newcastle (2016–2020), then built his career locally at 4Tel, Anditi, and Mudbath Digital before founding ASF Studio. His real name is Ben Clark.',
 	earlyLife: [
-		'From Newcastle, NSW, Australia. Real name: Ben Clark.',
-		'Studied at The University of Newcastle, Australia (Bachelor of Software Engineering (Honours), 2016–2020), building a strong foundation in software engineering and practical project work.',
-		'During university he focused on how technology solves real-world problems, which shaped how he approaches product and client work today.',
+		'Originally from Newcastle, NSW, Australia. Real name: Ben Clark.',
+		'Studied at The University of Newcastle, Australia, completing a Bachelor of Software Engineering (Honours) from 2016 to 2020.',
+		'During university he built a strong foundation in software engineering while working on practical projects and learning how technology solves real-world problems.',
 	],
 	entrepreneurship: [
 		'Beyond traditional engineering roles, Ben has been involved in product-focused and business-oriented projects.',
-		'That experience helped him understand customer needs, product decisions, business priorities, user experience, and how technology connects to business outcomes.',
-		'He brings that product mindset into ASF Studio: ideas only matter when they solve real problems for real users.',
+		'That experience shaped how he thinks about customer needs, product decisions, business priorities, user experience, and the link between technology and outcomes.',
+		'Ideas only matter when they solve real problems and create value for users.',
 	],
 	technicalLeadership: [
-		'His focus is building systems that solve practical problems across software engineering, backends, product development, and delivery.',
-		'He works comfortably independently and collaboratively — from understanding requirements through owning solutions end to end.',
-		'Building technology is not only code. It needs clear communication, documentation, teamwork, and good decisions with limited information.',
+		'After graduating he began his professional software career in Newcastle, contributing to customer-facing and business-focused products across several technology companies.',
+		'He developed as a product-minded engineer who understands both technical and business requirements, with strong ownership from requirements through delivery.',
+		'Building technology is not only code — it needs clear communication, documentation, collaboration, and good decisions with limited information.',
 	],
 	lifeAndValues: [
-		'He values ownership, clear communication, continuous improvement, and shipping work that creates value for users.',
-		'He is responsible and self-driven, comfortable in remote and async environments, and prefers structured problem-solving over simply completing assigned tasks.',
-		'Today he looks for opportunities to contribute to meaningful products, take ownership of challenging problems, and grow with strong engineering teams.',
-		'He is based in Newcastle, NSW, Australia — grounded in the place where he studied and built his early career.',
-		'The through-line is building step by step: learning, adapting, and creating a foundation over time.',
+		'He values clear communication, continuous improvement, and solving practical problems that create value for users.',
+		'Responsible and self-driven, comfortable working independently or in teams, including remote and async environments.',
+		'Prefers structured problem-solving and ownership over simply completing assigned tasks.',
+		'He is based in Newcastle, NSW, Australia — focused on meaningful products, challenging problems, and growing with strong engineering teams.',
+		'The through-line is building step by step: learning, adapting, and delivering software that supports real business needs.',
 	],
 	teamsLed: [
 		'ASF Studio, a small remote delivery team since 2024.',
-		'Software engineering at Mudbath Digital, Anditi, and 4Tel in Newcastle before founding the studio.',
+		'Product and engineering delivery at Mudbath Digital, Anditi, and 4Tel in Newcastle.',
 	],
 	lessons: [
 		'An idea only matters when you turn it into something real that helps actual people.',
-		'Customers care about problems solved and trust — not how exciting the idea sounds.',
-		'Consistency, honesty, and building with purpose outlast shortcuts.',
+		'Customers and businesses care about problems solved and trust — not how exciting the idea sounds.',
+		'Consistency, honesty, and ownership outlast shortcuts.',
 		'Trust and alignment with people matter as much as skill when building anything long term.',
 	],
 };
@@ -528,7 +528,7 @@ export const benPersonality = {
 	],
 	playAndLife: [
 		'For Ben, "play" often means tinkering, side ideas, small experiments, or exploring a new tool just to see what happens.',
-		'He still enjoys learning for its own sake — practical problems, product thinking, and continuous improvement.',
+		'He still enjoys learning for its own sake — new tools, better ways of shipping, and how products create value.',
 		'He likes connecting with people who are curious, kind, and building something real, whether that is code or a business.',
 	],
 	valuesForVisitors: [
@@ -543,7 +543,7 @@ export const experience = {
 		title: 'Studio',
 		subtitle: 'Path',
 		summary:
-			'How ASF grew from Ben Clark\'s engineering background into a remote delivery studio',
+			'How ASF grew from Ben Clark\'s engineering background in Newcastle into a remote delivery studio',
 	},
 	timeline: [
 		{
@@ -565,7 +565,7 @@ export const experience = {
 					period: 'May 2024 to February 2026',
 					bullets: [
 						'Worked on modern digital products and customer-facing applications in Newcastle, NSW.',
-						'Strengthened product-focused delivery: understanding user needs, collaborating with stakeholders, and contributing across the full software delivery process.',
+						'Strengthened product-focused delivery, stakeholder collaboration, and full software delivery ownership.',
 					],
 				},
 				{
@@ -573,8 +573,8 @@ export const experience = {
 					org: 'Anditi',
 					period: 'July 2021 to April 2024',
 					bullets: [
-						'Continued developing as a software engineer on business-focused solutions in Newcastle, NSW.',
-						'Gained broader experience across application types and customer requirements, collaborating with teams to deliver solutions that support business needs.',
+						'Built business-focused solutions across different application types and customer requirements.',
+						'Grew collaboration skills and experience delivering software that supports real business needs.',
 					],
 				},
 				{
@@ -582,8 +582,8 @@ export const experience = {
 					org: '4Tel',
 					period: 'September 2020 to June 2021',
 					bullets: [
-						'Started his professional career at 4Tel in Newcastle, NSW after graduating.',
-						'Gained experience in a structured engineering environment and contributed to software projects as part of a professional development team.',
+						'Started professional career in Newcastle in a structured engineering environment.',
+						'Contributed to software projects as part of a professional development team.',
 					],
 				},
 			],
@@ -596,8 +596,8 @@ export const experience = {
 					org: 'The University of Newcastle, Australia',
 					period: '2016 to 2020',
 					bullets: [
-						'Built a strong foundation in software engineering while gaining experience on practical projects.',
-						'Learned how technology can be applied to solve real-world problems — the base for the technical leadership that later started ASF.',
+						'Built a strong foundation in software engineering through coursework and practical projects.',
+						'Learned how technology can be applied to solve real-world problems — the base for later technical leadership at ASF.',
 					],
 				},
 			],
