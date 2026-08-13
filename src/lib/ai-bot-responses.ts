@@ -223,11 +223,13 @@ const BEN_RELATED_TERMS = [
 	'singaporean',
 	'australia',
 	'australian',
-	'waller',
-	'ireland',
+	'newcastle',
+	'nsw',
 	'original',
 	'birth',
-	'sock',
+	'mudbath',
+	'anditi',
+	'4tel',
 	'university',
 	'childhood',
 	'leader',
@@ -372,8 +374,8 @@ const humanExperience = () => {
 		.join('\n');
 
 	return prefix([
-		`Ben has **5+ years** of professional software experience across full-stack, Python/AI, and front end work.\n\n${lines}\n\nLatest role: **Full Stack Software Engineer at Cloudsmith** (remote), building web apps, APIs, Python backends, and AI-enabled features. Ask about any employer if you want detail.`,
-		`Career path in short:\n\n${lines}\n\nHe graduated from the **University of Limerick** in 2020 and has worked across Ireland and remote teams since.`,
+		`Ben has **5+ years** of professional software experience across full-stack and product-focused delivery.\n\n${lines}\n\nMost recent engineering role before focusing fully on **ASF Studio**: **Mudbath Digital** (Newcastle, NSW). Ask about any employer if you want detail.`,
+		`Career path in short:\n\n${lines}\n\nHe graduated from **The University of Newcastle** in 2020 (**Bachelor of Software Engineering (Honours)**) and built his career in Newcastle, Australia.`,
 	]);
 };
 
@@ -386,7 +388,7 @@ const humanProjects = () =>
 const humanSkills = () =>
 	prefix([
 		`Ben's sweet spot spans **full stack**, **Python/AI**, and **front end**:\n\n**Full stack:** React, TypeScript, Node.js, REST APIs, PostgreSQL, MongoDB, Docker, Git\n\n**Python & AI:** Python backends, FastAPI, data processing, AI API integrations, automation\n\n**Front end:** HTML, CSS, JavaScript, React, responsive UI, performance optimization\n\n**Commerce:** Shopify, Liquid, live storefront builds (see Selected Work)\n\nHe picks tools based on what the product needs.`,
-		`Think of Ben as a **team lead and full stack engineer** who can go deep on **Python backends**, **AI-enabled features**, or **front end** delivery. He built ASF after years at Cloudsmith and Nearform, plus live Shopify stores on this site.`,
+		`Think of Ben as a **team lead and full stack engineer** who can go deep on **Python backends**, **AI-enabled features**, or **front end** delivery. He built ASF after roles at **4Tel**, **Anditi**, and **Mudbath Digital**, plus live Shopify stores on this site.`,
 	]);
 
 const humanTech = (mentioned?: string) => {
@@ -409,14 +411,14 @@ const humanContact = () =>
 
 const humanAbout = () =>
 	prefix([
-		`Ben is originally from **${personal.birthPlace}**, now based in **${personal.location}**. His real name is **${personal.fullName}**.\n\nHe studied at the **University of Limerick**, worked through university, ran a **sock business** with a classmate, then built his career from **Stelfox** through **Nearform** to **Cloudsmith**.\n\n${benStory.lessons[0]}\n\n[[mood:thoughtful]]`,
+		`Ben is from **${personal.birthPlace}**, and based in **${personal.location}**. His real name is **${personal.fullName}**.\n\nHe studied **Bachelor of Software Engineering (Honours)** at **The University of Newcastle** (2016–2020), then worked at **4Tel**, **Anditi**, and **Mudbath Digital** before founding ASF Studio.\n\n${benStory.lessons[0]}\n\n[[mood:thoughtful]]`,
 		`${benStory.summary}\n\nToday he works across **full stack engineering**, **Python/AI**, and **front end** development — plus live **Shopify** builds on this portfolio.\n\n[[mood:warm]]`,
 	]);
 
 const humanStory = () =>
 	prefix([
-		`Here is the honest version of Ben's path:\n\n**Early life:** ${benStory.earlyLife.join(' ')}\n\n**Entrepreneurship:** ${benStory.entrepreneurship.join(' ')}\n\n**Technical work:** ${benStory.technicalLeadership.join(' ')}\n\n**Teams led:**\n${benStory.teamsLed.map((line) => `• ${line}`).join('\n')}\n\n**What he learned:** ${benStory.lessons.join(' ')}\n\n**Life today:** ${benStory.lifeAndValues.join(' ')}\n\n[[mood:thoughtful]]`,
-		`${benStory.summary}\n\nIf you want, I can go deeper on his **sock business**, **move to Ireland**, or **team leadership in tech**.\n\n[[mood:calm]]`,
+		`Here is the honest version of Ben's path:\n\n**Background:** ${benStory.earlyLife.join(' ')}\n\n**Product & business mindset:** ${benStory.entrepreneurship.join(' ')}\n\n**Technical work:** ${benStory.technicalLeadership.join(' ')}\n\n**Teams led:**\n${benStory.teamsLed.map((line) => `• ${line}`).join('\n')}\n\n**What he learned:** ${benStory.lessons.join(' ')}\n\n**Life today:** ${benStory.lifeAndValues.join(' ')}\n\n[[mood:thoughtful]]`,
+		`${benStory.summary}\n\nIf you want, I can go deeper on his **education**, **employment history**, or **team leadership** at ASF.\n\n[[mood:calm]]`,
 	]);
 
 const humanCasualChat = (input: string, ctx: BotContext): BotReply => {
@@ -523,7 +525,7 @@ const handlers: IntentHandler[] = [
 			return pick([
 				name
 					? `Hi ${name}, I'm **Bon** (AI BEN). I know Ben's work—he leads **${team.fullName}**—and I'm happy to just talk like a person. What's on your mind?\n\n[[mood:happy]]`
-					: `Hi, I'm **Bon**. Ben Clark founded **${team.fullName}** from Waller, Texas, USA, with a remote team across Ireland, Poland, and Argentina. Ask about his work or how to reach him.\n\n[[mood:happy]]`,
+					: `Hi, I'm **Bon**. Ben Clark founded **${team.fullName}** from Newcastle, NSW, Australia, with a remote team across Ireland, Poland, and Argentina. Ask about his work or how to reach him.\n\n[[mood:happy]]`,
 				`Hello! I'm here for Ben's background **and** normal conversation—skills, story, music, life stuff, whatever.`,
 				`Hey, nice of you to stop by. I'm Bon. Ask me about Ben's work, or just say what's up.`,
 			]);
@@ -560,7 +562,7 @@ const handlers: IntentHandler[] = [
 			return s;
 		},
 		reply: () =>
-			`I'm **Bon**. Think of me as someone who knows Ben well and actually likes talking to people.\n\nYou can ask about:\n• His **experience**, **skills**, and **projects**\n• His **personal story** (Newcastle, Australia → Ireland, entrepreneurship, leadership)\n• **Health & balance**, **music**, or random life chat\n• How to **contact** him\n\nNo need to be formal. I'll meet you where you are.`,
+			`I'm **Bon**. Think of me as someone who knows Ben well and actually likes talking to people.\n\nYou can ask about:\n• His **experience**, **skills**, and **projects**\n• His **personal story** (Newcastle, Australia, education, career path, leadership)\n• **Health & balance**, **music**, or random life chat\n• How to **contact** him\n\nNo need to be formal. I'll meet you where you are.`,
 	},
 	{
 		id: 'identity',
@@ -704,15 +706,13 @@ const handlers: IntentHandler[] = [
 		score: (q, tokens) => {
 			let s = 0;
 			if (matches(q, [/education|university|college|degree|graduate|graduated|studied|school/])) s += 10;
-			if (hasWord(tokens, ['limerick', 'ul'])) s += 9;
-			if (hasWord(tokens, ['trinity', 'tcd'])) s += 2;
-			if (hasWord(tokens, ['dublin']) && hasWord(tokens, ['study', 'college', 'university', 'degree']))
-				s += 6;
+			if (hasWord(tokens, ['newcastle', 'uon'])) s += 9;
+			if (hasWord(tokens, ['software', 'engineering', 'honours', 'honors'])) s += 4;
 			return s;
 		},
 		reply: () =>
 			prefix([
-				`Ben studied at the **University of Limerick** (2016–2020), **B.Sc. in Computer Science and Information Systems**, GPA **3.9/4.0**.\n\nHe moved from **Newcastle, Australia** to Ireland for university, which shaped his independence and how he works with international teams.\n\nDuring university he also co-founded a small sock business (**Threadline Co**) with a classmate, practical product and customer experience alongside the degree.`,
+				`Ben studied at **The University of Newcastle, Australia** (2016–2020), **Bachelor of Software Engineering (Honours)**.\n\nHe built a strong foundation in software engineering while working on practical projects and learning how technology solves real-world problems — the base for his later career in Newcastle and for founding ASF Studio.`,
 			]),
 	},
 	{
@@ -763,8 +763,8 @@ const handlers: IntentHandler[] = [
 		},
 		reply: () =>
 			prefix([
-				`Shopify's a big part of Ben's portfolio work. He's built **live storefronts** for real brands — themes, Liquid, checkout flows, and conversion-focused UX (see Selected Work).\n\nHe also ran a **small sock business** with a classmate during university, so he understands merchants and customers, not just templates and APIs.`,
-				`Yeah, e-commerce is core for Ben. He builds on **Shopify** and custom stacks, always thinking about performance and conversion. The Threadline sock business in Limerick gave him real merchant instincts early on.`,
+				`Shopify's a big part of Ben's portfolio work. He's built **live storefronts** for real brands — themes, Liquid, checkout flows, and conversion-focused UX (see Selected Work).\n\nHis product-minded background also helps: he understands customer needs and business priorities, not just templates and APIs.`,
+				`Yeah, e-commerce is core for Ben. He builds on **Shopify** and custom stacks, always thinking about performance and conversion — shaped by real product and customer-facing work across his career.`,
 			]),
 	},
 	{
@@ -781,8 +781,8 @@ const handlers: IntentHandler[] = [
 		},
 		reply: () =>
 			prefix([
-				`AI is practical work for Ben, not slide-deck hype. At **Cloudsmith** he integrated AI services into business workflows: Python backends, data processing pipelines, REST APIs, and external AI API integrations.\n\nHe uses modern AI tooling in daily development, but the goal is always **reliable features** that improve real processes.`,
-				`Ben's Python/AI work covers backend APIs, data collection and transformation, error handling, logging, and shipping AI-enabled features to production — the kind of work his Senior Python Developer resume highlights.`,
+				`AI is practical work for Ben, not slide-deck hype. Across his engineering roles and ASF Studio work he has used Python backends, data processing, REST APIs, and AI tooling where it helps real products.\n\nThe goal is always **reliable features** that improve real processes — not slide-deck demos.`,
+				`Ben's Python/AI work covers backend APIs, data collection and transformation, error handling, logging, and shipping AI-enabled features to production when the product needs them.`,
 			]),
 	},
 	{
@@ -805,13 +805,14 @@ const handlers: IntentHandler[] = [
 				hasWord(tokens, [
 					'australia',
 					'australian',
-					'sock',
-					'classmate',
+					'newcastle',
+					'nsw',
+					'mudbath',
+					'anditi',
 					'partner',
 					'lesson',
 					'teams',
-					'ireland',
-					'waller',
+					'product',
 				])
 			) {
 				s += 6;
@@ -929,8 +930,8 @@ const handlers: IntentHandler[] = [
 		id: 'location',
 		score: (q, tokens) => {
 			let s = 0;
-			if (matches(q, [/where (is|are|does)|based in|located|live|timezone|waller/])) s += 10;
-			if (hasWord(tokens, ['dublin', 'ireland', 'location', 'remote', 'waller', 'australia', 'newcastle'])) s += 5;
+			if (matches(q, [/where (is|are|does)|based in|located|live|timezone|newcastle/])) s += 10;
+			if (hasWord(tokens, ['location', 'remote', 'australia', 'newcastle', 'nsw'])) s += 5;
 			return s;
 		},
 		reply: () =>
@@ -940,28 +941,28 @@ const handlers: IntentHandler[] = [
 			]),
 	},
 	{
-		id: 'cloudsmith',
-		score: (q) => (/cloudsmith/.test(q) ? 12 : 0),
+		id: 'mudbath',
+		score: (q) => (/mudbath/.test(q) ? 12 : 0),
 		reply: () =>
-			`**Cloudsmith** (2023–Feb 2026, remote) — Ben's latest role as **Full Stack Software Engineer**. He worked across frontend, backend, and databases: React/TypeScript UIs, REST APIs, Python backends, AI service integrations, data processing, and production deployment. Depending on the project, he leaned full stack, Python/AI, or front end — all under one employer.`,
+			`**Mudbath Digital** (May 2024 – February 2026, Newcastle, NSW) — Ben worked on modern digital products and customer-facing applications. This strengthened his ability to work in product-focused environments, understand user needs, collaborate with stakeholders, and contribute throughout the full software delivery process.`,
 	},
 	{
-		id: 'nearform',
-		score: (q) => (/nearform|near form/.test(q) ? 12 : 0),
+		id: 'anditi',
+		score: (q) => (/anditi/.test(q) ? 12 : 0),
 		reply: () =>
-			`**Nearform** (2021–2023, Ireland / remote) — Ben was a **Software Developer** building web solutions end to end: frontend components, Python/Node backends, APIs, databases, debugging, and feature delivery with product-minded teams.`,
+			`**Anditi** (July 2021 – April 2024, Newcastle, NSW) — Ben continued developing as a software engineer on business-focused solutions, gaining broader experience across different applications and customer requirements. He collaborated with teams and delivered solutions that support business needs.`,
 	},
 	{
-		id: 'stelfox',
-		score: (q) => (/stelfox/.test(q) ? 12 : 0),
+		id: 'fortel',
+		score: (q) => (/4tel|fortel/.test(q) ? 12 : 0),
 		reply: () =>
-			`**Stelfox** (2020–2021, Dublin) — Ben's **Graduate Software Developer** role after university. Backend components, automation scripts, databases, APIs, and learning professional practices: Git, documentation, code quality, and teamwork.`,
+			`**4Tel** (September 2020 – June 2021, Newcastle, NSW) — Ben's first professional software engineering role after graduating. He gained experience in a structured engineering environment and contributed to software projects as part of a professional development team.`,
 	},
 	{
-		id: 'threadline',
-		score: (q) => (/threadline|sock/.test(q) ? 11 : 0),
+		id: 'product_mindset',
+		score: (q) => (/product.?mind|business.?orient|customer needs|entrepreneur/.test(q) ? 10 : 0),
 		reply: () =>
-			`**Threadline Co** (2019–2020, Limerick) — while at university, Ben and a classmate started a **small sock business**. Customer research, product decisions, supplier communication, pricing, sales, and learning to operate with limited resources. It shaped his product mindset alongside his engineering career.`,
+			`Ben has experience beyond traditional software engineering through product-focused and business-oriented projects. That helped him understand customer needs, product decisions, business priorities, user experience, and how technology connects to business outcomes — the same mindset he brings to ASF Studio.`,
 	},
 	{
 		id: 'shopify_stores',
@@ -998,7 +999,7 @@ const handlers: IntentHandler[] = [
 		id: 'compare',
 		score: (q) => (/better than|vs |versus|compare|difference between/.test(q) ? 8 : 0),
 		reply: () =>
-			`Ha, I'm flattered you're thinking deeply! I can't really compare Ben to others since I only know his story well. What I can say: he brings **full stack engineering**, **Python/AI**, and **front end** delivery together with real product experience from Threadline and live Shopify work. If you tell me what you're looking for, I can say whether that fits his background.`,
+			`Ha, I'm flattered you're thinking deeply! I can't really compare Ben to others since I only know his story well. What I can say: he brings **full stack engineering**, **Python/AI**, and **front end** delivery together with product-minded experience and live Shopify work. If you tell me what you're looking for, I can say whether that fits his background.`,
 	},
 	{
 		id: 'followup',
@@ -1011,7 +1012,7 @@ const handlers: IntentHandler[] = [
 		},
 		reply: (_q, _t, ctx) => {
 			const followups: Record<string, string> = {
-				experience: `Want me to zoom in on **ASF Studio**, **Cloudsmith**, **Nearform**, or Ben's **education** path?`,
+				experience: `Want me to zoom in on **ASF Studio**, **Mudbath Digital**, **Anditi**, **4Tel**, or Ben's **education** path?`,
 				projects: `I can dive deeper into **Happy Hydro**, **Labyrinth Style**, **Remedior Skincare**, or any store in Selected Work. Which one interests you?`,
 				skills: `Happy to go deeper on **full stack**, **Python/AI**, **front end**, or **Shopify** — or name a tech like React or Python and I'll tell you how he uses it.`,
 				contact: `Email **${personal.email}**, WhatsApp **${personal.whatsappNumber}**, or Discord **${personal.discordUsername}**. I can suggest what to write in a first message if you want.\n\n[[mood:warm]]`,
@@ -1102,7 +1103,7 @@ export const getBotResponse = (
 		if (matches(q, [/contact|email|telegram|whatsapp|hire/])) {
 			return { text: humanContact(), intent: 'contact', userName: ctx.userName };
 		}
-		if (matches(q, [/experience|cloudsmith|nearform|stelfox|threadline|career|resume/])) {
+		if (matches(q, [/experience|mudbath|anditi|4tel|career|resume|cv/])) {
 			return { text: humanExperience(), intent: 'experience', userName: ctx.userName };
 		}
 		if (matches(q, [/project|portfolio|built/])) {

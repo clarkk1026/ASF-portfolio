@@ -120,10 +120,10 @@ export const teamMembers: TeamMember[] = [
 		id: 'ben-clark',
 		name: 'Ben Clark',
 		role: 'Founder and Technical Lead',
-		location: 'Waller, Texas, USA',
+		location: 'Newcastle, NSW, Australia',
 		isLeader: true,
 		summary:
-			'Founded ASF after product engineering roles at Cloudsmith and Nearform. Leads client delivery, architecture decisions, and day-to-day engineering direction.',
+			'Founded ASF after software engineering roles at 4Tel, Anditi, and Mudbath Digital in Newcastle. Leads client delivery, architecture decisions, and day-to-day engineering direction.',
 		focus: ['Architecture', 'Full stack', 'Client delivery', 'Shopify'],
 	},
 	{
@@ -172,12 +172,12 @@ export const personal = {
 	heroServices: ['Web Apps', 'Shopify', 'Python Backends'],
 	fullName: 'Ben Clark',
 	originalName: 'Ben Clark',
-	birthPlace: 'Newcastle, Australia',
+	birthPlace: 'Newcastle, NSW, Australia',
 	/** Ask-only: do not volunteer unless the visitor asks about looks / ethnicity. */
 	appearance: 'Asian',
 	title: 'Founder and Technical Lead',
 	tagline: team.tagline,
-	location: 'Waller, Texas, USA',
+	location: 'Newcastle, NSW, Australia',
 	email: 'benclarkk1026@gmail.com',
 	whatsappNumber: '+1 (404) 786-3107',
 	discordUsername: 'benclark10261',
@@ -472,40 +472,39 @@ export const about = {
 			'A remote software studio founded by Ben Clark in 2024, working across full stack engineering, commerce, and backend systems',
 	},
 	intro: [
-		'ASF started when Ben Clark left product engineering roles at Cloudsmith and Nearform and began taking on client work with a small group of developers he trusted. The studio is fully remote and keeps a tight team so Ben can stay close to architecture, delivery, and clients.',
+		'ASF started when Ben Clark began taking on client work with a small group of developers he trusted after years of software engineering in Newcastle, Australia. The studio is fully remote and keeps a tight team so Ben can stay close to architecture, delivery, and clients.',
 		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Yuki on full stack features, Facundo on senior full stack and React Native delivery, Le Wei on web development, and Amanda on AI and big data systems.',
 	],
 };
 
 export const benStory = {
 	summary:
-		'Ben Clark is originally from Newcastle, Australia. He studied Computer Science and Information Systems at the University of Limerick in Ireland, lost both parents when he was young, and built his career from graduate roles at Stelfox through Nearform to full-stack and Python/AI work at Cloudsmith. He now lives in Waller, Texas, USA. His real name is Ben Clark.',
+		'Ben Clark is from Newcastle, NSW, Australia. He earned a Bachelor of Software Engineering (Honours) from The University of Newcastle (2016–2020), then built his career at 4Tel, Anditi, and Mudbath Digital before founding ASF Studio. His real name is Ben Clark.',
 	earlyLife: [
-		'Originally from Newcastle, Australia. Real name: Ben Clark.',
-		'Lost his father young and his mother later. He did not become stronger overnight, but he learned to handle responsibility earlier than many peers — making decisions alone, adapting when life changed, and building trust with people around him.',
-		'Moved from Newcastle, Australia to Ireland for university at the University of Limerick (B.Sc. Computer Science and Information Systems, GPA 3.9/4.0). A new culture and education system taught independence, problem-solving, and working with people from different backgrounds.',
+		'From Newcastle, NSW, Australia. Real name: Ben Clark.',
+		'Studied at The University of Newcastle, Australia (Bachelor of Software Engineering (Honours), 2016–2020), building a strong foundation in software engineering and practical project work.',
+		'During university he focused on how technology solves real-world problems, which shaped how he approaches product and client work today.',
 	],
 	entrepreneurship: [
-		'During university he worked while studying and spent long hours in libraries learning from business stories and people who built from nothing.',
-		'With a college classmate, he started a small sock business through Threadline Co in Limerick (2019–2020) — customer research, product decisions, pricing, operations, and learning from mistakes.',
-		'That e-commerce experience shaped his software work: ideas only matter when they solve real problems, and customers care about trust more than hype.',
+		'Beyond traditional engineering roles, Ben has been involved in product-focused and business-oriented projects.',
+		'That experience helped him understand customer needs, product decisions, business priorities, user experience, and how technology connects to business outcomes.',
+		'He brings that product mindset into ASF Studio: ideas only matter when they solve real problems for real users.',
 	],
 	technicalLeadership: [
-		'His focus moved toward technology — systems that solve practical problems, leading into software engineering, AI integration, backend systems, and product development.',
-		'He worked with small teams on different projects — sometimes technical (systems, engineering decisions), sometimes product-focused (what to build, real value).',
-		'Building technology is not only code. It needs understanding users, communication, teamwork, and good decisions with limited information.',
+		'His focus is building systems that solve practical problems across software engineering, backends, product development, and delivery.',
+		'He works comfortably independently and collaboratively — from understanding requirements through owning solutions end to end.',
+		'Building technology is not only code. It needs clear communication, documentation, teamwork, and good decisions with limited information.',
 	],
 	lifeAndValues: [
-		'Loss taught responsibility. Moving countries taught adaptability. The sock business taught execution. Software taught him how to turn ideas into working systems.',
-		'He does not see his journey as a perfect success story — there were uncertain moments, mistakes, and hard lessons.',
-		'Today he values consistency, honesty, and building with real purpose.',
-		'He is based in Waller, Texas, USA — a quieter place to focus deeply on technology and live with more balance, not constant noise or attention.',
+		'He values ownership, clear communication, continuous improvement, and shipping work that creates value for users.',
+		'He is responsible and self-driven, comfortable in remote and async environments, and prefers structured problem-solving over simply completing assigned tasks.',
+		'Today he looks for opportunities to contribute to meaningful products, take ownership of challenging problems, and grow with strong engineering teams.',
+		'He is based in Newcastle, NSW, Australia — grounded in the place where he studied and built his early career.',
 		'The through-line is building step by step: learning, adapting, and creating a foundation over time.',
 	],
 	teamsLed: [
 		'ASF Studio, a small remote delivery team since 2024.',
-		'Operations and product work with a classmate at Threadline Co during university.',
-		'Technical delivery at Cloudsmith and Nearform before founding the studio.',
+		'Software engineering at Mudbath Digital, Anditi, and 4Tel in Newcastle before founding the studio.',
 	],
 	lessons: [
 		'An idea only matters when you turn it into something real that helps actual people.',
@@ -529,7 +528,7 @@ export const benPersonality = {
 	],
 	playAndLife: [
 		'For Ben, "play" often means tinkering, side ideas, small experiments, or exploring a new tool just to see what happens.',
-		'He spent years in libraries soaking up business stories, he still enjoys learning for its own sake.',
+		'He still enjoys learning for its own sake — practical problems, product thinking, and continuous improvement.',
 		'He likes connecting with people who are curious, kind, and building something real, whether that is code or a business.',
 	],
 	valuesForVisitors: [
@@ -561,30 +560,30 @@ export const experience = {
 					],
 				},
 				{
-					role: 'Product engineering foundation',
-					org: 'Cloudsmith',
-					period: '2023 to Feb 2026',
+					role: 'Software Engineer',
+					org: 'Mudbath Digital',
+					period: 'May 2024 to February 2026',
 					bullets: [
-						'Ben led full stack delivery across React, TypeScript, Python APIs, and production systems.',
-						'Shaped the practical standards ASF still uses: clear scope, reliable releases, and maintainable code.',
+						'Worked on modern digital products and customer-facing applications in Newcastle, NSW.',
+						'Strengthened product-focused delivery: understanding user needs, collaborating with stakeholders, and contributing across the full software delivery process.',
 					],
 				},
 				{
-					role: 'Web product delivery',
-					org: 'Nearform',
-					period: '2021 to 2023',
+					role: 'Software Engineer',
+					org: 'Anditi',
+					period: 'July 2021 to April 2024',
 					bullets: [
-						'Client and product work across frontend, backend, and database layers for European teams.',
-						'Built the collaboration habits that later became ASF\'s remote delivery model.',
+						'Continued developing as a software engineer on business-focused solutions in Newcastle, NSW.',
+						'Gained broader experience across application types and customer requirements, collaborating with teams to deliver solutions that support business needs.',
 					],
 				},
 				{
-					role: 'Early engineering and commerce',
-					org: 'Stelfox · Threadline Co',
-					period: '2019 to 2021',
+					role: 'Software Engineer',
+					org: '4Tel',
+					period: 'September 2020 to June 2021',
 					bullets: [
-						'Graduate software work in Dublin, plus a small e-commerce business started during university in Limerick.',
-						'Combined engineering practice with real customer and operations experience.',
+						'Started his professional career at 4Tel in Newcastle, NSW after graduating.',
+						'Gained experience in a structured engineering environment and contributed to software projects as part of a professional development team.',
 					],
 				},
 			],
@@ -593,12 +592,12 @@ export const experience = {
 			heading: 'Education',
 			items: [
 				{
-					role: 'B.Sc. Computer Science and Information Systems',
-					org: 'University of Limerick',
+					role: 'Bachelor of Software Engineering (Honours)',
+					org: 'The University of Newcastle, Australia',
 					period: '2016 to 2020',
 					bullets: [
-						'Ben graduated with GPA 3.9 / 4.0 after moving from Newcastle, Australia to Ireland for university.',
-						'Foundation for the technical leadership that later started ASF.',
+						'Built a strong foundation in software engineering while gaining experience on practical projects.',
+						'Learned how technology can be applied to solve real-world problems — the base for the technical leadership that later started ASF.',
 					],
 				},
 			],
