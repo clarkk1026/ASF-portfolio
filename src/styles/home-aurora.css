@@ -73,10 +73,11 @@ body:has(.home-aurora) .navbar:not(.navbar-scrolled) {
 }
 
 body:has(.home-aurora) .navbar:not(.navbar-scrolled) .navbar-links a {
-	color: #f2fbff;
+	color: #f4fcff;
 	text-shadow:
-		0 1px 10px rgba(0, 8, 20, 0.85),
-		0 0 12px rgba(90, 210, 255, 0.28);
+		0 1px 12px rgba(0, 8, 20, 0.95),
+		0 0 16px rgba(80, 210, 255, 0.4),
+		0 0 2px rgba(0, 0, 0, 0.9);
 }
 
 body:has(.home-aurora) .navbar.navbar-scrolled {

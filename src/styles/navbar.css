@@ -60,12 +60,12 @@
 	position: relative;
 	display: inline-block;
 	overflow: visible;
-	font-family: 'Open Sans', sans-serif;
-	font-size: 0.72rem;
+	font-family: 'Orbitron', 'Open Sans', sans-serif;
+	font-size: 0.68rem;
 	font-weight: 700;
-	letter-spacing: 0.11em;
+	letter-spacing: 0.14em;
 	text-transform: uppercase;
-	color: var(--nav-muted);
+	color: #e8f9ff;
 	text-decoration: none;
 	padding: 0.45rem 0.7rem;
 	border: 1px solid transparent;
@@ -73,8 +73,9 @@
 	background: transparent;
 	box-shadow: none;
 	text-shadow:
-		0 1px 8px rgba(0, 6, 18, 0.75),
-		0 0 10px rgba(80, 200, 255, 0.22);
+		0 1px 10px rgba(0, 6, 18, 0.9),
+		0 0 14px rgba(70, 210, 255, 0.35),
+		0 0 2px rgba(0, 0, 0, 0.85);
 	isolation: isolate;
 	transition:
 		color 0.42s ease,
@@ -133,11 +134,11 @@
 	background: transparent;
 	border-color: transparent;
 	text-shadow:
-		0 1px 10px rgba(0, 6, 18, 0.8),
-		0 0 12px rgba(140, 230, 255, 0.55),
-		0 0 22px rgba(90, 210, 255, 0.28);
+		0 1px 12px rgba(0, 6, 18, 0.9),
+		0 0 14px rgba(120, 230, 255, 0.7),
+		0 0 26px rgba(70, 210, 255, 0.4);
 	box-shadow: none;
-	filter: brightness(1.12);
+	filter: brightness(1.14);
 }
 
 .navbar-links a:hover::before {
@@ -151,12 +152,12 @@
 }
 
 .navbar-links a.navbar-link-active {
-	color: #eafbff;
+	color: #9aeeff;
 	background: transparent;
 	border-color: transparent;
 	text-shadow:
-		0 1px 8px rgba(0, 6, 18, 0.75),
-		0 0 12px rgba(90, 220, 255, 0.4);
+		0 1px 10px rgba(0, 6, 18, 0.9),
+		0 0 14px rgba(90, 230, 255, 0.55);
 	box-shadow: none;
 }
 
