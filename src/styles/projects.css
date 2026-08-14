@@ -145,24 +145,25 @@
 
 .project-screen-name .project-index {
 	display: block;
-	font-family: 'Fugaz One', sans-serif;
-	font-size: 0.75rem;
-	font-style: italic;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.72rem;
+	font-style: normal;
+	font-weight: 600;
 	color: rgb(31, 195, 255);
-	letter-spacing: 0.2em;
+	letter-spacing: 0.08em;
 	margin-bottom: 0.25rem;
 }
 
 .project-screen-name h3 {
-	font-family: 'Fugaz One', sans-serif;
-	font-size: clamp(1.2rem, 2.5vw, 1.65rem);
-	font-style: italic;
-	font-weight: 400;
+	font-family: 'Bricolage Grotesque', 'Open Sans', sans-serif;
+	font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+	font-style: normal;
+	font-weight: 700;
 	text-transform: uppercase;
 	letter-spacing: 0.04em;
-	line-height: 1.05;
+	line-height: 1.15;
 	color: #ffffff;
-	text-shadow: 0 2px 24px rgba(0, 0, 0, 0.6);
+	text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
 }
 
 .project-card:hover .project-image {

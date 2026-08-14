@@ -168,6 +168,15 @@ export const teamMembers: TeamMember[] = [
 			'AI and Big Data Engineer based in Poland, with hands-on experience across web development, AI-enabled tools, data systems, and software delivery.',
 		focus: ['AI', 'Big Data', 'Web development', 'Data systems'],
 	},
+	{
+		id: 'thomas-gallagher',
+		name: 'Thomas Gallagher',
+		role: 'Python & Machine Learning Engineer',
+		location: 'Dublin, Ireland',
+		summary:
+			'Based in Dublin. Builds Python services, ML pipelines, and model-backed features that ship into real products — from data prep through evaluation and production integration.',
+		focus: ['Python', 'Machine learning', 'MLOps', 'Data pipelines'],
+	},
 ];
 
 export const personal = {
@@ -210,7 +219,7 @@ export const navLinks: NavLink[] = [
 ];
 
 export const highlights: Highlight[] = [
-	{ value: '5', label: 'Team Members' },
+	{ value: '6', label: 'Team Members' },
 	{ value: '2024', label: 'Founded' },
 	{ value: '100%', label: 'Remote' },
 	{ value: '10+', label: 'Client Projects' },
@@ -479,7 +488,7 @@ export const about = {
 	},
 	intro: [
 		'ASF started when Ben Clark began taking on client work with a small group of developers he trusted, building on years of software engineering in Newcastle, Australia — from 4Tel and Anditi through Mudbath Digital. As CTO, he stays close to architecture, delivery, and clients while the studio remains fully remote and tightly staffed.',
-		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Luca on front-end, Shopify, and client partnerships, Yuki on full stack features, Le Wei on web development, and Amanda on AI and big data systems.',
+		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Luca on front-end, Shopify, and client partnerships, Yuki on full stack features, Le Wei on web development, Amanda on AI and big data systems, and Thomas on Python and machine learning.',
 	],
 };
 
@@ -562,7 +571,7 @@ export const experience = {
 					bullets: [
 						'Ben Clark leads ASF as CTO, delivering client software with a small, trusted team.',
 						'Core focus: full stack web apps, Shopify commerce, Python backends, and ML integrations.',
-						'Current team: Ben, Luca Frei, Yuki Mory, Le Wei, and Amanda.',
+						'Current team: Ben, Luca Frei, Yuki Mory, Le Wei, Amanda, and Thomas Gallagher.',
 					],
 				},
 				{

@@ -23,8 +23,9 @@
 }
 
 .tech-group-heading {
-	font-family: 'Fugaz One', sans-serif;
-	font-size: 1.05rem;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.82rem;
+	font-weight: 700;
 	letter-spacing: 0.06em;
 	text-transform: uppercase;
 	margin-bottom: 1rem;

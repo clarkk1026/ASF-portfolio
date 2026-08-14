@@ -60,27 +60,24 @@
 	position: relative;
 	display: inline-block;
 	overflow: visible;
-	font-family: 'Orbitron', 'Open Sans', sans-serif;
-	font-size: 0.68rem;
-	font-weight: 700;
-	letter-spacing: 0.14em;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.78rem;
+	font-weight: 600;
+	letter-spacing: 0.1em;
 	text-transform: uppercase;
-	color: #e8f9ff;
+	color: rgba(230, 240, 248, 0.88);
 	text-decoration: none;
-	padding: 0.45rem 0.7rem;
+	padding: 0.45rem 0.65rem;
 	border: 1px solid transparent;
 	border-radius: 0;
 	background: transparent;
 	box-shadow: none;
-	text-shadow:
-		0 1px 10px rgba(0, 6, 18, 0.9),
-		0 0 14px rgba(70, 210, 255, 0.35),
-		0 0 2px rgba(0, 0, 0, 0.85);
+	text-shadow: 0 1px 6px rgba(0, 6, 18, 0.55);
 	isolation: isolate;
 	transition:
-		color 0.42s ease,
-		text-shadow 0.46s ease,
-		filter 0.46s ease;
+		color 0.28s ease,
+		text-shadow 0.28s ease,
+		filter 0.28s ease;
 }
 
 .navbar-links a::before {
@@ -133,12 +130,9 @@
 	color: #ffffff;
 	background: transparent;
 	border-color: transparent;
-	text-shadow:
-		0 1px 12px rgba(0, 6, 18, 0.9),
-		0 0 14px rgba(120, 230, 255, 0.7),
-		0 0 26px rgba(70, 210, 255, 0.4);
+	text-shadow: 0 1px 8px rgba(0, 6, 18, 0.65);
 	box-shadow: none;
-	filter: brightness(1.14);
+	filter: none;
 }
 
 .navbar-links a:hover::before {
@@ -152,12 +146,10 @@
 }
 
 .navbar-links a.navbar-link-active {
-	color: #9aeeff;
+	color: #c8eefc;
 	background: transparent;
 	border-color: transparent;
-	text-shadow:
-		0 1px 10px rgba(0, 6, 18, 0.9),
-		0 0 14px rgba(90, 230, 255, 0.55);
+	text-shadow: 0 1px 6px rgba(0, 6, 18, 0.55);
 	box-shadow: none;
 }
 
@@ -169,39 +161,7 @@
 
 .navbar-cta {
 	flex-shrink: 0;
-	padding: 0.65rem 1.25rem;
-	transition:
-		transform 0.42s ease,
-		box-shadow 0.52s ease,
-		filter 0.52s ease,
-		background 0.52s ease,
-		border-color 0.52s ease;
-}
-
-.navbar-cta::before {
-	inset: -70% -20%;
-	background: radial-gradient(
-		circle at 50% 58%,
-		rgba(255, 255, 255, 0.72) 0%,
-		rgba(208, 241, 255, 0.3) 28%,
-		rgba(126, 201, 240, 0.08) 52%,
-		transparent 72%
-	);
-	opacity: 0;
-	transform: scale(0.55);
-	transition:
-		opacity 0.5s ease,
-		transform 0.62s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.navbar-cta:hover {
-	transform: translateY(-1px);
-	filter: brightness(1.08) saturate(1.02);
-}
-
-.navbar-cta:hover::before {
-	opacity: 0.75;
-	transform: scale(1.15);
+	padding: 0.68rem 1.45rem 0.68rem 1.25rem;
 }
 
 .navbar-toggle {
@@ -244,7 +204,7 @@
 	.navbar-links a {
 		padding: 0.4rem 0.5rem;
 		letter-spacing: 0.08em;
-		font-size: 0.68rem;
+		font-size: 0.7rem;
 	}
 
 	.navbar-inner {

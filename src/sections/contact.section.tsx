@@ -6,9 +6,7 @@ import { useToast } from '../components/toast-provider';
 import {
 	contact,
 	gmailComposeUrl,
-	personal,
 	socialLinks,
-	team,
 	whatsappUrl,
 } from '../data/portfolio';
 import { githubContactLocked, preventLockedGithubContact } from '../lib/contact-lock';
@@ -108,13 +106,6 @@ export const Contact = () => {
 								</div>
 							</div>
 						</Reveal>
-
-						<footer className='site-footer'>
-							<p>
-								© {new Date().getFullYear()} {team.fullName}. Led by{' '}
-								{personal.fullName}.
-							</p>
-						</footer>
 					</div>
 				</div>
 			</div>

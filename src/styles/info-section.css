@@ -62,11 +62,12 @@
 
 .hero-greeting {
 	color: white;
-	font-size: clamp(1.4rem, 3vw, 2.2rem);
-	margin-bottom: -0.35rem;
-	letter-spacing: 0.14rem;
+	font-size: clamp(1.05rem, 2vw, 1.35rem);
+	margin-bottom: 0.15rem;
+	letter-spacing: 0.08em;
 	text-transform: uppercase;
-	font-family: 'Fugaz One', sans-serif;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 600;
 	transition: color 1.4s ease, text-shadow 1.4s ease;
 }
 
@@ -97,10 +98,10 @@
 	justify-content: center;
 	gap: 1rem;
 	width: 100%;
-	font-family: 'Orbitron', 'Open Sans', sans-serif;
-	font-size: clamp(0.68rem, 1.6vw, 0.82rem);
-	font-weight: 700;
-	letter-spacing: 0.22em;
+	font-family: 'Open Sans', sans-serif;
+	font-size: clamp(0.72rem, 1.4vw, 0.86rem);
+	font-weight: 600;
+	letter-spacing: 0.12em;
 	text-transform: uppercase;
 	color: #f4fcff;
 	text-shadow:
@@ -124,10 +125,10 @@
 }
 
 .hero-services {
-	font-family: 'Orbitron', 'Open Sans', sans-serif;
-	font-size: clamp(0.58rem, 1.35vw, 0.72rem);
-	font-weight: 700;
-	letter-spacing: 0.14em;
+	font-family: 'Open Sans', sans-serif;
+	font-size: clamp(0.72rem, 1.35vw, 0.88rem);
+	font-weight: 600;
+	letter-spacing: 0.06em;
 	text-transform: uppercase;
 	line-height: 1.5;
 }
@@ -183,8 +184,9 @@
 .hero-actions {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 1.25rem;
+	gap: 1rem;
 	justify-content: center;
+	align-items: center;
 	margin-top: 2rem;
 	margin-bottom: 1rem;
 }

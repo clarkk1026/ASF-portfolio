@@ -55,9 +55,10 @@
 }
 
 .expertise-card h3 {
-	font-family: 'Fugaz One', sans-serif;
-	font-size: 1.35rem;
-	letter-spacing: 0.04em;
+	font-family: 'Bricolage Grotesque', 'Open Sans', sans-serif;
+	font-size: 1.2rem;
+	font-weight: 700;
+	letter-spacing: -0.01em;
 	position: relative;
 	z-index: 1;
 }

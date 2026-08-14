@@ -147,7 +147,7 @@
 	letter-spacing: 0.1em;
 	text-transform: uppercase;
 	padding: 0.45rem 0.85rem;
-	border-radius: 999px;
+	border-radius: 6px;
 	border: 1px solid rgba(255, 255, 255, 0.16);
 	background: transparent;
 	color: rgba(255, 255, 255, 0.62);
@@ -176,7 +176,7 @@
 	letter-spacing: 0.1em;
 	text-transform: uppercase;
 	padding: 0.45rem 0.85rem;
-	border-radius: 999px;
+	border-radius: 6px;
 	border: 1px solid rgba(255, 255, 255, 0.16);
 	background: transparent;
 	color: rgba(160, 220, 255, 0.82);
@@ -215,7 +215,7 @@
 }
 
 .visitor-note-replies-header h3 {
-	font-family: 'Fugaz One', sans-serif;
+	font-family: 'Bricolage Grotesque', 'Open Sans', sans-serif;
 	font-size: 1.25rem;
 	font-style: italic;
 	letter-spacing: 0.04em;
@@ -281,7 +281,7 @@
 	letter-spacing: 0.1em;
 	text-transform: uppercase;
 	padding: 0.28rem 0.55rem;
-	border-radius: 999px;
+	border-radius: 6px;
 }
 
 .visitor-note-reply-badge-support {
@@ -326,7 +326,7 @@
 }
 
 .visitor-note-card h2 {
-	font-family: 'Fugaz One', sans-serif;
+	font-family: 'Bricolage Grotesque', 'Open Sans', sans-serif;
 	font-size: clamp(1.5rem, 3vw, 2rem);
 	font-style: italic;
 	letter-spacing: 0.04em;

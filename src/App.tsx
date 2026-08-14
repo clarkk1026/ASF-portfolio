@@ -12,6 +12,7 @@ import { Navbar } from './components/navbar';
 import { PageKeyNav } from './components/page-key-nav';
 import { ScrollBar } from './components/scroll-bar';
 import { ScrollToTop } from './components/scroll-to-top';
+import { SiteFooter } from './components/site-footer';
 import { FallingStarsLayer, StarfieldBg } from './components/starfield-bg';
 import { ToastProvider } from './components/toast-provider';
 import { AboutPage } from './pages/about-page';
@@ -43,6 +44,7 @@ import './styles/page-shell.css';
 import './styles/projects.css';
 import './styles/reveal.css';
 import './styles/scroll-bar.css';
+import './styles/site-footer.css';
 import './styles/starfield-bg.css';
 import './styles/team.css';
 import './styles/tech-stack.css';
@@ -65,6 +67,7 @@ const SiteShell = () => {
 			<MouseTrail />
 			<Navbar />
 			<Outlet />
+			<SiteFooter />
 			{/* Falling stars kept on all non-home pages */}
 			{!isHome && <FallingStarsLayer />}
 			<AiBot />
