@@ -124,11 +124,22 @@ export const teamMembers: TeamMember[] = [
 		role: 'Founder and Technical Lead',
 		location: 'Newcastle, NSW, Australia',
 		isLeader: true,
-		badge: 'Founder',
+		badge: 'Principal',
 		badgeTone: 'founder',
 		summary:
 			'Founded ASF after software engineering roles at 4Tel, Anditi, and Mudbath Digital in Newcastle. Leads client delivery, architecture decisions, and day-to-day engineering direction.',
 		focus: ['Architecture', 'Full stack', 'Client delivery', 'Shopify'],
+	},
+	{
+		id: 'luca-frei',
+		name: 'Luca Frei',
+		role: 'Front-End Engineer & Client Lead',
+		location: 'Switzerland',
+		badge: 'CFO',
+		badgeTone: 'client',
+		summary:
+			'Based in Switzerland. Owns client relationships end to end — scoping needs, steering delivery, and keeping stakeholders aligned — while shipping polished front-end work as a Shopify specialist.',
+		focus: ['Shopify', 'Front end', 'Client partnerships', 'Storefront UX'],
 	},
 	{
 		id: 'yuki-mory',
@@ -138,17 +149,6 @@ export const teamMembers: TeamMember[] = [
 		summary:
 			'Originally from Japan, now based in Poland. Builds APIs, databases, and React features for B2B and product platforms.',
 		focus: ['React', 'Node.js', 'PostgreSQL', 'APIs'],
-	},
-	{
-		id: 'luca-frei',
-		name: 'Luca Frei',
-		role: 'Front-End Engineer & Client Lead',
-		location: 'Switzerland',
-		badge: 'Client Lead',
-		badgeTone: 'client',
-		summary:
-			'Based in Switzerland. Owns client relationships end to end — scoping needs, steering delivery, and keeping stakeholders aligned — while shipping polished front-end work as a Shopify specialist.',
-		focus: ['Shopify', 'Front end', 'Client partnerships', 'Storefront UX'],
 	},
 	{
 		id: 'le-wei',
@@ -479,7 +479,7 @@ export const about = {
 	},
 	intro: [
 		'ASF started when Ben Clark began taking on client work with a small group of developers he trusted, building on years of software engineering in Newcastle, Australia — from 4Tel and Anditi through Mudbath Digital. The studio is fully remote and keeps a tight team so Ben can stay close to architecture, delivery, and clients.',
-		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Yuki on full stack features, Luca on front-end, Shopify, and client partnerships, Le Wei on web development, and Amanda on AI and big data systems.',
+		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Luca on front-end, Shopify, and client partnerships, Yuki on full stack features, Le Wei on web development, and Amanda on AI and big data systems.',
 	],
 };
 
@@ -562,7 +562,7 @@ export const experience = {
 					bullets: [
 						'Ben Clark founded ASF to deliver client software with a small, trusted team.',
 						'Core focus: full stack web apps, Shopify commerce, Python backends, and ML integrations.',
-						'Current team: Ben, Yuki Mory, Luca Frei, Le Wei, and Amanda.',
+						'Current team: Ben, Luca Frei, Yuki Mory, Le Wei, and Amanda.',
 					],
 				},
 				{
