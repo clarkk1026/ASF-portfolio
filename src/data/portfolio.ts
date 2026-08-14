@@ -136,13 +136,13 @@ export const teamMembers: TeamMember[] = [
 		focus: ['React', 'Node.js', 'PostgreSQL', 'APIs'],
 	},
 	{
-		id: 'facundo-carnevale',
-		name: 'Facundo Carnevale',
-		role: 'Senior Full Stack Developer',
-		location: 'Buenos Aires, Argentina',
+		id: 'luca-frei',
+		name: 'Luca Frei',
+		role: 'Front-End Engineer & Client Lead',
+		location: 'Switzerland',
 		summary:
-			'Senior software developer based in Buenos Aires. Delivers production full-stack systems with React Native, React, and TypeScript on the client side, and Java, Smalltalk, and PostgreSQL on the server side. Computer science background with prior experience as an OOP teaching assistant.',
-		focus: ['React Native', 'React', 'TypeScript', 'Java', 'PostgreSQL'],
+			'Based in Switzerland. Owns client relationships end to end — scoping needs, steering delivery, and keeping stakeholders aligned — while shipping polished front-end work as a Shopify specialist.',
+		focus: ['Shopify', 'Front end', 'Client partnerships', 'Storefront UX'],
 	},
 	{
 		id: 'le-wei',
@@ -473,7 +473,7 @@ export const about = {
 	},
 	intro: [
 		'ASF started when Ben Clark began taking on client work with a small group of developers he trusted, building on years of software engineering in Newcastle, Australia — from 4Tel and Anditi through Mudbath Digital. The studio is fully remote and keeps a tight team so Ben can stay close to architecture, delivery, and clients.',
-		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Yuki on full stack features, Facundo on senior full stack and React Native delivery, Le Wei on web development, and Amanda on AI and big data systems.',
+		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Yuki on full stack features, Luca on front-end, Shopify, and client partnerships, Le Wei on web development, and Amanda on AI and big data systems.',
 	],
 };
 
@@ -556,7 +556,7 @@ export const experience = {
 					bullets: [
 						'Ben Clark founded ASF to deliver client software with a small, trusted team.',
 						'Core focus: full stack web apps, Shopify commerce, Python backends, and ML integrations.',
-						'Current team: Ben, Yuki Mory, Facundo Carnevale, Le Wei, and Amanda.',
+						'Current team: Ben, Yuki Mory, Luca Frei, Le Wei, and Amanda.',
 					],
 				},
 				{
