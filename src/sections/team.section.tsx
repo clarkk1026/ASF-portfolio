@@ -33,8 +33,16 @@ export const Team = () => {
 										<h3>{member.name}</h3>
 										<p className='team-card-role'>{member.role}</p>
 									</div>
-									{member.isLeader ? (
-										<span className='team-card-badge'>Founder</span>
+									{member.badge ? (
+										<span
+											className={`team-card-badge${
+												member.badgeTone
+													? ` team-card-badge-${member.badgeTone}`
+													: ''
+											}`}
+										>
+											{member.badge}
+										</span>
 									) : null}
 								</header>
 

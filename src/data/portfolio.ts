@@ -100,6 +100,8 @@ export type TeamMember = {
 	role: string;
 	location: string;
 	isLeader?: boolean;
+	badge?: string;
+	badgeTone?: 'founder' | 'client';
 	summary: string;
 	focus: string[];
 };
@@ -122,6 +124,8 @@ export const teamMembers: TeamMember[] = [
 		role: 'Founder and Technical Lead',
 		location: 'Newcastle, NSW, Australia',
 		isLeader: true,
+		badge: 'Founder',
+		badgeTone: 'founder',
 		summary:
 			'Founded ASF after software engineering roles at 4Tel, Anditi, and Mudbath Digital in Newcastle. Leads client delivery, architecture decisions, and day-to-day engineering direction.',
 		focus: ['Architecture', 'Full stack', 'Client delivery', 'Shopify'],
@@ -140,6 +144,8 @@ export const teamMembers: TeamMember[] = [
 		name: 'Luca Frei',
 		role: 'Front-End Engineer & Client Lead',
 		location: 'Switzerland',
+		badge: 'Client Lead',
+		badgeTone: 'client',
 		summary:
 			'Based in Switzerland. Owns client relationships end to end — scoping needs, steering delivery, and keeping stakeholders aligned — while shipping polished front-end work as a Shopify specialist.',
 		focus: ['Shopify', 'Front end', 'Client partnerships', 'Storefront UX'],

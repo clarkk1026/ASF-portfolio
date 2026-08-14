@@ -116,6 +116,18 @@
 	flex-shrink: 0;
 }
 
+.team-card-badge-founder {
+	color: rgba(210, 245, 255, 0.98);
+	background: rgba(31, 195, 255, 0.16);
+	border-color: rgba(90, 220, 255, 0.35);
+}
+
+.team-card-badge-client {
+	color: rgba(210, 255, 230, 0.98);
+	background: rgba(72, 180, 120, 0.18);
+	border-color: rgba(120, 210, 150, 0.38);
+}
+
 .team-card-location {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 0.75rem;
