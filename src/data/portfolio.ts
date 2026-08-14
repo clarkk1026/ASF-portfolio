@@ -121,10 +121,10 @@ export const teamMembers: TeamMember[] = [
 	{
 		id: 'ben-clark',
 		name: 'Ben Clark',
-		role: 'CTO',
+		role: 'Full Stack Engineer & Team Lead',
 		location: 'Newcastle, NSW, Australia',
 		isLeader: true,
-		badge: 'Principal',
+		badge: 'CTO',
 		badgeTone: 'founder',
 		summary:
 			'Leads ASF after software engineering roles at 4Tel, Anditi, and Mudbath Digital in Newcastle. Owns architecture decisions, client delivery, and day-to-day engineering direction.',
@@ -181,7 +181,7 @@ export const personal = {
 	birthPlace: 'Newcastle, NSW, Australia',
 	/** Ask-only: do not volunteer unless the visitor asks about looks / ethnicity. */
 	appearance: 'Asian',
-	title: 'CTO',
+	title: 'Full Stack Engineer & Team Lead',
 	tagline: team.tagline,
 	location: 'Newcastle, NSW, Australia',
 	email: 'benclarkk1026@gmail.com',
