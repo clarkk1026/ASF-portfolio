@@ -523,7 +523,7 @@ const handlers: IntentHandler[] = [
 			return pick([
 				name
 					? `Hi ${name}, I'm **Bon** (AI BEN). I know Ben's work—he leads **${team.fullName}**—and I'm happy to just talk like a person. What's on your mind?\n\n[[mood:happy]]`
-					: `Hi, I'm **Bon**. Ben Clark founded **${team.fullName}** from Newcastle, NSW, Australia, with a remote team across Ireland, Poland, and Switzerland. Ask about his work or how to reach him.\n\n[[mood:happy]]`,
+					: `Hi, I'm **Bon**. Ben Clark is **CTO** of **${team.fullName}** in Newcastle, NSW, Australia, with a remote team across Ireland, Poland, and Switzerland. Ask about his work or how to reach him.\n\n[[mood:happy]]`,
 				`Hello! I'm here for Ben's background **and** normal conversation—skills, story, music, life stuff, whatever.`,
 				`Hey, nice of you to stop by. I'm Bon. Ask me about Ben's work, or just say what's up.`,
 			]);

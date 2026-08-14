@@ -112,7 +112,7 @@ export const team = {
 	tagline:
 		'We build web applications, commerce storefronts, and backend systems for clients who need working software in production. A small remote team focused on shipping.',
 	heroGreeting: 'We are',
-	heroLead: 'A remote software studio founded by Ben Clark',
+	heroLead: 'A remote software studio led by Ben Clark',
 	established: '2024',
 	model: 'Fully remote software studio',
 };
@@ -121,13 +121,13 @@ export const teamMembers: TeamMember[] = [
 	{
 		id: 'ben-clark',
 		name: 'Ben Clark',
-		role: 'Founder and Technical Lead',
+		role: 'CTO',
 		location: 'Newcastle, NSW, Australia',
 		isLeader: true,
 		badge: 'Principal',
 		badgeTone: 'founder',
 		summary:
-			'Founded ASF after software engineering roles at 4Tel, Anditi, and Mudbath Digital in Newcastle. Leads client delivery, architecture decisions, and day-to-day engineering direction.',
+			'Leads ASF after software engineering roles at 4Tel, Anditi, and Mudbath Digital in Newcastle. Owns architecture decisions, client delivery, and day-to-day engineering direction.',
 		focus: ['Architecture', 'Full stack', 'Client delivery', 'Shopify'],
 	},
 	{
@@ -181,7 +181,7 @@ export const personal = {
 	birthPlace: 'Newcastle, NSW, Australia',
 	/** Ask-only: do not volunteer unless the visitor asks about looks / ethnicity. */
 	appearance: 'Asian',
-	title: 'Founder and Technical Lead',
+	title: 'CTO',
 	tagline: team.tagline,
 	location: 'Newcastle, NSW, Australia',
 	email: 'benclarkk1026@gmail.com',
@@ -372,7 +372,7 @@ export const teamSection = {
 		title: 'Our',
 		subtitle: 'Team',
 		summary:
-			'A small remote studio. Ben Clark founded ASF and still leads delivery.',
+			'A small remote studio. Ben Clark is CTO and leads delivery.',
 	},
 };
 
@@ -475,17 +475,17 @@ export const about = {
 		title: 'About',
 		subtitle: 'Us',
 		summary:
-			'A remote software studio founded by Ben Clark in 2024, working across full stack engineering, commerce, and backend systems',
+			'A remote software studio led by CTO Ben Clark since 2024, working across full stack engineering, commerce, and backend systems',
 	},
 	intro: [
-		'ASF started when Ben Clark began taking on client work with a small group of developers he trusted, building on years of software engineering in Newcastle, Australia — from 4Tel and Anditi through Mudbath Digital. The studio is fully remote and keeps a tight team so Ben can stay close to architecture, delivery, and clients.',
+		'ASF started when Ben Clark began taking on client work with a small group of developers he trusted, building on years of software engineering in Newcastle, Australia — from 4Tel and Anditi through Mudbath Digital. As CTO, he stays close to architecture, delivery, and clients while the studio remains fully remote and tightly staffed.',
 		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Luca on front-end, Shopify, and client partnerships, Yuki on full stack features, Le Wei on web development, and Amanda on AI and big data systems.',
 	],
 };
 
 export const benStory = {
 	summary:
-		'Ben Clark is based in Newcastle, NSW, Australia. He earned a Bachelor of Software Engineering (Honours) from The University of Newcastle (2016–2020), then built his career locally at 4Tel, Anditi, and Mudbath Digital before founding ASF Studio. His real name is Ben Clark.',
+		'Ben Clark is based in Newcastle, NSW, Australia. He earned a Bachelor of Software Engineering (Honours) from The University of Newcastle (2016–2020), then built his career locally at 4Tel, Anditi, and Mudbath Digital before leading ASF Studio as CTO. His real name is Ben Clark.',
 	earlyLife: [
 		'Originally from Newcastle, NSW, Australia. Real name: Ben Clark.',
 		'Studied at The University of Newcastle, Australia, completing a Bachelor of Software Engineering (Honours) from 2016 to 2020.',
@@ -556,11 +556,11 @@ export const experience = {
 			heading: 'Studio',
 			items: [
 				{
-					role: 'ASF Studio founded',
+					role: 'ASF Studio',
 					org: 'Remote software studio',
 					period: '2024 to Present',
 					bullets: [
-						'Ben Clark founded ASF to deliver client software with a small, trusted team.',
+						'Ben Clark leads ASF as CTO, delivering client software with a small, trusted team.',
 						'Core focus: full stack web apps, Shopify commerce, Python backends, and ML integrations.',
 						'Current team: Ben, Luca Frei, Yuki Mory, Le Wei, and Amanda.',
 					],
