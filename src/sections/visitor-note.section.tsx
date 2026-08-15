@@ -354,7 +354,7 @@ export const VisitorNote = () => {
 	const showThanks = ready && hasApplied && !editing;
 	const showForm = ready && (!hasApplied || editing);
 	const displayCount = (key: keyof LiveCounts) => {
-		if (loading && !bootCounts) return '—';
+		if (loading && !bootCounts) return '-';
 		return liveCounts[key];
 	};
 

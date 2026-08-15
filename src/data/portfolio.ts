@@ -138,7 +138,7 @@ export const teamMembers: TeamMember[] = [
 		badge: 'CFO',
 		badgeTone: 'client',
 		summary:
-			'Based in Bellingen, Australia. Owns client relationships end to end — scoping needs, steering delivery, and keeping stakeholders aligned — while shipping polished front-end work as a Shopify specialist.',
+			'Based in Bellingen, Australia. Owns client relationships end to end, scoping needs, steering delivery, and keeping stakeholders aligned, while shipping polished front-end work as a Shopify specialist.',
 		focus: ['Shopify', 'Front end', 'Client partnerships', 'Storefront UX'],
 	},
 	{
@@ -174,7 +174,7 @@ export const teamMembers: TeamMember[] = [
 		role: 'Python & Machine Learning Engineer',
 		location: 'Bellingen, Australia',
 		summary:
-			'Based in Bellingen, Australia. Builds Python services, ML pipelines, and model-backed features that ship into real products — from data prep through evaluation and production integration.',
+			'Based in Bellingen, Australia. Builds Python services, ML pipelines, and model-backed features that ship into real products, from data prep through evaluation and production integration.',
 		focus: ['Python', 'Machine learning', 'MLOps', 'Data pipelines'],
 	},
 ];
@@ -441,10 +441,10 @@ export const visitorNote = {
 		'Share WhatsApp, Telegram, email, Discord, phone, or any other way to reach you.',
 	contactNamePlaceholder: 'Your name',
 	contactChannelLabel: 'Contact type',
-	contactValuePlaceholder: 'Your contact (number, @handle, email…)',
+	contactValuePlaceholder: 'Your contact (number, @handle, email...)',
 	contactNotePlaceholder: 'Optional short note',
 	contactSubmitLabel: 'Send contact',
-	contactSubmittingLabel: 'Sending…',
+	contactSubmittingLabel: 'Sending...',
 	contactCancelLabel: 'Cancel',
 	contactThanks: 'Thanks! Your contact info was saved.',
 };
@@ -489,7 +489,7 @@ export const about = {
 			'A remote software studio led by CTO Ben Clark since 2024, working across full stack engineering, commerce, and backend systems',
 	},
 	intro: [
-		'ASF started when Ben Clark began taking on client work with a small group of developers he trusted, building on years of software engineering in Newcastle, Australia — from 4Tel and Anditi through Mudbath Digital. As CTO, he stays close to architecture, delivery, and clients while the studio remains fully remote and tightly staffed.',
+		'ASF started when Ben Clark began taking on client work with a small group of developers he trusted, building on years of software engineering in Newcastle, Australia, from 4Tel and Anditi through Mudbath Digital. As CTO, he stays close to architecture, delivery, and clients while the studio remains fully remote and tightly staffed.',
 		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Luca on front-end, Shopify, and client partnerships, Yuki on full stack features, Le Wei on web development, Amanda on AI and big data systems, and Thomas on Python and machine learning.',
 	],
 };
@@ -510,13 +510,13 @@ export const benStory = {
 	technicalLeadership: [
 		'After graduating he began his professional software career in Newcastle, contributing to customer-facing and business-focused products across several technology companies.',
 		'He developed as a product-minded engineer who understands both technical and business requirements, with strong ownership from requirements through delivery.',
-		'Building technology is not only code — it needs clear communication, documentation, collaboration, and good decisions with limited information.',
+		'Building technology is not only code. It needs clear communication, documentation, collaboration, and good decisions with limited information.',
 	],
 	lifeAndValues: [
 		'He values clear communication, continuous improvement, and solving practical problems that create value for users.',
 		'Responsible and self-driven, comfortable working independently or in teams, including remote and async environments.',
 		'Prefers structured problem-solving and ownership over simply completing assigned tasks.',
-		'He is based in Bellingen, Australia — focused on meaningful products, challenging problems, and growing with strong engineering teams.',
+		'He is based in Bellingen, Australia, focused on meaningful products, challenging problems, and growing with strong engineering teams.',
 		'The through-line is building step by step: learning, adapting, and delivering software that supports real business needs.',
 	],
 	teamsLed: [
@@ -525,7 +525,7 @@ export const benStory = {
 	],
 	lessons: [
 		'An idea only matters when you turn it into something real that helps actual people.',
-		'Customers and businesses care about problems solved and trust — not how exciting the idea sounds.',
+		'Customers and businesses care about problems solved and trust, not how exciting the idea sounds.',
 		'Consistency, honesty, and ownership outlast shortcuts.',
 		'Trust and alignment with people matter as much as skill when building anything long term.',
 	],
@@ -545,7 +545,7 @@ export const benPersonality = {
 	],
 	playAndLife: [
 		'For Ben, "play" often means tinkering, side ideas, small experiments, or exploring a new tool just to see what happens.',
-		'He still enjoys learning for its own sake — new tools, better ways of shipping, and how products create value.',
+		'He still enjoys learning for its own sake: new tools, better ways of shipping, and how products create value.',
 		'He likes connecting with people who are curious, kind, and building something real, whether that is code or a business.',
 	],
 	valuesForVisitors: [
@@ -614,7 +614,7 @@ export const experience = {
 					period: '2016 to 2020',
 					bullets: [
 						'Built a strong foundation in software engineering through coursework and practical projects.',
-						'Learned how technology can be applied to solve real-world problems — the base for later technical leadership at ASF.',
+						'Learned how technology can be applied to solve real-world problems, the base for later technical leadership at ASF.',
 					],
 				},
 			],

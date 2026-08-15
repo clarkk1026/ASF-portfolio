@@ -44,7 +44,7 @@ export const SiteFooter = () => {
 						</Link>
 						<p className='site-footer-blurb'>
 							Remote software studio for web apps, Shopify storefronts, and
-							Python backends — led by {personal.fullName}.
+							Python backends, led by {personal.fullName}.
 						</p>
 					</div>
 

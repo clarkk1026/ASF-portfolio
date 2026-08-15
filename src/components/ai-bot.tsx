@@ -318,14 +318,14 @@ export const AiBot = () => {
 									className='ai-bot-status-dot'
 									aria-hidden='true'
 								/>
-								{typing ? 'Typing…' : 'Online'}
+								{typing ? 'Typing...' : 'Online'}
 								{!typing ? (
 									<>
 										<span
 											className='ai-bot-status-sep'
 											aria-hidden='true'
 										>
-											·
+											-
 										</span>
 										<BotMoodTag mood={activeMood} />
 									</>
@@ -488,7 +488,7 @@ export const AiBot = () => {
 							type='text'
 							value={input}
 							onChange={(e) => setInput(e.target.value)}
-							placeholder='Ask Bon anything…'
+							placeholder='Ask Bon anything...'
 							disabled={typing || Boolean(editingId)}
 						/>
 						<button

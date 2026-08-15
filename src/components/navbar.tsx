@@ -35,7 +35,7 @@ export const Navbar = () => {
 					to='/'
 					className='navbar-brand'
 					onClick={() => setMenuOpen(false)}
-					aria-label='ASF Studio — home'
+					aria-label='ASF Studio home'
 				>
 					<BrandLogo />
 				</Link>
