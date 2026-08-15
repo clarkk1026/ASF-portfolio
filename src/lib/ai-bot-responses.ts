@@ -409,7 +409,7 @@ const humanContact = () =>
 
 const humanAbout = () =>
 	prefix([
-		`Ben is from **${personal.birthPlace}** and still based there. His real name is **${personal.fullName}**.\n\nHe studied **Software Engineering (Honours)** at **The University of Newcastle** (2016–2020), then built his career at **4Tel**, **Anditi**, and **Mudbath Digital** before founding **ASF Studio**.\n\n${benStory.lessons[0]}\n\n[[mood:thoughtful]]`,
+		`Ben is from **${personal.birthPlace}** and now based in **${personal.location}**. His real name is **${personal.fullName}**.\n\nHe studied **Software Engineering (Honours)** at **The University of Newcastle** (2016–2020), then built his career at **4Tel**, **Anditi**, and **Mudbath Digital** before founding **ASF Studio**.\n\n${benStory.lessons[0]}\n\n[[mood:thoughtful]]`,
 		`${benStory.summary}\n\nToday he works across **full stack engineering**, **Python/AI**, and **front end** development — plus live **Shopify** builds on this portfolio.\n\n[[mood:warm]]`,
 	]);
 
@@ -523,7 +523,7 @@ const handlers: IntentHandler[] = [
 			return pick([
 				name
 					? `Hi ${name}, I'm **Bon** (AI BEN). I know Ben's work—he leads **${team.fullName}**—and I'm happy to just talk like a person. What's on your mind?\n\n[[mood:happy]]`
-					: `Hi, I'm **Bon**. Ben Clark is **CTO** of **${team.fullName}** in Newcastle, NSW, Australia, with a remote team across Ireland, Poland, and Switzerland. Ask about his work or how to reach him.\n\n[[mood:happy]]`,
+					: `Hi, I'm **Bon**. Ben Clark is **CTO** of **${team.fullName}** in Bellingen, Australia, with the team based there. Ask about his work or how to reach him.\n\n[[mood:happy]]`,
 				`Hello! I'm here for Ben's background **and** normal conversation—skills, story, music, life stuff, whatever.`,
 				`Hey, nice of you to stop by. I'm Bon. Ask me about Ben's work, or just say what's up.`,
 			]);
@@ -795,6 +795,8 @@ const handlers: IntentHandler[] = [
 					/childhood/,
 					/from australia/,
 					/real name|birth name|original name/,
+					/mother|mum|mom|parents|family/,
+					/singapore|japanese/,
 				])
 			) {
 				s += 11;
@@ -808,6 +810,13 @@ const handlers: IntentHandler[] = [
 					'anditi',
 					'lesson',
 					'teams',
+					'mother',
+					'mum',
+					'japan',
+					'japanese',
+					'singapore',
+					'singaporean',
+					'family',
 				])
 			) {
 				s += 6;
@@ -821,10 +830,22 @@ const handlers: IntentHandler[] = [
 					`**${personal.fullName}** — that is his real name. No other names.\n\n[[mood:calm]]`,
 				]);
 			}
-			if (matches(q, [/mother|father|parents|family/])) {
+			if (matches(q, [/mother|mum|mom|parents|family|singapore|japanese heritage|from japan/])) {
+				if (matches(q, [/singapore/])) {
+					return pick([
+						`No — Ben's mother is originally from **${personal.motherOrigin}**, not Singapore. He keeps other family details private.\n\n[[mood:calm]]`,
+						`That's a mix-up. His mother is originally from **${personal.motherOrigin}**, not Singapore.\n\n[[mood:calm]]`,
+					]);
+				}
+				if (matches(q, [/mother|mum|mom/])) {
+					return pick([
+						`Ben's mother is originally from **${personal.motherOrigin}**. He keeps the rest of his family life private.\n\n[[mood:calm]]`,
+						`His mum is originally from **${personal.motherOrigin}**. Beyond that he prefers to talk about his **work** and **story**.\n\n[[mood:warm]]`,
+					]);
+				}
 				return pick([
-					`He keeps family details private. Happy to talk about his **work**, **story**, or **projects** instead.\n\n[[mood:calm]]`,
-					`Family is not something he shares much about publicly. Ask about his path or ASF anytime.\n\n[[mood:thoughtful]]`,
+					`His mother is originally from **${personal.motherOrigin}**. Other family details stay private — happy to talk about his **work** or **path** instead.\n\n[[mood:calm]]`,
+					`Family-wise, the one public note is that his mother is originally from **${personal.motherOrigin}**. Ask about his path or ASF anytime.\n\n[[mood:thoughtful]]`,
 				]);
 			}
 			if (
@@ -925,8 +946,8 @@ const handlers: IntentHandler[] = [
 		id: 'location',
 		score: (q, tokens) => {
 			let s = 0;
-			if (matches(q, [/where (is|are|does)|based in|located|live|timezone|newcastle/])) s += 10;
-			if (hasWord(tokens, ['location', 'remote', 'australia', 'newcastle', 'nsw'])) s += 5;
+			if (matches(q, [/where (is|are|does)|based in|located|live|timezone|newcastle|bellingen/])) s += 10;
+			if (hasWord(tokens, ['location', 'remote', 'australia', 'newcastle', 'nsw', 'bellingen'])) s += 5;
 			return s;
 		},
 		reply: () =>

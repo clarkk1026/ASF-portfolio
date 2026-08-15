@@ -1,5 +1,4 @@
 .comet-btn {
-	--comet-cut: 0.95rem;
 	position: relative;
 	overflow: hidden;
 	isolation: isolate;
@@ -13,26 +12,16 @@
 	letter-spacing: 0.12em;
 	text-transform: uppercase;
 	text-decoration: none;
-	/* Comet blade: rounded left, pointed right tip */
-	border-radius: 999px 0.45rem 999px 0.45rem;
-	clip-path: polygon(
-		0.7rem 0%,
-		calc(100% - var(--comet-cut)) 0%,
-		100% 50%,
-		calc(100% - var(--comet-cut)) 100%,
-		0.7rem 100%,
-		0% 50%
-	);
+	border-radius: 0;
 	border: 1px solid transparent;
 	cursor: pointer;
-	padding: 0.72rem 1.55rem 0.72rem 1.35rem;
+	padding: 0.7rem 1.35rem;
 	transition:
-		transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
-		box-shadow 0.22s ease,
-		filter 0.22s ease,
-		background 0.22s ease,
-		border-color 0.22s ease,
-		clip-path 0.22s ease;
+		transform 0.14s ease,
+		box-shadow 0.14s ease,
+		filter 0.14s ease,
+		background 0.14s ease,
+		border-color 0.14s ease;
 }
 
 .comet-btn::before {
@@ -41,29 +30,24 @@
 	inset: 0;
 	background: linear-gradient(
 		105deg,
-		transparent 28%,
-		rgba(255, 255, 255, 0.45) 50%,
-		transparent 72%
+		transparent 30%,
+		rgba(255, 255, 255, 0.4) 50%,
+		transparent 70%
 	);
-	transform: translateX(-120%) skewX(-12deg);
-	transition: transform 0.45s ease;
+	transform: translateX(-120%);
+	transition: transform 0.3s ease;
 	pointer-events: none;
 }
 
 .comet-btn:hover {
-	transform: translateY(-3px) translateX(2px);
-	--comet-cut: 1.15rem;
+	transform: translateY(-2px);
 }
 
 .comet-btn:hover::before {
-	transform: translateX(120%) skewX(-12deg);
+	transform: translateX(120%);
 }
 
-.comet-btn:active {
-	transform: translateY(-1px) translateX(1px);
-}
-
-/* Let's Talk - ice comet blade */
+/* Let's Talk ΓÇö cool light ice (original pill shape, fresher color) */
 .comet-btn-talk {
 	color: #06202a;
 	background: linear-gradient(
@@ -84,11 +68,11 @@
 	filter: brightness(1.04) saturate(1.05);
 	box-shadow:
 		0 0 0 1px rgba(180, 238, 255, 0.5),
-		0 14px 34px rgba(120, 220, 255, 0.42),
+		0 12px 32px rgba(120, 220, 255, 0.38),
 		inset 0 1px 0 rgba(255, 255, 255, 0.85);
 }
 
-/* Chat bot launcher */
+/* Chat bot launcher ΓÇö related glow, violet accent */
 .comet-btn-chatbot {
 	color: #f4f8ff;
 	background: linear-gradient(
@@ -112,9 +96,8 @@
 		inset 0 1px 0 rgba(255, 255, 255, 0.45);
 }
 
-/* Visitor sentiment - keep circles */
+/* Visitor sentiment ΓÇö compact comet circles */
 .comet-btn-vote {
-	--comet-cut: 0;
 	width: 2.85rem;
 	height: 2.85rem;
 	min-height: 0;
@@ -122,7 +105,6 @@
 	letter-spacing: 0;
 	font-size: 0;
 	border-radius: 999px;
-	clip-path: none;
 	color: rgba(220, 240, 255, 0.88);
 	background: linear-gradient(
 		140deg,
@@ -137,7 +119,6 @@
 }
 
 .comet-btn-vote:hover {
-	transform: translateY(-2px);
 	filter: brightness(1.1);
 	border-color: rgba(31, 195, 255, 0.5);
 	box-shadow:
@@ -146,15 +127,7 @@
 		inset 0 1px 0 rgba(31, 195, 255, 0.28);
 }
 
-.comet-btn-vote::before {
-	transform: translateX(-120%);
-}
-
-.comet-btn-vote:hover::before {
-	transform: translateX(120%);
-}
-
-/* View work */
+/* View work ΓÇö portfolio / explore */
 .comet-btn-work {
 	color: #e8f4fc;
 	background: linear-gradient(
@@ -167,7 +140,7 @@
 		0 0 0 1px rgba(31, 195, 255, 0.15),
 		0 8px 24px rgba(0, 0, 0, 0.35),
 		inset 0 1px 0 rgba(31, 195, 255, 0.2);
-	padding: 0.78rem 1.65rem 0.78rem 1.4rem;
+	padding: 0.75rem 1.4rem;
 }
 
 .comet-btn-work:hover {
@@ -175,11 +148,11 @@
 	border-color: rgba(31, 195, 255, 0.65);
 	box-shadow:
 		0 0 0 1px rgba(31, 195, 255, 0.3),
-		0 12px 32px rgba(31, 195, 255, 0.22),
+		0 12px 32px rgba(31, 195, 255, 0.2),
 		inset 0 1px 0 rgba(31, 195, 255, 0.28);
 }
 
-/* Contact / team */
+/* Contact ΓÇö message / connect */
 .comet-btn-contact {
 	color: #f0e8ff;
 	background: linear-gradient(
@@ -192,7 +165,7 @@
 		0 0 0 1px rgba(147, 120, 255, 0.12),
 		0 8px 24px rgba(0, 0, 0, 0.35),
 		inset 0 1px 0 rgba(200, 180, 255, 0.18);
-	padding: 0.78rem 1.65rem 0.78rem 1.4rem;
+	padding: 0.75rem 1.4rem;
 }
 
 .comet-btn-contact:hover {
@@ -204,11 +177,11 @@
 		inset 0 1px 0 rgba(200, 180, 255, 0.25);
 }
 
-/* Email */
+/* Email ΓÇö send mail */
 .comet-btn-email {
 	color: #041018;
 	font-size: 0.82rem;
-	padding: 0.82rem 1.75rem 0.82rem 1.5rem;
+	padding: 0.8rem 1.6rem;
 	background: linear-gradient(
 		115deg,
 		rgb(100, 200, 255) 0%,
@@ -233,7 +206,7 @@
 .comet-btn-discord {
 	color: #ffffff;
 	font-size: 0.82rem;
-	padding: 0.82rem 1.75rem 0.82rem 1.5rem;
+	padding: 0.8rem 1.6rem;
 	background: linear-gradient(
 		115deg,
 		rgb(114, 137, 218) 0%,
@@ -256,18 +229,6 @@
 }
 
 .comet-btn-lg {
-	--comet-cut: 1.1rem;
 	font-size: 0.88rem;
-	padding: 0.9rem 1.9rem 0.9rem 1.6rem;
-}
-
-.comet-btn-lg:hover {
-	--comet-cut: 1.3rem;
-}
-
-@media (prefers-reduced-motion: reduce) {
-	.comet-btn,
-	.comet-btn::before {
-		transition: none;
-	}
+	padding: 0.85rem 1.65rem;
 }

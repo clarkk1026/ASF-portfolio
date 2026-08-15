@@ -122,7 +122,7 @@ export const teamMembers: TeamMember[] = [
 		id: 'ben-clark',
 		name: 'Ben Clark',
 		role: 'Full Stack Engineer & Team Lead',
-		location: 'Newcastle, NSW, Australia',
+		location: 'Bellingen, Australia',
 		isLeader: true,
 		badge: 'CTO',
 		badgeTone: 'founder',
@@ -134,47 +134,47 @@ export const teamMembers: TeamMember[] = [
 		id: 'luca-frei',
 		name: 'Luca Frei',
 		role: 'Front-End Engineer & Client Lead',
-		location: 'Switzerland',
+		location: 'Bellingen, Australia',
 		badge: 'CFO',
 		badgeTone: 'client',
 		summary:
-			'Based in Switzerland. Owns client relationships end to end — scoping needs, steering delivery, and keeping stakeholders aligned — while shipping polished front-end work as a Shopify specialist.',
+			'Based in Bellingen, Australia. Owns client relationships end to end — scoping needs, steering delivery, and keeping stakeholders aligned — while shipping polished front-end work as a Shopify specialist.',
 		focus: ['Shopify', 'Front end', 'Client partnerships', 'Storefront UX'],
 	},
 	{
 		id: 'yuki-mory',
 		name: 'Yuki Mory',
 		role: 'Senior Full Stack Developer',
-		location: 'Krakow, Poland',
+		location: 'Bellingen, Australia',
 		summary:
-			'Originally from Japan, now based in Poland. Builds APIs, databases, and React features for B2B and product platforms.',
+			'Originally from Japan, now based in Bellingen, Australia. Builds APIs, databases, and React features for B2B and product platforms.',
 		focus: ['React', 'Node.js', 'PostgreSQL', 'APIs'],
 	},
 	{
 		id: 'le-wei',
 		name: 'Le Wei',
 		role: 'Web Developer',
-		location: 'Galway, Ireland',
+		location: 'Bellingen, Australia',
 		summary:
-			'Originally from Hong Kong, now based in Ireland. Builds responsive web interfaces, polished user experiences, and dependable client-facing features.',
+			'Originally from Hong Kong, now based in Bellingen, Australia. Builds responsive web interfaces, polished user experiences, and dependable client-facing features.',
 		focus: ['Web development', 'Frontend', 'Responsive UI', 'User experience'],
 	},
 	{
 		id: 'amanda',
 		name: 'Amanda',
 		role: 'AI and Big Data Engineer',
-		location: 'Poland',
+		location: 'Bellingen, Australia',
 		summary:
-			'AI and Big Data Engineer based in Poland, with hands-on experience across web development, AI-enabled tools, data systems, and software delivery.',
+			'AI and Big Data Engineer based in Bellingen, Australia, with hands-on experience across web development, AI-enabled tools, data systems, and software delivery.',
 		focus: ['AI', 'Big Data', 'Web development', 'Data systems'],
 	},
 	{
 		id: 'thomas-gallagher',
 		name: 'Thomas Gallagher',
 		role: 'Python & Machine Learning Engineer',
-		location: 'Dublin, Ireland',
+		location: 'Bellingen, Australia',
 		summary:
-			'Based in Dublin. Builds Python services, ML pipelines, and model-backed features that ship into real products — from data prep through evaluation and production integration.',
+			'Based in Bellingen, Australia. Builds Python services, ML pipelines, and model-backed features that ship into real products — from data prep through evaluation and production integration.',
 		focus: ['Python', 'Machine learning', 'MLOps', 'Data pipelines'],
 	},
 ];
@@ -188,11 +188,13 @@ export const personal = {
 	fullName: 'Ben Clark',
 	originalName: 'Ben Clark',
 	birthPlace: 'Newcastle, NSW, Australia',
+	/** Ask-only: do not volunteer unless the visitor asks about family / heritage. */
+	motherOrigin: 'Japan',
 	/** Ask-only: do not volunteer unless the visitor asks about looks / ethnicity. */
 	appearance: 'Asian',
 	title: 'Full Stack Engineer & Team Lead',
 	tagline: team.tagline,
-	location: 'Newcastle, NSW, Australia',
+	location: 'Bellingen, Australia',
 	email: 'benclarkk1026@gmail.com',
 	whatsappNumber: '+1 (404) 786-3107',
 	discordUsername: 'benclark10261',
@@ -494,7 +496,7 @@ export const about = {
 
 export const benStory = {
 	summary:
-		'Ben Clark is based in Newcastle, NSW, Australia. He earned a Bachelor of Software Engineering (Honours) from The University of Newcastle (2016–2020), then built his career locally at 4Tel, Anditi, and Mudbath Digital before leading ASF Studio as CTO. His real name is Ben Clark.',
+		'Ben Clark is based in Bellingen, Australia. He earned a Bachelor of Software Engineering (Honours) from The University of Newcastle (2016–2020), then built his career in Newcastle at 4Tel, Anditi, and Mudbath Digital before leading ASF Studio as CTO. His real name is Ben Clark.',
 	earlyLife: [
 		'Originally from Newcastle, NSW, Australia. Real name: Ben Clark.',
 		'Studied at The University of Newcastle, Australia, completing a Bachelor of Software Engineering (Honours) from 2016 to 2020.',
@@ -514,7 +516,7 @@ export const benStory = {
 		'He values clear communication, continuous improvement, and solving practical problems that create value for users.',
 		'Responsible and self-driven, comfortable working independently or in teams, including remote and async environments.',
 		'Prefers structured problem-solving and ownership over simply completing assigned tasks.',
-		'He is based in Newcastle, NSW, Australia — focused on meaningful products, challenging problems, and growing with strong engineering teams.',
+		'He is based in Bellingen, Australia — focused on meaningful products, challenging problems, and growing with strong engineering teams.',
 		'The through-line is building step by step: learning, adapting, and delivering software that supports real business needs.',
 	],
 	teamsLed: [
