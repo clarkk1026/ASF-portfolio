@@ -172,9 +172,9 @@ export const teamMembers: TeamMember[] = [
 		id: 'thomas-gallagher',
 		name: 'Thomas Gallagher',
 		role: 'Python & Machine Learning Engineer',
-		location: 'Bellingen, Australia',
+		location: 'Poland',
 		summary:
-			'Originally from Poland, now based in Bellingen, Australia. Builds Python services, ML pipelines, and model-backed features that ship into real products, from data prep through evaluation and production integration.',
+			'Originally from Poland and based there. Builds Python services, ML pipelines, and model-backed features that ship into real products, from data prep through evaluation and production integration.',
 		focus: ['Python', 'Machine learning', 'MLOps', 'Data pipelines'],
 	},
 ];
