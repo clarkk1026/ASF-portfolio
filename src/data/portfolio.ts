@@ -134,20 +134,20 @@ export const teamMembers: TeamMember[] = [
 		id: 'luca-frei',
 		name: 'Luca Frei',
 		role: 'Front-End Engineer & Client Lead',
-		location: 'Bellingen, Australia',
+		location: 'Poland',
 		badge: 'CFO',
 		badgeTone: 'client',
 		summary:
-			'Based in Bellingen, Australia. Owns client relationships end to end, scoping needs, steering delivery, and keeping stakeholders aligned, while shipping polished front-end work as a Shopify specialist.',
+			'Originally from Switzerland, now based in Poland. Owns client relationships end to end, scoping needs, steering delivery, and keeping stakeholders aligned, while shipping polished front-end work as a Shopify specialist.',
 		focus: ['Shopify', 'Front end', 'Client partnerships', 'Storefront UX'],
 	},
 	{
 		id: 'yuki-mory',
 		name: 'Yuki Mory',
 		role: 'Senior Full Stack Developer',
-		location: 'Bellingen, Australia',
+		location: 'Poland',
 		summary:
-			'Originally from Japan, now based in Bellingen, Australia. Builds APIs, databases, and React features for B2B and product platforms.',
+			'Originally from Japan, now based in Poland. Builds APIs, databases, and React features for B2B and product platforms.',
 		focus: ['React', 'Node.js', 'PostgreSQL', 'APIs'],
 	},
 	{
@@ -163,9 +163,9 @@ export const teamMembers: TeamMember[] = [
 		id: 'amanda',
 		name: 'Amanda',
 		role: 'AI and Big Data Engineer',
-		location: 'Bellingen, Australia',
+		location: 'Poland',
 		summary:
-			'AI and Big Data Engineer based in Bellingen, Australia, with hands-on experience across web development, AI-enabled tools, data systems, and software delivery.',
+			'Originally from Poland and based there. AI and Big Data Engineer with hands-on experience across web development, AI-enabled tools, data systems, and software delivery.',
 		focus: ['AI', 'Big Data', 'Web development', 'Data systems'],
 	},
 	{
@@ -174,7 +174,7 @@ export const teamMembers: TeamMember[] = [
 		role: 'Python & Machine Learning Engineer',
 		location: 'Bellingen, Australia',
 		summary:
-			'Based in Bellingen, Australia. Builds Python services, ML pipelines, and model-backed features that ship into real products, from data prep through evaluation and production integration.',
+			'Originally from Poland, now based in Bellingen, Australia. Builds Python services, ML pipelines, and model-backed features that ship into real products, from data prep through evaluation and production integration.',
 		focus: ['Python', 'Machine learning', 'MLOps', 'Data pipelines'],
 	},
 ];
