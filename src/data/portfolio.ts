@@ -169,13 +169,13 @@ export const teamMembers: TeamMember[] = [
 		focus: ['AI', 'Big Data', 'Web development', 'Data systems'],
 	},
 	{
-		id: 'thomas-gallagher',
-		name: 'Thomas Gallagher',
-		role: 'Python & Machine Learning Engineer',
-		location: 'Poland',
+		id: 'alex-dean',
+		name: 'Alex Dean',
+		role: 'Full Stack Software Developer',
+		location: 'Inishbofin, County Galway, Ireland',
 		summary:
-			'Originally from Poland and based there. Builds Python services, ML pipelines, and model-backed features that ship into real products, from data prep through evaluation and production integration.',
-		focus: ['Python', 'Machine learning', 'MLOps', 'Data pipelines'],
+			'Based in Inishbofin, County Galway, Ireland. Builds full stack web applications across front end, APIs, and databases, shipping features that hold up in production.',
+		focus: ['Full stack', 'React', 'Node.js', 'APIs'],
 	},
 ];
 
@@ -490,7 +490,7 @@ export const about = {
 	},
 	intro: [
 		'ASF started when Ben Clark began taking on client work with a small group of developers he trusted, building on years of software engineering in Newcastle, Australia, from 4Tel and Anditi through Mudbath Digital. As CTO, he stays close to architecture, delivery, and clients while the studio remains fully remote and tightly staffed.',
-		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Luca on front-end, Shopify, and client partnerships, Yuki on full stack features, Le Wei on web development, Amanda on AI and big data systems, and Thomas on Python and machine learning.',
+		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Luca on front-end, Shopify, and client partnerships, Yuki on full stack features, Le Wei on web development, Amanda on AI and big data systems, and Alex on full stack development.',
 	],
 };
 
@@ -573,7 +573,7 @@ export const experience = {
 					bullets: [
 						'Ben Clark leads ASF as CTO, delivering client software with a small, trusted team.',
 						'Core focus: full stack web apps, Shopify commerce, Python backends, and ML integrations.',
-						'Current team: Ben, Luca Frei, Yuki Mory, Le Wei, Amanda, and Thomas Gallagher.',
+						'Current team: Ben, Luca Frei, Yuki Mory, Le Wei, Amanda, and Alex Dean.',
 					],
 				},
 				{
