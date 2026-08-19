@@ -6,6 +6,7 @@ import {
     FaBrain,
     FaGithub,
     FaLayerGroup,
+    FaLinkedin,
     FaNodeJs,
     FaPython,
     FaReact,
@@ -199,6 +200,7 @@ export const personal = {
 	whatsappNumber: '+1 (404) 786-3107',
 	discordUsername: 'benclark10261',
 	discordUserId: '',
+	linkedinUrl: 'https://www.linkedin.com/in/ben-clar-66123642b/',
 	greeting: team.heroGreeting,
 	heroLead: team.heroLead,
 };
@@ -471,6 +473,13 @@ export const socialLinks: SocialLink[] = [
 		iconColor: 'rgb(88, 101, 242)',
 		glowColor: 'rgba(88, 101, 242, 0.65)',
 		action: 'discord',
+	},
+	{
+		label: 'LinkedIn',
+		href: personal.linkedinUrl,
+		icon: FaLinkedin,
+		iconColor: 'rgb(10, 102, 194)',
+		glowColor: 'rgba(10, 102, 194, 0.55)',
 	},
 	{
 		label: 'Email',

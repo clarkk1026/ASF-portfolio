@@ -403,8 +403,8 @@ const humanTech = (mentioned?: string) => {
 
 const humanContact = () =>
 	prefix([
-		`Best ways to reach Ben:\n\n📧 **${personal.email}**\n📱 **WhatsApp:** [${personal.whatsappNumber}](${whatsappUrl})\n🎮 **Discord:** ${personal.discordUsername}\n\n${contact.subtext}\n\n[[mood:warm]]`,
-		`Email **${personal.email}**, WhatsApp **${personal.whatsappNumber}**, or Discord ${personal.discordUsername}. ASF is open to client work, collaborations, and longer-term engagements.\n\n[[mood:calm]]`,
+		`Best ways to reach Ben:\n\n**Email:** ${personal.email}\n**WhatsApp:** [${personal.whatsappNumber}](${whatsappUrl})\n**Discord:** ${personal.discordUsername}\n**LinkedIn:** ${personal.linkedinUrl}\n\n${contact.subtext}\n\n[[mood:warm]]`,
+		`Email **${personal.email}**, WhatsApp **${personal.whatsappNumber}**, Discord ${personal.discordUsername}, or LinkedIn ${personal.linkedinUrl}. ASF is open to client work, collaborations, and longer-term engagements.\n\n[[mood:calm]]`,
 	]);
 
 const humanAbout = () =>
@@ -920,7 +920,7 @@ const handlers: IntentHandler[] = [
 			let s = 0;
 			if (matches(q, [/how (can|do) i (contact|reach|email|message)/, /get in touch/, /reach (out|ben|him|you)/]))
 				s += 11;
-			if (hasWord(tokens, ['contact', 'email', 'telegram', 'whatsapp', 'message', 'reach'])) s += 6;
+			if (hasWord(tokens, ['contact', 'email', 'telegram', 'whatsapp', 'linkedin', 'message', 'reach'])) s += 6;
 			if (hasWord(tokens, ['hire', 'recruit', 'collaborat'])) s += 5;
 			return s;
 		},
@@ -1049,7 +1049,7 @@ const handlers: IntentHandler[] = [
 				experience: `Want me to zoom in on **ASF Studio**, **Mudbath Digital**, **Anditi**, **4Tel**, or Ben's **education** path?`,
 				projects: `I can dive deeper into **Happy Hydro**, **Labyrinth Style**, **Remedior Skincare**, or any store in Selected Work. Which one interests you?`,
 				skills: `Happy to go deeper on **full stack**, **Python/AI**, **front end**, or **Shopify**, or name a tech like React or Python and I'll tell you how he uses it.`,
-				contact: `Email **${personal.email}**, WhatsApp **${personal.whatsappNumber}**, or Discord **${personal.discordUsername}**. I can suggest what to write in a first message if you want.\n\n[[mood:warm]]`,
+				contact: `Email **${personal.email}**, WhatsApp **${personal.whatsappNumber}**, Discord **${personal.discordUsername}**, or LinkedIn **${personal.linkedinUrl}**. I can suggest what to write in a first message if you want.\n\n[[mood:warm]]`,
 				tech: `Name any tool or language, React, Docker, Postgres, whatever, and I'll tell you how it fits Ben's work.`,
 				about: `I can also share more about his **personal journey**, **projects**, or **how to contact him**. What would you like next?\n\n[[mood:warm]]`,
 			};
@@ -1134,7 +1134,7 @@ export const getBotResponse = (
 
 	// Ben-related keyword rescue
 	if (scoreBenRelevance(q, tokens) > 0) {
-		if (matches(q, [/contact|email|telegram|whatsapp|hire/])) {
+		if (matches(q, [/contact|email|telegram|whatsapp|linkedin|hire/])) {
 			return { text: humanContact(), intent: 'contact', userName: ctx.userName };
 		}
 		if (matches(q, [/experience|mudbath|anditi|4tel|career|resume/])) {
