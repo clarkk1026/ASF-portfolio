@@ -183,7 +183,7 @@ export const teamMembers: TeamMember[] = [
 export const personal = {
 	name: 'ASF',
 	heroName: 'ASF TEAM',
-	heroNameLines: ['ASF', 'TEAM'],
+	heroNameLines: ['ASF TEAM'],
 	heroBadge: 'Remote Software Team',
 	heroServices: ['Web Apps', 'Shopify', 'Python Backends'],
 	fullName: 'Ben Clark',

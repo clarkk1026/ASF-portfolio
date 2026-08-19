@@ -19,15 +19,18 @@
 .hero-name-3d-lines {
 	position: relative;
 	display: flex;
-	flex-direction: column;
-	align-items: center;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: baseline;
+	justify-content: center;
+	gap: 0.28em;
 	z-index: 2;
 }
 
 .hero-name-3d-line {
 	display: flex;
 	justify-content: center;
-	width: 100%;
+	width: auto;
 }
 
 .hero-name-3d-letters {
@@ -60,7 +63,7 @@
 	overflow: visible;
 	cursor: default;
 	font-family: 'Fugaz One', 'Arial Black', sans-serif;
-	font-size: clamp(2.35rem, 8vw, 5.35rem);
+	font-size: clamp(1.85rem, 7.2vw, 5.35rem);
 	font-weight: 400;
 	font-style: italic;
 	line-height: 1.12;
@@ -201,7 +204,7 @@
 
 @media screen and (max-width: 480px) {
 	.hero-letter {
-		font-size: clamp(1.7rem, 11.5vw, 2.55rem);
+		font-size: clamp(1.35rem, 9.5vw, 2.2rem);
 		letter-spacing: 0.01em;
 	}
 
