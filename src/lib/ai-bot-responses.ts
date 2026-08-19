@@ -373,7 +373,7 @@ const humanExperience = () => {
 
 	return prefix([
 		`Ben has **5+ years** of professional software experience across full-stack and product engineering work in Newcastle, Australia.\n\n${lines}\n\nMost recent company role: **Software Engineer at Mudbath Digital** (May 2024-Feb 2026), building modern digital products and customer-facing applications. Ask about any employer if you want detail.`,
-		`Career path in short:\n\n${lines}\n\nHe graduated from **The University of Newcastle** in 2020 (**Bachelor of Software Engineering (Honours)**) and built his career in Newcastle before founding ASF Studio.`,
+		`Career path in short:\n\n${lines}\n\nHe graduated from **The University of Newcastle** in 2020 (**Bachelor of Software Engineering (Honours)**) and built his career in Newcastle before founding ASF Team.`,
 	]);
 };
 
@@ -409,14 +409,14 @@ const humanContact = () =>
 
 const humanAbout = () =>
 	prefix([
-		`Ben is from **${personal.birthPlace}** and now based in **${personal.location}**. His real name is **${personal.fullName}**.\n\nHe studied **Software Engineering (Honours)** at **The University of Newcastle** (2016-2020), then built his career at **4Tel**, **Anditi**, and **Mudbath Digital** before founding **ASF Studio**.\n\n${benStory.lessons[0]}\n\n[[mood:thoughtful]]`,
+		`Ben is from **${personal.birthPlace}** and now based in **${personal.location}**. His real name is **${personal.fullName}**.\n\nHe studied **Software Engineering (Honours)** at **The University of Newcastle** (2016-2020), then built his career at **4Tel**, **Anditi**, and **Mudbath Digital** before founding **ASF Team**.\n\n${benStory.lessons[0]}\n\n[[mood:thoughtful]]`,
 		`${benStory.summary}\n\nToday he works across **full stack engineering**, **Python/AI**, and **front end** development, plus live **Shopify** builds on this portfolio.\n\n[[mood:warm]]`,
 	]);
 
 const humanStory = () =>
 	prefix([
 		`Here is the honest version of Ben's path:\n\n**Early life:** ${benStory.earlyLife.join(' ')}\n\n**Product & business mindset:** ${benStory.entrepreneurship.join(' ')}\n\n**Technical work:** ${benStory.technicalLeadership.join(' ')}\n\n**Teams led:**\n${benStory.teamsLed.map((line) => `- ${line}`).join('\n')}\n\n**What he learned:** ${benStory.lessons.join(' ')}\n\n**Life today:** ${benStory.lifeAndValues.join(' ')}\n\n[[mood:thoughtful]]`,
-		`${benStory.summary}\n\nIf you want, I can go deeper on his **university path**, **Newcastle career**, or **ASF Studio**.\n\n[[mood:calm]]`,
+		`${benStory.summary}\n\nIf you want, I can go deeper on his **university path**, **Newcastle career**, or **ASF Team**.\n\n[[mood:calm]]`,
 	]);
 
 const humanCasualChat = (input: string, ctx: BotContext): BotReply => {
@@ -560,7 +560,7 @@ const handlers: IntentHandler[] = [
 			return s;
 		},
 		reply: () =>
-			`I'm **Bon**. Think of me as someone who knows Ben well and actually likes talking to people.\n\nYou can ask about:\n- His **experience**, **skills**, and **projects**\n- His **personal story** (Newcastle, Australia, university, career path, ASF Studio)\n- **Health & balance**, **music**, or random life chat\n- How to **contact** him\n\nNo need to be formal. I'll meet you where you are.`,
+			`I'm **Bon**. Think of me as someone who knows Ben well and actually likes talking to people.\n\nYou can ask about:\n- His **experience**, **skills**, and **projects**\n- His **personal story** (Newcastle, Australia, university, career path, ASF Team)\n- **Health & balance**, **music**, or random life chat\n- How to **contact** him\n\nNo need to be formal. I'll meet you where you are.`,
 	},
 	{
 		id: 'identity',
@@ -939,7 +939,7 @@ const handlers: IntentHandler[] = [
 		reply: () =>
 			prefix([
 				`Yes. ASF is **open to client projects, collaborations, and longer-term engagements**. Ben handles first contact.\n\nDrop him a line at **${personal.email}**, he typically replies within **24 hours**.`,
-				`From what I know, the studio is open to new client work and collaborations. Remote delivery is the default. Email's the best first step: **${personal.email}**.`,
+				`From what I know, the team is open to new client work and collaborations. Remote delivery is the default. Email's the best first step: **${personal.email}**.`,
 			]),
 	},
 	{
@@ -978,13 +978,13 @@ const handlers: IntentHandler[] = [
 		id: 'cloudsmith',
 		score: (q) => (/cloudsmith/.test(q) ? 8 : 0),
 		reply: () =>
-			`Ben's published career path on this site is **4Tel to Anditi to Mudbath Digital**, then **ASF Studio**. If you're thinking of an older employer name, ask about those Newcastle roles instead.`,
+			`Ben's published career path on this site is **4Tel to Anditi to Mudbath Digital**, then **ASF Team**. If you're thinking of an older employer name, ask about those Newcastle roles instead.`,
 	},
 	{
 		id: 'nearform',
 		score: (q) => (/nearform|near form/.test(q) ? 8 : 0),
 		reply: () =>
-			`Ben's published career path on this site is **4Tel to Anditi to Mudbath Digital**, then **ASF Studio**. I can walk through any of those roles if you want detail.`,
+			`Ben's published career path on this site is **4Tel to Anditi to Mudbath Digital**, then **ASF Team**. I can walk through any of those roles if you want detail.`,
 	},
 	{
 		id: 'stelfox',
@@ -996,7 +996,7 @@ const handlers: IntentHandler[] = [
 		id: 'threadline',
 		score: (q) => (/threadline|sock/.test(q) ? 8 : 0),
 		reply: () =>
-			`This portfolio focuses on Ben's Newcastle engineering path and **ASF Studio**. For product mindset, he draws on product-focused and business-oriented project experience rather than a Threadline story.`,
+			`This portfolio focuses on Ben's Newcastle engineering path and **ASF Team**. For product mindset, he draws on product-focused and business-oriented project experience rather than a Threadline story.`,
 	},
 	{
 		id: 'shopify_stores',
@@ -1017,7 +1017,7 @@ const handlers: IntentHandler[] = [
 			return s;
 		},
 		reply: () =>
-			`You're on the **ASF Studio** site right now. Sections to explore:\n\n- **About:** the studio\n- **Team:** who we are\n- **Expertise:** what we build\n- **Studio Path:** how ASF grew\n- **Selected Work:** project previews\n- **Tech Stack:** tools we use\n- **Contact:** how to reach Ben\n\nUse the nav up top or just scroll. What catches your eye?`,
+			`You're on the **ASF Team** site right now. Sections to explore:\n\n- **About:** the team\n- **Team:** who we are\n- **Expertise:** what we build\n- **Team Path:** how ASF grew\n- **Selected Work:** project previews\n- **Tech Stack:** tools we use\n- **Contact:** how to reach Ben\n\nUse the nav up top or just scroll. What catches your eye?`,
 	},
 	{
 		id: 'pricing',
@@ -1046,7 +1046,7 @@ const handlers: IntentHandler[] = [
 		},
 		reply: (_q, _t, ctx) => {
 			const followups: Record<string, string> = {
-				experience: `Want me to zoom in on **ASF Studio**, **Mudbath Digital**, **Anditi**, **4Tel**, or Ben's **education** path?`,
+				experience: `Want me to zoom in on **ASF Team**, **Mudbath Digital**, **Anditi**, **4Tel**, or Ben's **education** path?`,
 				projects: `I can dive deeper into **Happy Hydro**, **Labyrinth Style**, **Remedior Skincare**, or any store in Selected Work. Which one interests you?`,
 				skills: `Happy to go deeper on **full stack**, **Python/AI**, **front end**, or **Shopify**, or name a tech like React or Python and I'll tell you how he uses it.`,
 				contact: `Email **${personal.email}**, WhatsApp **${personal.whatsappNumber}**, Discord **${personal.discordUsername}**, or LinkedIn **${personal.linkedinUrl}**. I can suggest what to write in a first message if you want.\n\n[[mood:warm]]`,

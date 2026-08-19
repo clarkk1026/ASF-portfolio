@@ -4,7 +4,7 @@ import { InfoSection } from '../sections/info.section';
 
 export const HomePage = () => (
 	<PageShell
-		title='ASF Studio'
+		title='ASF Team'
 		home
 		backdrop={<HomeAuroraBg />}
 	>

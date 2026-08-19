@@ -7,7 +7,7 @@ type BrandLogoProps = {
 
 export const BrandLogo = ({
 	className = '',
-	title = 'ASF Studio',
+	title = 'ASF Team',
 }: BrandLogoProps) => (
 	<span
 		className={`brand-logo ${className}`.trim()}

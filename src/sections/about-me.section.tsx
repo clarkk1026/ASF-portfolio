@@ -36,7 +36,7 @@ export const AboutMe = () => {
 						</div>
 
 						<footer className='about-story-footer'>
-							<span>Remote studio</span>
+							<span>Remote team</span>
 							<span>Founded 2024</span>
 						</footer>
 					</article>

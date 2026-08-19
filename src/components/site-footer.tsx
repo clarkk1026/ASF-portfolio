@@ -12,7 +12,7 @@ import {
 import { githubContactLocked, preventLockedGithubContact } from '../lib/contact-lock';
 import { discordContactHref, openDiscordContact } from '../lib/discord-contact';
 
-const studioLinks = navLinks.filter((link) =>
+const teamNavLinks = navLinks.filter((link) =>
 	['/team', '/expertise', '/projects', '/about', '/contact'].includes(link.href),
 );
 
@@ -43,18 +43,18 @@ export const SiteFooter = () => {
 							<span className='site-footer-brand-name'>{team.fullName}</span>
 						</Link>
 						<p className='site-footer-blurb'>
-							Remote software studio for web apps, Shopify storefronts, and
+							Remote software team for web apps, Shopify storefronts, and
 							Python backends, led by {personal.fullName}.
 						</p>
 					</div>
 
 					<nav
 						className='site-footer-col'
-						aria-label='Studio'
+						aria-label='Team'
 					>
-						<h2 className='site-footer-heading'>Studio</h2>
+						<h2 className='site-footer-heading'>Team</h2>
 						<ul className='site-footer-list'>
-							{studioLinks.map((link) => (
+							{teamNavLinks.map((link) => (
 								<li key={link.href}>
 									<Link to={link.href}>{link.label}</Link>
 								</li>

@@ -109,13 +109,13 @@ export type TeamMember = {
 
 export const team = {
 	name: 'ASF',
-	fullName: 'ASF Studio',
+	fullName: 'ASF Team',
 	tagline:
 		'We build web applications, commerce storefronts, and backend systems for clients who need working software in production. A small remote team focused on shipping.',
 	heroGreeting: 'We are',
-	heroLead: 'A remote software studio led by Ben Clark',
+	heroLead: 'A remote software team led by Ben Clark',
 	established: '2024',
-	model: 'Fully remote software studio',
+	model: 'Fully remote software team',
 };
 
 export const teamMembers: TeamMember[] = [
@@ -182,9 +182,9 @@ export const teamMembers: TeamMember[] = [
 
 export const personal = {
 	name: 'ASF',
-	heroName: 'ASF STUDIO',
-	heroNameLines: ['ASF STUDIO'],
-	heroBadge: 'Remote Software Studio',
+	heroName: 'ASF TEAM',
+	heroNameLines: ['ASF', 'TEAM'],
+	heroBadge: 'Remote Software Team',
 	heroServices: ['Web Apps', 'Shopify', 'Python Backends'],
 	fullName: 'Ben Clark',
 	originalName: 'Ben Clark',
@@ -207,7 +207,7 @@ export const personal = {
 
 export const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
 	personal.email,
-)}&su=${encodeURIComponent('ASF Studio inquiry')}`;
+)}&su=${encodeURIComponent('ASF Team inquiry')}`;
 
 export const whatsappUrl = 'https://wa.me/14047863107';
 
@@ -385,7 +385,7 @@ export const teamSection = {
 		title: 'Our',
 		subtitle: 'Team',
 		summary:
-			'A small remote studio. Ben Clark is CTO and leads delivery.',
+			'A small remote team. Ben Clark is CTO and leads delivery.',
 	},
 };
 
@@ -495,17 +495,17 @@ export const about = {
 		title: 'About',
 		subtitle: 'Us',
 		summary:
-			'A remote software studio led by CTO Ben Clark since 2024, working across full stack engineering, commerce, and backend systems',
+			'A remote software team led by CTO Ben Clark since 2024, working across full stack engineering, commerce, and backend systems',
 	},
 	intro: [
-		'ASF started when Ben Clark began taking on client work with a small group of developers he trusted, building on years of software engineering in Newcastle, Australia, from 4Tel and Anditi through Mudbath Digital. As CTO, he stays close to architecture, delivery, and clients while the studio remains fully remote and tightly staffed.',
+		'ASF started when Ben Clark began taking on client work with a small group of developers he trusted, building on years of software engineering in Newcastle, Australia, from 4Tel and Anditi through Mudbath Digital. As CTO, he stays close to architecture, delivery, and clients while the team remains fully remote and tightly staffed.',
 		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Luca on front-end, Shopify, and client partnerships, Yuki on full stack features, Le Wei on web development, Amanda on AI and big data systems, and Alex on full stack development.',
 	],
 };
 
 export const benStory = {
 	summary:
-		'Ben Clark is based in Bellingen, Australia. He earned a Bachelor of Software Engineering (Honours) from The University of Newcastle (2016–2020), then built his career in Newcastle at 4Tel, Anditi, and Mudbath Digital before leading ASF Studio as CTO. His real name is Ben Clark.',
+		'Ben Clark is based in Bellingen, Australia. He earned a Bachelor of Software Engineering (Honours) from The University of Newcastle (2016–2020), then built his career in Newcastle at 4Tel, Anditi, and Mudbath Digital before leading ASF Team as CTO. His real name is Ben Clark.',
 	earlyLife: [
 		'Originally from Newcastle, NSW, Australia. Real name: Ben Clark.',
 		'Studied at The University of Newcastle, Australia, completing a Bachelor of Software Engineering (Honours) from 2016 to 2020.',
@@ -529,7 +529,7 @@ export const benStory = {
 		'The through-line is building step by step: learning, adapting, and delivering software that supports real business needs.',
 	],
 	teamsLed: [
-		'ASF Studio, a small remote delivery team since 2024.',
+		'ASF Team, a small remote delivery team since 2024.',
 		'Product and engineering delivery at Mudbath Digital, Anditi, and 4Tel in Newcastle.',
 	],
 	lessons: [
@@ -566,18 +566,18 @@ export const benPersonality = {
 
 export const experience = {
 	section: {
-		title: 'Studio',
+		title: 'Team',
 		subtitle: 'Path',
 		summary:
-			'How ASF grew from Ben Clark\'s engineering background in Newcastle into a remote delivery studio',
+			'How ASF grew from Ben Clark\'s engineering background in Newcastle into a remote delivery team',
 	},
 	timeline: [
 		{
-			heading: 'Studio',
+			heading: 'Team',
 			items: [
 				{
-					role: 'ASF Studio',
-					org: 'Remote software studio',
+					role: 'ASF Team',
+					org: 'Remote software team',
 					period: '2024 to Present',
 					bullets: [
 						'Ben Clark leads ASF as CTO, delivering client software with a small, trusted team.',
