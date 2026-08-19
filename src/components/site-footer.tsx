@@ -1,4 +1,3 @@
-import type { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { BrandLogo } from './brand-logo';
 import { useToast } from './toast-provider';
@@ -9,7 +8,6 @@ import {
 	socialLinks,
 	team,
 } from '../data/portfolio';
-import { githubContactLocked, preventLockedGithubContact } from '../lib/contact-lock';
 import { discordContactHref, openDiscordContact } from '../lib/discord-contact';
 
 const teamNavLinks = navLinks.filter((link) =>
@@ -24,10 +22,6 @@ const serviceLinks = expertise.slice(0, 4).map((item) => ({
 export const SiteFooter = () => {
 	const year = new Date().getFullYear();
 	const { pushToast } = useToast();
-
-	const onGithubLockedClick = (event: MouseEvent<HTMLAnchorElement>) => {
-		preventLockedGithubContact(event, (message) => pushToast(message, 'info'));
-	};
 
 	return (
 		<footer className='site-footer-bar'>
@@ -84,7 +78,6 @@ export const SiteFooter = () => {
 						>
 							{socialLinks.map((link) => {
 								const Icon = link.icon;
-								const isGithub = link.label === 'GitHub';
 								const isDiscord = link.action === 'discord';
 
 								return (
@@ -92,26 +85,18 @@ export const SiteFooter = () => {
 										key={link.label}
 										role='listitem'
 										className='site-footer-social'
-										href={
-											isGithub && githubContactLocked
-												? '/contact'
-												: isDiscord
-													? discordContactHref
-													: link.href
-										}
-										target={isGithub && githubContactLocked ? undefined : '_blank'}
-										rel={isGithub && githubContactLocked ? undefined : 'noreferrer'}
+										href={isDiscord ? discordContactHref : link.href}
+										target='_blank'
+										rel='noreferrer'
 										aria-label={link.label}
 										title={link.label}
 										onClick={
-											isGithub && githubContactLocked
-												? onGithubLockedClick
-												: isDiscord
-													? (event) =>
-															openDiscordContact(event, (message) =>
-																pushToast(message, 'info'),
-															)
-													: undefined
+											isDiscord
+												? (event) =>
+														openDiscordContact(event, (message) =>
+															pushToast(message, 'info'),
+														)
+												: undefined
 										}
 									>
 										<Icon

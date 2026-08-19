@@ -4,7 +4,6 @@ import { DiMongodb } from 'react-icons/di';
 import {
     FaAws,
     FaBrain,
-    FaGithub,
     FaLayerGroup,
     FaLinkedin,
     FaNodeJs,
@@ -452,13 +451,6 @@ export const visitorNote = {
 };
 
 export const socialLinks: SocialLink[] = [
-	{
-		label: 'GitHub',
-		href: 'https://github.com/buildflux26',
-		icon: FaGithub,
-		iconColor: 'rgba(255, 255, 255, 0.9)',
-		glowColor: 'rgba(255, 255, 255, 0.4)',
-	},
 	{
 		label: 'WhatsApp',
 		href: whatsappUrl,

@@ -9,23 +9,14 @@ import {
 	socialLinks,
 	whatsappUrl,
 } from '../data/portfolio';
-import { githubContactLocked, preventLockedGithubContact } from '../lib/contact-lock';
 import { discordContactHref, openDiscordContact } from '../lib/discord-contact';
 
 const socialLinkProps = (
 	link: (typeof socialLinks)[number],
 	options?: {
-		onGithubLockedClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
 		onDiscordNotify?: (message: string) => void;
 	},
 ) => {
-	if (link.label === 'GitHub' && githubContactLocked && options?.onGithubLockedClick) {
-		return {
-			href: '/contact',
-			onClick: options.onGithubLockedClick,
-		};
-	}
-
 	if (link.action === 'discord') {
 		return {
 			href: discordContactHref,
@@ -39,10 +30,6 @@ const socialLinkProps = (
 
 export const Contact = () => {
 	const { pushToast } = useToast();
-
-	const onGithubLockedClick = (event: MouseEvent<HTMLAnchorElement>) => {
-		preventLockedGithubContact(event, (message) => pushToast(message, 'info'));
-	};
 
 	return (
 		<section
@@ -94,10 +81,6 @@ export const Contact = () => {
 											icon={<link.icon color={link.iconColor} />}
 											aria-label={link.label.toLowerCase()}
 											{...socialLinkProps(link, {
-												onGithubLockedClick:
-													link.label === 'GitHub'
-														? onGithubLockedClick
-														: undefined,
 												onDiscordNotify: (message) =>
 													pushToast(message, 'info'),
 											})}
