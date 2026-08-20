@@ -131,15 +131,13 @@ export const teamMembers: TeamMember[] = [
 		focus: ['Architecture', 'Full stack', 'Client delivery', 'Shopify'],
 	},
 	{
-		id: 'luca-frei',
-		name: 'Luca Frei',
-		role: 'Front-End Engineer & Client Lead',
-		location: 'Poland',
-		badge: 'CFO',
-		badgeTone: 'client',
+		id: 'tadeu-oliveira',
+		name: 'Tadeu Oliveira',
+		role: 'Senior Full Stack Software Engineer',
+		location: 'Niterói, Rio de Janeiro, Brazil',
 		summary:
-			'Originally from Switzerland, now based in Poland. Owns client relationships end to end, scoping needs, steering delivery, and keeping stakeholders aligned, while shipping polished front-end work as a Shopify specialist.',
-		focus: ['Shopify', 'Front end', 'Client partnerships', 'Storefront UX'],
+			'Based in Niterói, Rio de Janeiro, Brazil. Senior engineer with deep NestJS and Node.js experience, focused on scalable APIs, system integrations, and modernizing legacy platforms into reliable production software.',
+		focus: ['NestJS', 'Node.js', 'APIs', 'Full stack'],
 	},
 	{
 		id: 'yuki-mory',
@@ -165,7 +163,7 @@ export const teamMembers: TeamMember[] = [
 		role: 'AI and Big Data Engineer',
 		location: 'Poland',
 		summary:
-			'Originally from Poland and based there. AI and Big Data Engineer with hands-on experience across web development, AI-enabled tools, data systems, and software delivery.',
+			'Originally from Japan, now based in Poland. AI and Big Data Engineer with hands-on experience across web development, AI-enabled tools, data systems, and software delivery.',
 		focus: ['AI', 'Big Data', 'Web development', 'Data systems'],
 	},
 	{
@@ -491,7 +489,7 @@ export const about = {
 	},
 	intro: [
 		'ASF started when Ben Clark began taking on client work with a small group of developers he trusted, building on years of software engineering in Newcastle, Australia, from 4Tel and Anditi through Mudbath Digital. As CTO, he stays close to architecture, delivery, and clients while the team remains fully remote and tightly staffed.',
-		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Luca on front-end, Shopify, and client partnerships, Yuki on full stack features, Le Wei on web development, Amanda on AI and big data systems, and Alex on full stack development.',
+		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Tadeu on NestJS and full stack APIs, Yuki on full stack features, Le Wei on web development, Amanda on AI and big data systems, and Alex on full stack development.',
 	],
 };
 
@@ -574,7 +572,7 @@ export const experience = {
 					bullets: [
 						'Ben Clark leads ASF as CTO, delivering client software with a small, trusted team.',
 						'Core focus: full stack web apps, Shopify commerce, Python backends, and ML integrations.',
-						'Current team: Ben, Luca Frei, Yuki Mory, Le Wei, Amanda, and Alex Dean.',
+						'Current team: Ben, Tadeu Oliveira, Yuki Mory, Le Wei, Amanda, and Alex Dean.',
 					],
 				},
 				{
