@@ -87,10 +87,6 @@ body:has(.home-aurora) .hex-canvas {
 	opacity: 0.1;
 }
 
-body:has(.home-aurora) .falling-stars-canvas {
-	display: none;
-}
-
 body:has(.home-aurora) .hero-orbs,
 body:has(.home-aurora) .blur {
 	opacity: 0.18;

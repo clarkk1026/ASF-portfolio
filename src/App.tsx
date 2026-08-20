@@ -68,8 +68,7 @@ const SiteShell = () => {
 			<Navbar />
 			<Outlet />
 			<SiteFooter />
-			{/* Falling stars kept on all non-home pages */}
-			{!isHome && <FallingStarsLayer />}
+			<FallingStarsLayer />
 			<AiBot />
 		</>
 	);
