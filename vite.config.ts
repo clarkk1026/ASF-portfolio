@@ -409,6 +409,83 @@ const visitorContactsDevApi = () => ({
 	},
 });
 
+const siteUnlockDevApi = (passkey: string, gateSecret: string) => ({
+	name: 'site-unlock-dev-api',
+	configureServer(server: import('vite').ViteDevServer) {
+		server.middlewares.use('/api/unlock', async (req, res) => {
+			res.setHeader('Cache-Control', 'no-store');
+			res.setHeader('Content-Type', 'application/json');
+
+			const {
+				buildGateCookie,
+				consumeUnlockAttempt,
+				createGateToken,
+				GATE_COOKIE,
+				parseCookieHeader,
+				passkeysMatch,
+				verifyGateToken,
+			} = await import('./api/lib/site-gate.ts');
+
+			const secret = gateSecret || (passkey ? `asf-gate:${passkey}` : '');
+			const cookieHeader = req.headers.cookie;
+			const existing = parseCookieHeader(cookieHeader, GATE_COOKIE);
+
+			if (req.method === 'GET') {
+				res.statusCode = 200;
+				res.end(JSON.stringify({ unlocked: verifyGateToken(existing, secret) }));
+				return;
+			}
+
+			if (req.method !== 'POST') {
+				res.statusCode = 405;
+				res.end(JSON.stringify({ error: 'Method not allowed' }));
+				return;
+			}
+
+			if (!passkey || !secret) {
+				res.statusCode = 503;
+				res.end(
+					JSON.stringify({
+						error: 'Site gate is not configured. Set SITE_PASSKEY in .env',
+					}),
+				);
+				return;
+			}
+
+			const ip = req.socket.remoteAddress ?? 'local';
+			if (!consumeUnlockAttempt(ip)) {
+				res.statusCode = 429;
+				res.end(
+					JSON.stringify({
+						error: 'Too many attempts. Try again in a few minutes.',
+					}),
+				);
+				return;
+			}
+
+			try {
+				const body = (await readBody(req)) as { passkey?: unknown } | null;
+				const provided =
+					body && typeof body.passkey === 'string' ? body.passkey : '';
+
+				if (!passkeysMatch(provided, passkey)) {
+					res.statusCode = 401;
+					res.end(JSON.stringify({ error: 'Incorrect passkey' }));
+					return;
+				}
+
+				const token = createGateToken(secret);
+				res.setHeader('Set-Cookie', buildGateCookie(token, false));
+				res.statusCode = 200;
+				res.end(JSON.stringify({ unlocked: true }));
+			} catch {
+				res.statusCode = 500;
+				res.end(JSON.stringify({ error: 'Unlock unavailable' }));
+			}
+		});
+	},
+});
+
 export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), '');
 
@@ -418,6 +495,7 @@ export default defineConfig(({ mode }) => {
 			visitorNotesDevApi(),
 			visitorContactsDevApi(),
 			chatDevApi(env.GEMINI_API_KEY, env.GROQ_API_KEY),
+			siteUnlockDevApi(env.SITE_PASSKEY ?? 'Tomorrow', env.SITE_GATE_SECRET ?? ''),
 		],
 		server: {
 			host: true,

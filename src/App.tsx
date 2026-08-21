@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
 	Navigate,
 	Outlet,
@@ -13,8 +14,10 @@ import { PageKeyNav } from './components/page-key-nav';
 import { ScrollBar } from './components/scroll-bar';
 import { ScrollToTop } from './components/scroll-to-top';
 import { SiteFooter } from './components/site-footer';
+import { SiteLock } from './components/site-lock';
 import { FallingStarsLayer, StarfieldBg } from './components/starfield-bg';
 import { ToastProvider } from './components/toast-provider';
+import { checkSiteUnlock } from './lib/site-passkey';
 import { AboutPage } from './pages/about-page';
 import { ContactPage } from './pages/contact-page';
 import { ExpertisePage } from './pages/expertise-page';
@@ -45,6 +48,7 @@ import './styles/projects.css';
 import './styles/reveal.css';
 import './styles/scroll-bar.css';
 import './styles/site-footer.css';
+import './styles/site-lock.css';
 import './styles/starfield-bg.css';
 import './styles/team.css';
 import './styles/tech-stack.css';
@@ -75,6 +79,26 @@ const SiteShell = () => {
 };
 
 function App() {
+	const [gate, setGate] = useState<'checking' | 'locked' | 'open'>('checking');
+
+	useEffect(() => {
+		let cancelled = false;
+		void checkSiteUnlock().then((unlocked) => {
+			if (!cancelled) setGate(unlocked ? 'open' : 'locked');
+		});
+		return () => {
+			cancelled = true;
+		};
+	}, []);
+
+	if (gate === 'checking') {
+		return <div className='site-lock site-lock-checking' aria-busy='true' />;
+	}
+
+	if (gate === 'locked') {
+		return <SiteLock onUnlock={() => setGate('open')} />;
+	}
+
 	return (
 		<ToastProvider>
 			<Routes>
