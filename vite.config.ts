@@ -495,7 +495,7 @@ export default defineConfig(({ mode }) => {
 			visitorNotesDevApi(),
 			visitorContactsDevApi(),
 			chatDevApi(env.GEMINI_API_KEY, env.GROQ_API_KEY),
-			siteUnlockDevApi(env.SITE_PASSKEY ?? 'Tomorrow', env.SITE_GATE_SECRET ?? ''),
+			siteUnlockDevApi(env.SITE_PASSKEY ?? 'Be careful', env.SITE_GATE_SECRET ?? ''),
 		],
 		server: {
 			host: true,
