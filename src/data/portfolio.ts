@@ -124,7 +124,7 @@ export const teamMembers: TeamMember[] = [
 		role: 'Full Stack Engineer & Team Lead',
 		location: 'Bellingen, Australia',
 		isLeader: true,
-		badge: 'CTO',
+		badge: 'Leader',
 		badgeTone: 'founder',
 		summary:
 			'Leads ASF after software engineering roles at 4Tel, Anditi, and Mudbath Digital in Newcastle. Owns architecture decisions, client delivery, and day-to-day engineering direction.',
@@ -135,6 +135,8 @@ export const teamMembers: TeamMember[] = [
 		name: 'Sue Ioanis',
 		role: 'Lead Software Engineer',
 		location: 'New Jersey, USA',
+		badge: 'CTO',
+		badgeTone: 'founder',
 		summary:
 			'Based in New Jersey. Lead engineer with experience at Mastercard, JPMorgan Chase, OkCupid, and LeafLink. Focused on scalable system integrations, distributed systems, DevOps, CI/CD, and reliable production software.',
 		focus: ['Distributed systems', 'Integrations', 'DevOps', 'CI/CD'],
