@@ -135,8 +135,6 @@ export const teamMembers: TeamMember[] = [
 		name: 'Sue Ioanis',
 		role: 'Lead Software Engineer',
 		location: 'New Jersey, USA',
-		badge: 'CTO',
-		badgeTone: 'founder',
 		summary:
 			'Based in New Jersey. Lead engineer with experience at Mastercard, JPMorgan Chase, OkCupid, and LeafLink. Focused on scalable system integrations, distributed systems, DevOps, CI/CD, and reliable production software.',
 		focus: ['Distributed systems', 'Integrations', 'DevOps', 'CI/CD'],
@@ -158,6 +156,15 @@ export const teamMembers: TeamMember[] = [
 		summary:
 			'Originally from Hong Kong, now based in Bellingen, Australia. Builds responsive web interfaces, polished user experiences, and dependable client-facing features.',
 		focus: ['Web development', 'Frontend', 'Responsive UI', 'User experience'],
+	},
+	{
+		id: 'marcus-hale',
+		name: 'Marcus Hale',
+		role: 'Python Backend Engineer',
+		location: 'Lisbon, Portugal',
+		summary:
+			'Based in Lisbon, Portugal. Builds Python backends, data pipelines, and API services that stay reliable under load, with a focus on clean architecture and production monitoring.',
+		focus: ['Python', 'APIs', 'Data pipelines', 'Backend'],
 	},
 	{
 		id: 'alex-dean',
@@ -482,7 +489,7 @@ export const about = {
 	},
 	intro: [
 		'ASF started when Ben Clark began taking on client work with a small group of developers he trusted, building on years of software engineering in Newcastle, Australia, from 4Tel and Anditi through Mudbath Digital. As CTO, he stays close to architecture, delivery, and clients while the team remains fully remote and tightly staffed.',
-		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Sue on scalable integrations and distributed systems, Yuki on full stack features, Le Wei on web development, and Alex on full stack development.',
+		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Sue on scalable integrations and distributed systems, Yuki on full stack features, Le Wei on web development, Marcus on Python backends, and Alex on full stack development.',
 	],
 };
 
@@ -565,7 +572,7 @@ export const experience = {
 					bullets: [
 						'Ben Clark leads ASF as CTO, delivering client software with a small, trusted team.',
 						'Core focus: full stack web apps, Shopify commerce, Python backends, and ML integrations.',
-						'Current team: Ben, Sue Ioanis, Yuki Mory, Le Wei, and Alex Dean.',
+						'Current team: Ben, Sue Ioanis, Yuki Mory, Le Wei, Marcus Hale, and Alex Dean.',
 					],
 				},
 				{
