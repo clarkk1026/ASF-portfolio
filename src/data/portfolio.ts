@@ -194,7 +194,7 @@ export const personal = {
 	tagline: team.tagline,
 	location: 'Bellingen, Australia',
 	email: 'benclarkk1026@gmail.com',
-	whatsappNumber: '+1 (404) 786-3107',
+	whatsappNumber: '+1 (562) 603-4526',
 	discordUsername: 'benclark10261',
 	discordUserId: '',
 	linkedinUrl: 'https://www.linkedin.com/in/ben-clar-66123642b/',
@@ -206,7 +206,7 @@ export const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${
 	personal.email,
 )}&su=${encodeURIComponent('ASF Team inquiry')}`;
 
-export const whatsappUrl = 'https://wa.me/14047863107';
+export const whatsappUrl = 'https://wa.me/15626034526';
 
 export const navLinks: NavLink[] = [
 	{ label: 'Team', href: '/team' },
