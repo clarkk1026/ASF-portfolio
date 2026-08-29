@@ -197,7 +197,7 @@ export const personal = {
 	whatsappNumber: '+1 (562) 603-4526',
 	discordUsername: 'benclark10261',
 	discordUserId: '',
-	linkedinUrl: 'https://www.linkedin.com/in/ben-clar-66123642b/',
+	linkedinUrl: 'https://www.linkedin.com/in/benclark1026',
 	greeting: team.heroGreeting,
 	heroLead: team.heroLead,
 };
