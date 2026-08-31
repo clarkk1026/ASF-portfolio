@@ -19,8 +19,10 @@
 .hero-orb {
 	position: absolute;
 	border-radius: 50%;
-	filter: blur(80px);
-	animation: hero-float 12s ease-in-out infinite;
+	filter: blur(64px);
+	animation: hero-float 14s ease-in-out infinite;
+	will-change: transform;
+	contain: strict;
 }
 
 .hero-orb-1 {

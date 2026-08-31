@@ -49,11 +49,11 @@
 .projects .project-card.glass-card {
 	background: linear-gradient(
 		160deg,
-		rgba(6, 12, 22, 0.88),
-		rgba(4, 8, 16, 0.82)
+		rgba(6, 12, 22, 0.9),
+		rgba(4, 8, 16, 0.84)
 	);
-	backdrop-filter: blur(18px);
-	border-color: rgba(255, 255, 255, 0.1);
+	backdrop-filter: none;
+	border-color: rgba(150, 200, 240, 0.14);
 }
 
 .projects-gallery {

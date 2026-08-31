@@ -79,18 +79,21 @@ const LOCK_HTML = `<!DOCTYPE html>
 <title>ASF Team — Locked</title>
 <style>
   :root { color-scheme: dark; }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; cursor: auto; }
   body {
     min-height: 100vh;
     display: grid;
     place-items: center;
     padding: 1.5rem;
     font-family: "Open Sans", system-ui, sans-serif;
+    cursor: auto;
     background:
       radial-gradient(ellipse 70% 50% at 50% 0%, rgba(31,195,255,.14), transparent 55%),
       linear-gradient(180deg, #02070e 0%, #000 100%);
     color: #e8f7ff;
   }
+  input { cursor: text; }
+  button { cursor: pointer; }
   form {
     width: min(100%, 26rem);
     display: flex;

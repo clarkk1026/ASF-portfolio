@@ -5,7 +5,7 @@
 	display: grid;
 	place-items: center;
 	padding: 1.5rem;
-	cursor: auto;
+	cursor: auto !important;
 	background: #000;
 }
 
@@ -15,10 +15,20 @@
 		linear-gradient(180deg, #02070e 0%, #000 100%);
 }
 
+.site-lock,
 .site-lock *,
 .site-lock *::before,
 .site-lock *::after {
-	cursor: auto;
+	cursor: auto !important;
+}
+
+.site-lock input,
+.site-lock button {
+	cursor: text !important;
+}
+
+.site-lock button {
+	cursor: pointer !important;
 }
 
 .site-lock-bg {

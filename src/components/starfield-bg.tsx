@@ -26,8 +26,8 @@ type Star = {
 	warmth: number;
 };
 
-const STAR_COUNT = 320;
-const MAX_METEORS = 10;
+const STAR_COUNT = 160;
+const MAX_METEORS = 5;
 const SKY_TOP = '#04060c';
 const SKY_MID = '#020308';
 const SKY_BOTTOM = '#000000';
@@ -162,8 +162,22 @@ export const FallingStarsLayer = () => {
 		window.addEventListener('resize', resize);
 		meteorAnimId = requestAnimationFrame(renderMeteors);
 
+		const onVisibility = () => {
+			if (document.hidden) {
+				cancelAnimationFrame(meteorAnimId);
+				meteorAnimId = 0;
+				return;
+			}
+			lastFrame = performance.now();
+			if (!meteorAnimId) {
+				meteorAnimId = requestAnimationFrame(renderMeteors);
+			}
+		};
+		document.addEventListener('visibilitychange', onVisibility);
+
 		return () => {
 			window.removeEventListener('resize', resize);
+			document.removeEventListener('visibilitychange', onVisibility);
 			cancelAnimationFrame(meteorAnimId);
 		};
 	}, []);
@@ -337,8 +351,21 @@ export const StarfieldBg = () => {
 		window.addEventListener('resize', resize);
 		skyAnimId = requestAnimationFrame(renderSky);
 
+		const onVisibility = () => {
+			if (document.hidden) {
+				cancelAnimationFrame(skyAnimId);
+				skyAnimId = 0;
+				return;
+			}
+			if (!skyAnimId) {
+				skyAnimId = requestAnimationFrame(renderSky);
+			}
+		};
+		document.addEventListener('visibilitychange', onVisibility);
+
 		return () => {
 			window.removeEventListener('resize', resize);
+			document.removeEventListener('visibilitychange', onVisibility);
 			cancelAnimationFrame(skyAnimId);
 		};
 	}, []);

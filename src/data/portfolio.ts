@@ -99,6 +99,7 @@ export type TeamMember = {
 	name: string;
 	role: string;
 	location: string;
+	birthPlace: string;
 	isLeader?: boolean;
 	badge?: string;
 	badgeTone?: 'founder' | 'client';
@@ -114,7 +115,7 @@ export const team = {
 	heroGreeting: 'We are',
 	heroLead: 'A remote software team led by Ben Clark',
 	established: '2024',
-	model: 'Fully remote software team',
+	model: 'Fully remote software team across Australia',
 };
 
 export const teamMembers: TeamMember[] = [
@@ -122,57 +123,63 @@ export const teamMembers: TeamMember[] = [
 		id: 'ben-clark',
 		name: 'Ben Clark',
 		role: 'Full Stack Engineer & Team Lead',
-		location: 'Bellingen, Australia',
+		birthPlace: 'Newcastle, NSW',
+		location: 'Bellingen, NSW',
 		isLeader: true,
 		badge: 'Leader',
 		badgeTone: 'founder',
 		summary:
-			'Originally from Newcastle, NSW, now based in Bellingen, Australia. Leads ASF after software engineering roles at 4Tel, Anditi, and Mudbath Digital in Newcastle. Owns architecture decisions, client delivery, and day-to-day engineering direction.',
+			'Leads ASF after software engineering roles at 4Tel, Anditi, and Mudbath Digital. Owns architecture decisions, client delivery, and day-to-day engineering direction.',
 		focus: ['Architecture', 'Full stack', 'Client delivery', 'Shopify'],
 	},
 	{
 		id: 'sue-ioanis',
 		name: 'Sue Ioanis',
 		role: 'Lead Software Engineer',
-		location: 'Geelong, Victoria, Australia',
+		birthPlace: 'Wollongong, NSW',
+		location: 'Geelong, Victoria',
 		summary:
-			'Originally from Wollongong, NSW, now based in Geelong, Victoria, Australia. Lead engineer with experience at Mastercard, JPMorgan Chase, OkCupid, and LeafLink. Focused on scalable system integrations, distributed systems, DevOps, CI/CD, and reliable production software.',
+			'Lead engineer with experience at Mastercard, JPMorgan Chase, OkCupid, and LeafLink. Focused on scalable system integrations, distributed systems, DevOps, and reliable production software.',
 		focus: ['Distributed systems', 'Integrations', 'DevOps', 'CI/CD'],
 	},
 	{
 		id: 'yuki-mory',
 		name: 'Yuki Mory',
 		role: 'Senior Full Stack Developer',
-		location: 'Brisbane, Queensland, Australia',
+		birthPlace: 'Adelaide, South Australia',
+		location: 'Brisbane, Queensland',
 		summary:
-			'Originally from Adelaide, South Australia, now based in Brisbane, Queensland, Australia. Builds APIs, databases, and React features for B2B and product platforms.',
+			'Builds APIs, databases, and React features for B2B and product platforms with a focus on clean delivery and maintainable systems.',
 		focus: ['React', 'Node.js', 'PostgreSQL', 'APIs'],
 	},
 	{
 		id: 'le-wei',
 		name: 'Le Wei',
 		role: 'Web Developer',
-		location: 'Perth, Western Australia, Australia',
+		birthPlace: 'Hong Kong',
+		location: 'Hong Kong',
 		summary:
-			'Originally from Hong Kong, now based in Perth, Western Australia, Australia. Builds responsive web interfaces, polished user experiences, and dependable client-facing features.',
+			'Based in Hong Kong. Builds responsive web interfaces, polished user experiences, and dependable client-facing features.',
 		focus: ['Web development', 'Frontend', 'Responsive UI', 'User experience'],
 	},
 	{
 		id: 'marcus-hale',
 		name: 'Marcus Hale',
 		role: 'Python Backend Engineer',
-		location: 'Hobart, Tasmania, Australia',
+		birthPlace: 'Cairns, Queensland',
+		location: 'Hobart, Tasmania',
 		summary:
-			'Originally from Cairns, Queensland, now based in Hobart, Tasmania, Australia. Builds Python backends, data pipelines, and API services that stay reliable under load, with a focus on clean architecture and production monitoring.',
+			'Builds Python backends, data pipelines, and API services that stay reliable under load, with clean architecture and production monitoring.',
 		focus: ['Python', 'APIs', 'Data pipelines', 'Backend'],
 	},
 	{
 		id: 'alex-dean',
 		name: 'Alex Dean',
 		role: 'Full Stack Software Developer',
-		location: 'Darwin, Northern Territory, Australia',
+		birthPlace: 'Ballarat, Victoria',
+		location: 'Darwin, Northern Territory',
 		summary:
-			'Originally from Ballarat, Victoria, now based in Darwin, Northern Territory, Australia. Builds full stack web applications across front end, APIs, and databases, shipping features that hold up in production.',
+			'Builds full stack web applications across front end, APIs, and databases, shipping features that hold up in production.',
 		focus: ['Full stack', 'React', 'Node.js', 'APIs'],
 	},
 ];
