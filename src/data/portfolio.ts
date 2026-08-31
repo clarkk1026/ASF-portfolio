@@ -127,52 +127,52 @@ export const teamMembers: TeamMember[] = [
 		badge: 'Leader',
 		badgeTone: 'founder',
 		summary:
-			'Leads ASF after software engineering roles at 4Tel, Anditi, and Mudbath Digital in Newcastle. Owns architecture decisions, client delivery, and day-to-day engineering direction.',
+			'Originally from Newcastle, NSW, now based in Bellingen, Australia. Leads ASF after software engineering roles at 4Tel, Anditi, and Mudbath Digital in Newcastle. Owns architecture decisions, client delivery, and day-to-day engineering direction.',
 		focus: ['Architecture', 'Full stack', 'Client delivery', 'Shopify'],
 	},
 	{
 		id: 'sue-ioanis',
 		name: 'Sue Ioanis',
 		role: 'Lead Software Engineer',
-		location: 'New Jersey, USA',
+		location: 'Geelong, Victoria, Australia',
 		summary:
-			'Based in New Jersey. Lead engineer with experience at Mastercard, JPMorgan Chase, OkCupid, and LeafLink. Focused on scalable system integrations, distributed systems, DevOps, CI/CD, and reliable production software.',
+			'Originally from Wollongong, NSW, now based in Geelong, Victoria, Australia. Lead engineer with experience at Mastercard, JPMorgan Chase, OkCupid, and LeafLink. Focused on scalable system integrations, distributed systems, DevOps, CI/CD, and reliable production software.',
 		focus: ['Distributed systems', 'Integrations', 'DevOps', 'CI/CD'],
 	},
 	{
 		id: 'yuki-mory',
 		name: 'Yuki Mory',
 		role: 'Senior Full Stack Developer',
-		location: 'Poland',
+		location: 'Brisbane, Queensland, Australia',
 		summary:
-			'Originally from Japan, now based in Poland. Builds APIs, databases, and React features for B2B and product platforms.',
+			'Originally from Adelaide, South Australia, now based in Brisbane, Queensland, Australia. Builds APIs, databases, and React features for B2B and product platforms.',
 		focus: ['React', 'Node.js', 'PostgreSQL', 'APIs'],
 	},
 	{
 		id: 'le-wei',
 		name: 'Le Wei',
 		role: 'Web Developer',
-		location: 'Bellingen, Australia',
+		location: 'Perth, Western Australia, Australia',
 		summary:
-			'Originally from Hong Kong, now based in Bellingen, Australia. Builds responsive web interfaces, polished user experiences, and dependable client-facing features.',
+			'Originally from Hong Kong, now based in Perth, Western Australia, Australia. Builds responsive web interfaces, polished user experiences, and dependable client-facing features.',
 		focus: ['Web development', 'Frontend', 'Responsive UI', 'User experience'],
 	},
 	{
 		id: 'marcus-hale',
 		name: 'Marcus Hale',
 		role: 'Python Backend Engineer',
-		location: 'Lisbon, Portugal',
+		location: 'Hobart, Tasmania, Australia',
 		summary:
-			'Based in Lisbon, Portugal. Builds Python backends, data pipelines, and API services that stay reliable under load, with a focus on clean architecture and production monitoring.',
+			'Originally from Cairns, Queensland, now based in Hobart, Tasmania, Australia. Builds Python backends, data pipelines, and API services that stay reliable under load, with a focus on clean architecture and production monitoring.',
 		focus: ['Python', 'APIs', 'Data pipelines', 'Backend'],
 	},
 	{
 		id: 'alex-dean',
 		name: 'Alex Dean',
 		role: 'Full Stack Software Developer',
-		location: 'Inishbofin, County Galway, Ireland',
+		location: 'Darwin, Northern Territory, Australia',
 		summary:
-			'Based in Inishbofin, County Galway, Ireland. Builds full stack web applications across front end, APIs, and databases, shipping features that hold up in production.',
+			'Originally from Ballarat, Victoria, now based in Darwin, Northern Territory, Australia. Builds full stack web applications across front end, APIs, and databases, shipping features that hold up in production.',
 		focus: ['Full stack', 'React', 'Node.js', 'APIs'],
 	},
 ];
