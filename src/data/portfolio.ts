@@ -143,13 +143,13 @@ export const teamMembers: TeamMember[] = [
 		focus: ['Distributed systems', 'Integrations', 'DevOps', 'CI/CD'],
 	},
 	{
-		id: 'yuki-mory',
-		name: 'Yuki Mory',
+		id: 'mei-lin-chan',
+		name: 'Mei Lin Chan',
 		role: 'Senior Full Stack Developer',
-		birthPlace: 'Adelaide, South Australia',
+		birthPlace: 'Pag',
 		location: 'Brisbane, Queensland',
 		summary:
-			'Builds APIs, databases, and React features for B2B and product platforms with a focus on clean delivery and maintainable systems.',
+			'Originally from Pag, now based in Brisbane, Queensland. Builds APIs, databases, and React features for B2B and product platforms with a focus on clean delivery and maintainable systems.',
 		focus: ['React', 'Node.js', 'PostgreSQL', 'APIs'],
 	},
 	{
@@ -496,7 +496,7 @@ export const about = {
 	},
 	intro: [
 		'ASF started when Ben Clark began taking on client work with a small group of developers he trusted, building on years of software engineering in Newcastle, Australia, from 4Tel and Anditi through Mudbath Digital. As CTO, he stays close to architecture, delivery, and clients while the team remains fully remote and tightly staffed.',
-		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Sue on scalable integrations and distributed systems, Yuki on full stack features, Le Wei on web development, Marcus on Python backends, and Alex on full stack development.',
+		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Sue on scalable integrations and distributed systems, Mei Lin on full stack features, Le Wei on web development, Marcus on Python backends, and Alex on full stack development.',
 	],
 };
 
@@ -579,7 +579,7 @@ export const experience = {
 					bullets: [
 						'Ben Clark leads ASF as CTO, delivering client software with a small, trusted team.',
 						'Core focus: full stack web apps, Shopify commerce, Python backends, and ML integrations.',
-						'Current team: Ben, Sue Ioanis, Yuki Mory, Le Wei, Marcus Hale, and Alex Dean.',
+						'Current team: Ben, Sue Ioanis, Mei Lin Chan, Le Wei, Marcus Hale, and Alex Dean.',
 					],
 				},
 				{
