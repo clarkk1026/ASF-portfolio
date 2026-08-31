@@ -262,15 +262,15 @@ const BEN_RELATED_TERMS = [
 ];
 
 const isTeamMemberQuestion = (q: string, tokens: string[]) => {
-	if (matches(q, [/mei lin|chan|sue|ioanis|marcus|hale|le wei|alex dean|alex/])) return true;
-	if (hasWord(tokens, ['mei', 'lin', 'chan', 'sue', 'ioanis', 'marcus', 'hale', 'wei', 'alex', 'dean'])) {
+	if (matches(q, [/mei lin|chan|sophie|byrne|lachlan|reid|le wei|tom brennan|brennan/])) return true;
+	if (hasWord(tokens, ['mei', 'lin', 'chan', 'sophie', 'byrne', 'lachlan', 'reid', 'wei', 'tom', 'brennan'])) {
 		return true;
 	}
 	if (
 		matches(q, [
-			/who (is|are) (mei|chan|sue|marcus|le wei|alex)/,
-			/tell me about (mei|chan|sue|marcus|le wei|alex|the team)/,
-			/about (mei|chan|sue|marcus|le wei|alex)/,
+			/who (is|are) (mei|chan|sophie|lachlan|le wei|tom)/,
+			/tell me about (mei|chan|sophie|lachlan|le wei|tom|the team)/,
+			/about (mei|chan|sophie|lachlan|le wei|tom)/,
 		])
 	) {
 		return true;
@@ -289,7 +289,7 @@ const isTeamMemberQuestion = (q: string, tokens: string[]) => {
 
 const teamMemberDeflect = (ctx: BotContext): BotReply => ({
 	text: pick([
-		`Good question. The **Team** section has short profiles for Mei Lin, Sue, Le Wei, Marcus, and Alex.\n\nI'm here for **Ben Clark** specifically. Ask about his experience, technical background, or contact details.\n\n[[mood:calm]]`,
+		`Good question. The **Team** section has short profiles for Mei Lin, Sophie, Le Wei, Lachlan, and Tom.\n\nI'm here for **Ben Clark** specifically. Ask about his experience, technical background, or contact details.\n\n[[mood:calm]]`,
 		`Team bios are on the site under **Our Team**. I focus on Ben since he leads ASF and handles client enquiries.\n\n[[mood:warm]]`,
 		`ASF has six people working remotely. I don't go deep on other members here, but the Team section does. Happy to talk about Ben's work.\n\n[[mood:thoughtful]]`,
 	]),

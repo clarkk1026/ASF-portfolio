@@ -133,8 +133,8 @@ export const teamMembers: TeamMember[] = [
 		focus: ['Architecture', 'Full stack', 'Client delivery', 'Shopify'],
 	},
 	{
-		id: 'sue-ioanis',
-		name: 'Sue Ioanis',
+		id: 'sophie-byrne',
+		name: 'Sophie Byrne',
 		role: 'Lead Software Engineer',
 		birthPlace: 'Wollongong, NSW',
 		location: 'Geelong, Victoria',
@@ -163,8 +163,8 @@ export const teamMembers: TeamMember[] = [
 		focus: ['Web development', 'Frontend', 'Responsive UI', 'User experience'],
 	},
 	{
-		id: 'marcus-hale',
-		name: 'Marcus Hale',
+		id: 'lachlan-reid',
+		name: 'Lachlan Reid',
 		role: 'Python Backend Engineer',
 		birthPlace: 'Cairns, Queensland',
 		location: 'Hobart, Tasmania',
@@ -173,8 +173,8 @@ export const teamMembers: TeamMember[] = [
 		focus: ['Python', 'APIs', 'Data pipelines', 'Backend'],
 	},
 	{
-		id: 'alex-dean',
-		name: 'Alex Dean',
+		id: 'tom-brennan',
+		name: 'Tom Brennan',
 		role: 'Full Stack Software Developer',
 		birthPlace: 'Ballarat, Victoria',
 		location: 'Darwin, Northern Territory',
@@ -496,7 +496,7 @@ export const about = {
 	},
 	intro: [
 		'ASF started when Ben Clark began taking on client work with a small group of developers he trusted, building on years of software engineering in Newcastle, Australia, from 4Tel and Anditi through Mudbath Digital. As CTO, he stays close to architecture, delivery, and clients while the team remains fully remote and tightly staffed.',
-		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Sue on scalable integrations and distributed systems, Mei Lin on full stack features, Le Wei on web development, Marcus on Python backends, and Alex on full stack development.',
+		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Sophie on scalable integrations and distributed systems, Mei Lin on full stack features, Le Wei on web development, Lachlan on Python backends, and Tom on full stack development.',
 	],
 };
 
@@ -579,7 +579,7 @@ export const experience = {
 					bullets: [
 						'Ben Clark leads ASF as CTO, delivering client software with a small, trusted team.',
 						'Core focus: full stack web apps, Shopify commerce, Python backends, and ML integrations.',
-						'Current team: Ben, Sue Ioanis, Mei Lin Chan, Le Wei, Marcus Hale, and Alex Dean.',
+						'Current team: Ben, Sophie Byrne, Mei Lin Chan, Le Wei, Lachlan Reid, and Tom Brennan.',
 					],
 				},
 				{
