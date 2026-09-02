@@ -10,6 +10,7 @@ import {
     FaPython,
     FaReact,
     FaShopify,
+    FaTelegram,
     FaWhatsapp,
 } from 'react-icons/fa';
 import { IoMailOutline } from 'react-icons/io5';
@@ -202,6 +203,7 @@ export const personal = {
 	location: 'Bellingen, Australia',
 	email: 'benclarkk1026@gmail.com',
 	whatsappNumber: '+1 (562) 603-4526',
+	telegramUsername: 'benrose1026',
 	discordUsername: 'benclark10261',
 	discordUserId: '',
 	linkedinUrl: 'https://www.linkedin.com/in/benclark1026',
@@ -214,6 +216,8 @@ export const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${
 )}&su=${encodeURIComponent('ASF Team inquiry')}`;
 
 export const whatsappUrl = 'https://wa.me/15626034526';
+
+export const telegramUrl = `https://t.me/${personal.telegramUsername}`;
 
 export const navLinks: NavLink[] = [
 	{ label: 'Team', href: '/team' },
@@ -462,6 +466,13 @@ export const socialLinks: SocialLink[] = [
 		icon: FaWhatsapp,
 		iconColor: 'rgb(37, 211, 102)',
 		glowColor: 'rgba(37, 211, 102, 0.55)',
+	},
+	{
+		label: 'Telegram',
+		href: telegramUrl,
+		icon: FaTelegram,
+		iconColor: 'rgb(38, 165, 228)',
+		glowColor: 'rgba(38, 165, 228, 0.55)',
 	},
 	{
 		label: 'Discord',

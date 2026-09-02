@@ -403,8 +403,8 @@ const humanTech = (mentioned?: string) => {
 
 const humanContact = () =>
 	prefix([
-		`Best ways to reach Ben:\n\n**Email:** ${personal.email}\n**WhatsApp:** [${personal.whatsappNumber}](${whatsappUrl})\n**Discord:** ${personal.discordUsername}\n**LinkedIn:** ${personal.linkedinUrl}\n\n${contact.subtext}\n\n[[mood:warm]]`,
-		`Email **${personal.email}**, WhatsApp **${personal.whatsappNumber}**, Discord ${personal.discordUsername}, or LinkedIn ${personal.linkedinUrl}. ASF is open to client work, collaborations, and longer-term engagements.\n\n[[mood:calm]]`,
+		`Best ways to reach Ben:\n\n**Email:** ${personal.email}\n**WhatsApp:** [${personal.whatsappNumber}](${whatsappUrl})\n**Telegram:** [@${personal.telegramUsername}](https://t.me/${personal.telegramUsername})\n**Discord:** ${personal.discordUsername}\n**LinkedIn:** ${personal.linkedinUrl}\n\n${contact.subtext}\n\n[[mood:warm]]`,
+		`Email **${personal.email}**, WhatsApp **${personal.whatsappNumber}**, Telegram @${personal.telegramUsername}, Discord ${personal.discordUsername}, or LinkedIn ${personal.linkedinUrl}. ASF is open to client work, collaborations, and longer-term engagements.\n\n[[mood:calm]]`,
 	]);
 
 const humanAbout = () =>
@@ -1049,7 +1049,7 @@ const handlers: IntentHandler[] = [
 				experience: `Want me to zoom in on **ASF Team**, **Mudbath Digital**, **Anditi**, **4Tel**, or Ben's **education** path?`,
 				projects: `I can dive deeper into **Happy Hydro**, **Labyrinth Style**, **Remedior Skincare**, or any store in Selected Work. Which one interests you?`,
 				skills: `Happy to go deeper on **full stack**, **Python/AI**, **front end**, or **Shopify**, or name a tech like React or Python and I'll tell you how he uses it.`,
-				contact: `Email **${personal.email}**, WhatsApp **${personal.whatsappNumber}**, Discord **${personal.discordUsername}**, or LinkedIn **${personal.linkedinUrl}**. I can suggest what to write in a first message if you want.\n\n[[mood:warm]]`,
+				contact: `Email **${personal.email}**, WhatsApp **${personal.whatsappNumber}**, Telegram **@${personal.telegramUsername}**, Discord **${personal.discordUsername}**, or LinkedIn **${personal.linkedinUrl}**. I can suggest what to write in a first message if you want.\n\n[[mood:warm]]`,
 				tech: `Name any tool or language, React, Docker, Postgres, whatever, and I'll tell you how it fits Ben's work.`,
 				about: `I can also share more about his **personal journey**, **projects**, or **how to contact him**. What would you like next?\n\n[[mood:warm]]`,
 			};
