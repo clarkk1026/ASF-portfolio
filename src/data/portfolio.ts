@@ -116,7 +116,7 @@ export const team = {
 	heroGreeting: 'We are',
 	heroLead: 'A remote software team led by Ben Clark',
 	established: '2024',
-	model: 'Fully remote software team across Australia',
+	model: 'Fully remote software team across Hong Kong and China',
 };
 
 export const teamMembers: TeamMember[] = [
@@ -137,50 +137,50 @@ export const teamMembers: TeamMember[] = [
 		id: 'sophie-byrne',
 		name: 'Sophie Byrne',
 		role: 'Lead Software Engineer',
-		birthPlace: 'Wollongong, NSW',
-		location: 'Geelong, Victoria',
+		birthPlace: 'Kowloon Tong, Hong Kong',
+		location: 'Hong Kong',
 		summary:
-			'Lead engineer with experience at Mastercard, JPMorgan Chase, OkCupid, and LeafLink. Focused on scalable system integrations, distributed systems, DevOps, and reliable production software.',
+			'Originally from Kowloon Tong, now based in Hong Kong. Lead engineer with experience at Mastercard, JPMorgan Chase, OkCupid, and LeafLink. Focused on scalable system integrations, distributed systems, DevOps, and reliable production software.',
 		focus: ['Distributed systems', 'Integrations', 'DevOps', 'CI/CD'],
 	},
 	{
 		id: 'mei-lin-chan',
 		name: 'Mei Lin Chan',
 		role: 'Senior Full Stack Developer',
-		birthPlace: 'Pag',
-		location: 'Brisbane, Queensland',
+		birthPlace: 'Guangzhou, China',
+		location: 'Hong Kong',
 		summary:
-			'Originally from Pag, now based in Brisbane, Queensland. Builds APIs, databases, and React features for B2B and product platforms with a focus on clean delivery and maintainable systems.',
+			'Originally from Guangzhou, China, now based in Hong Kong. Builds APIs, databases, and React features for B2B and product platforms with a focus on clean delivery and maintainable systems.',
 		focus: ['React', 'Node.js', 'PostgreSQL', 'APIs'],
 	},
 	{
 		id: 'le-wei',
 		name: 'Le Wei',
 		role: 'Web Developer',
-		birthPlace: 'Hong Kong',
+		birthPlace: 'Wan Chai, Hong Kong',
 		location: 'Hong Kong',
 		summary:
-			'Based in Hong Kong. Builds responsive web interfaces, polished user experiences, and dependable client-facing features.',
+			'Originally from Wan Chai, Hong Kong. Builds responsive web interfaces, polished user experiences, and dependable client-facing features.',
 		focus: ['Web development', 'Frontend', 'Responsive UI', 'User experience'],
 	},
 	{
 		id: 'lachlan-reid',
 		name: 'Lachlan Reid',
 		role: 'Python Backend Engineer',
-		birthPlace: 'Cairns, Queensland',
-		location: 'Hobart, Tasmania',
+		birthPlace: 'Shenzhen, China',
+		location: 'Hong Kong',
 		summary:
-			'Builds Python backends, data pipelines, and API services that stay reliable under load, with clean architecture and production monitoring.',
+			'Originally from Shenzhen, China, now based in Hong Kong. Builds Python backends, data pipelines, and API services that stay reliable under load, with clean architecture and production monitoring.',
 		focus: ['Python', 'APIs', 'Data pipelines', 'Backend'],
 	},
 	{
 		id: 'tom-brennan',
 		name: 'Tom Brennan',
 		role: 'Full Stack Software Developer',
-		birthPlace: 'Ballarat, Victoria',
-		location: 'Darwin, Northern Territory',
+		birthPlace: 'Sha Tin, Hong Kong',
+		location: 'Hong Kong',
 		summary:
-			'Builds full stack web applications across front end, APIs, and databases, shipping features that hold up in production.',
+			'Originally from Sha Tin, Hong Kong. Builds full stack web applications across front end, APIs, and databases, shipping features that hold up in production.',
 		focus: ['Full stack', 'React', 'Node.js', 'APIs'],
 	},
 ];
