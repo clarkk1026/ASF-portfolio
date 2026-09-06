@@ -560,7 +560,7 @@ const handlers: IntentHandler[] = [
 			return s;
 		},
 		reply: () =>
-			`I'm **Bon**. Think of me as someone who knows Ben well and actually likes talking to people.\n\nYou can ask about:\n- His **experience**, **skills**, and **projects**\n- His **personal story** (Newcastle, Australia, university, career path, ASF Team)\n- **Health & balance**, **music**, or random life chat\n- How to **contact** him\n\nNo need to be formal. I'll meet you where you are.`,
+			`I'm **Bon**. Think of me as someone who knows Ben well and actually likes talking to people.\n\nYou can ask about:\n- His **experience**, **skills**, and **projects**\n- His **personal story** (Hong Kong origin, university, Newcastle career, ASF Team)\n- **Health & balance**, **music**, or random life chat\n- How to **contact** him\n\nNo need to be formal. I'll meet you where you are.`,
 	},
 	{
 		id: 'identity',

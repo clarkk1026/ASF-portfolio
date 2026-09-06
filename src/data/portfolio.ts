@@ -124,7 +124,7 @@ export const teamMembers: TeamMember[] = [
 		id: 'ben-clark',
 		name: 'Ben Clark',
 		role: 'Full Stack Engineer & Team Lead',
-		birthPlace: 'Newcastle, NSW',
+		birthPlace: 'Hong Kong',
 		location: 'Bellingen, NSW',
 		isLeader: true,
 		badge: 'Leader',
@@ -193,7 +193,7 @@ export const personal = {
 	heroServices: ['Web Apps', 'Shopify', 'Python Backends'],
 	fullName: 'Ben Clark',
 	originalName: 'Ben Clark',
-	birthPlace: 'Newcastle, NSW, Australia',
+	birthPlace: 'Hong Kong',
 	/** Ask-only: do not volunteer unless the visitor asks about family / heritage. */
 	motherOrigin: 'Japan',
 	/** Ask-only: do not volunteer unless the visitor asks about looks / ethnicity. */
@@ -513,9 +513,9 @@ export const about = {
 
 export const benStory = {
 	summary:
-		'Ben Clark is based in Bellingen, Australia. He earned a Bachelor of Software Engineering (Honours) from The University of Newcastle (2016–2020), then built his career in Newcastle at 4Tel, Anditi, and Mudbath Digital before leading ASF Team as CTO. His real name is Ben Clark.',
+		'Ben Clark is originally from Hong Kong and based in Bellingen, Australia. He earned a Bachelor of Software Engineering (Honours) from The University of Newcastle (2016–2020), then built his career in Newcastle at 4Tel, Anditi, and Mudbath Digital before leading ASF Team as CTO. His real name is Ben Clark.',
 	earlyLife: [
-		'Originally from Newcastle, NSW, Australia. Real name: Ben Clark.',
+		'Originally from Hong Kong. Real name: Ben Clark.',
 		'Studied at The University of Newcastle, Australia, completing a Bachelor of Software Engineering (Honours) from 2016 to 2020.',
 		'During university he built a strong foundation in software engineering while working on practical projects and learning how technology solves real-world problems.',
 	],
