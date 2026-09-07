@@ -116,7 +116,7 @@ export const team = {
 	heroGreeting: 'We are',
 	heroLead: 'A remote software team led by Ben Clark',
 	established: '2024',
-	model: 'Fully remote software team across Hong Kong and China',
+	model: 'Fully remote software team across Hong Kong',
 };
 
 export const teamMembers: TeamMember[] = [
@@ -147,10 +147,10 @@ export const teamMembers: TeamMember[] = [
 		id: 'mei-lin-chan',
 		name: 'Mei Lin Chan',
 		role: 'Senior Full Stack Developer',
-		birthPlace: 'Guangzhou, China',
+		birthPlace: 'Tsuen Wan, Hong Kong',
 		location: 'Hong Kong',
 		summary:
-			'Originally from Guangzhou, China, now based in Hong Kong. Builds APIs, databases, and React features for B2B and product platforms with a focus on clean delivery and maintainable systems.',
+			'Originally from Tsuen Wan, Hong Kong. Builds APIs, databases, and React features for B2B and product platforms with a focus on clean delivery and maintainable systems.',
 		focus: ['React', 'Node.js', 'PostgreSQL', 'APIs'],
 	},
 	{
@@ -167,10 +167,10 @@ export const teamMembers: TeamMember[] = [
 		id: 'lachlan-reid',
 		name: 'Lachlan Reid',
 		role: 'Python Backend Engineer',
-		birthPlace: 'Shenzhen, China',
+		birthPlace: 'Mong Kok, Hong Kong',
 		location: 'Hong Kong',
 		summary:
-			'Originally from Shenzhen, China, now based in Hong Kong. Builds Python backends, data pipelines, and API services that stay reliable under load, with clean architecture and production monitoring.',
+			'Originally from Mong Kok, Hong Kong. Builds Python backends, data pipelines, and API services that stay reliable under load, with clean architecture and production monitoring.',
 		focus: ['Python', 'APIs', 'Data pipelines', 'Backend'],
 	},
 	{
