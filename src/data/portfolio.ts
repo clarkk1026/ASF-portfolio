@@ -116,7 +116,7 @@ export const team = {
 	heroGreeting: 'We are',
 	heroLead: 'A remote software team led by Ben Clark',
 	established: '2024',
-	model: 'Fully remote software team across Hong Kong',
+	model: 'Fully remote software team across Hong Kong and Australia',
 };
 
 export const teamMembers: TeamMember[] = [
@@ -167,20 +167,20 @@ export const teamMembers: TeamMember[] = [
 		id: 'lachlan-reid',
 		name: 'Lachlan Reid',
 		role: 'Python Backend Engineer',
-		birthPlace: 'Mong Kok, Hong Kong',
-		location: 'Hong Kong',
+		birthPlace: 'Armidale, NSW',
+		location: 'Dubbo, NSW',
 		summary:
-			'Originally from Mong Kok, Hong Kong. Builds Python backends, data pipelines, and API services that stay reliable under load, with clean architecture and production monitoring.',
+			'Originally from Armidale, NSW, now based in Dubbo. Builds Python backends, data pipelines, and API services that stay reliable under load, with clean architecture and production monitoring.',
 		focus: ['Python', 'APIs', 'Data pipelines', 'Backend'],
 	},
 	{
 		id: 'tom-brennan',
 		name: 'Tom Brennan',
 		role: 'Full Stack Software Developer',
-		birthPlace: 'Sha Tin, Hong Kong',
-		location: 'Hong Kong',
+		birthPlace: 'Geraldton, WA',
+		location: 'Albany, WA',
 		summary:
-			'Originally from Sha Tin, Hong Kong. Builds full stack web applications across front end, APIs, and databases, shipping features that hold up in production.',
+			'Originally from Geraldton, WA, now based in Albany. Builds full stack web applications across front end, APIs, and databases, shipping features that hold up in production.',
 		focus: ['Full stack', 'React', 'Node.js', 'APIs'],
 	},
 ];
