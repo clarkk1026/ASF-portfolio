@@ -24,8 +24,6 @@ export type BotMood = (typeof BOT_MOODS)[number];
 
 export const botGreeting = `Hey, I'm **Bon**. I know Ben's background and work well. Ask about his skills, story, projects, or how to get in touch.
 
-For the rest of the ASF team, check the **Team** section on this page.
-
 [[mood:smile]]`;
 
 const MOOD_TAG = new RegExp(
@@ -71,7 +69,7 @@ export const resolveMoodFromIntent = (intent: string): BotMood => {
 		positive: 'happy',
 		clarify: 'curious',
 		site: 'calm',
-		team_deflect: 'calm',
+		studio_deflect: 'calm',
 		gemini: 'thoughtful',
 		groq: 'thoughtful',
 	};

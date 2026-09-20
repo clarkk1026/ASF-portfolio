@@ -5,7 +5,7 @@ import {
     experience,
     highlights,
     personal,
-    team,
+    projects,
     traits,
     whatsappUrl,
 } from '../data/portfolio.js';
@@ -36,7 +36,7 @@ export type BotReply = {
 
 export const botQuickPrompts = [
 	'What are your skills?',
-	'Tell me about your Shopify work',
+	'Tell me about your AI agent work',
 	"Tell me Ben's story",
 	'How can I contact you?',
 ] as const;
@@ -174,35 +174,28 @@ const BEN_RELATED_TERMS = [
 	'telegram',
 	'whatsapp',
 	'github',
-	'livestorm',
-	'cloudsmith',
-	'nearform',
-	'stelfox',
-	'threadline',
-	'limerick',
-	'nearform',
-	'happy',
-	'hydro',
-	'shopify',
-	'commerce',
-	'ecommerce',
-	'react',
-	'nextjs',
-	'next',
-	'node',
-	'typescript',
-	'javascript',
+	'lindy',
+	'n8n',
+	'affinda',
+	'rag',
+	'mcp',
+	'agent',
+	'agents',
+	'automation',
+	'workflow',
+	'fastapi',
+	'postgresql',
+	'postgres',
+	'redis',
 	'python',
 	'ai',
 	'llm',
-	'fullstack',
+	'hitl',
 	'stack',
 	'tech',
-	'freelance',
 	'remote',
-	'trinity',
-	'dublin',
-	'ireland',
+	'la habra',
+	'california',
 	'about',
 	'website',
 	'site',
@@ -213,23 +206,12 @@ const BEN_RELATED_TERMS = [
 	'mentor',
 	'lead',
 	'senior',
-	'buildflux',
-	'clothing',
 	'business',
 	'entrepreneur',
-	'japan',
-	'japanese',
-	'singapore',
-	'singaporean',
 	'australia',
 	'australian',
-	'waller',
-	'ireland',
-	'original',
-	'birth',
-	'sock',
+	'hong kong',
 	'university',
-	'childhood',
 	'leader',
 	'leadership',
 	'team',
@@ -261,39 +243,26 @@ const BEN_RELATED_TERMS = [
 	'sad',
 ];
 
-const isTeamMemberQuestion = (q: string, tokens: string[]) => {
-	if (matches(q, [/mei lin|chan|sophie|byrne|lachlan|reid|le wei|tom brennan|brennan/])) return true;
-	if (hasWord(tokens, ['mei', 'lin', 'chan', 'sophie', 'byrne', 'lachlan', 'reid', 'wei', 'tom', 'brennan'])) {
+const isStudioQuestion = (q: string, tokens: string[]) => {
+	if (matches(q, [/asf(\s+team)?/, /\bstudio\b/, /\bagency\b/])) {
 		return true;
 	}
 	if (
-		matches(q, [
-			/who (is|are) (mei|chan|sophie|lachlan|le wei|tom)/,
-			/tell me about (mei|chan|sophie|lachlan|le wei|tom|the team)/,
-			/about (mei|chan|sophie|lachlan|le wei|tom)/,
-		])
-	) {
-		return true;
-	}
-	if (
-		hasWord(tokens, ['team']) &&
+		hasWord(tokens, ['studio', 'agency', 'asf']) &&
 		!q.includes('ben') &&
-		!q.includes('clark') &&
-		(matches(q, [/who is|who are|tell me about|members|colleagues/]) ||
-			hasWord(tokens, ['member', 'members', 'colleague', 'colleagues']))
+		!q.includes('clark')
 	) {
 		return true;
 	}
 	return false;
 };
 
-const teamMemberDeflect = (ctx: BotContext): BotReply => ({
+const studioDeflect = (ctx: BotContext): BotReply => ({
 	text: pick([
-		`Good question. The **Team** section has short profiles for Mei Lin, Sophie, Le Wei, Lachlan, and Tom.\n\nI'm here for **Ben Clark** specifically. Ask about his experience, technical background, or contact details.\n\n[[mood:calm]]`,
-		`Team bios are on the site under **Our Team**. I focus on Ben since he leads ASF and handles client enquiries.\n\n[[mood:warm]]`,
-		`ASF has six people working remotely. I don't go deep on other members here, but the Team section does. Happy to talk about Ben's work.\n\n[[mood:thoughtful]]`,
+		`This is **Ben Clark's** personal portfolio, not a studio site. Ask about his experience, skills, projects, or how to reach him.\n\n[[mood:calm]]`,
+		`Just Ben here. Happy to talk about his AI automation work, path, or contact details.\n\n[[mood:warm]]`,
 	]),
-	intent: 'team_deflect',
+	intent: 'studio_deflect',
 	userName: ctx.userName,
 });
 
@@ -364,6 +333,9 @@ const isQuestion = (q: string) =>
 		q,
 	);
 
+const publishedPathNote =
+	`His published path on this site is **Lindy** (San Francisco, 2024–2026), **n8n** (Berlin, 2022–2024), and **Affinda** (Melbourne, 2020–2022).`;
+
 const humanExperience = () => {
 	const roles = experience.timeline[0]?.items ?? [];
 	const lines = roles
@@ -372,52 +344,73 @@ const humanExperience = () => {
 		.join('\n');
 
 	return prefix([
-		`Ben has **5+ years** of professional software experience across full-stack and product engineering work in Newcastle, Australia.\n\n${lines}\n\nMost recent company role: **Software Engineer at Mudbath Digital** (May 2024-Feb 2026), building modern digital products and customer-facing applications. Ask about any employer if you want detail.`,
-		`Career path in short:\n\n${lines}\n\nHe graduated from **The University of Newcastle** in 2020 (**Bachelor of Software Engineering (Honours)**) and built his career in Newcastle before founding ASF Team.`,
+		`Ben has **6+ years** of experience as an **AI Automation Engineer**, spanning AI agents, LLM applications, workflow automation, and production systems.\n\n${lines}\n\nMost recent role: **AI Automation / AI Agent Engineer at Lindy** (San Francisco, 2024–2026). Ask about any employer if you want detail.`,
+		`Career path in short:\n\n${lines}\n\nHe earned a **BSc (Hons) Computer Science** from **Hong Kong Baptist University** (2016–2020), with exchange study in Australia, then built through Affinda, n8n, and Lindy.`,
 	]);
 };
 
-const humanProjects = () =>
-	prefix([
-		`Ben has shipped **live Shopify storefronts** for real brands, not mockups. Selected work on this site includes:\n\n- **Happy Hydro:** US indoor gardening retailer\n- **Labyrinth Style:** luxury resort wear\n- **Remedior Skincare:** DTC skincare\n- **La Boutique de Xéa:** French boutique\n- **Crown & Caliber:** luxury lifestyle commerce\n\nScroll to **Selected Work** or ask about a specific store.\n\n[[mood:excited]]`,
-		`His portfolio highlights **production Shopify builds**, fashion, beauty, lifestyle, and retail across multiple markets. Each card links to the live site. Want details on one of them?`,
+const humanProjects = () => {
+	const lines = projects
+		.map((p) => `- **${p.title}:** ${p.description}`)
+		.join('\n\n');
+
+	return prefix([
+		`Selected work on this site focuses on production AI automation:\n\n${lines}\n\nScroll to **Selected Work** or ask about either project.\n\n[[mood:excited]]`,
+		`His portfolio highlights two AI automation case studies: **AI Lead Qualification & Demo Scheduling** and **Enterprise Invoice Reconciliation**. Both emphasize agents, validation, and human-in-the-loop controls. Want details on one of them?`,
 	]);
+};
 
 const humanSkills = () =>
 	prefix([
-		`Ben's sweet spot spans **full stack**, **Python/AI**, and **front end**:\n\n**Full stack:** React, TypeScript, Node.js, REST APIs, PostgreSQL, MongoDB, Docker, Git\n\n**Python & AI:** Python backends, FastAPI, data processing, AI API integrations, automation\n\n**Front end:** HTML, CSS, JavaScript, React, responsive UI, performance optimization\n\n**Commerce:** Shopify, Liquid, live storefront builds (see Selected Work)\n\nHe picks tools based on what the product needs.`,
-		`Think of Ben as a **team lead and full stack engineer** who can go deep on **Python backends**, **AI-enabled features**, or **front end** delivery. He built ASF after roles at **4Tel**, **Anditi**, and **Mudbath Digital**, plus live Shopify stores on this site.`,
+		`Ben's focus is **AI automation and agents**:\n\n**AI & agents:** AI Agents, LLM Applications, Workflow Automation, RAG, Tool Calling, MCP, Human-in-the-Loop\n\n**Backend:** Python, FastAPI, PostgreSQL, Redis\n\n**Integrations:** SaaS/CRM wiring, APIs, validation, retries, controlled execution\n\nHe picks tools based on what the workflow needs.`,
+		`Think of Ben as an **AI Automation Engineer** who ships agent systems that connect LLM reasoning to real business data and tools. Core strengths: agents, RAG, tool calling, MCP, HITL controls, Python/FastAPI, and SaaS/CRM integrations.`,
 	]);
 
 const humanTech = (mentioned?: string) => {
 	if (mentioned) {
 		return prefix([
-			`Yeah, **${mentioned}** is definitely in Ben's wheelhouse. His broader stack covers Next.js, React, TypeScript, Node, Postgres, Redis, Docker, AWS, Vercel, Python, and AI tooling like TensorFlow and PyTorch.\n\nHe's used to picking the right tool for the job, not just chasing hype.`,
-			`**${mentioned}**, yep, he works with that regularly. Alongside it he's comfortable across frontend (React/Next/Tailwind), backend (Node/Express/Nest), databases, and cloud deploys. Pretty pragmatic engineer.`,
+			`Yeah, **${mentioned}** fits Ben's wheelhouse. His broader stack covers AI agents, LLM apps, workflow automation, RAG, tool calling, MCP, Python, FastAPI, PostgreSQL, Redis, Docker, AWS, and SaaS/CRM integrations.\n\nHe's used to picking the right tool for the job, not just chasing hype.`,
+			`**${mentioned}**, yep, he works with that regularly. Alongside it he's comfortable across agent orchestration, Python backends, databases, and production automation controls. Pretty pragmatic engineer.`,
 		]);
 	}
 	return prefix([
-		`Tooling-wise, Ben's stack is modern and battle-tested:\n\n**Frontend:** Next.js, React, TypeScript, Tailwind\n**Backend:** Node, Express, NestJS\n**Data:** PostgreSQL, MongoDB, Redis, Prisma, Firebase\n**Infra & AI:** Docker, AWS, Vercel, Python, TensorFlow, PyTorch\n\nHe picks tools based on what the product needs, not resume padding.`,
+		`Tooling-wise, Ben's stack is production-focused:\n\n**AI & automation:** AI Agents, LLM Apps, Workflow Automation, RAG / Tool Calling, MCP\n**Backend:** Python, FastAPI, PostgreSQL, Redis\n**Systems:** Docker, AWS, SaaS integrations, API integration\n\nHe picks tools based on what the product needs, not resume padding.`,
 	]);
 };
 
 const humanContact = () =>
 	prefix([
 		`Best ways to reach Ben:\n\n**Email:** ${personal.email}\n**WhatsApp:** [${personal.whatsappNumber}](${whatsappUrl})\n**Telegram:** [@${personal.telegramUsername}](https://t.me/${personal.telegramUsername})\n**Discord:** ${personal.discordUsername}\n**LinkedIn:** ${personal.linkedinUrl}\n\n${contact.subtext}\n\n[[mood:warm]]`,
-		`Email **${personal.email}**, WhatsApp **${personal.whatsappNumber}**, Telegram @${personal.telegramUsername}, Discord ${personal.discordUsername}, or LinkedIn ${personal.linkedinUrl}. ASF is open to client work, collaborations, and longer-term engagements.\n\n[[mood:calm]]`,
+		`Email **${personal.email}**, WhatsApp **${personal.whatsappNumber}**, Telegram @${personal.telegramUsername}, Discord ${personal.discordUsername}, or LinkedIn ${personal.linkedinUrl}. He is open to AI automation, agent systems, and longer-term engineering engagements.\n\n[[mood:calm]]`,
 	]);
 
 const humanAbout = () =>
 	prefix([
-		`Ben is from **${personal.birthPlace}** and now based in **${personal.location}**. His real name is **${personal.fullName}**.\n\nHe studied **Software Engineering (Honours)** at **The University of Newcastle** (2016-2020), then built his career at **4Tel**, **Anditi**, and **Mudbath Digital** before founding **ASF Team**.\n\n${benStory.lessons[0]}\n\n[[mood:thoughtful]]`,
-		`${benStory.summary}\n\nToday he works across **full stack engineering**, **Python/AI**, and **front end** development, plus live **Shopify** builds on this portfolio.\n\n[[mood:warm]]`,
+		`**${personal.fullName}** is an **${personal.title}** based in **${personal.location}**.\n\nHe studied **Computer Science (Hons)** at **Hong Kong Baptist University** (2016–2020), with exchange study in Australia, then built his career at **Affinda**, **n8n**, and **Lindy**.\n\n${benStory.lessons[0]}\n\n[[mood:thoughtful]]`,
+		`${benStory.summary}\n\nToday he focuses on **AI agents**, **LLM applications**, and **workflow automation** that connect models to real business systems.\n\n[[mood:warm]]`,
 	]);
 
 const humanStory = () =>
 	prefix([
-		`Here is the honest version of Ben's path:\n\n**Early life:** ${benStory.earlyLife.join(' ')}\n\n**Product & business mindset:** ${benStory.entrepreneurship.join(' ')}\n\n**Technical work:** ${benStory.technicalLeadership.join(' ')}\n\n**Teams led:**\n${benStory.teamsLed.map((line) => `- ${line}`).join('\n')}\n\n**What he learned:** ${benStory.lessons.join(' ')}\n\n**Life today:** ${benStory.lifeAndValues.join(' ')}\n\n[[mood:thoughtful]]`,
-		`${benStory.summary}\n\nIf you want, I can go deeper on his **university path**, **Newcastle career**, or **ASF Team**.\n\n[[mood:calm]]`,
+		`Here is the honest version of Ben's path:\n\n**Early life:** ${benStory.earlyLife.join(' ')}\n\n**Product & business mindset:** ${benStory.entrepreneurship.join(' ')}\n\n**Technical work:** ${benStory.technicalLeadership.join(' ')}\n\n**Career highlights:**\n${benStory.careerHighlights.map((line) => `- ${line}`).join('\n')}\n\n**What he learned:** ${benStory.lessons.join(' ')}\n\n**Life today:** ${benStory.lifeAndValues.join(' ')}\n\n[[mood:thoughtful]]`,
+		`${benStory.summary}\n\nIf you want, I can go deeper on his **university path**, **Lindy / n8n / Affinda roles**, or **selected AI projects**.\n\n[[mood:calm]]`,
 	]);
+
+const familyPrivacyReply = () =>
+	pick([
+		`Ben keeps family details private. Happy to talk about his **work**, **path**, or **how to reach him** instead.\n\n[[mood:calm]]`,
+		`Family stuff stays off this portfolio. Ask about his **AI automation work**, **experience**, or **contact** anytime.\n\n[[mood:warm]]`,
+		`He doesn't publish family or heritage details here. I can cover his **career**, **projects**, or **skills** though.\n\n[[mood:thoughtful]]`,
+	]);
+
+const appearancePrivacyReply = () =>
+	pick([
+		`Ben keeps personal appearance details off this site. Want his **story**, **skills**, or **contact** instead?\n\n[[mood:calm]]`,
+		`I focus on his professional background, not appearance or ethnicity. Happy to cover **experience**, **projects**, or how to reach him.\n\n[[mood:warm]]`,
+	]);
+
+const notPublishedEmployerReply = (name: string) =>
+	`**${name}** isn't on Ben's published career path on this site. ${publishedPathNote} Ask about any of those if you want detail.`;
 
 const humanCasualChat = (input: string, ctx: BotContext): BotReply => {
 	const nameBit = ctx.userName ? `, ${ctx.userName}` : '';
@@ -443,9 +436,9 @@ const humanFallback = (input: string, tokens: string[], ctx: BotContext) => {
 		return humanCasualChat(input, ctx);
 	}
 
-	if (hasWord(tokens, ['react', 'next', 'node', 'shopify', 'python', 'ai'])) {
+	if (hasWord(tokens, ['python', 'ai', 'llm', 'rag', 'mcp', 'agent', 'fastapi', 'redis', 'postgres'])) {
 		const tech = tokens.find((t) =>
-			['react', 'next', 'node', 'shopify', 'python', 'ai'].some((x) =>
+			['python', 'ai', 'llm', 'rag', 'mcp', 'agent', 'fastapi', 'redis', 'postgres'].some((x) =>
 				fuzzyWord(t, x),
 			),
 		);
@@ -480,26 +473,20 @@ type IntentHandler = {
 
 const detectTechMention = (tokens: string[]) => {
 	const map: Record<string, string> = {
-		react: 'React',
-		nextjs: 'Next.js',
-		next: 'Next.js',
-		nodejs: 'Node.js',
-		node: 'Node.js',
-		typescript: 'TypeScript',
-		javascript: 'JavaScript',
-		tailwind: 'Tailwind CSS',
-		shopify: 'Shopify',
 		python: 'Python',
+		fastapi: 'FastAPI',
 		docker: 'Docker',
 		aws: 'AWS',
-		vercel: 'Vercel',
 		postgres: 'PostgreSQL',
 		postgresql: 'PostgreSQL',
-		mongodb: 'MongoDB',
 		redis: 'Redis',
-		prisma: 'Prisma',
-		tensorflow: 'TensorFlow',
-		pytorch: 'PyTorch',
+		rag: 'RAG',
+		mcp: 'MCP',
+		llm: 'LLMs',
+		agent: 'AI Agents',
+		agents: 'AI Agents',
+		automation: 'Workflow Automation',
+		n8n: 'n8n',
 	};
 	for (const t of tokens) {
 		for (const [key, label] of Object.entries(map)) {
@@ -522,8 +509,8 @@ const handlers: IntentHandler[] = [
 			const name = ctx.userName;
 			return pick([
 				name
-					? `Hi ${name}, I'm **Bon** (AI BEN). I know Ben's work. He leads **${team.fullName}**, and I'm happy to just talk like a person. What's on your mind?\n\n[[mood:happy]]`
-					: `Hi, I'm **Bon**. Ben Clark is **CTO** of **${team.fullName}** in Bellingen, Australia, with the team based there. Ask about his work or how to reach him.\n\n[[mood:happy]]`,
+					? `Hi ${name}, I'm **Bon** (AI BEN). I know Ben's work. He's an **AI Automation Engineer** in La Habra, CA, and I'm happy to just talk like a person. What's on your mind?\n\n[[mood:happy]]`
+					: `Hi, I'm **Bon**. Ben Clark is an **AI Automation Engineer** in La Habra, CA. Ask about his work or how to reach him.\n\n[[mood:happy]]`,
 				`Hello! I'm here for Ben's background **and** normal conversation: skills, story, music, life stuff, whatever.`,
 				`Hey, nice of you to stop by. I'm Bon. Ask me about Ben's work, or just say what's up.`,
 			]);
@@ -560,7 +547,7 @@ const handlers: IntentHandler[] = [
 			return s;
 		},
 		reply: () =>
-			`I'm **Bon**. Think of me as someone who knows Ben well and actually likes talking to people.\n\nYou can ask about:\n- His **experience**, **skills**, and **projects**\n- His **personal story** (Hong Kong origin, university, Newcastle career, ASF Team)\n- **Health & balance**, **music**, or random life chat\n- How to **contact** him\n\nNo need to be formal. I'll meet you where you are.`,
+			`I'm **Bon**. Think of me as someone who knows Ben well and actually likes talking to people.\n\nYou can ask about:\n- His **experience**, **skills**, and **projects**\n- His **path** (HKBU, Affinda, n8n, Lindy)\n- **Health & balance**, **music**, or random life chat\n- How to **contact** him\n\nNo need to be formal. I'll meet you where you are.`,
 	},
 	{
 		id: 'identity',
@@ -579,8 +566,8 @@ const handlers: IntentHandler[] = [
 				return humanAbout();
 			}
 			return pick([
-				`I'm **Bon** (AI BEN), Ben's portfolio assistant. ${personal.fullName} leads **${team.fullName}** as ${personal.title} in ${personal.location}. ${personal.tagline}\n\n[[mood:calm]]`,
-				`I'm **Bon**. Ben's voice on this site. He runs a small remote team at ASF; I'm best for his skills, story, and how to reach him.\n\n[[mood:warm]]`,
+				`I'm **Bon** (AI BEN), Ben's portfolio assistant. ${personal.fullName} is a ${personal.title} in ${personal.location}. ${personal.tagline}\n\n[[mood:calm]]`,
+				`I'm **Bon**. Ben's voice on this site. I'm best for his skills, story, and how to reach him.\n\n[[mood:warm]]`,
 			]);
 		},
 	},
@@ -691,7 +678,7 @@ const handlers: IntentHandler[] = [
 				s += 11;
 			if (matches(q, [/tell me about (your |his |ben'?s? )?(work |job )?experience/, /years (of )?experience/, /how long has he/, /how long have/]))
 				s += 10;
-			if (hasWord(tokens, ['cloudsmith', 'nearform', 'stelfox', 'threadline', 'senior', 'lead', 'junior', 'worked', 'employer']))
+			if (hasWord(tokens, ['lindy', 'n8n', 'affinda', 'senior', 'lead', 'junior', 'worked', 'employer']))
 				s += 7;
 			if (hasWord(tokens, ['experience', 'career', 'role', 'position', 'job'])) s += 5;
 			if (hasWord(tokens, ['developer', 'engineer']) && !hasWord(tokens, ['project'])) s += 3;
@@ -704,13 +691,13 @@ const handlers: IntentHandler[] = [
 		score: (q, tokens) => {
 			let s = 0;
 			if (matches(q, [/education|university|college|degree|graduate|graduated|studied|school/])) s += 10;
-			if (hasWord(tokens, ['newcastle', 'uon'])) s += 9;
-			if (hasWord(tokens, ['honours', 'honors', 'software'])) s += 4;
+			if (hasWord(tokens, ['baptist', 'hkbu', 'hong'])) s += 9;
+			if (hasWord(tokens, ['honours', 'honors', 'computer', 'csuf', 'exchange'])) s += 4;
 			return s;
 		},
 		reply: () =>
 			prefix([
-				`Ben studied at **The University of Newcastle, Australia** (2016-2020), **Bachelor of Software Engineering (Honours)**.\n\nHe built a strong foundation in software engineering through coursework and practical projects, learning how technology solves real-world problems, then started his professional career in Newcastle.`,
+				`Ben studied at **Hong Kong Baptist University** (2016–2020), **BSc (Hons) Computer Science**.\n\nHe completed international study and exchange experience in Australia during the degree, was recognized on the **Dean's Honors List**, and received a **CSUF Alumni Association Scholarship**.`,
 			]),
 	},
 	{
@@ -719,7 +706,8 @@ const handlers: IntentHandler[] = [
 			let s = 0;
 			if (matches(q, [/show (me )?(your |his |ben'?s? )?(projects|work|portfolio|stuff)/, /what (have|has) (he|ben|you) built/, /selected work/]))
 				s += 11;
-			if (hasWord(tokens, ['happy', 'hydro', 'labyrinth', 'remedior', 'crown'])) s += 8;
+			if (hasWord(tokens, ['lead', 'qualification', 'invoice', 'reconciliation', 'scheduling', 'demo']))
+				s += 8;
 			if (hasWord(tokens, ['project', 'projects', 'portfolio', 'built', 'builds', 'app', 'apps']))
 				s += 5;
 			return s;
@@ -761,26 +749,27 @@ const handlers: IntentHandler[] = [
 		},
 		reply: () =>
 			prefix([
-				`Shopify's a big part of Ben's portfolio work. He's built **live storefronts** for real brands: themes, Liquid, checkout flows, and conversion-focused UX (see Selected Work).\n\nHis product-focused background also helps him think about customer needs, not just templates and APIs.`,
-				`Yeah, e-commerce is core for Ben. He builds on **Shopify** and custom stacks, always thinking about performance, conversion, and real business outcomes.`,
+				`Shopify and e-commerce storefronts aren't Ben's published focus on this site. He builds **AI agents**, **LLM applications**, and **workflow automation** that connect models to APIs, CRM/SaaS systems, and operational processes.\n\nAsk about his Lindy / n8n / Affinda path or the selected AI projects if you want detail.`,
+				`That's not Ben's lane here. His portfolio is about **AI automation and agent systems**, not Shopify storefronts. Want a walkthrough of his agent work instead?`,
 			]),
 	},
 	{
 		id: 'ai',
 		score: (q, tokens) => {
 			let s = 0;
-			if (matches(q, [/artificial intelligence|machine learning|ai engineer|ml engineer/])) s += 10;
-			if (hasWord(tokens, ['ai', 'llm', 'gpt', 'chatgpt', 'copilot', 'ml', 'machine'])) s += 6;
-			if (hasWord(tokens, ['tensorflow', 'pytorch', 'python'])) s += 5;
-			// "cursor" as IDE, only when paired with dev/ai context
+			if (matches(q, [/artificial intelligence|machine learning|ai engineer|ml engineer|ai agent|ai automation/]))
+				s += 10;
+			if (hasWord(tokens, ['ai', 'llm', 'gpt', 'chatgpt', 'copilot', 'ml', 'machine', 'rag', 'mcp', 'agent']))
+				s += 6;
+			if (hasWord(tokens, ['python', 'fastapi', 'hitl'])) s += 5;
 			if (hasWord(tokens, ['cursor']) && hasWord(tokens, ['ide', 'tool', 'editor', 'ai', 'code']))
 				s += 5;
 			return s;
 		},
 		reply: () =>
 			prefix([
-				`AI is practical work for Ben, not slide-deck hype. Across his Newcastle roles and ASF client work he has used Python backends, data processing, REST APIs, and external AI API integrations where they solve a real problem.\n\nHe uses modern AI tooling in daily development, but the goal is always **reliable features** that improve real processes.`,
-				`Ben's Python/AI work covers backend APIs, data collection and transformation, error handling, logging, and shipping AI-enabled features to production when they create clear user or business value.`,
+				`AI is Ben's core craft, not slide-deck hype. As an **AI Automation Engineer** he builds agent workflows that combine LLM reasoning with business context, structured data, tool calling, MCP, validation, and human-in-the-loop controls.\n\nSee his Lindy / n8n / Affinda path and the selected lead-qualification and invoice-reconciliation projects.`,
+				`Ben's AI work covers agents, RAG, tool calling, MCP, Python/FastAPI services, and production automation with clear escalation paths when outputs are uncertain.`,
 			]),
 	},
 	{
@@ -793,21 +782,18 @@ const handlers: IntentHandler[] = [
 					/early life/,
 					/grow up/,
 					/childhood/,
-					/from australia/,
 					/real name|birth name|original name/,
 					/mother|mum|mom|parents|family/,
-					/singapore|japanese/,
+					/singapore|japanese|heritage/,
 				])
 			) {
 				s += 11;
 			}
 			if (
 				hasWord(tokens, [
-					'australia',
-					'australian',
-					'newcastle',
-					'mudbath',
-					'anditi',
+					'lindy',
+					'n8n',
+					'affinda',
 					'lesson',
 					'teams',
 					'mother',
@@ -817,6 +803,7 @@ const handlers: IntentHandler[] = [
 					'singapore',
 					'singaporean',
 					'family',
+					'heritage',
 				])
 			) {
 				s += 6;
@@ -824,29 +811,14 @@ const handlers: IntentHandler[] = [
 			return s;
 		},
 		reply: (q) => {
-			if (matches(q, [/original name|birth name|real name|kai wen|why ben clark|why the name|other name/])) {
+			if (matches(q, [/original name|birth name|real name|why ben clark|why the name|other name/])) {
 				return pick([
-					`His real name is **${personal.fullName}**. That is the only name he uses. Originally from **${personal.birthPlace}**, now in **${personal.location}**.\n\n[[mood:calm]]`,
+					`His name is **${personal.fullName}**. That is the only name he uses on this site. He's based in **${personal.location}**.\n\n[[mood:calm]]`,
 					`**${personal.fullName}**. That is his real name. No other names.\n\n[[mood:calm]]`,
 				]);
 			}
-			if (matches(q, [/mother|mum|mom|parents|family|singapore|japanese heritage|from japan/])) {
-				if (matches(q, [/singapore/])) {
-					return pick([
-						`No. Ben's mother is originally from **${personal.motherOrigin}**, not Singapore. He keeps other family details private.\n\n[[mood:calm]]`,
-						`That's a mix-up. His mother is originally from **${personal.motherOrigin}**, not Singapore.\n\n[[mood:calm]]`,
-					]);
-				}
-				if (matches(q, [/mother|mum|mom/])) {
-					return pick([
-						`Ben's mother is originally from **${personal.motherOrigin}**. He keeps the rest of his family life private.\n\n[[mood:calm]]`,
-						`His mum is originally from **${personal.motherOrigin}**. Beyond that he prefers to talk about his **work** and **story**.\n\n[[mood:warm]]`,
-					]);
-				}
-				return pick([
-					`His mother is originally from **${personal.motherOrigin}**. Other family details stay private. Happy to talk about his **work** or **path** instead.\n\n[[mood:calm]]`,
-					`Family-wise, the one public note is that his mother is originally from **${personal.motherOrigin}**. Ask about his path or ASF anytime.\n\n[[mood:thoughtful]]`,
-				]);
+			if (matches(q, [/mother|mum|mom|parents|family|singapore|japanese|heritage|from japan/])) {
+				return familyPrivacyReply();
 			}
 			if (
 				matches(q, [
@@ -858,10 +830,7 @@ const handlers: IntentHandler[] = [
 					/what does (he|ben) look like/,
 				])
 			) {
-				return pick([
-					`Yes. Ben has an **Asian** appearance. Beyond that he keeps the focus on his work. Want his **story**, **skills**, or **contact**?\n\n[[mood:calm]]`,
-					`He looks **Asian**. If you came for the portfolio side, I can cover his **experience** or how to reach him.\n\n[[mood:warm]]`,
-				]);
+				return appearancePrivacyReply();
 			}
 			return humanStory();
 		},
@@ -885,18 +854,14 @@ const handlers: IntentHandler[] = [
 			if (hasWord(tokens, ['asian', 'appearance', 'ethnicity', 'looks', 'look'])) s += 5;
 			return s;
 		},
-		reply: () =>
-			pick([
-				`Yes. Ben has an **Asian** appearance. Beyond that he keeps the focus on his work. Want his **story**, **skills**, or **contact**?\n\n[[mood:calm]]`,
-				`He looks **Asian**. If you came for the portfolio side, I can cover his **experience** or how to reach him.\n\n[[mood:warm]]`,
-			]),
+		reply: () => appearancePrivacyReply(),
 	},
 	{
 		id: 'about',
 		score: (q, tokens) => {
 			let s = 0;
 			if (matches(q, [/about (you|ben|him)|background|story|journey|bio|personality/])) s += 10;
-			if (hasWord(tokens, ['entrepreneur', 'business', 'clothing', 'founder', 'person'])) s += 6;
+			if (hasWord(tokens, ['entrepreneur', 'business', 'founder', 'person'])) s += 6;
 			return s;
 		},
 		reply: () => humanAbout(),
@@ -911,7 +876,7 @@ const handlers: IntentHandler[] = [
 		},
 		reply: () =>
 			prefix([
-				`What stands out about Ben:\n\n${traits.map((t) => `- ${t}`).join('\n')}\n\nQuick stats: ${highlights.map((h) => `${h.value} ${h.label}`).join(', ')}.\n\nHe's the kind of engineer who thinks about the product, not just the ticket.`,
+				`What stands out about Ben:\n\n${traits.map((t) => `- ${t}`).join('\n')}\n\nQuick stats: ${highlights.map((h) => `${h.value} ${h.label}`).join(', ')}.\n\nHe's the kind of engineer who ships maintainable automation, not one-off scripts.`,
 			]),
 	},
 	{
@@ -938,65 +903,78 @@ const handlers: IntentHandler[] = [
 		},
 		reply: () =>
 			prefix([
-				`Yes. ASF is **open to client projects, collaborations, and longer-term engagements**. Ben handles first contact.\n\nDrop him a line at **${personal.email}**, he typically replies within **24 hours**.`,
-				`From what I know, the team is open to new client work and collaborations. Remote delivery is the default. Email's the best first step: **${personal.email}**.`,
+				`Yes. Ben is **${personal.model.toLowerCase()}**.\n\nDrop him a line at **${personal.email}**, he typically replies within **one business day**.`,
+				`From what I know, he is open to remote AI automation and agent work, plus longer-term engineering engagements. Email's the best first step: **${personal.email}**.`,
 			]),
 	},
 	{
 		id: 'location',
 		score: (q, tokens) => {
 			let s = 0;
-			if (matches(q, [/where (is|are|does)|based in|located|live|timezone|newcastle|bellingen/])) s += 10;
-			if (hasWord(tokens, ['location', 'remote', 'australia', 'newcastle', 'nsw', 'bellingen'])) s += 5;
+			if (matches(q, [/where (is|are|does)|based in|located|live|timezone|la habra|california/]))
+				s += 10;
+			if (hasWord(tokens, ['location', 'remote', 'california', 'habra', 'usa', 'united'])) s += 5;
 			return s;
 		},
 		reply: () =>
 			prefix([
-				`Ben is based in **${personal.location}** (originally from **${personal.birthPlace}**). He's comfortable with remote and async teams worldwide.`,
-				`These days he's in **${personal.location}**. Location hasn't stopped him. ASF is fully remote, and he's used to distributed collaboration.`,
+				`Ben is based in **${personal.location}**. He's comfortable with remote and async teams worldwide.`,
+				`These days he's in **${personal.location}**. Location hasn't stopped him. He works remotely and is used to distributed collaboration.`,
 			]),
 	},
 	{
 		id: 'mudbath',
 		score: (q) => (/mudbath/.test(q) ? 12 : 0),
-		reply: () =>
-			`**Mudbath Digital** (May 2024-February 2026, Newcastle, NSW). Ben worked on modern digital products and customer-facing applications. This strengthened his product-focused delivery, stakeholder collaboration, and ownership across the full software delivery process.`,
+		reply: () => notPublishedEmployerReply('Mudbath Digital'),
 	},
 	{
 		id: 'anditi',
 		score: (q) => (/anditi/.test(q) ? 12 : 0),
-		reply: () =>
-			`**Anditi** (July 2021-April 2024, Newcastle, NSW). Ben continued developing as a software engineer on business-focused solutions across different application types and customer requirements. It deepened his collaboration skills and experience delivering software that supports real business needs.`,
+		reply: () => notPublishedEmployerReply('Anditi'),
 	},
 	{
 		id: 'fortel',
 		score: (q) => (/4tel|fortel/.test(q) ? 12 : 0),
-		reply: () =>
-			`**4Tel** (September 2020-June 2021, Newcastle, NSW). Ben's first professional software role after university. He gained experience in a structured engineering environment and contributed to software projects as part of a professional development team.`,
+		reply: () => notPublishedEmployerReply('4Tel'),
 	},
 	{
 		id: 'cloudsmith',
 		score: (q) => (/cloudsmith/.test(q) ? 8 : 0),
-		reply: () =>
-			`Ben's published career path on this site is **4Tel to Anditi to Mudbath Digital**, then **ASF Team**. If you're thinking of an older employer name, ask about those Newcastle roles instead.`,
+		reply: () => notPublishedEmployerReply('Cloudsmith'),
 	},
 	{
 		id: 'nearform',
 		score: (q) => (/nearform|near form/.test(q) ? 8 : 0),
-		reply: () =>
-			`Ben's published career path on this site is **4Tel to Anditi to Mudbath Digital**, then **ASF Team**. I can walk through any of those roles if you want detail.`,
+		reply: () => notPublishedEmployerReply('NearForm'),
 	},
 	{
 		id: 'stelfox',
 		score: (q) => (/stelfox/.test(q) ? 8 : 0),
-		reply: () =>
-			`Ben's first professional role on this site is **4Tel** in Newcastle (2020-2021), not Stelfox. Happy to cover 4Tel, Anditi, or Mudbath.`,
+		reply: () => notPublishedEmployerReply('Stelfox'),
 	},
 	{
 		id: 'threadline',
 		score: (q) => (/threadline|sock/.test(q) ? 8 : 0),
 		reply: () =>
-			`This portfolio focuses on Ben's Newcastle engineering path and **ASF Team**. For product mindset, he draws on product-focused and business-oriented project experience rather than a Threadline story.`,
+			`Threadline isn't part of Ben's published path on this site. ${publishedPathNote}`,
+	},
+	{
+		id: 'lindy',
+		score: (q) => (/lindy/.test(q) ? 12 : 0),
+		reply: () =>
+			`**Lindy** (San Francisco, 2024–2026). Ben worked as an **AI Automation / AI Agent Engineer**, designing agent workflows for multi-step business processes involving research, communication, scheduling, and operational execution, with tool-based execution, validation, and human-approval paths.`,
+	},
+	{
+		id: 'n8n_employer',
+		score: (q) => (/\bn8n\b/.test(q) ? 12 : 0),
+		reply: () =>
+			`**n8n** (Berlin, 2022–2024). Ben worked as a **Software Engineer / Automation Engineer**, building backend services and workflow automations connecting APIs, databases, SaaS applications, and internal systems, with validation, logging, retries, and controlled execution.`,
+	},
+	{
+		id: 'affinda',
+		score: (q) => (/affinda/.test(q) ? 12 : 0),
+		reply: () =>
+			`**Affinda** (Melbourne, 2020–2022). Ben worked as a **Software Engineer / AI/ML Engineer** on document-intensive processes and automated information extraction, with Python services, validation workflows, and production document automation.`,
 	},
 	{
 		id: 'shopify_stores',
@@ -1006,7 +984,10 @@ const handlers: IntentHandler[] = [
 			)
 				? 12
 				: 0,
-		reply: () => humanProjects(),
+		reply: () =>
+			prefix([
+				`Those storefronts aren't on Ben's published portfolio here. His selected work is **AI Lead Qualification & Demo Scheduling** and **Enterprise Invoice Reconciliation**. Want details on either?`,
+			]),
 	},
 	{
 		id: 'site',
@@ -1017,7 +998,7 @@ const handlers: IntentHandler[] = [
 			return s;
 		},
 		reply: () =>
-			`You're on the **ASF Team** site right now. Sections to explore:\n\n- **About:** the team\n- **Team:** who we are\n- **Expertise:** what we build\n- **Team Path:** how ASF grew\n- **Selected Work:** project previews\n- **Tech Stack:** tools we use\n- **Contact:** how to reach Ben\n\nUse the nav up top or just scroll. What catches your eye?`,
+			`You're on **Ben Clark's** portfolio right now. Sections to explore:\n\n- **About:** his story\n- **Expertise:** what he builds\n- **Path:** career and education\n- **Selected Work:** AI automation projects\n- **Tech Stack:** tools he uses\n- **Contact:** how to reach him\n\nUse the nav up top or just scroll. What catches your eye?`,
 	},
 	{
 		id: 'pricing',
@@ -1033,7 +1014,7 @@ const handlers: IntentHandler[] = [
 		id: 'compare',
 		score: (q) => (/better than|vs |versus|compare|difference between/.test(q) ? 8 : 0),
 		reply: () =>
-			`Ha, I'm flattered you're thinking deeply! I can't really compare Ben to others since I only know his story well. What I can say: he brings **full stack engineering**, **Python/AI**, and **front end** delivery together with product-minded experience from Newcastle roles and live Shopify work. If you tell me what you're looking for, I can say whether that fits his background.`,
+			`Ha, I'm flattered you're thinking deeply! I can't really compare Ben to others since I only know his story well. What I can say: he brings **AI agents**, **LLM applications**, and **workflow automation** together with production experience from Lindy, n8n, and Affinda. If you tell me what you're looking for, I can say whether that fits his background.`,
 	},
 	{
 		id: 'followup',
@@ -1046,12 +1027,16 @@ const handlers: IntentHandler[] = [
 		},
 		reply: (_q, _t, ctx) => {
 			const followups: Record<string, string> = {
-				experience: `Want me to zoom in on **ASF Team**, **Mudbath Digital**, **Anditi**, **4Tel**, or Ben's **education** path?`,
-				projects: `I can dive deeper into **Happy Hydro**, **Labyrinth Style**, **Remedior Skincare**, or any store in Selected Work. Which one interests you?`,
-				skills: `Happy to go deeper on **full stack**, **Python/AI**, **front end**, or **Shopify**, or name a tech like React or Python and I'll tell you how he uses it.`,
+				experience: `Want me to zoom in on **Lindy**, **n8n**, **Affinda**, or Ben's **education** path?`,
+				projects: `I can dive deeper into **AI Lead Qualification & Demo Scheduling** or **Enterprise Invoice Reconciliation**. Which one interests you?`,
+				skills: `Happy to go deeper on **AI agents**, **RAG / tool calling / MCP**, **workflow automation**, or **Python / FastAPI**. Name a topic and I'll expand.`,
 				contact: `Email **${personal.email}**, WhatsApp **${personal.whatsappNumber}**, Telegram **@${personal.telegramUsername}**, Discord **${personal.discordUsername}**, or LinkedIn **${personal.linkedinUrl}**. I can suggest what to write in a first message if you want.\n\n[[mood:warm]]`,
-				tech: `Name any tool or language, React, Docker, Postgres, whatever, and I'll tell you how it fits Ben's work.`,
+				tech: `Name any tool, Python, FastAPI, RAG, MCP, Postgres, whatever, and I'll tell you how it fits Ben's work.`,
 				about: `I can also share more about his **personal journey**, **projects**, or **how to contact him**. What would you like next?\n\n[[mood:warm]]`,
+				ai: `Want detail on his **agent workflows at Lindy**, **automation at n8n**, or the **selected AI projects**?`,
+				lindy: `I can also cover **n8n**, **Affinda**, or his **selected AI projects** next.`,
+				n8n_employer: `Want **Lindy**, **Affinda**, or the **AI project** case studies next?`,
+				affinda: `Want **Lindy**, **n8n**, or his **education** path next?`,
 			};
 			return (
 				followups[ctx.lastIntent ?? ''] ??
@@ -1098,8 +1083,8 @@ export const getBotResponse = (
 		return blockedTopicReply(ctx);
 	}
 
-	if (isTeamMemberQuestion(q, tokens)) {
-		return teamMemberDeflect(ctx);
+	if (isStudioQuestion(q, tokens)) {
+		return studioDeflect(ctx);
 	}
 
 	if (isGibberish(q, tokens)) {
@@ -1137,7 +1122,7 @@ export const getBotResponse = (
 		if (matches(q, [/contact|email|telegram|whatsapp|linkedin|hire/])) {
 			return { text: humanContact(), intent: 'contact', userName: ctx.userName };
 		}
-		if (matches(q, [/experience|mudbath|anditi|4tel|career|resume/])) {
+		if (matches(q, [/experience|lindy|n8n|affinda|career|resume/])) {
 			return { text: humanExperience(), intent: 'experience', userName: ctx.userName };
 		}
 		if (matches(q, [/project|portfolio|built/])) {

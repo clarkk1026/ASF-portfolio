@@ -7,7 +7,7 @@ type BrandLogoProps = {
 
 export const BrandLogo = ({
 	className = '',
-	title = 'ASF Team',
+	title = 'Ben Clark',
 }: BrandLogoProps) => (
 	<span
 		className={`brand-logo ${className}`.trim()}
@@ -35,19 +35,13 @@ export const BrandLogo = ({
 					className='brand-flow-letter'
 					style={{ '--i': 0 } as CSSProperties}
 				>
-					A
+					B
 				</span>
 				<span
 					className='brand-flow-letter'
 					style={{ '--i': 1 } as CSSProperties}
 				>
-					S
-				</span>
-				<span
-					className='brand-flow-letter'
-					style={{ '--i': 2 } as CSSProperties}
-				>
-					F
+					C
 				</span>
 			</span>
 		</span>

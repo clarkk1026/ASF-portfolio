@@ -60,13 +60,13 @@ export const InfoSection = () => {
 							to='/projects'
 							className='comet-btn comet-btn-work comet-btn-lg'
 						>
-							View Our Work
+							View My Work
 						</Link>
 						<Link
-							to='/team'
+							to='/about'
 							className='comet-btn comet-btn-contact comet-btn-lg'
 						>
-							Meet the Team
+							About Me
 						</Link>
 					</div>
 				</Reveal>

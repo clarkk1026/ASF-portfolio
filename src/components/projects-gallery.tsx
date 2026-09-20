@@ -24,57 +24,74 @@ type ScrollMetrics = {
 	travel: number;
 };
 
-const ProjectCard = ({ project, index }: ProjectCardProps) => (
-	<article
-		className={`project-card glass-card ${project.featured ? 'project-card-featured' : ''}`}
-		role='listitem'
-	>
-		<a
-			className='project-card-link'
-			href={project.url}
-			target='_blank'
-			rel='noopener noreferrer'
-			aria-label={`Visit ${project.title} live site`}
-			draggable={false}
-		>
-			<div className='project-image-wrap'>
-				<ProjectCardImage
-					src={project.image}
-					alt={`${project.title} storefront preview`}
-				/>
-				<div className='project-image-overlay' />
-				<div className='project-screen-name'>
-					<span className='project-index'>
-						{String(index + 1).padStart(2, '0')}
-					</span>
-					<h3>{project.title}</h3>
-				</div>
-				{project.featured ? (
-					<span className='project-badge'>Featured</span>
-				) : null}
-				<span className='project-live-badge'>Live site</span>
-			</div>
-		</a>
+const ProjectCard = ({ project, index }: ProjectCardProps) => {
+	const hasLiveUrl = Boolean(project.url);
+	const previewSrc = project.image ?? '/projects/project-ecommerce.svg';
 
-		<div className='project-card-body'>
-			<p>{project.description}</p>
-			<div className='project-stack'>
-				{project.stack.map((tech) => (
-					<span key={tech}>{tech}</span>
-				))}
+	const media = (
+		<div className='project-image-wrap'>
+			<ProjectCardImage
+				src={previewSrc}
+				alt={`${project.title} project preview`}
+			/>
+			<div className='project-image-overlay' />
+			<div className='project-screen-name'>
+				<span className='project-index'>
+					{String(index + 1).padStart(2, '0')}
+				</span>
+				<h3>{project.title}</h3>
 			</div>
-			<a
-				className='project-visit-link'
-				href={project.url}
-				target='_blank'
-				rel='noopener noreferrer'
-				draggable={false}
-			>
-				Visit {project.title}
-			</a>
+			{project.featured ? (
+				<span className='project-badge'>Featured</span>
+			) : null}
+			<span className='project-live-badge'>
+				{hasLiveUrl ? 'Live site' : 'Case study'}
+			</span>
 		</div>
-	</article>
-);
+	);
+
+	return (
+		<article
+			className={`project-card glass-card ${project.featured ? 'project-card-featured' : ''}`}
+			role='listitem'
+		>
+			{hasLiveUrl ? (
+				<a
+					className='project-card-link'
+					href={project.url}
+					target='_blank'
+					rel='noopener noreferrer'
+					aria-label={`Visit ${project.title}`}
+					draggable={false}
+				>
+					{media}
+				</a>
+			) : (
+				<div className='project-card-link'>{media}</div>
+			)}
+
+			<div className='project-card-body'>
+				<p>{project.description}</p>
+				<div className='project-stack'>
+					{project.stack.map((tech) => (
+						<span key={tech}>{tech}</span>
+					))}
+				</div>
+				{hasLiveUrl ? (
+					<a
+						className='project-visit-link'
+						href={project.url}
+						target='_blank'
+						rel='noopener noreferrer'
+						draggable={false}
+					>
+						Visit {project.title}
+					</a>
+				) : null}
+			</div>
+		</article>
+	);
+};
 
 export const ProjectsGallery = () => {
 	const scrollRef = useRef<HTMLDivElement>(null);

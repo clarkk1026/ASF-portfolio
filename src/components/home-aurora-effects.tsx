@@ -18,7 +18,7 @@ type Star = {
 
 /** Match CSS: object-fit cover + object-position center bottom */
 const POS = { x: 0.5, y: 1 };
-/** Stars in the clear dark night sky band above the team. */
+/** Stars in the clear dark night sky band above the hero. */
 const STAR_UV = { bottom: 0.52, right: 0.72 };
 
 const rand = (min: number, max: number) => min + Math.random() * (max - min);
@@ -122,7 +122,7 @@ export const HomeAuroraEffects = () => {
 
 		const img = new Image();
 		img.decoding = 'async';
-		img.src = '/home-aurora-team-4k.webp?v=original';
+		img.src = '/home-aurora-4k.webp?v=original';
 
 		const reducedMotion = window.matchMedia(
 			'(prefers-reduced-motion: reduce)',

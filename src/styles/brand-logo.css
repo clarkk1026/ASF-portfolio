@@ -62,7 +62,7 @@
 	opacity: 0;
 	transform: translateY(0.18em) scale(0.92);
 	animation: brand-letter-flow var(--brand-flow-duration) ease-in-out infinite;
-	animation-delay: calc(var(--i) * (var(--brand-flow-duration) / 3));
+	animation-delay: calc(var(--i) * (var(--brand-flow-duration) / 2));
 }
 
 @keyframes brand-letter-flow {

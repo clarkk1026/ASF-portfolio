@@ -1,22 +1,17 @@
 const brandLetterMeta = {
-	A: {
-		label: 'AI',
+	B: {
+		label: 'Ben',
+		color: '#3de8ff',
+	},
+	C: {
+		label: 'Clark',
 		color: '#a78bfa',
-	},
-	S: {
-		label: 'Shopify',
-		color: '#96bf47',
-	},
-	F: {
-		label: 'Full Stack',
-		color: '#f97316',
 	},
 } as const;
 
 const brandLetterColors = {
-	A: brandLetterMeta.A.color,
-	S: brandLetterMeta.S.color,
-	F: brandLetterMeta.F.color,
+	B: brandLetterMeta.B.color,
+	C: brandLetterMeta.C.color,
 } as const;
 
 export type BrandLetter = keyof typeof brandLetterColors;
