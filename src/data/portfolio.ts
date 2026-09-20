@@ -176,20 +176,91 @@ export const expertise: ExpertiseItem[] = [
 	},
 ];
 
+const projectPreview = (siteUrl: string) =>
+	`https://image.thum.io/get/width/1200/crop/675/noanimate/${siteUrl.replace(/\/$/, '')}`;
+
 export const projects: ProjectItem[] = [
 	{
-		title: 'AI Lead Qualification & Demo Scheduling',
+		title: 'WorkflowHQ',
 		description:
-			'AI automation workflow for inbound sales requests covering prospect research, business qualification, CRM retrieval, personalized communication, routing, and meeting scheduling. Includes structured handoffs, business rules, validation, and human escalation for uncertain cases.',
-		stack: ['AI Agents', 'CRM', 'RAG', 'HITL', 'Scheduling'],
+			'AI agents for business workflows: phone, chat, email, and SMS that qualify leads, book meetings, update CRM, and keep pipelines moving without manual handoffs.',
+		stack: ['AI Agents', 'CRM', 'Voice', 'Chat', 'Automation'],
+		image: projectPreview('https://workflowhq.co'),
+		url: 'https://workflowhq.co/',
 		featured: true,
 	},
 	{
-		title: 'Enterprise Invoice Reconciliation',
+		title: 'Heym',
 		description:
-			'AI agent workflow for extracting invoice information, retrieving financial records, comparing amounts and line items, identifying discrepancies, and routing exceptions for human review. Validation controls prevent uncertain results from being auto-accepted.',
-		stack: ['Document AI', 'Agents', 'Validation', 'Finance', 'HITL'],
+			'Self-hosted AI-native workflow platform with a visual canvas, multi-agent orchestration, built-in RAG, MCP support, and human review checkpoints.',
+		stack: ['Agents', 'RAG', 'MCP', 'Workflows', 'Self-hosted'],
+		image: projectPreview('https://heym.run'),
+		url: 'https://heym.run/',
 		featured: true,
+	},
+	{
+		title: 'TinyFish',
+		description:
+			'Web infrastructure for AI agents: live search, clean page fetch, real browser automation, and production web agents that navigate authenticated sites.',
+		stack: ['Web Agents', 'Browser', 'Search API', 'Fetch', 'Automation'],
+		image: projectPreview('https://tinyfish.chat'),
+		url: 'https://tinyfish.chat/',
+	},
+	{
+		title: 'augLab',
+		description:
+			'No-code AI agent builder for agents, teams, and workflows. Connect models and tools, run visual pipelines, and embed chat widgets in production.',
+		stack: ['No-code', 'AI Agents', 'Workflows', 'MCP', 'Embeds'],
+		image: projectPreview('https://auglab.ai'),
+		url: 'https://auglab.ai/',
+	},
+	{
+		title: 'Mazaal AI',
+		description:
+			'Intelligent automation platform to build AI agents for sales, support, and ops, then deploy them across chat, email, Slack, and other channels.',
+		stack: ['AI Agents', 'Multichannel', 'Workflows', 'Integrations', 'MCP'],
+		image: projectPreview('https://mazaal.ai'),
+		url: 'https://mazaal.ai/',
+	},
+	{
+		title: 'Workbird',
+		description:
+			'AI automation platform for building agent workflows with MCP servers, app integrations, browser automation, scheduling, and human approval steps.',
+		stack: ['AI Agents', 'MCP', 'Workflows', 'Browser', 'Integrations'],
+		image: projectPreview('https://workbird.io'),
+		url: 'https://workbird.io/',
+	},
+	{
+		title: 'Redbird',
+		description:
+			'Conversational AI workflow automation for analytics, operations, and reporting, with inspectable steps, human-in-the-loop controls, and reliable reruns.',
+		stack: ['Analytics', 'HITL', 'Workflows', 'Integrations', 'Reporting'],
+		image: projectPreview('https://www.redbird.io'),
+		url: 'https://www.redbird.io/',
+	},
+	{
+		title: 'Oya',
+		description:
+			'Turn successful agent tasks into inspectable, replayable workflows. Record a browser run once, then replay it as code without re-spending tokens every time.',
+		stack: ['Browser Agents', 'Playbooks', 'MCP', 'Replay', 'Automation'],
+		image: projectPreview('https://getoya.ai'),
+		url: 'https://getoya.ai/',
+	},
+	{
+		title: 'APInstant',
+		description:
+			'Form and web workflow automation via visual builder and HTTP API: multi-step browser runs for form filling, data extraction, and government form flows.',
+		stack: ['Browser Automation', 'Forms', 'API', 'Workflows', 'Extraction'],
+		image: projectPreview('https://apinstant.app'),
+		url: 'https://apinstant.app/',
+	},
+	{
+		title: 'Dugong',
+		description:
+			'Plain-English AI workflow automation. Describe triggers and steps in natural language; an agent reasons through each step and calls your apps directly.',
+		stack: ['AI Agents', 'No-code', 'Integrations', 'Plain English', 'Ops'],
+		image: projectPreview('https://dugong.live'),
+		url: 'https://dugong.live/',
 	},
 ];
 
@@ -207,7 +278,7 @@ export const projectsSection = {
 		title: 'Selected',
 		subtitle: 'Work',
 		summary:
-			'AI automation case studies focused on sales ops and finance workflows',
+			'Live AI agent and workflow automation products across sales, ops, analytics, and web automation',
 	},
 };
 

@@ -355,8 +355,8 @@ const humanProjects = () => {
 		.join('\n\n');
 
 	return prefix([
-		`Selected work on this site focuses on production AI automation:\n\n${lines}\n\nScroll to **Selected Work** or ask about either project.\n\n[[mood:excited]]`,
-		`His portfolio highlights two AI automation case studies: **AI Lead Qualification & Demo Scheduling** and **Enterprise Invoice Reconciliation**. Both emphasize agents, validation, and human-in-the-loop controls. Want details on one of them?`,
+		`Selected work on this site includes live AI agent and workflow products:\n\n${lines}\n\nScroll to **Selected Work** or ask about a specific product.\n\n[[mood:excited]]`,
+		`His portfolio highlights live platforms like **WorkflowHQ**, **Heym**, **TinyFish**, **augLab**, **Mazaal**, **Workbird**, **Redbird**, **Oya**, **APInstant**, and **Dugong**. Each card links to the live site. Want details on one of them?`,
 	]);
 };
 
@@ -768,7 +768,7 @@ const handlers: IntentHandler[] = [
 		},
 		reply: () =>
 			prefix([
-				`AI is Ben's core craft, not slide-deck hype. As an **AI Automation Engineer** he builds agent workflows that combine LLM reasoning with business context, structured data, tool calling, MCP, validation, and human-in-the-loop controls.\n\nSee his Lindy / n8n / Affinda path and the selected lead-qualification and invoice-reconciliation projects.`,
+				`AI is Ben's core craft, not slide-deck hype. As an **AI Automation Engineer** he builds agent workflows that combine LLM reasoning with business context, structured data, tool calling, MCP, validation, and human-in-the-loop controls.\n\nSee his Lindy / n8n / Affinda path and the live products in **Selected Work**.`,
 				`Ben's AI work covers agents, RAG, tool calling, MCP, Python/FastAPI services, and production automation with clear escalation paths when outputs are uncertain.`,
 			]),
 	},
@@ -986,7 +986,7 @@ const handlers: IntentHandler[] = [
 				: 0,
 		reply: () =>
 			prefix([
-				`Those storefronts aren't on Ben's published portfolio here. His selected work is **AI Lead Qualification & Demo Scheduling** and **Enterprise Invoice Reconciliation**. Want details on either?`,
+				`Those storefronts aren't on Ben's published portfolio here. His selected work is live AI agent and workflow products like **WorkflowHQ**, **Heym**, **TinyFish**, and the other platforms on the Projects page. Want details on any of them?`,
 			]),
 	},
 	{
@@ -998,7 +998,7 @@ const handlers: IntentHandler[] = [
 			return s;
 		},
 		reply: () =>
-			`You're on **Ben Clark's** portfolio right now. Sections to explore:\n\n- **About:** his story\n- **Expertise:** what he builds\n- **Path:** career and education\n- **Selected Work:** AI automation projects\n- **Tech Stack:** tools he uses\n- **Contact:** how to reach him\n\nUse the nav up top or just scroll. What catches your eye?`,
+			`You're on **Ben Clark's** portfolio right now. Sections to explore:\n\n- **About:** his story\n- **Expertise:** what he builds\n- **Path:** career and education\n- **Selected Work:** live AI agent and workflow products\n- **Tech Stack:** tools he uses\n- **Contact:** how to reach him\n\nUse the nav up top or just scroll. What catches your eye?`,
 	},
 	{
 		id: 'pricing',
@@ -1028,7 +1028,7 @@ const handlers: IntentHandler[] = [
 		reply: (_q, _t, ctx) => {
 			const followups: Record<string, string> = {
 				experience: `Want me to zoom in on **Lindy**, **n8n**, **Affinda**, or Ben's **education** path?`,
-				projects: `I can dive deeper into **AI Lead Qualification & Demo Scheduling** or **Enterprise Invoice Reconciliation**. Which one interests you?`,
+				projects: `I can dive deeper into **WorkflowHQ**, **Heym**, **TinyFish**, **augLab**, **Mazaal**, **Workbird**, **Redbird**, **Oya**, **APInstant**, or **Dugong**. Which one interests you?`,
 				skills: `Happy to go deeper on **AI agents**, **RAG / tool calling / MCP**, **workflow automation**, or **Python / FastAPI**. Name a topic and I'll expand.`,
 				contact: `Email **${personal.email}**, WhatsApp **${personal.whatsappNumber}**, Telegram **@${personal.telegramUsername}**, Discord **${personal.discordUsername}**, or LinkedIn **${personal.linkedinUrl}**. I can suggest what to write in a first message if you want.\n\n[[mood:warm]]`,
 				tech: `Name any tool, Python, FastAPI, RAG, MCP, Postgres, whatever, and I'll tell you how it fits Ben's work.`,
