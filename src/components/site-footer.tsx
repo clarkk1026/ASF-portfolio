@@ -6,12 +6,11 @@ import {
 	navLinks,
 	personal,
 	socialLinks,
-	team,
 } from '../data/portfolio';
 import { discordContactHref, openDiscordContact } from '../lib/discord-contact';
 
-const teamNavLinks = navLinks.filter((link) =>
-	['/team', '/expertise', '/projects', '/about', '/contact'].includes(link.href),
+const portfolioNavLinks = navLinks.filter((link) =>
+	['/expertise', '/projects', '/about', '/contact'].includes(link.href),
 );
 
 const serviceLinks = expertise.slice(0, 4).map((item) => ({
@@ -31,24 +30,24 @@ export const SiteFooter = () => {
 						<Link
 							to='/'
 							className='site-footer-logo'
-							aria-label={`${team.fullName} home`}
+							aria-label={`${personal.fullName} home`}
 						>
 							<BrandLogo />
-							<span className='site-footer-brand-name'>{team.fullName}</span>
+							<span className='site-footer-brand-name'>{personal.fullName}</span>
 						</Link>
 						<p className='site-footer-blurb'>
-							Remote software team for web apps, Shopify storefronts, and
-							Python backends, led by {personal.fullName}.
+							AI Automation Engineer for agents, LLM applications, and
+							production workflow systems.
 						</p>
 					</div>
 
 					<nav
 						className='site-footer-col'
-						aria-label='Team'
+						aria-label='Portfolio'
 					>
-						<h2 className='site-footer-heading'>Team</h2>
+						<h2 className='site-footer-heading'>Portfolio</h2>
 						<ul className='site-footer-list'>
-							{teamNavLinks.map((link) => (
+							{portfolioNavLinks.map((link) => (
 								<li key={link.href}>
 									<Link to={link.href}>{link.label}</Link>
 								</li>
@@ -112,9 +111,9 @@ export const SiteFooter = () => {
 
 				<div className='site-footer-bottom'>
 					<p>
-						© {year} {team.fullName}. All rights reserved.
+						© {year} {personal.fullName}. All rights reserved.
 					</p>
-					<p className='site-footer-bottom-meta'>{team.model}</p>
+					<p className='site-footer-bottom-meta'>{personal.model}</p>
 				</div>
 			</div>
 		</footer>

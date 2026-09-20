@@ -2,7 +2,7 @@ import { PageShell } from '../components/page-shell';
 import { Contact } from '../sections/contact.section';
 
 export const ContactPage = () => (
-	<PageShell title='Contact | ASF Team'>
+	<PageShell title='Contact | Ben Clark'>
 		<Contact />
 	</PageShell>
 );

@@ -29,7 +29,7 @@ const buildSmoothPath = (
 	ctx.lineTo(points[0].x, points[0].y);
 };
 
-/** Team-page comet trail — used site-wide. */
+/** Comet trail used site-wide. */
 const drawCometTail = (
 	ctx: CanvasRenderingContext2D,
 	trail: Point[],

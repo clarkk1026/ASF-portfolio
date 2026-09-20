@@ -1,35 +1,23 @@
 import type { IconType } from 'react-icons';
-import { BiLogoTypescript } from 'react-icons/bi';
-import { DiMongodb } from 'react-icons/di';
 import {
-    FaAws,
-    FaBrain,
-    FaLayerGroup,
-    FaLinkedin,
-    FaNodeJs,
-    FaPython,
-    FaReact,
-    FaShopify,
-    FaTelegram,
-    FaWhatsapp,
+	FaAws,
+	FaBrain,
+	FaCogs,
+	FaLayerGroup,
+	FaLinkedin,
+	FaPython,
+	FaTelegram,
+	FaWhatsapp,
 } from 'react-icons/fa';
 import { IoMailOutline } from 'react-icons/io5';
 import {
-    SiDiscord,
-    SiDocker,
-    SiExpress,
-    SiFirebase,
-    SiMysql,
-    SiNestjs,
-    SiPostgresql,
-    SiPrisma,
-    SiPytorch,
-    SiRedis,
-    SiTailwindcss,
-    SiTensorflow,
-    SiVercel,
+	SiDiscord,
+	SiDocker,
+	SiFastapi,
+	SiPostgresql,
+	SiRedis,
 } from 'react-icons/si';
-import { TbBrandNextjs } from 'react-icons/tb';
+import { TbBrandOpenai } from 'react-icons/tb';
 
 export type SocialLink = {
 	label: string;
@@ -63,13 +51,10 @@ export type ProjectItem = {
 	title: string;
 	description: string;
 	stack: string[];
-	image: string;
-	url: string;
+	image?: string;
+	url?: string;
 	featured?: boolean;
 };
-
-const projectPreview = (siteUrl: string) =>
-	`https://image.thum.io/get/width/1200/crop/675/noanimate/${siteUrl.replace(/\/$/, '')}`;
 
 export type TimelineItem = {
 	role: string;
@@ -95,287 +80,125 @@ export type TechGroup = {
 	items: TechItem[];
 };
 
-export type TeamMember = {
-	id: string;
-	name: string;
-	role: string;
-	location: string;
-	birthPlace: string;
-	isLeader?: boolean;
-	badge?: string;
-	badgeTone?: 'founder' | 'client';
-	summary: string;
-	focus: string[];
-};
-
-export const team = {
-	name: 'ASF',
-	fullName: 'ASF Team',
-	tagline:
-		'We build web applications, commerce storefronts, and backend systems for clients who need working software in production. A small remote team focused on shipping.',
-	heroGreeting: 'We are',
-	heroLead: 'A remote software team led by Ben Clark',
-	established: '2024',
-	model: 'Fully remote software team across Hong Kong and Australia',
-};
-
-export const teamMembers: TeamMember[] = [
-	{
-		id: 'ben-clark',
-		name: 'Ben Clark',
-		role: 'Full Stack Engineer & Team Lead',
-		birthPlace: 'Hong Kong',
-		location: 'Bellingen, NSW',
-		isLeader: true,
-		badge: 'Leader',
-		badgeTone: 'founder',
-		summary:
-			'Leads ASF after software engineering roles at 4Tel, Anditi, and Mudbath Digital. Owns architecture decisions, client delivery, and day-to-day engineering direction.',
-		focus: ['Architecture', 'Full stack', 'Client delivery', 'Shopify'],
-	},
-	{
-		id: 'sophie-byrne',
-		name: 'Sophie Byrne',
-		role: 'Lead Software Engineer',
-		birthPlace: 'Kowloon Tong, Hong Kong',
-		location: 'Hong Kong',
-		summary:
-			'Originally from Kowloon Tong, now based in Hong Kong. Lead engineer with experience at Mastercard, JPMorgan Chase, OkCupid, and LeafLink. Focused on scalable system integrations, distributed systems, DevOps, and reliable production software.',
-		focus: ['Distributed systems', 'Integrations', 'DevOps', 'CI/CD'],
-	},
-	{
-		id: 'mei-lin-chan',
-		name: 'Mei Lin Chan',
-		role: 'Senior Full Stack Developer',
-		birthPlace: 'Tsuen Wan, Hong Kong',
-		location: 'Hong Kong',
-		summary:
-			'Originally from Tsuen Wan, Hong Kong. Builds APIs, databases, and React features for B2B and product platforms with a focus on clean delivery and maintainable systems.',
-		focus: ['React', 'Node.js', 'PostgreSQL', 'APIs'],
-	},
-	{
-		id: 'le-wei',
-		name: 'Le Wei',
-		role: 'Web Developer',
-		birthPlace: 'Wan Chai, Hong Kong',
-		location: 'Hong Kong',
-		summary:
-			'Originally from Wan Chai, Hong Kong. Builds responsive web interfaces, polished user experiences, and dependable client-facing features.',
-		focus: ['Web development', 'Frontend', 'Responsive UI', 'User experience'],
-	},
-	{
-		id: 'lachlan-reid',
-		name: 'Lachlan Reid',
-		role: 'Python Backend Engineer',
-		birthPlace: 'Armidale, NSW',
-		location: 'Dubbo, NSW',
-		summary:
-			'Originally from Armidale, NSW, now based in Dubbo. Builds Python backends, data pipelines, and API services that stay reliable under load, with clean architecture and production monitoring.',
-		focus: ['Python', 'APIs', 'Data pipelines', 'Backend'],
-	},
-	{
-		id: 'tom-brennan',
-		name: 'Tom Brennan',
-		role: 'Full Stack Software Developer',
-		birthPlace: 'Geraldton, WA',
-		location: 'Albany, WA',
-		summary:
-			'Originally from Geraldton, WA, now based in Albany. Builds full stack web applications across front end, APIs, and databases, shipping features that hold up in production.',
-		focus: ['Full stack', 'React', 'Node.js', 'APIs'],
-	},
-];
-
 export const personal = {
-	name: 'ASF',
-	heroName: 'ASF TEAM',
-	heroNameLines: ['ASF TEAM'],
-	heroBadge: 'Remote Software Team',
-	heroServices: ['Web Apps', 'Shopify', 'Python Backends'],
+	name: 'Ben',
+	heroName: 'BEN CLARK',
+	heroNameLines: ['BEN CLARK'],
+	heroBadge: 'AI Automation Engineer',
+	heroServices: ['AI Agents', 'LLM Applications', 'Workflow Automation'],
 	fullName: 'Ben Clark',
 	originalName: 'Ben Clark',
-	birthPlace: 'Hong Kong',
-	/** Ask-only: do not volunteer unless the visitor asks about family / heritage. */
-	motherOrigin: 'Japan',
-	/** Ask-only: do not volunteer unless the visitor asks about looks / ethnicity. */
-	appearance: 'Asian',
-	title: 'Full Stack Engineer & Team Lead',
-	tagline: team.tagline,
-	location: 'Bellingen, Australia',
+	title: 'AI Automation Engineer',
+	tagline:
+		'I build production AI agent systems that connect LLM applications with APIs, business data, SaaS platforms, and operational workflows.',
+	location: 'La Habra, CA, United States',
 	email: 'benclarkk1026@gmail.com',
 	whatsappNumber: '+1 (562) 603-4526',
 	telegramUsername: 'benrose1026',
 	discordUsername: 'benclark10261',
 	discordUserId: '',
 	linkedinUrl: 'https://www.linkedin.com/in/benclark1026',
-	greeting: team.heroGreeting,
-	heroLead: team.heroLead,
+	greeting: "Hi, I'm",
+	heroLead: 'AI Automation Engineer | AI Agents | LLM Applications',
+	model: 'Available for remote AI automation and agent work',
 };
 
 export const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
 	personal.email,
-)}&su=${encodeURIComponent('ASF Team inquiry')}`;
+)}&su=${encodeURIComponent('Ben Clark portfolio inquiry')}`;
 
 export const whatsappUrl = 'https://wa.me/15626034526';
 
 export const telegramUrl = `https://t.me/${personal.telegramUsername}`;
 
 export const navLinks: NavLink[] = [
-	{ label: 'Team', href: '/team' },
 	{ label: 'Expertise', href: '/expertise' },
 	{ label: 'Path', href: '/path' },
 	{ label: 'Projects', href: '/projects' },
 	{ label: 'Tech', href: '/tech' },
 	{ label: 'Voices', href: '/voices' },
-	{ label: 'About Us', href: '/about' },
+	{ label: 'About', href: '/about' },
 	{ label: 'Contact', href: '/contact' },
 ];
 
 export const highlights: Highlight[] = [
-	{ value: '6', label: 'Team Members' },
-	{ value: '2024', label: 'Founded' },
-	{ value: '100%', label: 'Remote' },
-	{ value: '10+', label: 'Client Projects' },
-	{ value: 'Full stack', label: 'Delivery' },
+	{ value: '6+', label: 'Years Experience' },
+	{ value: 'AI Agents', label: 'Focus' },
+	{ value: 'LLM', label: 'Applications' },
+	{ value: 'Production', label: 'Automation' },
 ];
 
 export const traits: string[] = [
-	'Full stack delivery',
-	'Python and backend APIs',
-	'Shopify and commerce',
-	'Clear client communication',
-	'Remote collaboration',
-	'Production-first engineering',
+	'AI agent workflows',
+	'LLM applications',
+	'Workflow automation',
+	'RAG and tool calling',
+	'Human-in-the-loop controls',
+	'Production reliability',
 ];
 
 export const expertise: ExpertiseItem[] = [
 	{
-		title: 'Python and Backend Development',
+		title: 'AI Agents & LLM Applications',
 		description:
-			'Python services, REST APIs, data processing, and automation. We integrate model APIs where they solve a real problem, with logging and fallbacks built in from the start.',
+			'Design and ship AI-agent workflows that combine LLM reasoning with business context, structured data, external APIs, and tool-based execution for multi-step processes.',
 		icon: FaBrain,
 		iconColor: 'rgb(168, 130, 255)',
 		glowColor: 'rgba(168, 130, 255, 0.55)',
-		tags: ['Python', 'REST APIs', 'FastAPI', 'AI APIs', 'Automation'],
+		tags: ['AI Agents', 'LLM Apps', 'Tool Calling', 'MCP', 'RAG'],
 	},
 	{
-		title: 'Front End Development',
+		title: 'Workflow Automation',
 		description:
-			'React and TypeScript interfaces, responsive layout, and performance work. We also build and maintain Shopify storefronts for live commerce brands.',
-		icon: FaReact,
-		iconColor: 'rgb(97, 219, 251)',
-		glowColor: 'rgba(97, 219, 251, 0.6)',
-		tags: ['React', 'TypeScript', 'HTML/CSS', 'Performance', 'Responsive UI'],
-	},
-	{
-		title: 'Shopify and E-Commerce',
-		description:
-			'Theme development, Liquid customisation, checkout flows, and catalog UX for brands that sell online every day. See Selected Work for live examples.',
-		icon: FaShopify,
-		iconColor: 'rgb(150, 191, 72)',
-		glowColor: 'rgba(150, 191, 72, 0.55)',
-		tags: ['Shopify', 'Liquid', 'Storefronts', 'E-Commerce', 'Theme Dev'],
-	},
-	{
-		title: 'Full Stack Engineering',
-		description:
-			'End-to-end product work: React front ends, Node or Python APIs, PostgreSQL or MongoDB, and deployment pipelines. One team owns the path from design to production.',
-		icon: FaLayerGroup,
+			'Build reusable automations for data sync, business processes, notifications, and application integrations, with validation, retries, logging, and controlled execution.',
+		icon: FaCogs,
 		iconColor: 'rgb(31, 195, 255)',
 		glowColor: 'rgba(31, 195, 255, 0.55)',
-		tags: ['React', 'Node.js', 'PostgreSQL', 'REST APIs', 'Docker'],
+		tags: ['Orchestration', 'n8n', 'APIs', 'Retries', 'Validation'],
+	},
+	{
+		title: 'Python Backend & APIs',
+		description:
+			'Python services, FastAPI, REST APIs, PostgreSQL, Redis, document processing, and data pipelines that connect AI outputs to downstream business systems.',
+		icon: FaPython,
+		iconColor: 'rgb(55, 118, 171)',
+		glowColor: 'rgba(55, 118, 171, 0.6)',
+		tags: ['Python', 'FastAPI', 'PostgreSQL', 'Redis', 'APIs'],
+	},
+	{
+		title: 'Systems & Integrations',
+		description:
+			'CRM and SaaS integrations, business-system wiring, exception handling, human-approval paths, and cloud deployment for dependable production automation.',
+		icon: FaLayerGroup,
+		iconColor: 'rgb(74, 222, 128)',
+		glowColor: 'rgba(74, 222, 128, 0.55)',
+		tags: ['CRM', 'SaaS', 'HITL', 'Logging', 'Cloud'],
 	},
 ];
 
 export const projects: ProjectItem[] = [
 	{
-		title: 'Happy Hydro',
+		title: 'AI Lead Qualification & Demo Scheduling',
 		description:
-			'Shopify storefront for a leading US indoor gardening retailer, large catalog navigation, brand collections, product detail pages, and checkout flows built for repeat customers and high order volume.',
-		stack: ['Shopify', 'Liquid', 'Theme Dev', 'E-commerce UX'],
-		image: projectPreview('https://happyhydro.com'),
-		url: 'https://happyhydro.com/',
+			'AI automation workflow for inbound sales requests covering prospect research, business qualification, CRM retrieval, personalized communication, routing, and meeting scheduling. Includes structured handoffs, business rules, validation, and human escalation for uncertain cases.',
+		stack: ['AI Agents', 'CRM', 'RAG', 'HITL', 'Scheduling'],
 		featured: true,
 	},
 	{
-		title: 'Reroom AI',
+		title: 'Enterprise Invoice Reconciliation',
 		description:
-			'AI-powered interior design platform with room staging, product visualization, and a conversion-focused landing experience for home and design shoppers.',
-		stack: ['React', 'AI UX', 'Product Landing', 'Performance'],
-		image: projectPreview('https://reroom.ai'),
-		url: 'https://reroom.ai/',
-	},
-	{
-		title: 'Labyrinth Style',
-		description:
-			'Luxury resort-wear Shopify store for a Cape Town brand, sale collections, product grids, and brand storytelling for kimonos, kaftans, and dresses across seasonal drops.',
-		stack: ['Shopify', 'Liquid', 'Fashion Retail', 'Mobile UX'],
-		image: projectPreview('https://labyrinthstyle.com'),
-		url: 'https://labyrinthstyle.com/',
-	},
-	{
-		title: 'La Boutique de Xéa',
-		description:
-			'French boutique e-commerce build, curated collections, localized merchandising, and a polished brand experience for everyday luxury shopping.',
-		stack: ['Shopify', 'Liquid', 'International', 'Brand UX'],
-		image: projectPreview('https://laboutiquedexea.com'),
-		url: 'https://laboutiquedexea.com/',
-	},
-	{
-		title: 'Remedior Skincare',
-		description:
-			'Direct-to-consumer skincare storefront with product-led pages, trust-focused layout, and a smooth mobile checkout path for daily skincare routines.',
-		stack: ['Shopify', 'Liquid', 'DTC', 'Conversion'],
-		image: projectPreview('https://remediorskincare.com'),
-		url: 'https://remediorskincare.com/',
-	},
-	{
-		title: 'Crown & Caliber',
-		description:
-			'Premium lifestyle and watches commerce experience, editorial sections, rich content layouts, subscription flows, and a luxury browsing journey across categories.',
-		stack: ['Shopify', 'Content Commerce', 'Luxury Retail', 'UX'],
-		image: projectPreview('https://www.crownandcaliber.com'),
-		url: 'https://www.crownandcaliber.com/',
-	},
-	{
-		title: 'Scharf Messer',
-		description:
-			'German cutlery and kitchenware storefront with sharp product photography, category-led navigation, and a premium shopping flow for chef-grade tools.',
-		stack: ['Shopify', 'Liquid', 'Retail', 'International'],
-		image: projectPreview('https://scharf-messer.com'),
-		url: 'https://scharf-messer.com/',
-	},
-	{
-		title: 'Pelle Classica',
-		description:
-			'Luxury leather goods e-commerce experience with editorial merchandising, collection pages, and a refined brand journey for handcrafted accessories.',
-		stack: ['Shopify', 'Liquid', 'Luxury Retail', 'Brand UX'],
-		image: projectPreview('https://pelleclassica.com'),
-		url: 'https://pelleclassica.com/',
-	},
-	{
-		title: 'Homducts',
-		description:
-			'Pakistan-based HVAC and home ducting commerce site with category browsing, product detail pages, and a practical checkout path for trade and retail buyers.',
-		stack: ['Shopify', 'Liquid', 'Regional Commerce', 'Mobile UX'],
-		image: projectPreview('https://homducts.pk'),
-		url: 'https://homducts.pk/',
-	},
-	{
-		title: 'EyeMax',
-		description:
-			'Optical retail storefront for eyewear and eye care products, built for quick product discovery, trust signals, and mobile-first shopping in Pakistan.',
-		stack: ['Shopify', 'Liquid', 'Health Retail', 'Conversion'],
-		image: projectPreview('https://eyemax.pk'),
-		url: 'https://eyemax.pk/',
+			'AI agent workflow for extracting invoice information, retrieving financial records, comparing amounts and line items, identifying discrepancies, and routing exceptions for human review. Validation controls prevent uncertain results from being auto-accepted.',
+		stack: ['Document AI', 'Agents', 'Validation', 'Finance', 'HITL'],
+		featured: true,
 	},
 ];
 
 export const expertiseSection = {
 	section: {
-		title: 'What We',
+		title: 'What I',
 		subtitle: 'Build',
 		summary:
-			'Full stack web applications, Python backends, and commerce work. These are the areas where the team spends most of its time.',
+			'AI agents, LLM applications, and workflow automation that connect models to real business systems.',
 	},
 };
 
@@ -384,16 +207,7 @@ export const projectsSection = {
 		title: 'Selected',
 		subtitle: 'Work',
 		summary:
-			'Storefronts and web products we have shipped for retail, lifestyle, and product brands',
-	},
-};
-
-export const teamSection = {
-	section: {
-		title: 'Our',
-		subtitle: 'Team',
-		summary:
-			'A small remote team. Ben Clark is CTO and leads delivery.',
+			'AI automation case studies focused on sales ops and finance workflows',
 	},
 };
 
@@ -402,11 +216,11 @@ export const contact = {
 		title: 'Get In',
 		subtitle: 'Touch',
 		summary:
-			'Open to new client work, collaborations, and longer-term engagements. Ben handles initial enquiries.',
+			'Open to AI automation, agent systems, and longer-term engineering engagements.',
 	},
-	headline: 'Tell us what you are building.',
+	headline: 'Tell me what you are automating.',
 	subtext:
-		'Send a short note about your project. We usually reply within one business day.',
+		'Send a short note about your project. I usually reply within one business day.',
 };
 
 export type VisitorNoteSentiment = 'support' | 'disagree' | 'not-care';
@@ -418,7 +232,7 @@ export const visitorNote = {
 		summary:
 			'Live interested, not convinced, and neutral totals plus optional visitor notes',
 	},
-	headline: 'Share your take with ASF.',
+	headline: 'Share your take with Ben.',
 	subtext:
 		'Pick a status or write a note (one is enough). Name is only required when you leave a note.',
 	supportLabel: 'Interested',
@@ -427,7 +241,7 @@ export const visitorNote = {
 	liveCountsLabel: 'Live visitor counts',
 	editResponseLabel: 'Edit my response',
 	namePlaceholder: 'Your name (required for notes)',
-	messagePlaceholder: 'Optional note for the team',
+	messagePlaceholder: 'Optional note for Ben',
 	submitLabel: 'Apply',
 	saveLabel: 'Save changes',
 	submittingLabel: 'Applying',
@@ -501,50 +315,49 @@ export const socialLinks: SocialLink[] = [
 export const about = {
 	section: {
 		title: 'About',
-		subtitle: 'Us',
+		subtitle: 'Me',
 		summary:
-			'A remote software team led by CTO Ben Clark since 2024, working across full stack engineering, commerce, and backend systems',
+			'AI Automation Engineer in La Habra, CA, building production agent systems and workflow automation',
 	},
 	intro: [
-		'ASF started when Ben Clark began taking on client work with a small group of developers he trusted, building on years of software engineering in Newcastle, Australia, from 4Tel and Anditi through Mudbath Digital. As CTO, he stays close to architecture, delivery, and clients while the team remains fully remote and tightly staffed.',
-		'We take on a limited number of projects at a time. Ben still writes code, reviews architecture, and talks to clients directly. The rest of the team owns their areas: Sophie on scalable integrations and distributed systems, Mei Lin on full stack features, Le Wei on web development, Lachlan on Python backends, and Tom on full stack development.',
+		'I am Ben Clark, an AI Automation Engineer with 6 years of experience across software engineering, AI/ML, workflow automation, document intelligence, and AI agent development. I build production systems that connect LLM applications with APIs, business data, SaaS platforms, and operational workflows.',
+		'My background spans Python backends, REST APIs, RAG, tool calling, MCP, validation, exception handling, and human-in-the-loop controls. I focus on turning business requirements into dependable automation that can run multi-step processes with clear validation and controlled handoffs.',
 	],
 };
 
 export const benStory = {
 	summary:
-		'Ben Clark is originally from Hong Kong and based in Bellingen, Australia. He earned a Bachelor of Software Engineering (Honours) from The University of Newcastle (2016–2020), then built his career in Newcastle at 4Tel, Anditi, and Mudbath Digital before leading ASF Team as CTO. His real name is Ben Clark.',
+		'Ben Clark is an AI Automation Engineer based in La Habra, CA. He earned a BSc (Hons) in Computer Science from Hong Kong Baptist University (2016–2020), with exchange study in Australia, then built his career through Affinda, n8n, and Lindy.',
 	earlyLife: [
-		'Originally from Hong Kong. Real name: Ben Clark.',
-		'Studied at The University of Newcastle, Australia, completing a Bachelor of Software Engineering (Honours) from 2016 to 2020.',
-		'During university he built a strong foundation in software engineering while working on practical projects and learning how technology solves real-world problems.',
+		'Studied Computer Science at Hong Kong Baptist University (2016–2020), Bachelor of Science Honours.',
+		'Completed international study and exchange experience in Australia during the degree.',
+		'Recognized on the Dean’s Honors List and awarded a CSUF Alumni Association Scholarship.',
 	],
 	entrepreneurship: [
-		'Beyond traditional engineering roles, Ben has been involved in product-focused and business-oriented projects.',
-		'That experience shaped how he thinks about customer needs, product decisions, business priorities, user experience, and the link between technology and outcomes.',
-		'Ideas only matter when they solve real problems and create value for users.',
+		'Focused on turning operational requirements into maintainable AI automation systems.',
+		'Structures workflows around clear inputs, business rules, execution steps, validation, and escalation paths.',
+		'Ideas only matter when they solve real problems and create reliable business outcomes.',
 	],
 	technicalLeadership: [
-		'After graduating he began his professional software career in Newcastle, contributing to customer-facing and business-focused products across several technology companies.',
-		'He developed as a product-minded engineer who understands both technical and business requirements, with strong ownership from requirements through delivery.',
-		'Building technology is not only code. It needs clear communication, documentation, collaboration, and good decisions with limited information.',
+		'Built AI-agent workflows for research, communication, scheduling, and operational execution at Lindy.',
+		'Developed backend services and workflow automations at n8n connecting APIs, databases, and SaaS systems.',
+		'Delivered document intelligence and AI/ML extraction systems at Affinda for production document automation.',
 	],
 	lifeAndValues: [
-		'He values clear communication, continuous improvement, and solving practical problems that create value for users.',
-		'Responsible and self-driven, comfortable working independently or in teams, including remote and async environments.',
-		'Prefers structured problem-solving and ownership over simply completing assigned tasks.',
-		'He is based in Bellingen, Australia, focused on meaningful products, challenging problems, and growing with strong engineering teams.',
-		'The through-line is building step by step: learning, adapting, and delivering software that supports real business needs.',
+		'Values clear validation, exception handling, and human-in-the-loop controls in production AI.',
+		'Comfortable working across engineering and product to ship maintainable automation.',
+		'Based in La Habra, CA, focused on dependable AI systems that reduce repetitive manual work.',
 	],
-	teamsLed: [
-		'ASF Team, a small remote delivery team since 2024.',
-		'Product and engineering delivery at Mudbath Digital, Anditi, and 4Tel in Newcastle.',
+	careerHighlights: [
+		'AI Automation / AI Agent Engineer at Lindy (San Francisco, 2024–2026).',
+		'Software Engineer / Automation Engineer at n8n (Berlin, 2022–2024).',
+		'Software Engineer / AI/ML Engineer at Affinda (Melbourne, 2020–2022).',
 	],
 	lessons: [
-		'An idea only matters when you turn it into something real that helps actual people.',
-		'Customers and businesses care about problems solved and trust, not how exciting the idea sounds.',
-		'Consistency, honesty, and ownership outlast shortcuts.',
-		'Trust and alignment with people matter as much as skill when building anything long term.',
+		'Automation only helps when validation and escalation paths are built in from the start.',
+		'LLM reasoning needs business context, structured data, and controlled tool execution.',
+		'Consistency, logging, and retries outlast clever one-off scripts.',
+		'Human approval matters when outputs are uncertain or business judgment is required.',
 	],
 };
 
@@ -574,50 +387,48 @@ export const benPersonality = {
 
 export const experience = {
 	section: {
-		title: 'Team',
+		title: 'Career',
 		subtitle: 'Path',
 		summary:
-			'How ASF grew from Ben Clark\'s engineering background in Newcastle into a remote delivery team',
+			'From document AI and workflow platforms to production AI agent systems',
 	},
 	timeline: [
 		{
-			heading: 'Team',
+			heading: 'Experience',
 			items: [
 				{
-					role: 'ASF Team',
-					org: 'Remote software team',
-					period: '2024 to Present',
+					role: 'AI Automation / AI Agent Engineer',
+					org: 'Lindy · San Francisco, CA',
+					period: '2024 to 2026',
 					bullets: [
-						'Ben Clark leads ASF as CTO, delivering client software with a small, trusted team.',
-						'Core focus: full stack web apps, Shopify commerce, Python backends, and ML integrations.',
-						'Current team: Ben, Sophie Byrne, Mei Lin Chan, Le Wei, Lachlan Reid, and Tom Brennan.',
+						'Designed AI-agent workflows for multi-step business processes involving research, communication, scheduling, and operational execution.',
+						'Built agent workflows combining LLM reasoning with business context, structured data, external APIs, and application integrations.',
+						'Implemented tool-based execution, workflow state management, validation, and controlled actions for production automation.',
+						'Developed human-approval and exception-handling paths for tasks needing business judgment or uncertain outputs.',
+						'Translated operational requirements into maintainable AI automation systems with clear escalation paths.',
 					],
 				},
 				{
-					role: 'Software Engineer',
-					org: 'Mudbath Digital',
-					period: 'May 2024 to February 2026',
+					role: 'Software Engineer / Automation Engineer',
+					org: 'n8n · Berlin, Germany',
+					period: '2022 to 2024',
 					bullets: [
-						'Worked on modern digital products and customer-facing applications in Newcastle, NSW.',
-						'Strengthened product-focused delivery, stakeholder collaboration, and full software delivery ownership.',
+						'Developed backend services and workflow automations connecting APIs, databases, SaaS applications, and internal business systems.',
+						'Built reusable automation workflows for data synchronization, business processes, notifications, and application integrations.',
+						'Integrated AI capabilities into workflow-driven applications by combining structured business rules with model-generated decisions.',
+						'Improved workflow reliability through validation, error handling, logging, retries, and controlled execution.',
+						'Worked with API-driven systems to reduce repetitive manual processing and improve consistency.',
 					],
 				},
 				{
-					role: 'Software Engineer',
-					org: 'Anditi',
-					period: 'July 2021 to April 2024',
+					role: 'Software Engineer / AI/ML Engineer',
+					org: 'Affinda · Melbourne, Australia',
+					period: '2020 to 2022',
 					bullets: [
-						'Built business-focused solutions across different application types and customer requirements.',
-						'Grew collaboration skills and experience delivering software that supports real business needs.',
-					],
-				},
-				{
-					role: 'Software Engineer',
-					org: '4Tel',
-					period: 'September 2020 to June 2021',
-					bullets: [
-						'Started professional career in Newcastle in a structured engineering environment.',
-						'Contributed to software projects as part of a professional development team.',
+						'Developed software and AI/ML workflows for document-intensive business processes and automated information extraction.',
+						'Built Python services for processing business documents, extracting structured information, and connecting results to downstream systems.',
+						'Implemented data-processing and validation workflows to improve consistency of automated document intelligence.',
+						'Worked with backend services, APIs, databases, and ML components to support production document automation.',
 					],
 				},
 			],
@@ -626,12 +437,13 @@ export const experience = {
 			heading: 'Education',
 			items: [
 				{
-					role: 'Bachelor of Software Engineering (Honours)',
-					org: 'The University of Newcastle, Australia',
+					role: 'Bachelor of Science Honours in Computer Science',
+					org: 'Hong Kong Baptist University',
 					period: '2016 to 2020',
 					bullets: [
-						'Built a strong foundation in software engineering through coursework and practical projects.',
-						'Learned how technology can be applied to solve real-world problems, the base for later technical leadership at ASF.',
+						'Completed BSc (Hons) Computer Science in Hong Kong.',
+						'International study and exchange experience in Australia during the degree.',
+						'Dean’s Honors List · CSUF Alumni Association Scholarship.',
 					],
 				},
 			],
@@ -644,35 +456,35 @@ export const techStack = {
 		title: 'Tech',
 		subtitle: 'Stack',
 		summary:
-			'Tools and frameworks the team uses on client work day to day',
+			'Tools I use to build production AI agents, APIs, and workflow automation',
 	},
 	groups: [
 		{
-			heading: 'Frontend',
+			heading: 'AI & Automation',
 			items: [
 				{
-					label: 'Next JS',
-					icon: TbBrandNextjs,
-					iconColor: 'rgb(255, 255, 255)',
-					glowColor: 'rgba(255, 255, 255, 0.4)',
+					label: 'AI Agents',
+					icon: FaBrain,
+					iconColor: 'rgb(168, 130, 255)',
+					glowColor: 'rgba(168, 130, 255, 0.55)',
 				},
 				{
-					label: 'React JS',
-					icon: FaReact,
-					iconColor: 'rgb(97, 219, 251)',
-					glowColor: 'rgba(97, 219, 251, 0.6)',
+					label: 'LLM Apps',
+					icon: TbBrandOpenai,
+					iconColor: 'rgb(116, 170, 156)',
+					glowColor: 'rgba(116, 170, 156, 0.55)',
 				},
 				{
-					label: 'TypeScript',
-					icon: BiLogoTypescript,
-					iconColor: 'rgb(0, 122, 204)',
-					glowColor: 'rgba(0, 122, 204, 0.6)',
+					label: 'Workflow Automation',
+					icon: FaCogs,
+					iconColor: 'rgb(31, 195, 255)',
+					glowColor: 'rgba(31, 195, 255, 0.55)',
 				},
 				{
-					label: 'Tailwind CSS',
-					icon: SiTailwindcss,
-					iconColor: 'rgb(6, 182, 212)',
-					glowColor: 'rgba(6, 182, 212, 0.7)',
+					label: 'RAG / Tool Calling',
+					icon: FaLayerGroup,
+					iconColor: 'rgb(251, 191, 36)',
+					glowColor: 'rgba(251, 191, 36, 0.55)',
 				},
 			],
 		},
@@ -680,28 +492,17 @@ export const techStack = {
 			heading: 'Backend',
 			items: [
 				{
-					label: 'Node JS',
-					icon: FaNodeJs,
-					iconColor: 'rgb(104, 160, 99)',
-					glowColor: 'rgb(104, 160, 99)',
+					label: 'Python',
+					icon: FaPython,
+					iconColor: 'rgb(55, 118, 171)',
+					glowColor: 'rgba(55, 118, 171, 0.6)',
 				},
 				{
-					label: 'Express JS',
-					icon: SiExpress,
-					iconColor: 'rgb(255, 255, 255)',
-					glowColor: 'rgba(255, 255, 255, 0.4)',
+					label: 'FastAPI',
+					icon: SiFastapi,
+					iconColor: 'rgb(0, 150, 136)',
+					glowColor: 'rgba(0, 150, 136, 0.55)',
 				},
-				{
-					label: 'NestJS',
-					icon: SiNestjs,
-					iconColor: 'rgb(237, 34, 89)',
-					glowColor: 'rgba(237, 34, 89, 0.6)',
-				},
-			],
-		},
-		{
-			heading: 'Databases & Data',
-			items: [
 				{
 					label: 'PostgreSQL',
 					icon: SiPostgresql,
@@ -709,39 +510,15 @@ export const techStack = {
 					glowColor: 'rgba(51, 103, 145, 0.6)',
 				},
 				{
-					label: 'MongoDB',
-					icon: DiMongodb,
-					iconColor: 'rgb(0, 237, 100)',
-					glowColor: 'rgba(0, 237, 100, 0.7)',
-				},
-				{
-					label: 'MySQL',
-					icon: SiMysql,
-					iconColor: 'rgb(0, 122, 158)',
-					glowColor: 'rgba(0, 122, 158, 0.75)',
-				},
-				{
 					label: 'Redis',
 					icon: SiRedis,
 					iconColor: 'rgb(220, 56, 45)',
 					glowColor: 'rgba(220, 56, 45, 0.6)',
 				},
-				{
-					label: 'Firebase',
-					icon: SiFirebase,
-					iconColor: 'rgb(255, 196, 0)',
-					glowColor: 'rgba(255, 196, 0, 0.6)',
-				},
-				{
-					label: 'Prisma ORM',
-					icon: SiPrisma,
-					iconColor: 'rgb(44, 212, 224)',
-					glowColor: 'rgba(44, 212, 224, 0.6)',
-				},
 			],
 		},
 		{
-			heading: 'DevOps, Cloud & AI',
+			heading: 'Systems & Cloud',
 			items: [
 				{
 					label: 'Docker',
@@ -756,28 +533,16 @@ export const techStack = {
 					glowColor: 'rgba(255, 153, 0, 0.6)',
 				},
 				{
-					label: 'Vercel',
-					icon: SiVercel,
-					iconColor: 'rgb(255, 255, 255)',
-					glowColor: 'rgba(255, 255, 255, 0.4)',
+					label: 'SaaS Integrations',
+					icon: FaLayerGroup,
+					iconColor: 'rgb(74, 222, 128)',
+					glowColor: 'rgba(74, 222, 128, 0.55)',
 				},
 				{
-					label: 'Python',
-					icon: FaPython,
-					iconColor: 'rgb(55, 118, 171)',
-					glowColor: 'rgba(55, 118, 171, 0.6)',
-				},
-				{
-					label: 'TensorFlow',
-					icon: SiTensorflow,
-					iconColor: 'rgb(255, 138, 0)',
-					glowColor: 'rgba(255, 138, 0, 0.6)',
-				},
-				{
-					label: 'PyTorch',
-					icon: SiPytorch,
-					iconColor: 'rgb(238, 76, 44)',
-					glowColor: 'rgba(238, 76, 44, 0.6)',
+					label: 'API Integration',
+					icon: FaCogs,
+					iconColor: 'rgb(97, 219, 251)',
+					glowColor: 'rgba(97, 219, 251, 0.55)',
 				},
 			],
 		},

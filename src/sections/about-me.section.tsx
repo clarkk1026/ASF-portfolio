@@ -25,7 +25,7 @@ export const AboutMe = () => {
 						<header className='about-story-header'>
 							<div className='about-story-label'>
 								<span className='about-story-dot' />
-								Our Story
+								My Story
 							</div>
 						</header>
 
@@ -36,8 +36,8 @@ export const AboutMe = () => {
 						</div>
 
 						<footer className='about-story-footer'>
-							<span>Remote team</span>
-							<span>Founded 2024</span>
+							<span>AI Automation</span>
+							<span>Based in La Habra, CA</span>
 						</footer>
 					</article>
 				</Reveal>
@@ -45,8 +45,8 @@ export const AboutMe = () => {
 				<Reveal delay={260}>
 					<div className='about-skills-block'>
 						<div className='about-skills-heading'>
-							<h3>How We Work</h3>
-							<p>What ASF brings to every engagement</p>
+							<h3>How I Work</h3>
+							<p>What I bring to every engagement</p>
 						</div>
 
 						<div className='trait-grid'>

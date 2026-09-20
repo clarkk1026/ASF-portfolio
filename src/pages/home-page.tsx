@@ -4,7 +4,7 @@ import { InfoSection } from '../sections/info.section';
 
 export const HomePage = () => (
 	<PageShell
-		title='ASF Team'
+		title='Ben Clark'
 		home
 		backdrop={<HomeAuroraBg />}
 	>
