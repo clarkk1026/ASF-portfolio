@@ -7,7 +7,7 @@ export const HomeAuroraBg = () => (
 	>
 		<img
 			className='home-aurora-image'
-			src='/home-aurora-4k.webp?v=clean-solo-2026'
+			src='/home-aurora-4k.webp?v=vivid-clear-1'
 			alt=''
 			decoding='async'
 			fetchPriority='high'

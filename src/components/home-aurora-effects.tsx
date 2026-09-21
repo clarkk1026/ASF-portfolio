@@ -122,7 +122,7 @@ export const HomeAuroraEffects = () => {
 
 		const img = new Image();
 		img.decoding = 'async';
-		img.src = '/home-aurora-4k.webp?v=clean-solo-2026';
+		img.src = '/home-aurora-4k.webp?v=vivid-clear-1';
 
 		const reducedMotion = window.matchMedia(
 			'(prefers-reduced-motion: reduce)',

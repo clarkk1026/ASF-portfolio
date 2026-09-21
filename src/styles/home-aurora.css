@@ -23,6 +23,9 @@
 	/* Pin hero in first viewport without over-zoom */
 	object-position: center bottom;
 	display: block;
+	/* Keep the aurora crisp and vivid on screen */
+	filter: saturate(1.08) contrast(1.06) brightness(1.04);
+	image-rendering: auto;
 }
 
 .home-aurora-veil {
@@ -30,10 +33,10 @@
 	background:
 		linear-gradient(
 			180deg,
-			rgba(2, 6, 14, 0.06) 0%,
-			transparent 18%,
-			transparent 72%,
-			rgba(1, 4, 10, 0.16) 100%
+			rgba(2, 6, 14, 0.02) 0%,
+			transparent 16%,
+			transparent 78%,
+			rgba(1, 4, 10, 0.08) 100%
 		);
 }
 
@@ -48,17 +51,17 @@
 	background:
 		linear-gradient(
 			90deg,
-			rgba(0, 4, 12, 0.06) 0%,
-			transparent 26%,
-			transparent 74%,
-			rgba(0, 4, 12, 0.08) 100%
+			rgba(0, 4, 12, 0.03) 0%,
+			transparent 28%,
+			transparent 72%,
+			rgba(0, 4, 12, 0.04) 100%
 		),
 		linear-gradient(
 			180deg,
-			rgba(0, 3, 10, 0.05),
-			transparent 14%,
-			transparent 80%,
-			rgba(0, 2, 8, 0.14)
+			rgba(0, 3, 10, 0.02),
+			transparent 12%,
+			transparent 84%,
+			rgba(0, 2, 8, 0.08)
 		);
 }
 
